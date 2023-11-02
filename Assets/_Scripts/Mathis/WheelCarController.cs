@@ -71,6 +71,9 @@ public class WheelCarController : MonoBehaviour
     public float dirCam;
 
 
+    public DemolitionBallBehavior ball;
+
+
     [Header("PHYSICVALUES")]
     
     // INPUT VALUES
@@ -342,14 +345,16 @@ public class WheelCarController : MonoBehaviour
     
     public void XButton(InputAction.CallbackContext context)
     {
-        /*if (context.started)
+        if (!context.started) return;
+        if (!ball.gameObject.activeSelf)
         {
-            driftBrake = true;
-        } 
-        else if (context.canceled)
+            ball.gameObject.SetActive(true);
+            ball.Setup();
+        }
+        else
         {
-            driftBrake = false;
-        }*/
+            ball.UnChain();
+        }
     }
     
     public void AButton(InputAction.CallbackContext context)
