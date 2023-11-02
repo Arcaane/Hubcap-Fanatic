@@ -41,15 +41,6 @@ public class WheelCarController : MonoBehaviour
     [SerializeField] private float accelMultiplier = 0.25f;
     [SerializeField] private float angleMinToExitDrift = 0.1f;
     
-    private float dashTimer = 0;
-    private float dashCd = 0;
-    [HideInInspector] public bool isDashing;
-    private Vector3 dashForward;
-    [Header("DASH")]
-    [SerializeField] private float dashDuration = 0.2f;
-    [SerializeField] private float dashCooldown;
-    [SerializeField] private float dashSpeed;
-    
     [Header("SCORING")]
     [SerializeField] public float multiplier;
     [SerializeField] private int score;
@@ -77,13 +68,15 @@ public class WheelCarController : MonoBehaviour
     private Vector2 stickValue;
     private float accelForce, brakeForce;
     private bool driftBrake;
-    
+
+    private CarDash carDash;
     #endregion
     
     private void Start()
     {
         rb.centerOfMass = localCenterOfMass;
         bodyMat.color = new Color(1,0.6f,0);
+        carDash = GetComponent<CarDash>();
     }
     
     private void Update()
@@ -96,24 +89,7 @@ public class WheelCarController : MonoBehaviour
             }
         }
 
-        if (isDashing)
-        {
-            if (dashTimer > 0) dashTimer -= Time.deltaTime;
-            else
-            {
-                dashCd = dashCooldown;
-                isDashing = false;
-                bodyMat.color = new Color(1,0.6f,0);
-                rb.velocity = dashForward * maxSpeed * 0.8f;
-                gameObject.layer = 0;
-            }
-        }
-
-        if (dashCd > 0) dashCd -= Time.deltaTime;
-        else
-        {
-            dashCd = 0;
-        }
+        
 
         driftValue = 1- Mathf.Abs(Vector3.Dot(new Vector3(rb.velocity.normalized.x,0,rb.velocity.normalized.z), transform.forward));
 
@@ -139,18 +115,12 @@ public class WheelCarController : MonoBehaviour
             }
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position + transform.forward * dashSpeed, 3);
-    }
-
+    
     void FixedUpdate()
     {
-
-        if (isDashing)
+        if (carDash.IsDashing)
         {
-            rb.velocity = dashForward * dashSpeed;
+            rb.velocity = carDash.dashForward * carDash.dashSpeed;
             dirCam = Mathf.Lerp(dirCam, maxSpeed,Time.fixedDeltaTime*3);
         }
         else
@@ -182,8 +152,8 @@ public class WheelCarController : MonoBehaviour
             float directionalDamp = GetWheelDirectionalDampening(wheel);
             float drivingForce = wheel.drivingFactor > 0 ? GetWheelAcceleration(wheel) : 0;
             wheelForce = wheel.transform.up * suspension +
-                         wheel.transform.right * (!isDashing ? directionalDamp: 0) +
-                         wheel.transform.forward * (!isDashing ? drivingForce : 0);
+                         wheel.transform.right * (!carDash.IsDashing ? directionalDamp: 0) +
+                         wheel.transform.forward * (!carDash.IsDashing ? drivingForce : 0);
             
             // DEBUG RAYS
             Debug.DrawRay(wheel.transform.position,wheel.transform.up * suspension,Color.green);
@@ -267,47 +237,6 @@ public class WheelCarController : MonoBehaviour
     }
     */
     
-    public async void Dash(ITargetable target = null)
-    {
-        isDashing = true;
-
-        Vector3 initPos = default;
-        Vector3 finalPos = default;
-        
-        if (target != null)
-        {
-            Vector3 forward = transform.TransformDirection(Vector3.forward).normalized;
-            Vector3 toOther = (target.Position - transform.position).normalized;
-            var align = Vector3.Dot(forward.normalized, toOther.normalized);
-            var offset = target.Position + new Vector3(1,0, 1) * align;
-        
-            initPos = transform.position;
-            finalPos = initPos + offset;
-        }
-        else
-        {
-            initPos = transform.position;
-            finalPos = initPos + transform.forward * dashSpeed;
-        }
-        
-        Quaternion initRotation = transform.rotation;
-        Quaternion finalRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-        
-        float timer = 0;
-        while (timer < dashDuration)
-        {
-            transform.position = Vector3.Lerp(initPos, finalPos, timer / dashDuration);
-            transform.rotation = Quaternion.Lerp(initRotation, finalRotation, timer / dashDuration);
-            await Task.Yield();
-            timer += Time.deltaTime;
-        }
-        
-        transform.position = finalPos;
-        transform.rotation = finalRotation;
-        rb.angularVelocity = new Vector3(0, 0, 0);
-        isDashing = false;
-    }
-
     #endregion
     
     #region Inputs
@@ -352,14 +281,6 @@ public class WheelCarController : MonoBehaviour
         }*/
     }
     
-    public void AButton(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            if (dashCd <= 0 && !isDashing) Dash();
-        }
-    }
-
     public void YButton(InputAction.CallbackContext ctx)
     {
         

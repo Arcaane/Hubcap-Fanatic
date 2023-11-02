@@ -11,7 +11,8 @@
                     "id": "9b5db3b6-82a4-4e67-9905-7991a4ab590c",
                     "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "RTrigger",
@@ -19,7 +20,8 @@
                     "id": "468ad5df-3029-4cfe-a197-ea7d54bd17d5",
                     "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "AButton",
@@ -27,7 +29,8 @@
                     "id": "b77b596c-fd45-4fbc-b1eb-5fe5ce90d6f1",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "XButton",
@@ -35,7 +38,8 @@
                     "id": "634e5fd6-b8c4-41e8-9050-f2b84b78e6ba",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "LStick",
@@ -43,7 +47,17 @@
                     "id": "a4a3943e-6aac-435d-a4c8-62b0b479ae6c",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LBButton",
+                    "type": "Button",
+                    "id": "672bcaa1-6729-4d70-b086-9e12b1d3023b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -99,6 +113,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "XButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "be933276-e094-49ee-9d94-f9e723714fe1",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LBButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

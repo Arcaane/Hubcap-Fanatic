@@ -59,7 +59,7 @@ public class JohnWick : MonoBehaviour
 
         return isAtDist;
     }
-
+    
     public ITargetable ClosestTarget()
     {
         var tempDst = 1000;
