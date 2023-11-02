@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class WheelCarController : MonoBehaviour
 {
+    #region Variables
     [Header("REFERENCES")] 
     [SerializeField] public Rigidbody rb;
     [SerializeField] public Wheel[] wheels;
@@ -45,9 +46,9 @@ public class WheelCarController : MonoBehaviour
     [HideInInspector] public bool isDashing;
     private Vector3 dashForward;
     [Header("DASH")]
-    private float dashDuration;
-    private float dashCooldown;
-    private float dashSpeed;
+    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashCooldown;
+    [SerializeField] private float dashSpeed;
     
     [Header("SCORING")]
     [SerializeField] public float multiplier;
@@ -58,9 +59,7 @@ public class WheelCarController : MonoBehaviour
     private bool eventApplying;
     [SerializeField] private Animation animEvent;
     [SerializeField] private List<Event> events = new List<Event>(0);
-
-
-
+    
     public bool onGround;
     public bool onAir;
     private float conePercuteTime;
@@ -78,13 +77,15 @@ public class WheelCarController : MonoBehaviour
     private Vector2 stickValue;
     private float accelForce, brakeForce;
     private bool driftBrake;
-
+    
+    #endregion
+    
     private void Start()
     {
         rb.centerOfMass = localCenterOfMass;
         bodyMat.color = new Color(1,0.6f,0);
     }
-
+    
     private void Update()
     {
         for (int i = 0; i < wheels.Length; i++)
@@ -138,6 +139,12 @@ public class WheelCarController : MonoBehaviour
             }
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position + transform.forward * dashSpeed, 3);
+    }
+
     void FixedUpdate()
     {
 
@@ -161,7 +168,7 @@ public class WheelCarController : MonoBehaviour
         cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5*Time.fixedDeltaTime);
     }
 
-
+    #region Wheel Methods
     Vector3 GetWheelForces(Wheel wheel)
     {
         Vector3 wheelForce = Vector3.zero;
@@ -244,6 +251,11 @@ public class WheelCarController : MonoBehaviour
         return force;
     }
     
+    #endregion
+    
+    #region Dash
+    
+    /*
     void Dash()
     {
         isDashing = true;
@@ -253,7 +265,52 @@ public class WheelCarController : MonoBehaviour
         bodyMat.color = new Color(1,0,0);
         gameObject.layer = 6;
     }
+    */
     
+    public async void Dash(ITargetable target = null)
+    {
+        isDashing = true;
+
+        Vector3 initPos = default;
+        Vector3 finalPos = default;
+        
+        if (target != null)
+        {
+            Vector3 forward = transform.TransformDirection(Vector3.forward).normalized;
+            Vector3 toOther = (target.Position - transform.position).normalized;
+            var align = Vector3.Dot(forward.normalized, toOther.normalized);
+            var offset = target.Position + new Vector3(1,0, 1) * align;
+        
+            initPos = transform.position;
+            finalPos = initPos + offset;
+        }
+        else
+        {
+            initPos = transform.position;
+            finalPos = initPos + transform.forward * dashSpeed;
+        }
+        
+        Quaternion initRotation = transform.rotation;
+        Quaternion finalRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+        
+        float timer = 0;
+        while (timer < dashDuration)
+        {
+            transform.position = Vector3.Lerp(initPos, finalPos, timer / dashDuration);
+            transform.rotation = Quaternion.Lerp(initRotation, finalRotation, timer / dashDuration);
+            await Task.Yield();
+            timer += Time.deltaTime;
+        }
+        
+        transform.position = finalPos;
+        transform.rotation = finalRotation;
+        rb.angularVelocity = new Vector3(0, 0, 0);
+        isDashing = false;
+    }
+
+    #endregion
+    
+    #region Inputs
     public void RShoulder(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -285,22 +342,32 @@ public class WheelCarController : MonoBehaviour
     
     public void XButton(InputAction.CallbackContext context)
     {
-            /*if (context.started)
-            {
-                driftBrake = true;
-            } 
-            else if (context.canceled)
-            {
-                driftBrake = false;
-            }*/
+        /*if (context.started)
+        {
+            driftBrake = true;
+        } 
+        else if (context.canceled)
+        {
+            driftBrake = false;
+        }*/
     }
     
     public void AButton(InputAction.CallbackContext context)
     {
-        /*if (context.started)
+        if (context.started)
         {
             if (dashCd <= 0 && !isDashing) Dash();
-        }*/
+        }
+    }
+
+    public void YButton(InputAction.CallbackContext ctx)
+    {
+        
+    }
+    
+    public void BButton(InputAction.CallbackContext ctx)
+    {
+        
     }
     
     public void LStick(InputAction.CallbackContext context)
@@ -314,6 +381,7 @@ public class WheelCarController : MonoBehaviour
             stickValue = Vector2.zero;
         }
     }
+    #endregion
     
     private void OnCollisionEnter(Collision other)
     {
@@ -335,7 +403,6 @@ public class WheelCarController : MonoBehaviour
             events.Clear();
         }
     }
-    
     
     public void AddEvent(Event newEvent)
     {
