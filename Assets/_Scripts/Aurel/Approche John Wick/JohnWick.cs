@@ -1,25 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class JohnWick : MonoBehaviour
 {
     [Header("Targets groups")] 
-    Target[] tempTargs;
-    public List<Target> targetsInLevel; // Contain all targets that can be reached on load level
-    public List<Target> targetsReachable; // Contain all targets that can be reached at this moment
+    ITargetable[] tempTargs;
+    public List<ITargetable> targetsInLevel; // Contain all targets that can be reached on load level
+    public List<ITargetable> targetsReachable; // Contain all targets that can be reached at this moment
 
     [Header("Detection Settings")]
     public float detectionAngle; // 
     public float detectionDst; // 
 
-    //public bool canAttack;
+    public bool canAttack;
     //public bool isAttacking;
     
     void Start()
     {
-        tempTargs = FindObjectsOfType<Target>();
+        tempTargs = FindObjectsOfType<MonoBehaviour>(true).OfType<ITargetable>().ToArray();
         foreach (var t in tempTargs)
         {
             targetsInLevel.Add(t);
@@ -28,6 +29,8 @@ public class JohnWick : MonoBehaviour
     
     void Update()
     {
+        if(!canAttack) return;
+        
         foreach (var t in targetsInLevel)
         {
             if (targetsReachable.Contains(t))
@@ -45,24 +48,38 @@ public class JohnWick : MonoBehaviour
         }
     }
 
-    private bool IsTargetReachable(Target target)
+    private bool IsTargetReachable(ITargetable targetable)
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized;
-        Vector3 toOther = (target.transform.position - transform.position).normalized;
+        Vector3 toOther = (targetable.Position - transform.position).normalized;
 
-        bool isAlling = Vector3.Dot(forward, toOther) > (1 - (detectionAngle / 180)); // Calcul le dot product
+        // bool isAlling = Vector3.Dot(forward, toOther) > (1 - (detectionAngle / 180)); // Calcul le dot product
         
-        bool isAtDist = Vector3.Distance(target.transform.position, transform.position) < detectionDst; // Distance
+        bool isAtDist = Vector3.Distance(targetable.Position, transform.position) < detectionDst; // Distance
 
-        return isAlling && isAtDist;
+        return isAtDist;
+    }
+
+    public ITargetable ClosestTarget()
+    {
+        var tempDst = 1000;
+        ITargetable returnTargetable = null;
+        
+        foreach (var t in targetsReachable.Where(t => returnTargetable is null || Vector3.Distance(transform.position, t.Position) < tempDst))
+        {
+            returnTargetable = t;
+        }
+
+        return returnTargetable;
     }
 
     private void OnDrawGizmos()
     {
+        if(!canAttack) return;
         foreach (var t in targetsInLevel)
         {
             Gizmos.color = targetsReachable.Contains(t) ? Color.green : Color.red;
-            Gizmos.DrawLine(transform.position, t.transform.position);
+            Gizmos.DrawLine(transform.position, t.Position);
         }
         
         Vector3 dir = transform.forward;
