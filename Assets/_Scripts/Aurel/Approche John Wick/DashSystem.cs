@@ -9,7 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class CarDash : MonoBehaviour
+public class DashSystem : MonoBehaviour
 {
     [Header("DASH")]
     [SerializeField] private float dashDuration = 0.2f;
@@ -47,8 +47,8 @@ public class CarDash : MonoBehaviour
     public bool isCharging;
     [SerializeField] private float chargeDuration = .8f;
     [SerializeField] private float chargeAmount;
-    [SerializeField] private float middleChargeTolerance = 0.10f;
-    [SerializeField] private float endChargeTolerance = 0.25f;
+    [SerializeField] private float middleChargeTolerance = 0.05f;
+    [SerializeField] private float endChargeTolerance = 0.15f;
     [SerializeField] private Slider chargeSlider;
     
     //Events
@@ -67,6 +67,7 @@ public class CarDash : MonoBehaviour
         OnTargetChange.AddListener(ResetChargeAmount);
 
         chargeSlider.maxValue = chargeDuration;
+        rectImage.gameObject.SetActive(false);
     }
     
     void Update()
@@ -178,7 +179,8 @@ public class CarDash : MonoBehaviour
 
     private bool HalfCharge()
     {
-        return chargeAmount > chargeDuration / 2 - middleChargeTolerance && chargeAmount < chargeDuration / 2 + middleChargeTolerance;
+        //      X           >          0.5         -         0.05          &&    X         <           0.5         +          0.05               
+        return chargeAmount > (chargeDuration / 2) - middleChargeTolerance && chargeAmount <  (chargeDuration / 2) + middleChargeTolerance;
     }
     
     private bool FullCharge()
@@ -227,7 +229,9 @@ public class CarDash : MonoBehaviour
             if (isInAimingMode)
             {
                 OnInputRelease.Invoke();
+                return;
             }
+            
             if (dashCooldown <= 0 && !isDashing) Dash();
             isCharging = false;
         }
@@ -236,7 +240,8 @@ public class CarDash : MonoBehaviour
     {
         if (ctx.started)
         {
-            if (ClosestTarget() != null) isInAimingMode = true;
+            isInAimingMode = ClosestTarget() is not null;
+            currentTarget = ClosestTarget();
         }
     }
     #endregion
@@ -246,7 +251,9 @@ public class CarDash : MonoBehaviour
 
     private ITargetable ClosestTarget()
     {
-        var tempDst = 1000;
+        if (targetsReachable.Count < 1) return null;
+        
+        var tempDst = detectionDst;
         ITargetable returnTargetable = null;
         
         foreach (var t in targetsReachable.Where(t => returnTargetable is null || Vector3.Distance(t.Transform.position, transform.position) < tempDst))

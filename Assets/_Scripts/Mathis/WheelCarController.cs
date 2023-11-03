@@ -72,14 +72,14 @@ public class WheelCarController : MonoBehaviour
     private float accelForce, brakeForce;
     private bool driftBrake;
 
-    private CarDash carDash;
+    private DashSystem dashSystem;
     #endregion
     
     private void Start()
     {
         rb.centerOfMass = localCenterOfMass;
         bodyMat.color = new Color(1,0.6f,0);
-        carDash = GetComponent<CarDash>();
+        dashSystem = GetComponent<DashSystem>();
     }
     
     private void Update()
@@ -121,9 +121,9 @@ public class WheelCarController : MonoBehaviour
     
     void FixedUpdate()
     {
-        if (carDash.IsDashing)
+        if (dashSystem.IsDashing)
         {
-            rb.velocity = carDash.dashForward * carDash.dashSpeed;
+            rb.velocity = dashSystem.dashForward * dashSystem.dashSpeed;
             dirCam = Mathf.Lerp(dirCam, maxSpeed,Time.fixedDeltaTime*3);
         }
         else
@@ -155,8 +155,8 @@ public class WheelCarController : MonoBehaviour
             float directionalDamp = GetWheelDirectionalDampening(wheel);
             float drivingForce = wheel.drivingFactor > 0 ? GetWheelAcceleration(wheel) : 0;
             wheelForce = wheel.transform.up * suspension +
-                         wheel.transform.right * (!carDash.IsDashing ? directionalDamp: 0) +
-                         wheel.transform.forward * (!carDash.IsDashing ? drivingForce : 0);
+                         wheel.transform.right * (!dashSystem.IsDashing ? directionalDamp: 0) +
+                         wheel.transform.forward * (!dashSystem.IsDashing ? drivingForce : 0);
             
             // DEBUG RAYS
             Debug.DrawRay(wheel.transform.position,wheel.transform.up * suspension,Color.green);
