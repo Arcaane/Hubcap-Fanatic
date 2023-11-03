@@ -1,21 +1,25 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class DecorTarget : MonoBehaviour, ITargetable
 {
-    public Vector3 Position => gameObject.transform.position;
+    public Transform Transform => gameObject.transform;
     
-    private Canvas targetCanvas;
-    public Canvas TargetCanvas => targetCanvas;
+    private bool isAvailable = true;
+    public bool IsAvailable => isAvailable;
+    public async Task SuccesDash()
+    {
+        isAvailable = false;
+        await Task.Delay((int)(ITargetable.resetTimer * 1000));
+        isAvailable = true;
+    }
 
-    private float fillValue;
-    public float FillValue => fillValue;
-    
-    private bool isFilling;
-    public bool IsFilling => isFilling;
-
-    private float timer;
-    private bool isInCooldown;
-    public bool IsInCooldown => isInCooldown;
+    public async Task FailureDash()
+    {
+        isAvailable = false;
+        await Task.Delay((int)(ITargetable.resetTimer * 1000));
+        isAvailable = true;
+    }
 }

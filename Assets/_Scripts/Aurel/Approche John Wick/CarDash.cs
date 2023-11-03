@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -5,8 +6,8 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
-
 
 public class CarDash : MonoBehaviour
 {
@@ -22,42 +23,37 @@ public class CarDash : MonoBehaviour
     
     [HideInInspector] public Vector3 dashForward;
     
+    [Space]
     [Header("Targets groups")] 
     private List<ITargetable> targetsInLevel = new(); // Contain all targets that can be reached on load level
     private List<ITargetable> targetsReachable = new(); // Contain all targets that can be reached at this moment
     private ITargetable currentTarget;
     private ITargetable storedTarget;
     private Transform cachedTarget;
-
-    [Header("Detection Settings")]
-    public float detectionAngle;
-    public float detectionDst;
-    public bool isLeftTrigger = false;
     
+    [Space]
+    [Header("Detection Settings")]
+    public float detectionDst;
+    [FormerlySerializedAs("isLeftTrigger")] public bool isInAimingMode = false;
+    
+    [Space]
     [Header("User Interface")]
     public RectTransform rectImage;
     public float rectSizeMultiplier = 2;
     [SerializeField] ClonedTargetSystem targetClonePrefab;
     
-    //Events
-    //[HideInInspector] public UnityEvent OnTargetHit;
-    [HideInInspector] public UnityEvent OnInputStart;
-    [HideInInspector] public UnityEvent OnInputRelease;
-    [HideInInspector] public UnityEvent<float> OnArrowRelease;
-    [HideInInspector] public UnityEvent OnTargetLost;
-    [HideInInspector] public UnityEvent<Transform> OnTargetChange;
-    
+    [Space]
     [Header("Charge Settings")]
     public bool isCharging;
-    private bool releaseCooldown;
-    [SerializeField] float chargeDuration = .8f;
-    [SerializeField] Ease chargeEase;
-    private float chargeAmount;
+    [SerializeField] private float chargeDuration = .8f;
+    [SerializeField] private float chargeAmount;
+    [SerializeField] private float middleChargeTolerance = 0.10f;
+    [SerializeField] private float endChargeTolerance = 0.25f;
+    [SerializeField] private Slider chargeSlider;
     
-    public float middleChargeTolerance = 0.10f;
-    public float endChargeTolerance = 0.25f;
-    
-    public Slider chargeSlider;
+    //Events
+    [HideInInspector] public UnityEvent OnInputRelease;
+    [HideInInspector] public UnityEvent OnTargetChange;
     
     void Start()
     {
@@ -66,10 +62,11 @@ public class CarDash : MonoBehaviour
         {
             targetsInLevel.Add(t);
         }
-        Debug.Log(targetsInLevel.Count);
         
-        OnArrowRelease.AddListener(CloneInterface);
-        OnInputStart.AddListener(AddTargetCache);
+        OnInputRelease.AddListener(CheckRelease);
+        OnTargetChange.AddListener(ResetChargeAmount);
+
+        chargeSlider.maxValue = chargeDuration;
     }
     
     void Update()
@@ -79,47 +76,54 @@ public class CarDash : MonoBehaviour
         {
             dashCooldown = 0;
         }
+
+        if (isCharging)
+        {
+            SetChargeAmount(chargeAmount += Time.deltaTime);
+        }
+
+        if (isInAimingMode)
+        {
+            rectImage.gameObject.SetActive(true);
+            rectImage.transform.position = ClampedScreenPosition(currentTarget.Transform.position);
+            float distanceFromTarget = Vector3.Distance(currentTarget.Transform.position, transform.position);
+            rectImage.sizeDelta = new Vector2(Mathf.Clamp(115 - (distanceFromTarget - rectSizeMultiplier),50,200), Mathf.Clamp(115 - (distanceFromTarget - rectSizeMultiplier),50,200));
+        }
         
-        if(targetsInLevel.Count == 0) return;
         foreach (var t in targetsInLevel)
         {
             if (targetsReachable.Contains(t))
             {
-                if (!IsTargetReachable(t))
+                if (!IsTargetReachable(t) || !t.IsAvailable)
                 {
                     targetsReachable.Remove(t);
                 }
             }
-            else
+            else // isReachable
             {
-                if (IsTargetReachable(t)) 
+                if (IsTargetReachable(t) && t.IsAvailable) 
                     targetsReachable.Add(t);
             }
         }
 
+        if (targetsReachable.Count < 1)
+        {
+            rectImage.gameObject.SetActive(false);
+            isCharging = false;
+            return;
+        }
+
+        if (isInAimingMode && !isDashing && currentTarget != null) isCharging = true;
+        
         CheckTargetChange();
 
-        currentTarget = isCharging ? currentTarget : ClosestTarget();
-        
-        rectImage.gameObject.SetActive(true);
-        rectImage.transform.position = ClampedScreenPosition(currentTarget.Transform.position);
-        float distanceFromTarget = Vector3.Distance(currentTarget.Transform.position, transform.position);
-        rectImage.sizeDelta = new Vector2(Mathf.Clamp(115 - (distanceFromTarget - rectSizeMultiplier),50,200), Mathf.Clamp(115 - (distanceFromTarget - rectSizeMultiplier),50,200));
+        if (!isCharging)
+        {
+            currentTarget = ClosestTarget();
+        }
     }
 
     #region DashGestion
-    private void PreDash()
-    {
-        if (!isLeftTrigger)
-        {
-            Dash();
-            return;
-        }
-        
-        // Sinon Dash avec target
-        
-    }
-    
     private async void Dash(ITargetable target = null)
     {
         isDashing = true;
@@ -174,25 +178,44 @@ public class CarDash : MonoBehaviour
 
     private bool HalfCharge()
     {
-        return chargeAmount > .5f - middleChargeTolerance && chargeAmount < .5f + middleChargeTolerance;
+        return chargeAmount > chargeDuration / 2 - middleChargeTolerance && chargeAmount < chargeDuration / 2 + middleChargeTolerance;
     }
-
+    
     private bool FullCharge()
     {
-        return chargeAmount >= 1 - endChargeTolerance;
+        return chargeAmount >= chargeDuration - endChargeTolerance && chargeAmount < chargeDuration + endChargeTolerance;
     }
-
+    
     private void CheckRelease()
     {
-        if (HalfCharge())
-            chargeAmount = .5f;
+        isCharging = false;
+        
+        if (HalfCharge()) chargeAmount = .5f;
 
-        if (FullCharge())
-            chargeAmount = 1;
+        if (FullCharge()) chargeAmount = 1;
         
-        OnArrowRelease.Invoke(chargeAmount);
+        CloneInterface(chargeAmount);
+        ApplyRelease(chargeAmount);
         
-        
+        isInAimingMode = false;
+        rectImage.gameObject.SetActive(false);
+        SetChargeAmount(0);
+    }
+    private void ApplyRelease(float amount)
+    {
+        if (amount == 0.5f || amount == 1) // Réussi
+        {
+            // Faire Dash
+            Dash(currentTarget);
+            // Enlever la target des targets dispo
+            currentTarget?.SuccesDash();
+            StopTargetFocus();
+        }
+        else // Raté
+        {
+            currentTarget?.FailureDash();
+            StopTargetFocus();
+        }
     }
     #endregion
     
@@ -201,26 +224,27 @@ public class CarDash : MonoBehaviour
     {
         if (ctx.started)
         {
-            if (dashCooldown <= 0 && !isDashing) PreDash();
+            if (isInAimingMode)
+            {
+                OnInputRelease.Invoke();
+            }
+            if (dashCooldown <= 0 && !isDashing) Dash();
+            isCharging = false;
         }
     }
-
     public void LBButton(InputAction.CallbackContext ctx)
     {
-        isLeftTrigger = ctx.performed;
+        if (ctx.started)
+        {
+            if (ClosestTarget() != null) isInAimingMode = true;
+        }
     }
     #endregion
     
     #region Target Detection
-    private bool IsTargetReachable(ITargetable t)
-    {
-        //Vector3 forward = transform.TransformDirection(Vector3.forward).normalized;
-        //Vector3 toOther = (t.Position - transform.position).normalized;
-        //bool isAlling = Vector3.Dot(forward, toOther) > (1 - (detectionAngle / 180)); // Calcul le dot product
-        
-        return Vector3.Distance(t.Transform.position, transform.position) < detectionDst;
-    }
-    public ITargetable ClosestTarget()
+    private bool IsTargetReachable(ITargetable t) =>  Vector3.Distance(t.Transform.position, transform.position) < detectionDst;
+
+    private ITargetable ClosestTarget()
     {
         var tempDst = 1000;
         ITargetable returnTargetable = null;
@@ -233,27 +257,23 @@ public class CarDash : MonoBehaviour
         return returnTargetable;
     }
     
-    void CheckTargetChange()
+    private void CheckTargetChange()
     {
         if (storedTarget != currentTarget)
         {
             storedTarget = currentTarget;
             rectImage.DOComplete();
             rectImage.DOScale(4, .2f).From();
+            OnTargetChange.Invoke();
         }
     }
-    
-    public void StopTargetFocus()
+
+    private void StopTargetFocus()
     {
         currentTarget = null;
     }
     
-    public void ClearStoredTarget()
-    {
-        storedTarget = null;
-    }
-    
-    void CloneInterface(float chargeValue)
+    private void CloneInterface(float chargeValue)
     {
         if (targetClonePrefab == null)
             return;
@@ -263,48 +283,11 @@ public class CarDash : MonoBehaviour
         clonedTarget.SetupClone(cachedTarget,transform, rectImage.sizeDelta, sliderValue);
     }
 
-    void AddTargetCache()
+    private void ResetChargeAmount()
     {
-        cachedTarget = currentTarget.Transform;
+        SetChargeAmount(0);
     }
-    
     #endregion
-    
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position + transform.forward * dashSpeed, 3);
-        
-        Vector3 dir = transform.forward;
-        dir.y = 0f;
-        
-        float minusAngle =-detectionAngle / 2f;
-        float maxAngle = detectionAngle / 2f;
-        var minusDir = Quaternion.Euler(0f, minusAngle, 0f) * dir;
-        var maxDir = Quaternion.Euler(0f, maxAngle, 0f) * dir;
-        
-        Debug.DrawRay(transform.position, minusDir * detectionDst, Color.blue);
-        Debug.DrawRay(transform.position, maxDir * detectionDst, Color.blue);
-        Debug.DrawLine(transform.position + (minusDir * detectionDst), transform.position + maxDir * detectionDst, Color.blue);
-        Gizmos.color = Color.blue;
-        
-        if(targetsInLevel.Count == 0) return;
-
-        
-        foreach (var t in targetsReachable)
-        {
-            if (!isLeftTrigger) return;
-            var inverseDir = t.Transform.position - transform.position;
-            inverseDir.Normalize();
-            
-            Gizmos.DrawWireSphere(t.Transform.position + (inverseDir * 2), 2);
-        }
-        
-        foreach (var t in targetsInLevel)
-        {
-            Gizmos.color = targetsReachable.Contains(t) ? Color.green : Color.red;
-            Gizmos.DrawLine(transform.position, t.Transform.position);
-        }
-    }
     
     Vector3 ClampedScreenPosition(Vector3 targetPos)
     {

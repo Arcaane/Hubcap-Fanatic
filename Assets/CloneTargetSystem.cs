@@ -23,7 +23,6 @@ public class ClonedTargetSystem : MonoBehaviour
 
         canvasGroup.DOFade(0, fadeDuration);
         transform.DOScale(scaleAmount, scaleDuration).SetEase(Ease.OutSine).OnComplete(()=> OnComplete());
-
     }
 
     private void Update()
