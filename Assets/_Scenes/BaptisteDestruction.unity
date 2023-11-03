@@ -5163,9 +5163,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 332718257}
+  - component: {fileID: 332718259}
   - component: {fileID: 332718258}
-  m_Layer: 0
-  m_Name: DestructionCollider
+  m_Layer: 20
+  m_Name: CarColliderDestruction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5201,14 +5202,26 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1.5
+  m_Radius: 0.6
+  m_Height: 1.75
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &332718259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332718256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c12fdadb38fdcd47851c5eb25811c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &335621379
 GameObject:
   m_ObjectHideFlags: 0
@@ -9041,7 +9054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4778683547059304571, guid: f76e60b01b586b04095f8b8bf8d92971, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -24.248638
+      value: -23.248638
       objectReference: {fileID: 0}
     - target: {fileID: 4778683547059304571, guid: f76e60b01b586b04095f8b8bf8d92971, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9077,7 +9090,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8801658200546813361, guid: f76e60b01b586b04095f8b8bf8d92971, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19953,10 +19966,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1efad764017122448a1126e1f4f4075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerToCollide:
-    serializedVersion: 2
-    m_Bits: 1048576
-  forceToMoveBrick: 1
+  carRB: {fileID: 442936552}
+  carCollision: {fileID: 332718258}
+  forceToMoveBrick: 0.2
+  forceApplyToBrick: 10
+  enabledDebug: 1
 --- !u!4 &1165940773
 Transform:
   m_ObjectHideFlags: 0
@@ -19965,12 +19979,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165940771}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 231.10342, y: 1.0061666, z: -30.638369}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1983131659}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1167044597
 GameObject:
@@ -32707,6 +32721,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 20970975}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1983131658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1983131659}
+  m_Layer: 0
+  m_Name: --> Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1983131659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983131658}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1165940773}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1986759008
 GameObject:
   m_ObjectHideFlags: 0
@@ -38190,4 +38236,4 @@ SceneRoots:
   - {fileID: 578352291}
   - {fileID: 1081907837}
   - {fileID: 1596295113}
-  - {fileID: 1165940773}
+  - {fileID: 1983131659}

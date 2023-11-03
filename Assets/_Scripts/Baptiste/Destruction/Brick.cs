@@ -7,7 +7,7 @@ public class Brick : MonoBehaviour
 {
     private LayerMask layerCollide;
     public float _forceToMove = 0.5f;
-    public float _strength = 1.2f;
+    public float _forceApplyToBrick = 1.2f;
 
     //Private Value
     private Rigidbody rb;
@@ -23,7 +23,8 @@ public class Brick : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         _forceToMove = DestructionManager.instance.ReturnBrickForce();
-        layerCollide = DestructionManager.instance.ReturnBrickLayerToCollide();
+        _forceApplyToBrick = DestructionManager.instance.ReturnForceApplyToBrick();
+        //layerCollide = DestructionManager.instance.ReturnBrickLayerToCollide();
     }
     
 
@@ -32,25 +33,20 @@ public class Brick : MonoBehaviour
         rb.isKinematic = true;
     }
 
-    private void OnCollisionEnter(Collision elementToCollider)
+    private void OnCollisionEnter(Collision elementToCollide)
     {
-        var hitLayerMask = 1 << elementToCollider.gameObject.layer; 
-        Debug.Log( "Hit Layer Mask : " + hitLayerMask);
-        Debug.Log( "layerCollide : " + layerCollide.value);
-        if ((layerCollide.value & hitLayerMask) != 0)
+        if (rb != null && elementToCollide.rigidbody)
         {
-            Debug.Log("Good Layer");
-            if (rb != null && elementToCollider.rigidbody)
+            Debug.Log("Has Rigidbody");
+            Debug.Log("Has Rigidbody");
+            if (elementToCollide.rigidbody.velocity.magnitude > _forceToMove)
             {
-                Debug.Log("has RB");
-                if (elementToCollider.rigidbody.velocity.magnitude > _forceToMove)
-                {
-                    Debug.Log("Apply Force");
-                    rb.isKinematic = false;
-                    Vector3 norm = elementToCollider.rigidbody.velocity.normalized * _strength;
-                    rb.AddForce(norm, ForceMode.VelocityChange);
-                }
+                Debug.Log("Has Rigidbody");
+                rb.isKinematic = false;
+                Vector3 norm = elementToCollide.rigidbody.velocity.normalized * _forceApplyToBrick;
+                rb.AddForce(norm, ForceMode.VelocityChange);
             }
         }
+        //DestructionManager.instance.ApplyForceCarCollision(elementToCollide, rb);
     }
 }

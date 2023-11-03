@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7458208852634548041}
   - component: {fileID: 9140918806002592423}
   - component: {fileID: -5037503736011556300}
-  - component: {fileID: 2640236011441930039}
-  m_Layer: 20
+  - component: {fileID: 3839714594373592039}
+  m_Layer: 21
   m_Name: Brick_V1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2640236011441930039
+--- !u!114 &3839714594373592039
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,8 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e7103360f92ec438d8b66d9244b174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerCollide:
-    serializedVersion: 2
-    m_Bits: 1048576
-  _forceToMove: 0
-  _strength: 1.25
+  _forceToMove: 0.5
+  _forceApplyToBrick: 1.2
