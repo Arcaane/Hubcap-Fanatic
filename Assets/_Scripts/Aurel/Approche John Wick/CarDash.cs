@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
+using DG.Tweening;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 
 public class CarDash : MonoBehaviour
@@ -22,12 +25,39 @@ public class CarDash : MonoBehaviour
     [Header("Targets groups")] 
     private List<ITargetable> targetsInLevel = new(); // Contain all targets that can be reached on load level
     private List<ITargetable> targetsReachable = new(); // Contain all targets that can be reached at this moment
+    private ITargetable currentTarget;
+    private ITargetable storedTarget;
+    private Transform cachedTarget;
 
     [Header("Detection Settings")]
     public float detectionAngle;
     public float detectionDst;
     public bool isLeftTrigger = false;
     
+    [Header("User Interface")]
+    public RectTransform rectImage;
+    public float rectSizeMultiplier = 2;
+    [SerializeField] ClonedTargetSystem targetClonePrefab;
+    
+    //Events
+    //[HideInInspector] public UnityEvent OnTargetHit;
+    [HideInInspector] public UnityEvent OnInputStart;
+    [HideInInspector] public UnityEvent OnInputRelease;
+    [HideInInspector] public UnityEvent<float> OnArrowRelease;
+    [HideInInspector] public UnityEvent OnTargetLost;
+    [HideInInspector] public UnityEvent<Transform> OnTargetChange;
+    
+    [Header("Charge Settings")]
+    public bool isCharging;
+    private bool releaseCooldown;
+    [SerializeField] float chargeDuration = .8f;
+    [SerializeField] Ease chargeEase;
+    private float chargeAmount;
+    
+    public float middleChargeTolerance = 0.10f;
+    public float endChargeTolerance = 0.25f;
+    
+    public Slider chargeSlider;
     
     void Start()
     {
@@ -37,6 +67,9 @@ public class CarDash : MonoBehaviour
             targetsInLevel.Add(t);
         }
         Debug.Log(targetsInLevel.Count);
+        
+        OnArrowRelease.AddListener(CloneInterface);
+        OnInputStart.AddListener(AddTargetCache);
     }
     
     void Update()
@@ -52,8 +85,6 @@ public class CarDash : MonoBehaviour
         {
             if (targetsReachable.Contains(t))
             {
-                // Si ça fait plus de X secondes, alors peux l'enlever du pool
-
                 if (!IsTargetReachable(t))
                 {
                     targetsReachable.Remove(t);
@@ -65,21 +96,30 @@ public class CarDash : MonoBehaviour
                     targetsReachable.Add(t);
             }
         }
+
+        CheckTargetChange();
+
+        currentTarget = isCharging ? currentTarget : ClosestTarget();
+        
+        rectImage.gameObject.SetActive(true);
+        rectImage.transform.position = ClampedScreenPosition(currentTarget.Transform.position);
+        float distanceFromTarget = Vector3.Distance(currentTarget.Transform.position, transform.position);
+        rectImage.sizeDelta = new Vector2(Mathf.Clamp(115 - (distanceFromTarget - rectSizeMultiplier),50,200), Mathf.Clamp(115 - (distanceFromTarget - rectSizeMultiplier),50,200));
     }
 
     #region DashGestion
     private void PreDash()
     {
-        if (isLeftTrigger)
-        {
-            Dash(ClosestTarget());
-        }
-        else
+        if (!isLeftTrigger)
         {
             Dash();
+            return;
         }
+        
+        // Sinon Dash avec target
+        
     }
-
+    
     private async void Dash(ITargetable target = null)
     {
         isDashing = true;
@@ -97,9 +137,9 @@ public class CarDash : MonoBehaviour
         
         if (target != null) // AS UNE TARGET
         {
-            inverseDir = target.Position - transform.position;
+            inverseDir = target.Transform.position - transform.position;
             inverseDir.Normalize();
-            finalPos = target.Position + (inverseDir * 2);
+            finalPos = target.Transform.position + (inverseDir * 2);
             finalRotation = Quaternion.LookRotation(inverseDir);
             
         }
@@ -126,6 +166,37 @@ public class CarDash : MonoBehaviour
         isDashing = false;
     }
     
+    void SetChargeAmount(float charge)
+    {
+        chargeAmount = charge;
+        chargeSlider.value = chargeAmount;
+    }
+
+    private bool HalfCharge()
+    {
+        return chargeAmount > .5f - middleChargeTolerance && chargeAmount < .5f + middleChargeTolerance;
+    }
+
+    private bool FullCharge()
+    {
+        return chargeAmount >= 1 - endChargeTolerance;
+    }
+
+    private void CheckRelease()
+    {
+        if (HalfCharge())
+            chargeAmount = .5f;
+
+        if (FullCharge())
+            chargeAmount = 1;
+        
+        OnArrowRelease.Invoke(chargeAmount);
+        
+        
+    }
+    #endregion
+    
+    #region Input
     public void AButton(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
@@ -147,21 +218,56 @@ public class CarDash : MonoBehaviour
         //Vector3 toOther = (t.Position - transform.position).normalized;
         //bool isAlling = Vector3.Dot(forward, toOther) > (1 - (detectionAngle / 180)); // Calcul le dot product
         
-        return Vector3.Distance(t.Position, transform.position) < detectionDst;
+        return Vector3.Distance(t.Transform.position, transform.position) < detectionDst;
     }
-    
     public ITargetable ClosestTarget()
     {
         var tempDst = 1000;
         ITargetable returnTargetable = null;
         
-        foreach (var t in targetsReachable.Where(t => returnTargetable is null || Vector3.Distance(t.Position, transform.position) < tempDst))
+        foreach (var t in targetsReachable.Where(t => returnTargetable is null || Vector3.Distance(t.Transform.position, transform.position) < tempDst))
         {
             returnTargetable = t;
         }
 
         return returnTargetable;
     }
+    
+    void CheckTargetChange()
+    {
+        if (storedTarget != currentTarget)
+        {
+            storedTarget = currentTarget;
+            rectImage.DOComplete();
+            rectImage.DOScale(4, .2f).From();
+        }
+    }
+    
+    public void StopTargetFocus()
+    {
+        currentTarget = null;
+    }
+    
+    public void ClearStoredTarget()
+    {
+        storedTarget = null;
+    }
+    
+    void CloneInterface(float chargeValue)
+    {
+        if (targetClonePrefab == null)
+            return;
+
+        ClonedTargetSystem clonedTarget = Instantiate(targetClonePrefab, rectImage.position, rectImage.rotation, rectImage.parent);
+        float sliderValue = chargeValue;
+        clonedTarget.SetupClone(cachedTarget,transform, rectImage.sizeDelta, sliderValue);
+    }
+
+    void AddTargetCache()
+    {
+        cachedTarget = currentTarget.Transform;
+    }
+    
     #endregion
     
     private void OnDrawGizmos()
@@ -187,16 +293,23 @@ public class CarDash : MonoBehaviour
         foreach (var t in targetsReachable)
         {
             if (!isLeftTrigger) return;
-            var inverseDir = t.Position - transform.position;
+            var inverseDir = t.Transform.position - transform.position;
             inverseDir.Normalize();
             
-            Gizmos.DrawWireSphere(t.Position + (inverseDir * 2), 2);
+            Gizmos.DrawWireSphere(t.Transform.position + (inverseDir * 2), 2);
         }
         
         foreach (var t in targetsInLevel)
         {
             Gizmos.color = targetsReachable.Contains(t) ? Color.green : Color.red;
-            Gizmos.DrawLine(transform.position, t.Position);
+            Gizmos.DrawLine(transform.position, t.Transform.position);
         }
+    }
+    
+    Vector3 ClampedScreenPosition(Vector3 targetPos)
+    {
+        Vector3 WorldToScreenPos = Camera.main.WorldToScreenPoint(targetPos);
+        Vector3 clampedPosition = new Vector3(Mathf.Clamp(WorldToScreenPos.x, 0, Screen.width), Mathf.Clamp(WorldToScreenPos.y, 0, Screen.height), WorldToScreenPos.z);
+        return clampedPosition;
     }
 }
