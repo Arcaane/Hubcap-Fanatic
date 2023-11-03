@@ -84,6 +84,7 @@ public class WheelCarController : MonoBehaviour
     
     private void Update()
     {
+        //Debug.Log(rb.velocity.magnitude);
         for (int i = 0; i < wheels.Length; i++)
         {
             if (wheels[i].steeringFactor > 0)
