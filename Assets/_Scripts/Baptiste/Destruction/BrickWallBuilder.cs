@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Brick
+public class BrickSettings
 {
     public Vector3 position;
     public Quaternion rotation;
@@ -16,13 +16,13 @@ public class BrickWallBuilder : MonoBehaviour
 {
     public int wallWidth = 10;
     public int wallHeight = 5;
-    public List<Brick> bricks = new List<Brick>();
+    public List<BrickSettings> bricks = new List<BrickSettings>();
     public List<GameObject> brickInstantiate = new List<GameObject>();
     public GameObject brickPrefab;
 
     public void AddBrick()
     {
-        bricks.Add(new Brick());
+        bricks.Add(new BrickSettings());
     }
 
     public void BuildWall()
@@ -33,7 +33,7 @@ public class BrickWallBuilder : MonoBehaviour
         {
             for (int y = 0; y < wallHeight; y++)
             {
-                foreach (Brick brick in bricks)
+                foreach (BrickSettings brick in bricks)
                 {
                     Vector3 position = brick.position + new Vector3(x * brick.scale.x, y * brick.scale.y, 0);
                     GameObject newBrick = Instantiate(brickPrefab, position, Quaternion.identity, transform);
