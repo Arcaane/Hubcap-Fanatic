@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class DashSystem : MonoBehaviour
@@ -34,7 +33,7 @@ public class DashSystem : MonoBehaviour
     [Space]
     [Header("Detection Settings")]
     public float detectionDst;
-    [FormerlySerializedAs("isLeftTrigger")] public bool isInAimingMode = false;
+    public bool isInAimingMode = false;
     
     [Space]
     [Header("User Interface")]
@@ -295,7 +294,13 @@ public class DashSystem : MonoBehaviour
         SetChargeAmount(0);
     }
     #endregion
-    
+
+    private void OnDrawGizmos()
+    {
+        var width = Screen.width;
+        var height = Screen.height;
+    }
+
     Vector3 ClampedScreenPosition(Vector3 targetPos)
     {
         Vector3 WorldToScreenPos = Camera.main.WorldToScreenPoint(targetPos);

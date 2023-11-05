@@ -8,7 +8,7 @@ public class EnemyCannonFodder : MonoBehaviour
 {
     private NavMeshAgent agent;
     
-    [SerializeField]  public Transform playerPos;
+    [HideInInspector] public Transform playerPos;
     [SerializeField] private Rigidbody[] ragdollHandler;
 
     // Start is called before the first frame update
@@ -19,14 +19,18 @@ public class EnemyCannonFodder : MonoBehaviour
     }
     
     private float timer = 0;
-    public float updatePath = 0.7f;
+    public float updatePath = 0.45f;
+    private bool isDead;
     // Update is called once per frame
     void Update()
     {
+        if(isDead) return;
+        
         timer += Time.deltaTime;
         if (timer > updatePath)
         {
-            agent.SetDestination(playerPos.position);
+            var tempVec3 = new Vector3(playerPos.position.x, 0, playerPos.position.z);
+            agent.SetDestination(tempVec3);
             timer = 0;
         }
     }
@@ -37,7 +41,10 @@ public class EnemyCannonFodder : MonoBehaviour
         {
             r.isKinematic = false;
         }
-
+        
+        // TODO - Son de mort
+        // TODO - Add Score
+        isDead = true;
         agent.enabled = false;
     }   
 }
