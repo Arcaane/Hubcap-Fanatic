@@ -41,12 +41,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _CamAngle: 0
     - _DotColor: 0
     - _DotSize: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Zone: 0.1
-    - _dotFrequency: 0.8
+    - _dotFrequency: 1.5
     - _lineFrequency: 1500
     - _lineHeight: 0.1
     m_Colors:

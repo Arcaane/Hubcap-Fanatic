@@ -74,7 +74,7 @@ Material:
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
-    - _noisiness: -0.003
+    - _noisiness: -0.004
     m_Colors:
     - _OutlineColor: {r: 0.11963779, g: 0.031372547, b: 0.35686275, a: 0}
   m_BuildTextureStacks: []
