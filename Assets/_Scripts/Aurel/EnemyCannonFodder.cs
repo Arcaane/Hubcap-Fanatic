@@ -11,6 +11,7 @@ public class EnemyCannonFodder : MonoBehaviour
     [SerializeField]  public Transform playerPos;
     [SerializeField] public Rigidbody[] ragdollHandler;
     [SerializeField] public List<Collider> ragdollColliders;
+    public bool isDead;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,8 @@ public class EnemyCannonFodder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead) return;
+        
         timer += Time.deltaTime;
         if (timer > updatePath)
         {
@@ -47,6 +50,7 @@ public class EnemyCannonFodder : MonoBehaviour
             r.enabled = true;
         }
 
+        isDead = true;
         agent.enabled = false;
     }   
 }
