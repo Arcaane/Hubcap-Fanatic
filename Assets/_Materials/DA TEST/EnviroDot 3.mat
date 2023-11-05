@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: EnviroDot 3
+  m_Shader: {fileID: -6465566751694194690, guid: 59b52ab4e1710e44d8ab45b214d04519, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _ResponsiveTexture:
+        m_Texture: {fileID: 8400000, guid: 3d82f7b91eaf0f94d9f8e26d9299ae28, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _CamAngle: 0
+    - _DotColor: 0
+    - _DotSize: 0.5
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Zone: 0.1
+    - _dotFrequency: 0.85
+    - _lineFrequency: 1500
+    - _lineHeight: 0.1
+    m_Colors:
+    - _CamPos: {r: 0.83, g: 1.335, b: 0, a: 0}
+    - _CarPos: {r: 246.97826, g: -10.463127, b: 0, a: 0}
+    - _ColorLight: {r: 0.059653804, g: 0.039649345, b: 0.254717, a: 1}
+    - _ColorShadow: {r: 0.14897375, g: 0.03921568, b: 0.20784314, a: 1}
+    - _DotColor: {r: 0.08601816, g: 0.0031149874, b: 0.13207549, a: 1}
+    - _DotLightColor: {r: 0.08050018, g: 0.254717, b: 0.24745795, a: 1}
+    - _ShadowColor: {r: 0, g: 0, b: 0, a: 0}
+    - _ShadowCrossColor: {r: 0.48795936, g: 0.4510502, b: 0.5283019, a: 0}
+    - _TextureTiling: {r: 0.025, g: 0.025, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &3823651698704725847
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
