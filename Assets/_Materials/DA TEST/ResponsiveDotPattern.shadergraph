@@ -852,34 +852,6 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "8cf039f6e8b6485289b9d38526922ea9"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "ad936b82d4344d2a9d9794b4fd356706"
-                },
-                "m_SlotId": 2
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "8cf039f6e8b6485289b9d38526922ea9"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "ad936b82d4344d2a9d9794b4fd356706"
-                },
-                "m_SlotId": 3
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
                     "m_Id": "8e2cd8cae18a4bfdbc211b0a55f0df01"
                 },
                 "m_SlotId": 0
@@ -894,6 +866,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "8e2cd8cae18a4bfdbc211b0a55f0df01"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "d50788a250e34589b3bb00aa1a1abbbd"
+                },
+                "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "8ff80a860695489e8865b29b94d9ff88"
                 },
                 "m_SlotId": 3
@@ -903,20 +889,6 @@
                     "m_Id": "8cf039f6e8b6485289b9d38526922ea9"
                 },
                 "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "925e1f5f233d4bb9b575ff50843e11a2"
-                },
-                "m_SlotId": 3
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "d50788a250e34589b3bb00aa1a1abbbd"
-                },
-                "m_SlotId": 1
             }
         },
         {
@@ -3936,7 +3908,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "e00": 2.0,
+        "e00": 1.0,
         "e01": 2.0,
         "e02": 2.0,
         "e03": 2.0,

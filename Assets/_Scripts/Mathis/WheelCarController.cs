@@ -48,6 +48,15 @@ public class WheelCarController : MonoBehaviour
     [Header("KIT")] 
     [SerializeField] private CarKitManager kitManager;
 
+    // TODO : TEMPORAIRE, A VIRER APRES PROTO
+    [Header("HEALTH")] 
+    public int lifePoints;
+    public int maxLifePoints;
+    public float damageTakenMaxSpeed;
+    public float speedPercentKeptAtImpact;
+    public int damagesPerAttacks;
+    public Image fillImage;
+
     // INPUT VALUES
     private Vector2 stickValue;
     private float accelForce, brakeForce;
