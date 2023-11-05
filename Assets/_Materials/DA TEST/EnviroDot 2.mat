@@ -52,7 +52,7 @@ Material:
     - _lineHeight: 0.1
     m_Colors:
     - _CamPos: {r: 0.83, g: 1.335, b: 0, a: 0}
-    - _CarPos: {r: 14.6, g: -38, b: 0, a: 0}
+    - _CarPos: {r: 5.5566726, g: -0.6755371, b: 0, a: 0}
     - _ColorLight: {r: 0.31783998, g: 0.1501869, b: 0.4245283, a: 1}
     - _ColorShadow: {r: 0.14244395, g: 0.04013884, b: 0.20754719, a: 1}
     - _DotColor: {r: 0.034706593, g: 0, b: 0.05660379, a: 1}

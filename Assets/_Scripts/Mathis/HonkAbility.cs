@@ -30,10 +30,14 @@ public class HonkAbility : CarAbility
         {
             Debug.Log("HONKED AT " + colliders[i].gameObject.name + " / ANGLE : " + Vector3.Angle(dir, transform.forward) + " / TAG : " + colliders[i].tag);
             dir = (colliders[i].transform.position - transform.position).normalized;
-            if (colliders[i].CompareTag("Cone") && colliders[i].attachedRigidbody != null && Vector3.Angle(dir, transform.forward) <= angle)
+            if (colliders[i].CompareTag("Fodder") && Vector3.Angle(dir, transform.forward) <= angle)
             {
                 Debug.Log("PROPULSED " + colliders[i].gameObject.name);
-                colliders[i].attachedRigidbody.AddForce(dir * force,ForceMode.VelocityChange);
+                colliders[i].GetComponent<EnemyCannonFodder>().EnableRagdoll();
+                foreach (var r in colliders[i].GetComponent<EnemyCannonFodder>().ragdollHandler)
+                {
+                   r.AddForce(dir * force,ForceMode.VelocityChange);
+                }
             }
         }
     }

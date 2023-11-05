@@ -9,12 +9,17 @@ public class EnemyCannonFodder : MonoBehaviour
     private NavMeshAgent agent;
     
     [SerializeField]  public Transform playerPos;
-    [SerializeField] private Rigidbody[] ragdollHandler;
+    [SerializeField] public Rigidbody[] ragdollHandler;
+    [SerializeField] public List<Collider> ragdollColliders;
 
     // Start is called before the first frame update
     void Start()
     {
         ragdollHandler = GetComponentsInChildren<Rigidbody>();
+        for (int i = 0; i < ragdollHandler.Length; i++)
+        {
+            ragdollColliders.Add(ragdollHandler[i].GetComponent<Collider>());
+        }
         agent = GetComponent<NavMeshAgent>();
     }
     
@@ -36,6 +41,10 @@ public class EnemyCannonFodder : MonoBehaviour
         foreach (var r in ragdollHandler)
         {
             r.isKinematic = false;
+        }
+        foreach (var r in ragdollColliders)
+        {
+            r.enabled = true;
         }
 
         agent.enabled = false;
