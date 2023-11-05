@@ -39,6 +39,8 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _lineFrequency: 1500
+    - _lineHeight: 0.1
     m_Colors:
     - _ColorLight: {r: 0.99607843, g: 0.4666666, b: 0.51583296, a: 1}
     - _ColorShadow: {r: 0.7169812, g: 0.07778571, b: 0.32158682, a: 1}
