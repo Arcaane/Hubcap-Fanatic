@@ -142,9 +142,10 @@ public class DashSystem : MonoBehaviour
         
         if (target != null) // AS UNE TARGET
         {
-            inverseDir = target.Transform.position - transform.position;
+            var targetXZPos = new Vector3(target.Transform.position.x, transform.position.y, target.Transform.position.z);
+            inverseDir = targetXZPos - transform.position;
             inverseDir.Normalize();
-            finalPos = target.Transform.position + (inverseDir * 2);
+            finalPos = targetXZPos + (inverseDir * 2);
             finalRotation = Quaternion.LookRotation(inverseDir);
             
         }
