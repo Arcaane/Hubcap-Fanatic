@@ -40,33 +40,14 @@ public class WheelCarController : MonoBehaviour
     [SerializeField] private float steeringMultiplier = 0.25f;
     [SerializeField] private float accelMultiplier = 0.25f;
     [SerializeField] private float angleMinToExitDrift = 0.1f;
-    
-    [Header("SCORING")]
-    [SerializeField] public float multiplier;
-    [SerializeField] private int score;
-    private float scoreDisplayed;
-    [SerializeField] private TMP_Text scoreText,multiplierText,eventText,eventScoreText;
-    [SerializeField] private Transform scoreTransform;
-    private bool eventApplying;
-    [SerializeField] private Animation animEvent;
-    [SerializeField] private List<Event> events = new List<Event>(0);
-    
-    public bool onGround;
-    public bool onAir;
-    private float conePercuteTime;
-    private float eventTimer;
 
-    public bool driftEngaged;
-    public float driftValue;
-    public int driftCursor;
-    public float dirCam;
+    private bool driftEngaged;
+    private float driftValue;
+    private float dirCam;
 
+    [Header("KIT")] 
+    [SerializeField] private CarKitManager kitManager;
 
-    public DemolitionBallBehavior ball;
-
-
-    [Header("PHYSICVALUES")]
-    
     // INPUT VALUES
     private Vector2 stickValue;
     private float accelForce, brakeForce;
@@ -150,7 +131,6 @@ public class WheelCarController : MonoBehaviour
         // SI ROUE AU SOL, ALORS FORCES
         if (Physics.Raycast(wheel.transform.position, -wheel.transform.up, out RaycastHit hit, suspensionLenght + anchoring))
         {
-            if (!onGround) onGround = true;
             // CALCUL DES FORCES
             float suspension = GetWheelSuspensionForce(wheel,hit);
             float directionalDamp = GetWheelDirectionalDampening(wheel);
@@ -165,14 +145,7 @@ public class WheelCarController : MonoBehaviour
             Debug.DrawRay(wheel.transform.position,wheel.transform.forward * drivingForce,Color.blue);
             Debug.DrawRay(wheel.transform.position,wheelForce,Color.white);
         }
-        else
-        {
-            if (onGround)
-            {
-                onGround = false;
-            }
-        }
-        
+
         return wheelForce;
     }
     
@@ -276,25 +249,19 @@ public class WheelCarController : MonoBehaviour
     public void XButton(InputAction.CallbackContext context)
     {
         if (!context.started) return;
-        if (!ball.gameObject.activeSelf)
-        {
-            ball.gameObject.SetActive(true);
-            ball.Setup();
-        }
-        else
-        {
-            ball.UnChain();
-        }
+        kitManager.ActivateXAbility();
     }
     
-    public void YButton(InputAction.CallbackContext ctx)
+    public void YButton(InputAction.CallbackContext context)
     {
-        
+        if (!context.started) return;
+        kitManager.ActivateNitro();
     }
     
-    public void BButton(InputAction.CallbackContext ctx)
+    public void BButton(InputAction.CallbackContext context)
     {
-        
+        if (!context.started) return;
+        kitManager.ActivateBAbility();
     }
     
     public void LStick(InputAction.CallbackContext context)
@@ -309,49 +276,6 @@ public class WheelCarController : MonoBehaviour
         }
     }
     #endregion
-    
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.transform.CompareTag("Cone") && conePercuteTime <= 0)
-        {
-            Event newEvent = new Event();
-            newEvent.text = "Percutted Cone";
-            newEvent.scoreAmount = 150;
-            AddEvent(newEvent);
-            conePercuteTime = 0.2f;
-        }
-
-        if (other.transform.CompareTag("Wall") )
-        {
-            multiplier = 1;
-            score = 0;
-            scoreDisplayed = 0;
-            multiplierText.text = "x" + multiplier;
-            events.Clear();
-        }
-    }
-    
-    public void AddEvent(Event newEvent)
-    {
-        events.Add(newEvent);
-    }
-
-    public async void ApplyEvent()
-    {
-        eventTimer = 8;
-        Event appliedEvent = events[0];
-        animEvent.Play("EventAnim");
-        eventApplying = true;
-        score += Mathf.CeilToInt(appliedEvent.scoreAmount * multiplier);
-        eventScoreText.text = appliedEvent.scoreAmount.ToString();
-        eventText.text = appliedEvent.text;
-        multiplier += 0.1f;
-        multiplierText.text = "x" + multiplier;
-        events.RemoveAt(0);
-        await Task.Delay(2000);
-        eventApplying = false;
-        
-    }
 }
 
 [Serializable]
