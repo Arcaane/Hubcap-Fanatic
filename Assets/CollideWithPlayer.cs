@@ -32,12 +32,14 @@ public class CollideWithPlayer : MonoBehaviour
             else
             {
                 agent.EnableRagdoll();
+                GetComponent<Collider>().enabled = false;
             }
         }
         
         if (other.CompareTag("PlayerBonusCollider"))
         {
             agent.EnableRagdoll();
+            GetComponent<Collider>().enabled = false;
         }
     }
 }
