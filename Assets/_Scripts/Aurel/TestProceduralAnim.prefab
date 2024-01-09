@@ -463,7 +463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5699774096698350646}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TestProceduralAnim
   m_TagString: Untagged
   m_Icon: {fileID: 0}

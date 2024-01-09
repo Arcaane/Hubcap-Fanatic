@@ -14,7 +14,7 @@ public class BrickWallApplyForce : MonoBehaviour
     [SerializeField] private GameObject ps;
     
     //TODO : Refacto this part
-    [SerializeField] private WheelCarController carControllerRef;
+    
 
     private bool hasAppliedForce = false;
     
@@ -29,21 +29,7 @@ public class BrickWallApplyForce : MonoBehaviour
         foreach (var collider in colliders)
         {
             Rigidbody rigidbody = collider.GetComponent<Rigidbody>();
-            if (rigidbody != null && GetVelocitycar() > _forceToDestroyWall)
-            {
-                rigidbody.isKinematic = false;
-                rigidbody.AddExplosionForce(_force, transform.position, _radiusForce);
-                hasAppliedForce = true; // Set to true when force is applied.
-                //ps.SetActive(true);
-                if (_callWhenApplyForce != null)
-                {
-                    _callWhenApplyForce.Invoke();
-                }
-            }
-            else
-            {
-                //ps.SetActive(false);
-            }
+            
         }
     }
     
@@ -92,9 +78,5 @@ public class BrickWallApplyForce : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, _radiusKinematic);
     }
 
-    float GetVelocitycar()
-    {
-        float carMagnitude = carControllerRef.rb.velocity.magnitude;
-        return carMagnitude;
-    }
+    
 }

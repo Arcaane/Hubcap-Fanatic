@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CarController : MonoBehaviour
+public class CarControllerAure : MonoBehaviour
 {
-    public static CarController instance;
+    public static CarControllerAure instance;
     
     public Rigidbody sphereRB;
     

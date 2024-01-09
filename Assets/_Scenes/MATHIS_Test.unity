@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 68976871}
   - component: {fileID: 68976870}
   - component: {fileID: 68976869}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftKnee
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 85000248}
   - component: {fileID: 85000247}
   - component: {fileID: 85000246}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -667,7 +667,7 @@ GameObject:
   - component: {fileID: 123401940}
   - component: {fileID: 123401939}
   - component: {fileID: 123401938}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightKnee
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -983,7 +983,7 @@ GameObject:
   - component: {fileID: 151075073}
   - component: {fileID: 151075071}
   - component: {fileID: 151075072}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftLeg
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -1349,9 +1349,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 10
   abilityName: HONK
+  description: 
+  socket: 0
   cooldownTimer: 0
   activable: 1
-  activated: 0
   radius: 20
   angle: 45
   force: 40
@@ -1442,7 +1443,7 @@ GameObject:
   - component: {fileID: 173926538}
   - component: {fileID: 173926537}
   - component: {fileID: 173926536}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftForeArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -1637,13 +1638,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181531900}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4964001, y: -0.32275194, z: 0.20561564, w: 0.77919215}
-  m_LocalPosition: {x: 7, y: 23, z: -7}
+  m_LocalRotation: {x: 0.5624222, y: -0.3036032, z: 0.23296289, w: 0.73296297}
+  m_LocalPosition: {x: 6, y: 23, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1589885997}
-  m_LocalEulerAnglesHint: {x: 65, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 75, y: -45, z: 0}
 --- !u!114 &181531902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1906,7 +1907,7 @@ GameObject:
   - component: {fileID: 199013323}
   - component: {fileID: 199013322}
   - component: {fileID: 199013321}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftKnee
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -2563,7 +2564,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 347342630}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.001_end
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -2600,7 +2601,7 @@ GameObject:
   - component: {fileID: 380668569}
   - component: {fileID: 380668568}
   - component: {fileID: 380668567}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightKnee
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -2819,17 +2820,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xAbility: {fileID: 446913115}
   bAbility: {fileID: 168489195}
-  nitroAbility: {fileID: 442936558}
-  abilityImages:
-  - {fileID: 121461059}
-  - {fileID: 1249155751}
-  - {fileID: 931334270}
-  - {fileID: 123054187}
-  abilityTexts:
-  - {fileID: 245811565}
-  - {fileID: 140311082}
-  - {fileID: 893051386}
-  - {fileID: 451513402}
+  yAbility: {fileID: 0}
+  aAbility: {fileID: 0}
 --- !u!1 &425762568
 GameObject:
   m_ObjectHideFlags: 0
@@ -2844,7 +2836,7 @@ GameObject:
   - component: {fileID: 425762572}
   - component: {fileID: 425762571}
   - component: {fileID: 425762570}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightForeArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -3120,19 +3112,7 @@ MonoBehaviour:
     m_ActionId: 468ad5df-3029-4cfe-a197-ea7d54bd17d5
     m_ActionName: Inputs/RTrigger[/XInputControllerWindows/rightTrigger,/XInputControllerWindows/rightTrigger]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 442936556}
-        m_TargetAssemblyTypeName: WheelCarController, Assembly-CSharp
-        m_MethodName: AButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: b77b596c-fd45-4fbc-b1eb-5fe5ce90d6f1
     m_ActionName: Inputs/AButton[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
@@ -3152,19 +3132,7 @@ MonoBehaviour:
     m_ActionId: a4a3943e-6aac-435d-a4c8-62b0b479ae6c
     m_ActionName: Inputs/LStick[/XInputControllerWindows/leftStick,/XInputControllerWindows/leftStick]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 442936556}
-        m_TargetAssemblyTypeName: WheelCarController, Assembly-CSharp
-        m_MethodName: XButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 634e5fd6-b8c4-41e8-9050-f2b84b78e6ba
     m_ActionName: Inputs/XButton[/XInputControllerWindows/buttonWest]
   - m_PersistentCalls:
@@ -3172,35 +3140,11 @@ MonoBehaviour:
     m_ActionId: 672bcaa1-6729-4d70-b086-9e12b1d3023b
     m_ActionName: Inputs/LBButton[/XInputControllerWindows/leftShoulder]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 442936556}
-        m_TargetAssemblyTypeName: WheelCarController, Assembly-CSharp
-        m_MethodName: BButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 6cea8f1b-09a1-42db-be10-5f02056fedad
     m_ActionName: Inputs/BButton[/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 442936556}
-        m_TargetAssemblyTypeName: WheelCarController, Assembly-CSharp
-        m_MethodName: YButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 4422cefd-c168-45c8-8849-06045833336e
     m_ActionName: Inputs/YButton[/XInputControllerWindows/buttonNorth]
   m_NeverAutoSwitchControlSchemes: 0
@@ -3345,7 +3289,7 @@ MonoBehaviour:
   suspensionLenght: 0.5
   suspensionForce: 70
   suspensionDampening: 3
-  anchoring: 0.15
+  anchoring: 5
   wheelMass: 0.1
   maxSpeed: 25
   accelerationBySpeedFactor:
@@ -3423,7 +3367,10 @@ MonoBehaviour:
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
-  kitManager: {fileID: 414816150}
+  speedRetained: 0.7
+  maxSpeedRetained: 0.8
+  minAngleToBounce: 0.3
+  fxBounce: {fileID: 7327552505560720248, guid: 68f8e38cdcb558d43a07cde4b478f907, type: 3}
 --- !u!114 &442936557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3441,9 +3388,23 @@ MonoBehaviour:
   dashCooldown: 2
   resetSpeed: 10
   dashForward: {x: 0, y: 0, z: 0}
-  detectionAngle: 0
   detectionDst: 15.5
-  isLeftTrigger: 0
+  isInAimingMode: 0
+  rectImage: {fileID: 0}
+  rectSizeMultiplier: 2
+  targetClonePrefab: {fileID: 0}
+  isCharging: 0
+  chargeDuration: 0.8
+  chargeAmount: 0
+  middleChargeTolerance: 0.05
+  endChargeTolerance: 0.15
+  chargeSlider: {fileID: 0}
+  OnInputRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTargetChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &442936558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3458,12 +3419,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 30
   abilityName: NITRO
+  description: 
+  socket: 0
   cooldownTimer: 0
   activable: 1
-  activated: 0
   nitroTime: 3
   nitroForce: 6
-  controller: {fileID: 442936556}
 --- !u!1 &446913111
 GameObject:
   m_ObjectHideFlags: 0
@@ -3571,9 +3532,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 30
   abilityName: BALL
+  description: 
+  socket: 0
   cooldownTimer: 0
   activable: 0
-  activated: 0
   distance: 8
   upperDistance: 10
   force: 20
@@ -3814,7 +3776,7 @@ GameObject:
   - component: {fileID: 529468818}
   m_Layer: 0
   m_Name: Cube (9)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4083,7 +4045,7 @@ GameObject:
   - component: {fileID: 569442738}
   - component: {fileID: 569442736}
   - component: {fileID: 569442737}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.001
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -4249,7 +4211,7 @@ GameObject:
   - component: {fileID: 572438909}
   - component: {fileID: 572438907}
   - component: {fileID: 572438908}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightLeg
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -4432,7 +4394,7 @@ GameObject:
   - component: {fileID: 579414605}
   - component: {fileID: 579414603}
   - component: {fileID: 579414604}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightLeg
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -4615,7 +4577,7 @@ GameObject:
   - component: {fileID: 599709953}
   m_Layer: 0
   m_Name: Cube (7)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4716,7 +4678,7 @@ GameObject:
   m_Component:
   - component: {fileID: 645459975}
   - component: {fileID: 645459976}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Torso
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -4802,7 +4764,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 649657203}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StickGuy (2)
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -5074,7 +5036,7 @@ GameObject:
   - component: {fileID: 747846765}
   - component: {fileID: 747846764}
   - component: {fileID: 747846763}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftForeArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -5499,7 +5461,7 @@ GameObject:
   - component: {fileID: 849514328}
   m_Layer: 0
   m_Name: Cube (8)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5682,7 +5644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 865263229}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.001_end
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -5802,7 +5764,7 @@ GameObject:
   - component: {fileID: 892792812}
   - component: {fileID: 892792811}
   - component: {fileID: 892792810}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Head
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -6111,7 +6073,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 893916646}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StickGuy (1)
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -6321,7 +6283,7 @@ GameObject:
   - component: {fileID: 1022328663}
   - component: {fileID: 1022328662}
   - component: {fileID: 1022328661}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -6505,113 +6467,6 @@ Transform:
   - {fileID: 1718150512}
   m_Father: {fileID: 446913112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1053950047
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1053950048}
-  - component: {fileID: 1053950051}
-  - component: {fileID: 1053950050}
-  - component: {fileID: 1053950049}
-  m_Layer: 0
-  m_Name: Cylinder (14)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1053950048
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053950047}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.445729, y: 0.445729, z: 0.5489314, w: 0.5489314}
-  m_LocalPosition: {x: 22.639984, y: 0.5, z: 52.46}
-  m_LocalScale: {x: 0.5, y: 7.6747, z: 0.5}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1139850964}
-  m_LocalEulerAnglesHint: {x: 0, y: 78.153, z: 90}
---- !u!136 &1053950049
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053950047}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!23 &1053950050
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053950047}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: af79069df58223a48866e5d4984e0869, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1053950051
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053950047}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1070808583
 GameObject:
   m_ObjectHideFlags: 0
@@ -6626,7 +6481,7 @@ GameObject:
   - component: {fileID: 1070808585}
   m_Layer: 0
   m_Name: Cube (10)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6747,8 +6602,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1450149042}
-  - {fileID: 1850404147}
-  - {fileID: 1053950048}
   - {fileID: 599709952}
   - {fileID: 849514327}
   - {fileID: 529468817}
@@ -7188,7 +7041,7 @@ GameObject:
   - component: {fileID: 1276016699}
   - component: {fileID: 1276016697}
   - component: {fileID: 1276016698}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftLeg
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -7402,7 +7255,7 @@ GameObject:
   - component: {fileID: 1292505409}
   - component: {fileID: 1292505407}
   - component: {fileID: 1292505408}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -7585,7 +7438,7 @@ GameObject:
   - component: {fileID: 1292975574}
   - component: {fileID: 1292975572}
   - component: {fileID: 1292975573}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -7851,7 +7704,7 @@ GameObject:
   - component: {fileID: 1351569231}
   - component: {fileID: 1351569230}
   - component: {fileID: 1351569229}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Head
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -8300,7 +8153,7 @@ GameObject:
   - component: {fileID: 1458440532}
   - component: {fileID: 1458440530}
   - component: {fileID: 1458440531}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.001
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -8594,7 +8447,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1505600380}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Armature
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -8629,7 +8482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1541720577}
   - component: {fileID: 1541720578}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Torso
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -8993,7 +8846,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1584965378}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Armature
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -9562,7 +9415,7 @@ GameObject:
   - component: {fileID: 1687473807}
   - component: {fileID: 1687473806}
   - component: {fileID: 1687473805}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightForeArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -10385,114 +10238,6 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 0
---- !u!1 &1850404146
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1850404147}
-  - component: {fileID: 1850404150}
-  - component: {fileID: 1850404149}
-  - component: {fileID: 1850404148}
-  m_Layer: 0
-  m_Name: Cylinder (13)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1850404147
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1850404146}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.629717, y: 0.629717, z: 0.3216467, w: 0.3216467}
-  m_LocalPosition: {x: -51.07001, y: 0.5, z: 39.71}
-  m_LocalScale: {x: 0.5, y: 7.6747, z: 0.5}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1909175994}
-  m_Father: {fileID: 1139850964}
-  m_LocalEulerAnglesHint: {x: 0, y: 125.886, z: 90}
---- !u!136 &1850404148
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1850404146}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!23 &1850404149
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1850404146}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: af79069df58223a48866e5d4984e0869, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1850404150
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1850404146}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1877388741
 GameObject:
   m_ObjectHideFlags: 0
@@ -10576,72 +10321,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1877388741}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1909175993
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1909175994}
-  - component: {fileID: 1909175996}
-  - component: {fileID: 1909175995}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1909175994
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1909175993}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1850404147}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1909175995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1909175993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e616285800350524ca973034ee4c39b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!65 &1909175996
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1909175993}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 8.42, y: 1, z: 3.59}
-  m_Center: {x: 1.52, y: 0, z: 0}
 --- !u!1 &1916460515
 GameObject:
   m_ObjectHideFlags: 0
@@ -10884,7 +10563,7 @@ GameObject:
   - component: {fileID: 2006222603}
   - component: {fileID: 2006222601}
   - component: {fileID: 2006222602}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -11573,7 +11252,7 @@ GameObject:
   - component: {fileID: 2135899579}
   - component: {fileID: 2135899577}
   - component: {fileID: 2135899578}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -11793,7 +11472,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 577107181385813572}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StickGuy
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -11839,7 +11518,7 @@ GameObject:
   - component: {fileID: 762707320978157485}
   - component: {fileID: 762707320978157484}
   - component: {fileID: 762707320978157483}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftForeArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -12013,7 +11692,7 @@ GameObject:
   - component: {fileID: 1140301903989245034}
   - component: {fileID: 1140301903989245032}
   - component: {fileID: 1140301903989245033}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -12143,7 +11822,7 @@ GameObject:
   - component: {fileID: 1680106824430678520}
   - component: {fileID: 1680106824430678518}
   - component: {fileID: 1680106824430678519}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.001
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -12274,7 +11953,7 @@ GameObject:
   - component: {fileID: 2042050576173514875}
   - component: {fileID: 2042050576173514874}
   - component: {fileID: 2042050576173514873}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftKnee
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -12456,7 +12135,7 @@ GameObject:
   - component: {fileID: 2526555397432681490}
   - component: {fileID: 2526555397432681489}
   - component: {fileID: 2526555397432681488}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightKnee
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -12607,7 +12286,7 @@ GameObject:
   - component: {fileID: 2970257730737576860}
   - component: {fileID: 2970257730737576858}
   - component: {fileID: 2970257730737576859}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftLeg
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -12861,7 +12540,7 @@ GameObject:
   - component: {fileID: 6113333565617536438}
   - component: {fileID: 5790878180152353804}
   - component: {fileID: 5790878180152353803}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -13048,7 +12727,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9065257878701113972}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.001_end
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -13069,7 +12748,7 @@ GameObject:
   - component: {fileID: 6597360855485391100}
   - component: {fileID: 6597360855485391098}
   - component: {fileID: 6597360855485391099}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -13217,7 +12896,7 @@ GameObject:
   - component: {fileID: 7290156360427213150}
   - component: {fileID: 7290156360427213149}
   - component: {fileID: 7290156360427213148}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Head
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -13332,7 +13011,7 @@ GameObject:
   - component: {fileID: 7486312142023716640}
   - component: {fileID: 7486312142023716638}
   - component: {fileID: 7486312142023716639}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightLeg
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -13459,7 +13138,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8408957995441970906}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Armature
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -13480,7 +13159,7 @@ GameObject:
   - component: {fileID: 8024836658693247103}
   - component: {fileID: 8024836658693247102}
   - component: {fileID: 8024836658693247101}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightForeArm
   m_TagString: Cone
   m_Icon: {fileID: 0}
@@ -13708,7 +13387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6275023256307300300}
   - component: {fileID: 8734328468133620531}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Torso
   m_TagString: Cone
   m_Icon: {fileID: 0}

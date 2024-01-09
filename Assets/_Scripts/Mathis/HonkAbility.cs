@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class HonkAbility : CarAbility
+public class HonkAbility : Ability
 {
     [Header("ABILITY PARAMETERS")] 
     [SerializeField] private float radius = 20;
@@ -15,9 +15,9 @@ public class HonkAbility : CarAbility
     private float visibility;
     
     
-    public override void Activate()
+    public override void StartAbility()
     {
-        base.Activate();
+        base.StartAbility();
         mat.SetFloat("_Angle", angle);
         mat.SetFloat("_Visibility", 1);
         visibility = 1;
@@ -42,20 +42,5 @@ public class HonkAbility : CarAbility
         }
     }
     
-    public override void Execute()
-    {
-        if (visibility > 0)
-        {
-            visibility -= Time.deltaTime*2;
-            transform.position = carTransform.position;
-            transform.rotation = Quaternion.Euler(0,carTransform.eulerAngles.y,0);
-        }
-        else
-        {
-            activated = false;
-            gameObject.SetActive(false);
-        }
-        mat.SetFloat("_Visibility", curve.Evaluate(visibility));
-        
-    }
+   
 }
