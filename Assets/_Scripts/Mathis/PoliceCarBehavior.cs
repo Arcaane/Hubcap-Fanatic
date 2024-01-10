@@ -40,7 +40,7 @@ public class PoliceCarBehavior : CarBehaviour
     {
         if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Cone"))
         {
-            Debug.Log(other.relativeVelocity.magnitude);
+            //Debug.Log(other.relativeVelocity.magnitude);
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
             {
                     

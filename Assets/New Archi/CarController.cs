@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EnemyNamespace;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,7 +10,8 @@ using UnityEngine.UI;
 
 public class CarController : CarBehaviour
 {
-
+    public static CarController instance;
+    
     [Header("WALLBOUNCE")]
     [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")]
     [SerializeField] private float speedRetained = 0.7f;
@@ -26,7 +28,15 @@ public class CarController : CarBehaviour
 
     // INPUT VALUES
     private Vector2 stickValue;
-    
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
 
     private void Update()
     {
@@ -128,6 +138,14 @@ public class CarController : CarBehaviour
             }
                 
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Fodder"))
+        {
+            other.GetComponent<EnemyFoddler>().TakeDamage(10);
         }
     }
 }
