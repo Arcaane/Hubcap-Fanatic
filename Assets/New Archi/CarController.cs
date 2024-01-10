@@ -139,6 +139,11 @@ public class CarController : CarBehaviour
                 
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
+
+        if (other.gameObject.CompareTag("Cone"))
+        {
+            Destroy(other.gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

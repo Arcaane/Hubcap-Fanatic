@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class SpawnRessourcesManager : MonoBehaviour
+public class DeliveryRessourcesManager : MonoBehaviour
 {
+    private static DeliveryRessourcesManager _instance;
+    public static DeliveryRessourcesManager Instance => _instance;
+    
+    [Header("Setup Options Spawn")]
     public List<Transform> spawnPoints;
     public List<GameObject> prefabObjects;
     private int previousSpawnIndex = -1;
+    private bool canSpawn = true;
+
+    [Header("Setup Options Delivery")] 
+    public List<Transform> deliveryPoints;
 
     [Header("Debug Options")] 
     public bool enableGizmos;
@@ -20,16 +28,20 @@ public class SpawnRessourcesManager : MonoBehaviour
     {
         SpawnRandomObject();
     }
-
-    void SpawnRandomObject()
+    
+    void Awake()
     {
+        _instance = this;
+    }
+
+    public void SpawnRandomObject()
+    {
+        if (!canSpawn) return;
         Transform spawnPoint = GetRandomSpawnPoint();
         GameObject prefabToSpawn = prefabObjects[Random.Range(0, prefabObjects.Count)];
-
+        
         GameObject spawnedObject = Instantiate(prefabToSpawn, spawnPoint.position, Quaternion.identity);
-        actualObjectPick = spawnedObject;
         IPickupable pickupableComponent = spawnedObject.GetComponent<IPickupable>();
-
         if (pickupableComponent != null)
         { 
             previousSpawnIndex = spawnPoints.IndexOf(spawnPoint);
@@ -39,11 +51,15 @@ public class SpawnRessourcesManager : MonoBehaviour
             Debug.LogError("L'objet instancié ne contient pas de composant IPickupable.");
         }
     }
+
+    public void RemoveDelivery()
+    {
+        actualObjectPick = null;
+    }
     
     Transform GetRandomSpawnPoint()
     {
         int randomIndex;
-        
         do
         {
             randomIndex = Random.Range(0, spawnPoints.Count);
@@ -58,24 +74,40 @@ public class SpawnRessourcesManager : MonoBehaviour
         ClearSpawnPoints();
         if (spawnPointContainer == null)
         {
-            GameObject spawnPointsParent = new GameObject("SpawnPointFolder");
-            spawnPointsParent.transform.parent = transform;
-            spawnPointContainer = spawnPointsParent.transform;
+            spawnPointContainer = new GameObject("SpawnPointContainer").transform;
+            spawnPointContainer.transform.parent = transform;
         }
         
+        spawnPointContainer.position = transform.position;
+        
+        float halfSide = (numberOfPointsPerSide - 1) * distanceBetweenPoints / 2f;
+
         for (int i = 0; i < numberOfPointsPerSide; i++)
         {
             for (int j = 0; j < numberOfPointsPerSide; j++)
             {
-                Vector3 spawnPosition = new Vector3(i * distanceBetweenPoints, 0f, j * distanceBetweenPoints);
+                Vector3 spawnPosition = new Vector3(
+                    i * distanceBetweenPoints - halfSide + spawnPointContainer.position.x,
+                    spawnPointContainer.position.y,
+                    j * distanceBetweenPoints - halfSide + spawnPointContainer.position.z
+                );
+
                 Transform spawnPoint = new GameObject("SpawnPoint_" + i + "_" + j).transform;
                 spawnPoint.position = spawnPosition;
                 spawnPoint.parent = spawnPointContainer.transform;
                 spawnPoints.Add(spawnPoint);
             }
         }
-
         Debug.Log("Square spawn points created.");
+    }
+    
+    [ContextMenu("Reset Pos Vector Container")]
+    void ResetPosVectorContainer()
+    {
+        if (spawnPointContainer != null)
+        {
+            spawnPointContainer.position = transform.position;
+        }
     }
 
     [ContextMenu("Clear Spawn Points")]
