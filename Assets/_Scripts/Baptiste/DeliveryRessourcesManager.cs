@@ -57,7 +57,17 @@ public class DeliveryRessourcesManager : MonoBehaviour
             Instantiate(captureZone, randomSpawnPoint.position, Quaternion.identity);
         }
     }
+
+    public GameObject SpawnObject(Vector3 spawnPoint)
+    {
+        GameObject spawnedObject = Instantiate(prefabObjects[0], spawnPoint, Quaternion.identity);
+        actualObjectPick = spawnedObject;  // Pour Debug
+        return spawnedObject;
+    }
+
     
+    
+    /*
     public void SpawnRandomObject()
     {
         if (!canSpawn) return;
@@ -75,6 +85,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
             Debug.LogError("L'objet instancié ne contient pas de composant IPickupable.");
         }
     }
+    */
 
     public void RemoveDelivery()
     {
@@ -156,7 +167,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
         {
             actualObjectPick.GetComponent<IPickupable>().OnPickedUp();
         }
-        SpawnRandomObject();
+        //SpawnRandomObject();
     }
     void OnDrawGizmos()
     {
@@ -178,8 +189,4 @@ public class DeliveryRessourcesManager : MonoBehaviour
             }
         }
     }
-
-
-
-
 }

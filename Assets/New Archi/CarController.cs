@@ -142,7 +142,10 @@ public class CarController : CarBehaviour
 
         if (other.gameObject.CompareTag("Cone"))
         {
-            //TODO : Mettre le fait de faire tomber un objet.
+            if (CarPickableManager.Instance._pickableObjects.Count > 0)
+            {
+                CarPickableManager.Instance._pickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
+            } 
         }
     }
 

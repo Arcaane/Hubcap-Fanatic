@@ -46,7 +46,7 @@ public class Delivery : MonoBehaviour
                 }
 
                 CarPickableManager.Instance.RemovePickableObject(0);
-                DeliveryRessourcesManager.Instance.SpawnRandomObject();
+                //DeliveryRessourcesManager.Instance.SpawnRandomObject();
                 ResetLifeTime();
             }
             else

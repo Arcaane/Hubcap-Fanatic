@@ -9,6 +9,7 @@ public class CarPickableManager : MonoBehaviour
     public static CarPickableManager Instance => _instance;
 
     public Transform _pickableSocket;
+    public Transform worldSocket;
     public List<GameObject> _pickableObjects;
 
     public void Start()

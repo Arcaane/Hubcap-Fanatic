@@ -53,8 +53,10 @@ public class CapturedZone : MonoBehaviour
     private void GivePlayerReward()
     {
        Debug.Log("Player drop " + currencyToGive + " scraps!");
-       // TODO -> RewardManager.instance.()
-       Destroy(gameObject);
+       GameObject spawnedObject = DeliveryRessourcesManager.Instance.SpawnObject(CarPickableManager.Instance._pickableSocket.position);
+       CarPickableManager.Instance.AddPickableObject(spawnedObject);
+       spawnedObject.transform.parent = CarPickableManager.Instance._pickableSocket;
+       this.gameObject.SetActive(false); // TODO : Disable and re-enable the zone after delay
     }
 
     private void OnTriggerEnter(Collider other)
