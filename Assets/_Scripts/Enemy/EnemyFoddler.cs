@@ -123,7 +123,7 @@ namespace EnemyNamespace
                 case FoddlerState.Spawning: break;
                 case FoddlerState.FollowPlayer: ToFollow(); break;
                 case FoddlerState.AttackPlayer: ToAttack(); break;
-                case FoddlerState.Dead: Kill(); break;
+                case FoddlerState.Dead: OnDie(); break;
                 default: throw new ArgumentOutOfRangeException(nameof(nextState), nextState, null);
             }
 
@@ -182,7 +182,7 @@ namespace EnemyNamespace
             EnemyTakeDamage(damages);
         }
 
-        private void Kill() => OnDie();
+        //private void Kill() => OnDie();
 
         protected override void OnDie()
         {
