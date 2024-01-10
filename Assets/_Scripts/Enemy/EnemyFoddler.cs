@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-//using CarNameSpace;
 using ManagerNameSpace;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,6 +9,7 @@ namespace EnemyNamespace
 {
     public class EnemyFoddler : Enemy, IDamageable
     {
+        private Collider myCol;
         //Variables
         [Space] [Header("Foddler Section")] 
         [SerializeField] private Animator animator;
@@ -25,6 +25,8 @@ namespace EnemyNamespace
         void Start()
         {
             State = FoddlerState.Spawning;
+            myCol = GetComponent<SphereCollider>();
+            myCol.enabled = true;
             Spawn();
         }
         
@@ -72,20 +74,23 @@ namespace EnemyNamespace
             
             if (timer > 1.75f)
             {
+                if (timer > 3f)
+                {
+                    SwitchState(FoddlerState.FollowPlayer);
+                }
+                
                 if (isAttacking) return;
-                LaunchAttack();
+                LaunchAttackAnim();
             }
         }
 
-        private async void LaunchAttack()
+        private async void LaunchAttackAnim()
         {
             isAttacking = true;
             animator.SetBool("isAttack", isAttacking);
             int randAttack = Random.Range(0, 3);
             animator.SetFloat("RandomAttack", randAttack);
-            
             await Task.Yield();
-
             int animTime = 0;
             switch (randAttack)
             {
@@ -93,25 +98,8 @@ namespace EnemyNamespace
                 case 1: animTime = 1158; break;
                 case 2: animTime = 566; break;
             }
-            
-            
-            Debug.Log(animTime);
-            await Task.Delay(animTime);
-            
-            Debug.Log("Attack");
-            Collider[] cols = new Collider[1];
-            int count = Physics.OverlapSphereNonAlloc(transform.position + transform.forward * 1.5f + transform.up, 1.5f, cols, playerLayer);
-
-            if (count > 0)
-            {
-                //Debug.Log(cols[0].name);
-                //GameManager.instance.healthManager.TakeDamage(1); // TODO -  PLAYER TAKE DAMAGE
-            }
-
-            await Task.Delay((animTime / 4) - 100);
-            
-            timer = 0f;
-            SwitchState(FoddlerState.FollowPlayer);
+            await Task.Delay(animTime * 2);
+            animator.SetBool("isAttack", false);
         }
 
         private void DeadState()
@@ -149,6 +137,7 @@ namespace EnemyNamespace
 
         private void ToFollow()
         {
+            timer = 0f;
             isAttacking = false;
             animator.SetBool("isAttack", false);
         }
@@ -156,7 +145,6 @@ namespace EnemyNamespace
         protected override void Spawn()
         {
             base.Spawn();
-            
             //ragdollHandler = GetComponentsInChildren<Rigidbody>();
             
             // foreach (var t in ragdollHandler)
@@ -170,7 +158,6 @@ namespace EnemyNamespace
             //     
             //     t.isKinematic = true;
             // }
-            
             SwitchState(FoddlerState.FollowPlayer);
         }
         
@@ -195,15 +182,19 @@ namespace EnemyNamespace
             EnemyTakeDamage(damages);
         }
 
-        public void Kill() => OnDie();
+        private void Kill() => OnDie();
 
         protected override void OnDie()
         {
             base.OnDie();
-            EnableRagdoll();
+            
+            Debug.Log("ENEMY DIE");
+            SwitchState(FoddlerState.Dead);
+            myCol.enabled = false;
+            //EnableRagdoll();
         }
         
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             if (!Application.isPlaying) return;
           
@@ -227,15 +218,6 @@ namespace EnemyNamespace
                 }
             }
         }
-        
-        AnimatorClipInfo[] m_CurrentClipInfo;
-        void OnGUI()
-        {
-            //Output the current Animation name and length to the screen
-            m_CurrentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
-            //GUI.Label(new Rect(0, 0, 200, 20),  "Clip Name : " + m_CurrentClipInfo[0].clip.length);
-            //GUI.Label(new Rect(0, 30, 200, 20),  "Clip Length : " + m_CurrentClipInfo[0].clip.name);
-        }
     }
 }
 
@@ -248,9 +230,7 @@ public enum FoddlerState
 }
 
 public static class ExtensionMethods {
- 
     public static float Remap (this float value, float from1, float to1, float from2, float to2) {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
-   
 }

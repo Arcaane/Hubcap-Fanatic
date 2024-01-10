@@ -113,9 +113,15 @@ public class CarController : CarBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
+        if (other.gameObject.CompareTag("Fodder"))
+        {
+            //other.gameObject.GetComponent<EnemyFoddler>().TakeDamage(2);
+            Debug.Log("ENEMY DIE");
+        }
+        
         if (other.gameObject.CompareTag("Wall"))
         {
-            Debug.Log(other.relativeVelocity.magnitude);
+            //Debug.Log(other.relativeVelocity.magnitude);
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
             {
                     
@@ -143,10 +149,7 @@ public class CarController : CarBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Fodder"))
-        {
-            other.GetComponent<EnemyFoddler>().TakeDamage(10);
-        }
+        if (other.CompareTag("Fodder")) other.GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(rb.velocity.magnitude));
     }
 }
 
