@@ -1532,6 +1532,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   steeringSpeed: 50
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
+  maxRotation: 50
   dampeningMultiplier: 0.25
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
