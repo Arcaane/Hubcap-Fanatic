@@ -10,8 +10,18 @@ public class DeliveryRessourcesManager : MonoBehaviour
     
     [Header("Setup Options Spawn")]
     public List<Transform> spawnPoints;
+    
+    [Header("Capture Zone Options")]
+    public GameObject captureZone;
+    public int numberOfCaptureZones;
+    [Range(0,65565)]
+    public int randomSeed; 
+    
+
+
     public List<GameObject> prefabObjects;
     private int previousSpawnIndex = -1;
+    private int selectedSpawnIndex = -1;
     private bool canSpawn = true;
 
     [Header("Setup Options Delivery")] 
@@ -24,16 +34,30 @@ public class DeliveryRessourcesManager : MonoBehaviour
     private Transform spawnPointContainer;
     private GameObject actualObjectPick;
 
-    void Start()
-    {
-        SpawnRandomObject();
-    }
-    
     void Awake()
     {
         _instance = this;
     }
+    
+    void Start()
+    {
+        SpawnCaptureZone(randomSeed);
+    }
+    
 
+
+    void SpawnCaptureZone(int seed)
+    {
+        Random.InitState(seed);
+
+        for (int i = 0; i < numberOfCaptureZones; i++)
+        {
+            Transform randomSpawnPoint = GetRandomSpawnPoint();
+            selectedSpawnIndex = spawnPoints.IndexOf(randomSpawnPoint); 
+            Instantiate(captureZone, randomSpawnPoint.position, Quaternion.identity);
+        }
+    }
+    
     public void SpawnRandomObject()
     {
         if (!canSpawn) return;
@@ -134,14 +158,28 @@ public class DeliveryRessourcesManager : MonoBehaviour
         }
         SpawnRandomObject();
     }
-    
-
-    private void OnDrawGizmos()
+    void OnDrawGizmos()
     {
-        if (!enableGizmos) return;
-        foreach (Transform sp in spawnPoints)
+        if (!enableGizmos || spawnPoints.Count == 0 || numberOfCaptureZones <= 0) return;
+
+        Random.InitState(randomSeed);
+
+        // Iterate through the capture zones
+        for (int i = 0; i < numberOfCaptureZones; i++)
         {
-            Gizmos.DrawSphere(sp.position, 0.5f);
+            // Ensure that selectedSpawnIndex is within the valid range
+            selectedSpawnIndex = Random.Range(0, spawnPoints.Count);
+
+            // Visualize spawn points
+            foreach (Transform sp in spawnPoints)
+            {
+                Gizmos.color = (sp == spawnPoints[selectedSpawnIndex]) ? Color.red : Color.green;
+                Gizmos.DrawSphere(sp.position, 2f);
+            }
         }
     }
+
+
+
+
 }

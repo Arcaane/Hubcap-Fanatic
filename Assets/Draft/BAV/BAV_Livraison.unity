@@ -6567,6 +6567,8 @@ MonoBehaviour:
   - {fileID: 1850564100}
   - {fileID: 518312842}
   - {fileID: 415926433}
+  captureZone: {fileID: 3147599529880929873, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
+  numberOfCaptureZones: 3
   prefabObjects:
   - {fileID: 7973088269524434984, guid: e93994a37130d18439bd26dbc328a999, type: 3}
   deliveryPoints:
@@ -18426,7 +18428,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.8333333
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: c67b6d0522863044485b9f03860d6699, type: 2}
   m_BuildHeightMesh: 0

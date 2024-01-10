@@ -53,7 +53,7 @@ MonoBehaviour:
   isCapturing: 0
   currencyToGive: 0
   captureDuration: 15
-  percentReduceCaptureSizeIfPlayerGoOut: 10
+  percentReduceCaptureSizeIfPlayerGoOut: 0
   debugImage: {fileID: 4368797254109890857}
   rect: {fileID: 1452558080345348121}
   plane: {fileID: 321853116621817682}

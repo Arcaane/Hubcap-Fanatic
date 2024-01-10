@@ -142,7 +142,7 @@ public class CarController : CarBehaviour
 
         if (other.gameObject.CompareTag("Cone"))
         {
-            Destroy(other.gameObject);
+            //TODO : Mettre le fait de faire tomber un objet.
         }
     }
 
