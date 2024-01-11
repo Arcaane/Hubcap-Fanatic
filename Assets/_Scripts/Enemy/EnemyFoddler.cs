@@ -21,12 +21,11 @@ namespace EnemyNamespace
         [SerializeField] private LayerMask playerLayer;
         public float timer;
         public bool isAttacking = false;
+        [SerializeField] private Transform puddleSocket;
         
         void Start()
         {
             State = FoddlerState.Spawning;
-            myCol = GetComponent<SphereCollider>();
-            myCol.enabled = true;
             Spawn();
         }
         
@@ -104,6 +103,7 @@ namespace EnemyNamespace
 
         private void DeadState()
         {
+            return;
             // timer & au bout de 10 secondes dépop
             // Lerp du mat opacity 255 -> 0
             
@@ -123,7 +123,7 @@ namespace EnemyNamespace
                 case FoddlerState.Spawning: break;
                 case FoddlerState.FollowPlayer: ToFollow(); break;
                 case FoddlerState.AttackPlayer: ToAttack(); break;
-                case FoddlerState.Dead: OnDie(); break;
+                case FoddlerState.Dead: break;
                 default: throw new ArgumentOutOfRangeException(nameof(nextState), nextState, null);
             }
 
@@ -187,11 +187,10 @@ namespace EnemyNamespace
         protected override void OnDie()
         {
             base.OnDie();
-            
-            Debug.Log("ENEMY DIE");
             SwitchState(FoddlerState.Dead);
-            myCol.enabled = false;
-            //EnableRagdoll();
+            Debug.Log("ENEMY DIE");
+            Pooler.instance.DestroyInstance(Key.OBJ_Foddler, transform);
+            Pooler.instance.SpawnTemporaryInstance(Key.FX_Puddle, puddleSocket.position, puddleSocket.rotation, 8f);
         }
         
         private void OnDrawGizmosSelected()

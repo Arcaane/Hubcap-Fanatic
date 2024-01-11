@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3833,6 +3833,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Foddler_Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 477833238134151685, guid: cc056a0c8f010554e90a7ca9d52c1d27, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1513407453824999566, guid: cc056a0c8f010554e90a7ca9d52c1d27, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5395,7 +5399,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &857470896
 Transform:
   m_ObjectHideFlags: 0
@@ -5425,16 +5429,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carTransform: {fileID: 442936549}
   enemyPrefab: {fileID: 477833238134151685, guid: cc056a0c8f010554e90a7ca9d52c1d27, type: 3}
-  enemyPerWaveBoundsCount: {x: 4, y: 7}
+  enemyPerWaveBoundsCount: {x: 1, y: 1}
   maxDistFromSpawner: 5
   spawningInterval: 2
   timer: 10
-  SpawningShape: 0
+  SpawningShape: 2
   spawnPointsCount: 55
   spawningRadius: 24.18
-  spawningPointPerSideCount: 7
+  spawningPointPerSideCount: 20
   height: 30
-  width: 20
+  width: 30
+  addAngleToRectange: -15
+  spawningPointPerSideForCameraBounds: 0
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
+  offset: {x: -4, y: 0, z: 2}
+  heightOffset: 9
+  widthOffset: 16
+  stopSpawn: 1
 --- !u!1 &882196256
 GameObject:
   m_ObjectHideFlags: 0
@@ -6125,7 +6138,7 @@ Transform:
   m_GameObject: {fileID: 979535945}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.3, y: 1.44, z: -34.6}
+  m_LocalPosition: {x: 16.2, y: 1.2, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9268,7 +9281,12 @@ MonoBehaviour:
   - key: 3
     pool:
       prefab: {fileID: 477833238134151685, guid: cc056a0c8f010554e90a7ca9d52c1d27, type: 3}
-      numberOfInstances: 150
+      numberOfInstances: 80
+      returnType: 0
+  - key: 0
+    pool:
+      prefab: {fileID: 112392411294098663, guid: c79bba781026f5e4b805247059f8929d, type: 3}
+      numberOfInstances: 50
       returnType: 0
 --- !u!1 &1413573726
 GameObject:
@@ -9545,7 +9563,7 @@ GameObject:
   - component: {fileID: 1450149039}
   - component: {fileID: 1450149043}
   - component: {fileID: 1450149044}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

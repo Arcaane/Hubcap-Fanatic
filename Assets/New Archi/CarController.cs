@@ -22,7 +22,7 @@ public class CarController : CarBehaviour
     [SerializeField] private GameObject fxBounce;
 
     
-    private float dirCam;
+    [HideInInspector] public float dirCam;
     public Transform cameraHolder;
     
 
@@ -63,7 +63,7 @@ public class CarController : CarBehaviour
         ApplyWheelForces();
         
         // CAMERA
-        cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5*Time.fixedDeltaTime);
+        cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
     }
 
     
