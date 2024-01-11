@@ -132,7 +132,7 @@ public class CarController : CarBehaviour
             other.GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(rb.velocity.magnitude));
             CarHealthManager.instance.TakeDamage(1); // Infliger 1 dégats
             if (brakeForce > 1f) return;
-            //brakeForce += 0.025f; // Ralentir un peu le joueur TODO - Modity method
+            brakeForce += 0.025f; // Ralentir un peu le joueur TODO - Modity method
         }
     }
 }
