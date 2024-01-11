@@ -1,12 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using EnemyNamespace;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class CarController : CarBehaviour
 {
@@ -20,7 +13,6 @@ public class CarController : CarBehaviour
     [Tooltip("L'angle Minimum ( 1 = 90° ) pour WallBounce")]
     [SerializeField] private float minAngleToBounce = 0.3f;
     [SerializeField] private GameObject fxBounce;
-
     
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
@@ -36,11 +28,9 @@ public class CarController : CarBehaviour
             instance = this;
         }
     }
-
-
+    
     private void Update()
     {
-
         rotationValue = stickValue.x;
         
         OnMove();
@@ -49,19 +39,13 @@ public class CarController : CarBehaviour
         if (driftBrake && accelForce < 0.1f)
         {
             driftBrake = false;
-            
         }
-
-        
     }
     
     void FixedUpdate()
     {
-        
         dirCam = Mathf.Lerp(dirCam, rb.velocity.magnitude,Time.fixedDeltaTime*3);
-        
         ApplyWheelForces();
-        
         // CAMERA
         cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
     }
@@ -86,10 +70,6 @@ public class CarController : CarBehaviour
         if (context.performed)
         {
             brakeForce = context.ReadValue<float>();
-            if (stickValue.x > 0.6f || stickValue.x < -0.6f)
-            {
-                driftBrake = true;
-            }
         }
         else
         {
@@ -108,18 +88,17 @@ public class CarController : CarBehaviour
             stickValue = Vector2.zero;
         }
     }
+
+    public void XButton(InputAction.CallbackContext ctx)
+    {
+        driftBrake = true;
+    }
     #endregion
     
     
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Fodder"))
-        {
-            //other.gameObject.GetComponent<EnemyFoddler>().TakeDamage(2);
-            Debug.Log("ENEMY DIE");
-        }
-        
-        if (other.gameObject.CompareTag("Wall"))
+        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Cone"))
         {
             //Debug.Log(other.relativeVelocity.magnitude);
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
@@ -135,8 +114,7 @@ public class CarController : CarBehaviour
                 {
                     if (wheels[i].steeringFactor > 0)
                     {
-                        wheels[i].wheelVisual.localRotation =
-                            wheels[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        wheels[i].wheelVisual.localRotation = wheels[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
                     }
                 }
 
@@ -149,7 +127,13 @@ public class CarController : CarBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Fodder")) other.GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(rb.velocity.magnitude));
+        if (other.CompareTag("Fodder")) // Foddler Collision
+        {
+            other.GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(rb.velocity.magnitude));
+            CarHealthManager.instance.TakeDamage(1); // Infliger 1 dégats
+            if (brakeForce > 1f) return;
+            //brakeForce += 0.025f; // Ralentir un peu le joueur TODO - Modity method
+        }
     }
 }
 

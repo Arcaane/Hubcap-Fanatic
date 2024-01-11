@@ -94,11 +94,14 @@ public class CapturedZone : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.color = Color.red;
         Handles.DrawWireDisc(transform.position, Vector3.up, currentSize);
     }
+#endif
+    
 }
 
 public enum ZoneState

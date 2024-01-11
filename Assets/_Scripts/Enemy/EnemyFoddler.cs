@@ -70,28 +70,39 @@ namespace EnemyNamespace
             // Attack en direction du joueur au moment ou il trigger l'attaque
             // Si voiture présente après l'anim dans un radius -> Apply dégats
             // Switch state
-            
+
+            var tempTimer = 1.5f;
             if (timer > 1.75f)
             {
-                if (timer > 3f)
+                if (timer > tempTimer)
                 {
+                    if (Physics.OverlapSphereNonAlloc(transform.position, 2.5f, new Collider[1], playerLayer) > 0)
+                    {
+                        CarHealthManager.instance.TakeDamage(1);
+                    }
                     SwitchState(FoddlerState.FollowPlayer);
                 }
                 
                 if (isAttacking) return;
-                LaunchAttackAnim();
+                int randAttack = Random.Range(0, 3);
+                switch (randAttack)
+                {
+                    case 0: tempTimer = (float)(658 * 2) / 1000; break;
+                    case 1: tempTimer = (float)(1158 * 2) / 1000; break;
+                    case 2: tempTimer = (float) 566 * 2 / 1000; break;
+                }
+                LaunchAttackAnim(randAttack);
             }
         }
 
-        private async void LaunchAttackAnim()
+        private async void LaunchAttackAnim(int i)
         {
             isAttacking = true;
             animator.SetBool("isAttack", isAttacking);
-            int randAttack = Random.Range(0, 3);
-            animator.SetFloat("RandomAttack", randAttack);
+            animator.SetFloat("RandomAttack", i);
             await Task.Yield();
             int animTime = 0;
-            switch (randAttack)
+            switch (i)
             {
                 case 0: animTime = 658; break;
                 case 1: animTime = 1158; break;
@@ -190,18 +201,19 @@ namespace EnemyNamespace
             SwitchState(FoddlerState.Dead);
             Debug.Log("ENEMY DIE");
             Pooler.instance.DestroyInstance(Key.OBJ_Foddler, transform);
-            Pooler.instance.SpawnTemporaryInstance(Key.FX_Puddle, puddleSocket.position, puddleSocket.rotation, 8f);
+            Pooler.instance.SpawnTemporaryInstance(Key.FX_Puddle, puddleSocket.position, puddleSocket.rotation, 15f);
         }
         
-        private void OnDrawGizmosSelected()
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
         {
-            if (!Application.isPlaying) return;
+            //if (!Application.isPlaying) return;
           
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position + transform.forward * 1.5f + transform.up, 1.5f);
+            //Gizmos.color = Color.blue;
+            //Gizmos.DrawWireSphere(transform.position + transform.forward * 1.5f + transform.up, 1.5f);
             
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, 1.5f);
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(transform.position, 2.5f);
             
             if (agent.destination != null)
             {
@@ -217,6 +229,7 @@ namespace EnemyNamespace
                 }
             }
         }
+#endif
     }
 }
 

@@ -1,6 +1,7 @@
 using System;
 using ManagerNameSpace;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
@@ -50,7 +51,6 @@ public class EnemySpawner : MonoBehaviour
     void Update()
     {
         if (stopSpawn) return;
-        
         
         timer += Time.deltaTime;
         if (timer > spawningInterval)
@@ -215,6 +215,11 @@ public class EnemySpawner : MonoBehaviour
             Gizmos.color =  Color.green;
             Gizmos.DrawSphere(positions[i] /*- car.rb.velocity.normalized * car.dirCam * 0.5f*/, 1);
         }
+    }
+    
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(50, 50, 200*3, 100*3), "Press F1 to reload scene");
     }
 }
 

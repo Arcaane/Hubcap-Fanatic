@@ -19,6 +19,11 @@ public class PoliceCarBehavior : CarBehaviour
     
     private void Update()
     {
+        if (target == null)
+        {
+            target = CarController.instance.transform;
+        }
+        
         float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
             new Vector2(target.position.x, target.position.z) -
             new Vector2(transform.position.x, transform.position.z));

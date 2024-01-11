@@ -129,7 +129,10 @@ namespace ManagerNameSpace
         FX_Puddle,
         FX_FluidSplash,
         OBJ_CarProjectile,
-        OBJ_Foddler
+        OBJ_Foddler,
+        OBJ_PoliceCarAccurate,
+        OBJ_PoliceSlowCar,
+        OBJ_PoliceStupidCar
     }
 
     public enum ReturnType
