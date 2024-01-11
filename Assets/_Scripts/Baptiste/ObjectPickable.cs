@@ -5,6 +5,7 @@ using UnityEngine;
 public class ObjectPickable : MonoBehaviour, IPickupable
 {
     private bool isPickable = true;
+    private float timeBeforePickable = 2f;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -18,8 +19,6 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     public void OnPickedUp()
     {
         gameObject.GetComponent<SphereCollider>().enabled = false;
-
-        CarPickableManager.Instance.SetPickableSocketPosition(transform);
         transform.parent = CarPickableManager.Instance._pickableSocket;
         isPickable = false; 
     }
@@ -27,8 +26,9 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     public void OnDrop()
     {
         transform.parent = CarPickableManager.Instance.worldSocket;
-        CarPickableManager.Instance.RemovePickableObject(0);
-        StartCoroutine(EnablePickupAfterDelay(2f));
+        gameObject.GetComponent<SphereCollider>().enabled = false;
+        CarPickableManager.Instance.RemoveAllPickables();
+        StartCoroutine(EnablePickupAfterDelay(timeBeforePickable));
     }
 
     IEnumerator EnablePickupAfterDelay(float delay)

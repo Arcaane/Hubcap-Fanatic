@@ -29474,6 +29474,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1621799768}
     m_Modifications:
+    - target: {fileID: 2192295239481418048, guid: 4e6aeaf922eac4a418da53817913d621, type: 3}
+      propertyPath: lifeTime
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 5502598314152326415, guid: 4e6aeaf922eac4a418da53817913d621, type: 3}
       propertyPath: m_Name
       value: DeliveryPoint

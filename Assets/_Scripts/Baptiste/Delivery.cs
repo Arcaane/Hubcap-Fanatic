@@ -7,15 +7,34 @@ public class Delivery : MonoBehaviour
 {
     [SerializeField] private float lifeTime = 50.0f;
     [SerializeField] private float cooldownDelivery = 4.0f;
-    private bool canBeDelivered = false;
+    private bool canBeDelivered = true;
     
     private float currentTime;
     public float debugCurrentTime;
 
+
     private void Start()
     {
+        canBeDelivered = true;
     }
 
+    void Update()
+    {
+        debugCurrentTime = currentTime; //Debug Time
+        currentTime += Time.deltaTime;
+        if(currentTime >= cooldownDelivery)
+        {
+            canBeDelivered = true;
+            Debug.Log("Delivery can be done :" + gameObject.name);
+        }
+        
+        if (currentTime >= lifeTime)
+        {
+            currentTime = 0f;
+            Debug.Log("All the members of the delivery location are dead.");    
+        }
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -24,13 +43,11 @@ public class Delivery : MonoBehaviour
             {
                 Debug.Log("Delivery done!");
             
-                // Check if the first pickable object is not null before accessing its components
                 GameObject firstPickableObject = CarPickableManager.Instance._pickableObjects[0];
                 if (firstPickableObject != null)
                 {
                     IPickupable pickupableComponent = firstPickableObject.GetComponent<IPickupable>();
                 
-                    // Ensure that the pickupableComponent is not null before calling OnDelivered
                     if (pickupableComponent != null)
                     {
                         pickupableComponent.OnDelivered();
@@ -57,24 +74,9 @@ public class Delivery : MonoBehaviour
     }
 
     
-    void Update()
-    {
-        debugCurrentTime = currentTime;
-        currentTime += Time.deltaTime;
-        if(currentTime >= cooldownDelivery)
-        {
-            canBeDelivered = false;
-        }
-        
-        if (currentTime >= lifeTime)
-        {
-            Debug.Log("All the members of the delivery location are dead.");    
-        }
-    }
-    
     void ResetLifeTime()
     {
-        canBeDelivered = true;
+        canBeDelivered = false;
         currentTime = 0.0f;
     }
 }

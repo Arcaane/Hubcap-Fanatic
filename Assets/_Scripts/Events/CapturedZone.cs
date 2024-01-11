@@ -10,13 +10,18 @@ public class CapturedZone : MonoBehaviour
     [SerializeField] private bool isCapturing;
     [SerializeField] private int currencyToGive;
     [SerializeField] private float captureDuration = 20f;
+    [SerializeField] private float reactivateDelay = 5f; 
     [SerializeField] private float percentReduceCaptureSizeIfPlayerGoOut = 10;
     [SerializeField] private Image debugImage;
     [SerializeField] private RectTransform rect;
     [SerializeField] private Transform plane;
+    
+    [Header("Reward Type")]
+    [SerializeField] private RewardType rewardType;
 
     private SphereCollider collider;
     [SerializeField] private float timer;
+    [SerializeField] private float timeSinceCaptured = 0f;
     
     private void Start()
     {
@@ -32,15 +37,37 @@ public class CapturedZone : MonoBehaviour
 
     private void Update()
     {
-        if (currentZoneState == ZoneState.CapturedOrNotAccesible) return;
-        if (isCapturing)
+        if (currentZoneState == ZoneState.CapturedOrNotAccesible)
         {
-            timer -= Time.deltaTime;
-            debugImage.fillAmount = 1 - (timer / captureDuration);
-            if (timer < 0)
+            timeSinceCaptured += Time.deltaTime;
+            Debug.Log("Hello");
+            if (timeSinceCaptured >= reactivateDelay)
             {
-                CaptureZone();
+                EnableTower();
+                currentZoneState = ZoneState.NotCaptured;
+                currentSize = initSize;
+                timer = captureDuration;
+                isCapturing = false;
+                debugImage.fillAmount = 0;
+
+
+                collider.radius = currentSize;
+                rect.sizeDelta = new Vector2(currentSize * 2, currentSize * 2);
+                plane.localScale = new Vector3(currentSize / 4.25f, currentSize / 4.25f, currentSize / 4.25f);
+                timeSinceCaptured = 0f;
             }
+        }
+        else
+        {
+            if (isCapturing)
+            {
+                timer -= Time.deltaTime;
+                debugImage.fillAmount = 1 - (timer / captureDuration);
+                if (timer < 0)
+                {
+                    CaptureZone();
+                }
+            }    
         }
     }
 
@@ -53,10 +80,46 @@ public class CapturedZone : MonoBehaviour
     private void GivePlayerReward()
     {
        Debug.Log("Player drop " + currencyToGive + " scraps!");
-       GameObject spawnedObject = DeliveryRessourcesManager.Instance.SpawnObject(CarPickableManager.Instance._pickableSocket.position);
-       CarPickableManager.Instance.AddPickableObject(spawnedObject);
-       spawnedObject.transform.parent = CarPickableManager.Instance._pickableSocket;
-       this.gameObject.SetActive(false); // TODO : Disable and re-enable the zone after delay
+       switch (rewardType)
+       {
+           case RewardType.IncrementValue:
+               GiveIncrementValue(ref currencyToGive);
+               break;
+              case RewardType.ObjectDelivery:
+                  GivePlayerRessources();
+                    break;
+       }
+    }
+
+    private void GiveIncrementValue(ref int value)
+    {
+        value++;
+    }
+
+    private void GivePlayerRessources()
+    {
+        GameObject spawnedObject = DeliveryRessourcesManager.Instance.SpawnObject(CarPickableManager.Instance._pickableSocket.position);
+        CarPickableManager.Instance.AddPickableObject(spawnedObject);
+        spawnedObject.transform.parent = CarPickableManager.Instance._pickableSocket;
+        DisableTower();
+    }
+    
+    private void EnableTower()
+    {
+        gameObject.GetComponent<SphereCollider>().enabled = true;
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+    }
+
+    private void DisableTower()
+    {
+        gameObject.GetComponent<SphereCollider>().enabled = false;
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -107,4 +170,10 @@ public enum ZoneState
 {
     NotCaptured,
     CapturedOrNotAccesible
+}
+
+public enum RewardType
+{
+    ObjectDelivery,
+    IncrementValue
 }

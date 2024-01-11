@@ -36,6 +36,23 @@ public class CarPickableManager : MonoBehaviour
     {
         _pickableObjects.Clear();
     }
+    
+    public void RemoveAllPickables()
+    {
+        if(_pickableObjects.Count > 1)
+        {
+            RemoveAllPickableObjects();
+        }
+        else
+        {
+            RemovePickableObject(0);
+        }
+    }
+    
+    public void SetParentTransform(GameObject pickableObject, Transform parentTransform)
+    {
+        pickableObject.transform.parent = parentTransform;
+    }
 
     public void SetPickableSocketPosition(Transform pickableSocket)
     {
