@@ -19,8 +19,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     public void OnPickedUp()
     {
         gameObject.GetComponent<SphereCollider>().enabled = false;
-        transform.parent = CarPickableManager.Instance._pickableSocket;
-        isPickable = false; 
+        transform.parent = CarPickableManager.Instance._pickableSocket; 
     }
     
     public void OnDrop()
@@ -35,7 +34,6 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     {
         yield return new WaitForSeconds(delay);
         gameObject.GetComponent<SphereCollider>().enabled = true;
-        isPickable = true;
     }
 
     public void OnDelivered()

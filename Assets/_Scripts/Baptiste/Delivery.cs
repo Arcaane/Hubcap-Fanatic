@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Delivery : MonoBehaviour
@@ -8,6 +9,11 @@ public class Delivery : MonoBehaviour
     [SerializeField] private float lifeTime = 50.0f;
     [SerializeField] private float cooldownDelivery = 4.0f;
     private bool canBeDelivered = true;
+    int deliveryCount = 0;
+
+    
+    [SerializeField] private TextMeshPro deliveryCountText;
+
     
     private float currentTime;
     public float debugCurrentTime;
@@ -22,16 +28,10 @@ public class Delivery : MonoBehaviour
     {
         debugCurrentTime = currentTime; //Debug Time
         currentTime += Time.deltaTime;
-        if(currentTime >= cooldownDelivery)
+        if (currentTime >= cooldownDelivery)
         {
+            currentTime = cooldownDelivery;
             canBeDelivered = true;
-            Debug.Log("Delivery can be done :" + gameObject.name);
-        }
-        
-        if (currentTime >= lifeTime)
-        {
-            currentTime = 0f;
-            Debug.Log("All the members of the delivery location are dead.");    
         }
     }
     
@@ -51,6 +51,7 @@ public class Delivery : MonoBehaviour
                     if (pickupableComponent != null)
                     {
                         pickupableComponent.OnDelivered();
+                        UpdateDeliveryCount();
                     }
                     else
                     {
@@ -71,6 +72,12 @@ public class Delivery : MonoBehaviour
                 Debug.Log("No delivery to do.");
             }
         }
+    }
+    
+    void UpdateDeliveryCount()
+    {
+        deliveryCount++;
+        deliveryCountText.text = deliveryCount.ToString();
     }
 
     

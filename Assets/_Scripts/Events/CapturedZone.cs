@@ -8,6 +8,7 @@ public class CapturedZone : MonoBehaviour
     [SerializeField] private float currentSize = 40;
     [SerializeField] public ZoneState currentZoneState;
     [SerializeField] private bool isCapturing;
+    public bool IsCapturing { get { return isCapturing; } }
     [SerializeField] private int currencyToGive;
     [SerializeField] private float captureDuration = 20f;
     [SerializeField] private float reactivateDelay = 5f; 
@@ -161,8 +162,10 @@ public class CapturedZone : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        #if UNITY_EDITOR
         Handles.color = Color.red;
         Handles.DrawWireDisc(transform.position, Vector3.up, currentSize);
+        #endif
     }
 }
 

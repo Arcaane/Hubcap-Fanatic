@@ -1697,6 +1697,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1252271183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &165339758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 165339760}
+  - component: {fileID: 165339759}
+  m_Layer: 0
+  m_Name: DebugADestroy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &165339759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165339758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2589929442a768d4a9d5e937f5296053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deliveryManager: {fileID: 529005579}
+--- !u!4 &165339760
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165339758}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 284.2, y: 5.8268294, z: -160.8981}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &171800255
 GameObject:
   m_ObjectHideFlags: 0
@@ -6568,8 +6613,10 @@ MonoBehaviour:
   - {fileID: 518312842}
   - {fileID: 415926433}
   captureZone: {fileID: 3147599529880929873, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-  numberOfCaptureZones: 3
+  numberOfCapturesAtStart: 3
   randomSeed: 0
+  spawnInterval: 5
+  timeSinceLastSpawn: 0
   prefabObjects:
   - {fileID: 7973088269524434984, guid: e93994a37130d18439bd26dbc328a999, type: 3}
   deliveryPoints:
@@ -10490,7 +10537,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1712794288596421642, guid: 4e6aeaf922eac4a418da53817913d621, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4e6aeaf922eac4a418da53817913d621, type: 3}
 --- !u!4 &824237488 stripped
 Transform:
@@ -14172,7 +14222,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1712794288596421642, guid: 4e6aeaf922eac4a418da53817913d621, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4e6aeaf922eac4a418da53817913d621, type: 3}
 --- !u!4 &1176800145 stripped
 Transform:
@@ -29525,7 +29578,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1712794288596421642, guid: 4e6aeaf922eac4a418da53817913d621, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4e6aeaf922eac4a418da53817913d621, type: 3}
 --- !u!4 &7244156739226771943 stripped
 Transform:
@@ -29716,6 +29772,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2106133911537970450, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
       propertyPath: cameraHolder
       value: 
@@ -29728,7 +29788,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Cone
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7559086803693417605, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1901270512298757076, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
@@ -30084,3 +30145,4 @@ SceneRoots:
   - {fileID: 1920088096}
   - {fileID: 897638460}
   - {fileID: 529005580}
+  - {fileID: 165339760}
