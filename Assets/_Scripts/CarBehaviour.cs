@@ -17,7 +17,8 @@ public class CarBehaviour : MonoBehaviour
     
     [Header("WHEEL")] 
     [SerializeField] private float wheelMass = 0.1f;
-    [SerializeField] private float maxSpeed = 25f;
+    [SerializeField] public float maxSpeed = 25f;
+    [SerializeField] public float targetSpeed = 25f;
     [SerializeField] private AnimationCurve accelerationBySpeedFactor;
     [SerializeField] private float acceleration = 12f;
     [SerializeField] private float braking = 12f;
@@ -42,7 +43,7 @@ public class CarBehaviour : MonoBehaviour
     
 
     // INPUT VALUES
-    private Vector2 stickValue;
+    
     public float accelForce, brakeForce;
     public bool driftBrake;
 
@@ -79,9 +80,12 @@ public class CarBehaviour : MonoBehaviour
             {
                 driftBrake = false;
                 driftEngaged = false;
+                Debug.Log("ENDED");
                 
             }
         }
+        
+        
     }
     
     public void ApplyWheelForces()
@@ -113,10 +117,7 @@ public class CarBehaviour : MonoBehaviour
                          wheel.transform.forward * drivingForce ;
             
             // DEBUG RAYS
-            Debug.DrawRay(wheel.transform.position,wheel.transform.up * suspension,Color.green);
-            Debug.DrawRay(wheel.transform.position,wheel.transform.right * directionalDamp,Color.red);
-            Debug.DrawRay(wheel.transform.position,wheel.transform.forward * drivingForce,Color.blue);
-            Debug.DrawRay(wheel.transform.position,wheelForce,Color.white);
+            
         }
 
         return wheelForce;
@@ -152,9 +153,11 @@ public class CarBehaviour : MonoBehaviour
     {
         float force = 0;
 
-        float factor = rb.velocity.magnitude / maxSpeed;
+        float factor = rb.velocity.magnitude / targetSpeed;
         
         float accel = accelForce * acceleration * accelerationBySpeedFactor.Evaluate(factor) * wheel.drivingFactor * (driftBrake ? accelMultiplier : 1);
+        
+        
 
         float brake = 0;
         if (Vector3.Dot(rb.velocity, transform.forward) > 0.1f)
