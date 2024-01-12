@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using ManagerNameSpace;
 using UnityEngine;
 
 public class PoliceCarBehavior : CarBehaviour
@@ -16,6 +14,9 @@ public class PoliceCarBehavior : CarBehaviour
     [Tooltip("L'angle Minimum ( 1 = 90° ) pour WallBounce")]
     [SerializeField] private float minAngleToBounce = 0.3f;
     [SerializeField] private GameObject fxBounce;
+
+    [SerializeField] private Key enemyKey;
+    [SerializeField] private int hp = 100;
     
     private void Update()
     {
@@ -48,8 +49,7 @@ public class PoliceCarBehavior : CarBehaviour
             //Debug.Log(other.relativeVelocity.magnitude);
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
             {
-                    
-                Vector2 reflect = Vector2.Reflect(new Vector2(transform.forward.x, transform.forward.z),
+                Vector2 reflect = Vector2.Reflect(new Vector2(transform.forward.x, transform.forward.z), 
                     new Vector2(other.contacts[0].normal.x,other.contacts[0].normal.z));
                 transform.forward = new Vector3(reflect.x,0, reflect.y);
                 rb.velocity = transform.forward * other.relativeVelocity.magnitude * speedRetained;
@@ -66,8 +66,20 @@ public class PoliceCarBehavior : CarBehaviour
 
                 Destroy(Instantiate(fxBounce, other.contacts[0].point, Quaternion.LookRotation(other.contacts[0].normal)),2);
             }
-                
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
+        }
+
+        if (other.gameObject.CompareTag("Cone")) hp -= 100;
+        if (other.gameObject.CompareTag("Wall")) hp -= 25;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            hp -= 25;
+            CarHealthManager.instance.TakeDamage(20);
+        }
+        
+        if (hp < 1)
+        {
+            Pooler.instance.DestroyInstance(enemyKey, this.transform);
         }
     }
 }

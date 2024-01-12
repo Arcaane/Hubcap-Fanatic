@@ -103,7 +103,7 @@ namespace ManagerNameSpace
                     AddInstance(pool.Value);
                 }
 
-                Debug.Log(pool.Key + " Has " + pool.Value.queue.Count);
+                //Debug.Log(pool.Key + " Has " + pool.Value.queue.Count);
             }
         }
     }

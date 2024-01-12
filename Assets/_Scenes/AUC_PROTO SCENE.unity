@@ -909,6 +909,164 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213199590}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &223328827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 223328829}
+  - component: {fileID: 223328828}
+  - component: {fileID: 223328830}
+  m_Layer: 0
+  m_Name: WaveAbility
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!120 &223328828
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223328827}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4a852b2c8995cc44281c055dd5101eda, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions: []
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 5
+    alignment: 1
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 0
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
+--- !u!4 &223328829
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223328827}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 6.800003, y: 0.1, z: -3.400002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 414816149}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &223328830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223328827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0029ec55f74658d42b24266933947579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointsCount: 50
+  maxRadius: 10
+  speed: 35
+  startWidth: 3
+  force: 0
+  abilityDamage: 10
+  hitByAbility:
+    serializedVersion: 2
+    m_Bits: 2097153
+  cooldown: 1.5
+  car: {fileID: 442936549}
 --- !u!1 &225036035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,6 +1695,7 @@ Transform:
   - {fileID: 904938533}
   - {fileID: 613647113}
   - {fileID: 87575230}
+  - {fileID: 223328829}
   m_Father: {fileID: 979535946}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &434361989
@@ -5449,7 +5608,7 @@ MonoBehaviour:
   - key: 3
     pool:
       prefab: {fileID: 477833238134151685, guid: cc056a0c8f010554e90a7ca9d52c1d27, type: 3}
-      numberOfInstances: 450
+      numberOfInstances: 1000
       returnType: 0
   - key: 0
     pool:
@@ -6682,42 +6841,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b446515e72129408245041bb72a5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontSpawn: 0
   waves:
   - waveName: Wave 1
     waveDuration: 60
     enemyGroupsList:
+    - entityKey: 4
+      enemyCountInWave: 12
+      enemySpawnRate: 0
     - entityKey: 3
-      enemyCountInWave: 150
+      enemyCountInWave: 200
       enemySpawnRate: 0
     enemySpawnedCount: 0
   - waveName: Wave 2
     waveDuration: 30
     enemyGroupsList:
     - entityKey: 3
-      enemyCountInWave: 45
+      enemyCountInWave: 450
+      enemySpawnRate: 0
+    - entityKey: 6
+      enemyCountInWave: 30
       enemySpawnRate: 0
     enemySpawnedCount: 0
   - waveName: Wave 3
     waveDuration: 60
     enemyGroupsList:
-    - entityKey: 3
-      enemyCountInWave: 45
-      enemySpawnRate: 0
     - entityKey: 5
-      enemyCountInWave: 2
+      enemyCountInWave: 5
+      enemySpawnRate: 0
+    - entityKey: 3
+      enemyCountInWave: 200
       enemySpawnRate: 0
     enemySpawnedCount: 0
   - waveName: Wave 4
-    waveDuration: 60
+    waveDuration: 120
     enemyGroupsList:
     - entityKey: 3
-      enemyCountInWave: 75
+      enemyCountInWave: 150
       enemySpawnRate: 0
     - entityKey: 6
-      enemyCountInWave: 1
+      enemyCountInWave: 5
       enemySpawnRate: 0
     - entityKey: 4
-      enemyCountInWave: 1
+      enemyCountInWave: 5
       enemySpawnRate: 0
     enemySpawnedCount: 0
   - waveName: Wave 5
@@ -6727,13 +6893,13 @@ MonoBehaviour:
       enemyCountInWave: 150
       enemySpawnRate: 0
     - entityKey: 5
-      enemyCountInWave: 2
+      enemyCountInWave: 4
       enemySpawnRate: 0
     - entityKey: 4
-      enemyCountInWave: 2
+      enemyCountInWave: 4
       enemySpawnRate: 0
     - entityKey: 6
-      enemyCountInWave: 2
+      enemyCountInWave: 4
       enemySpawnRate: 0
     enemySpawnedCount: 0
   currentWaveCount: 0
@@ -8235,6 +8401,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Event_CaptureZonePrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 3147599529880929873, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4072864761029717604, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
       propertyPath: percentReduceCaptureSizeIfPlayerGoOut
       value: 0
@@ -8293,8 +8463,32 @@ PrefabInstance:
     m_TransformParent: {fileID: 414816149}
     m_Modifications:
     - target: {fileID: 1092070526955468118, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
+      propertyPath: style.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+    - target: {fileID: 1092070526955468118, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
       propertyPath: maxLifePoints
       value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1092070526955468118, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
+      propertyPath: style.m_FontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1092070526955468118, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
+      propertyPath: style.m_Normal.m_TextColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1092070526955468118, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
+      propertyPath: style.m_Normal.m_TextColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1092070526955468118, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
+      propertyPath: style.m_Normal.m_TextColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1092070526955468118, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
+      propertyPath: style.m_Normal.m_TextColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1901270512298757076, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
       propertyPath: m_LocalPosition.x

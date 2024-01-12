@@ -71,7 +71,7 @@ namespace EnemyNamespace
             // Si voiture présente après l'anim dans un radius -> Apply dégats
             // Switch state
 
-            var tempTimer = 1.5f;
+            var tempTimer = 2f;
             if (timer > 1.75f)
             {
                 if (timer > tempTimer)
@@ -85,13 +85,15 @@ namespace EnemyNamespace
                 
                 if (isAttacking) return;
                 int randAttack = Random.Range(0, 3);
-                switch (randAttack)
-                {
-                    case 0: tempTimer = (float)(658 * 2) / 1000; break;
-                    case 1: tempTimer = (float)(1158 * 2) / 1000; break;
-                    case 2: tempTimer = (float) 566 * 2 / 1000; break;
-                }
                 LaunchAttackAnim(randAttack);
+                
+                // switch (randAttack)
+                // {
+                //     case 0: tempTimer = (float)(658 * 2) / 1000; break;
+                //     case 1: tempTimer = (float)(1158 * 2) / 1000; break;
+                //     case 2: tempTimer = (float) 566 * 2 / 1000; break;
+                // }
+                
             }
         }
 
@@ -199,7 +201,6 @@ namespace EnemyNamespace
         {
             base.OnDie();
             SwitchState(FoddlerState.Dead);
-            Debug.Log("ENEMY DIE");
             Pooler.instance.DestroyInstance(Key.OBJ_Foddler, transform);
             Pooler.instance.SpawnTemporaryInstance(Key.FX_Puddle, puddleSocket.position, puddleSocket.rotation, 15f);
         }

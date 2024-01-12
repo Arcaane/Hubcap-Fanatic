@@ -7,6 +7,8 @@ using UnityEngine.Serialization;
 
 public class WaveManager : MonoBehaviour
 {
+    public bool dontSpawn = false;
+    
     [Serializable]
     public class Wave
     {
@@ -60,13 +62,15 @@ public class WaveManager : MonoBehaviour
         for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
         {
             waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate =  waves[currentWaveCount].waveDuration / waves[currentWaveCount].enemyGroupsList[i].enemyCountInWave;
-            Debug.Log("Spawn rate: " + waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate);
+            //Debug.Log("Spawn rate: " + waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate);
             enemiesSpawningTimer[i] = waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate;
         }
     }
 
     void Update()
     {
+        if (dontSpawn) return;
+        
         if (Input.GetKeyDown(KeyCode.F1))
         {
             SceneManager.LoadScene(0);
@@ -114,11 +118,7 @@ public class WaveManager : MonoBehaviour
         spawnPos.y = 0.75f;
         Pooler.instance.SpawnInstance(entityKey, spawnPos, Quaternion.identity);
     }
-
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(50, 50, 2003, 1003), "Press F1 to reload scene");
-    }
+    
     
     void UpdateEnemySpawingPos()
     {
