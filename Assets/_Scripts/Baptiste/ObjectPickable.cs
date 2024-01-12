@@ -6,27 +6,47 @@ public class ObjectPickable : MonoBehaviour, IPickupable
 {
     private bool isPickable = true;
     private float timeBeforePickable = 2f;
+    private bool isCopHasPick = false;
+    public GameObject carWhoPickObjet;
     
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            OnPickedUp();
-            CarPickableManager.Instance.AddPickableObject(this.gameObject);
+            isCopHasPick = false;
+            Debug.Log("Pickable by player");
         }
+
+        if (other.gameObject.CompareTag("Cone"))
+        {
+            isCopHasPick = true;
+            Debug.Log("Pickable by cops");
+        }   
+        carWhoPickObjet = other.gameObject;
+        OnPickedUp();
+        PickableManager.Instance.AddPickableObject(this.gameObject, isCopHasPick);
     }
 
     public void OnPickedUp()
     {
         gameObject.GetComponent<SphereCollider>().enabled = false;
-        transform.parent = CarPickableManager.Instance._pickableSocket; 
+        transform.parent = PickableManager.Instance.carPickableSocket;
+        if (isCopHasPick)
+        {
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
     
     public void OnDrop()
     {
-        transform.parent = CarPickableManager.Instance.worldSocket;
+        transform.parent = PickableManager.Instance.worldSocket;
         gameObject.GetComponent<SphereCollider>().enabled = false;
-        CarPickableManager.Instance.RemoveAllPickables();
+        if (isCopHasPick)
+        {
+            gameObject.GetComponent<MeshRenderer>().enabled = true;
+        }
+        PickableManager.Instance.RemoveAllPickables(isCopHasPick);
+        carWhoPickObjet = null;
         StartCoroutine(EnablePickupAfterDelay(timeBeforePickable));
     }
 
@@ -39,7 +59,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     public void OnDelivered()
     {
         gameObject.GetComponent<SphereCollider>().enabled = true;
-        //CarPickableManager.Instance.ResetPickableSocketPosition();
+        //PickableManager.Instance.ResetPickableSocketPosition();
         Destroy(this.gameObject);
     }
 }

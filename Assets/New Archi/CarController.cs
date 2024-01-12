@@ -51,8 +51,6 @@ public class CarController : CarBehaviour
             driftBrake = false;
             
         }
-
-        
     }
     
     void FixedUpdate()
@@ -142,9 +140,9 @@ public class CarController : CarBehaviour
 
         if (other.gameObject.CompareTag("Cone"))
         {
-            if (CarPickableManager.Instance._pickableObjects.Count > 0)
+            if (PickableManager.Instance.carPickableObjects.Count > 0)
             {
-                CarPickableManager.Instance._pickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
+                PickableManager.Instance.carPickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
             } 
         }
     }

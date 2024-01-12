@@ -22,7 +22,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
     [Header("Permently Capture Zone Options")]
     public float spawnInterval = 30f;
     public float timeSinceLastSpawn = 0f;
-    private CapturedZone capturedZoneInstance;
+    private SpawnZoneDelivery spawnZoneInstance;
 
         
     public List<GameObject> prefabObjects;
@@ -60,17 +60,17 @@ public class DeliveryRessourcesManager : MonoBehaviour
         {
             ReloadScene();
         }
-        
-        if (capturedZoneInstance != null && capturedZoneInstance.IsCapturing)
+        if (spawnZoneInstance != null && !spawnZoneInstance.HasDelivered)
         {
             return;
         }
         timeSinceLastSpawn += Time.deltaTime;
+
         if (timeSinceLastSpawn >= spawnInterval)
         {
-            if (capturedZoneInstance != null && capturedZoneInstance.currentZoneState != ZoneState.CapturedOrNotAccesible)
+            if (spawnZoneInstance != null && spawnZoneInstance.currenSpawnState != SpawnDeliveryState.IsOrNotDelivered)
             {
-                Destroy(capturedZoneInstance.gameObject);
+                Destroy(spawnZoneInstance.gameObject);
             }
             SpawnCaptureZone();
             timeSinceLastSpawn = 0f;
@@ -79,6 +79,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
     
     private void OnGUI()
     {
+        /*
         GUI.Label(new Rect(50, 50, 2003, 1003), "Press F1 to reload scene");
 
         randomSeed = Mathf.RoundToInt(GUI.HorizontalSlider(new Rect(50, 70, 200, 20), randomSeed, 0f, 100000f));
@@ -93,6 +94,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
             PlayerPrefs.SetInt("NumberOfCapturesAtStart", numberOfCapturesAtStart);
             PlayerPrefs.Save();
         }
+        */
     }
 
     
@@ -109,10 +111,8 @@ public class DeliveryRessourcesManager : MonoBehaviour
         Random.InitState(tempRandomSeed);
 
         Transform randomSpawnPoint = GetRandomSpawnPoint();
-        Debug.Log(randomSpawnPoint);
-    
         GameObject capturedZoneObject = Instantiate(captureZone, randomSpawnPoint.position, Quaternion.identity);
-        capturedZoneInstance = capturedZoneObject.GetComponent<CapturedZone>();    
+        spawnZoneInstance = capturedZoneObject.GetComponent<SpawnZoneDelivery>();    
     }
     
     void SpawnCaptureZones()

@@ -8,7 +8,7 @@ public class CapturedZone : MonoBehaviour
     [SerializeField] private float currentSize = 40;
     [SerializeField] public ZoneState currentZoneState;
     [SerializeField] private bool isCapturing;
-    public bool IsCapturing { get { return isCapturing; } }
+    public bool IsCaptured { get { return isCapturing; } }
     [SerializeField] private int currencyToGive;
     [SerializeField] private float captureDuration = 20f;
     [SerializeField] private float reactivateDelay = 5f; 
@@ -99,9 +99,9 @@ public class CapturedZone : MonoBehaviour
 
     private void GivePlayerRessources()
     {
-        GameObject spawnedObject = DeliveryRessourcesManager.Instance.SpawnObject(CarPickableManager.Instance._pickableSocket.position);
-        CarPickableManager.Instance.AddPickableObject(spawnedObject);
-        spawnedObject.transform.parent = CarPickableManager.Instance._pickableSocket;
+        GameObject spawnedObject = DeliveryRessourcesManager.Instance.SpawnObject(PickableManager.Instance.carPickableSocket.position);
+        PickableManager.Instance.AddPickableObject(spawnedObject);
+        spawnedObject.transform.parent = PickableManager.Instance.carPickableSocket;
         DisableTower();
     }
     
@@ -175,8 +175,3 @@ public enum ZoneState
     CapturedOrNotAccesible
 }
 
-public enum RewardType
-{
-    ObjectDelivery,
-    IncrementValue
-}
