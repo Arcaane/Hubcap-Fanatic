@@ -8,6 +8,7 @@ public class PoliceCarBehavior : CarBehaviour
 {
     [Header("POLICE CAR")]
     public Transform target;
+    private Transform currentTarget;
 
     [Header("WALLBOUNCE")]
     [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")]
@@ -33,6 +34,14 @@ public class PoliceCarBehavior : CarBehaviour
     public ParticleSystem shootFx;
     public bool shooting;
 
+    [Header("Pickable")]
+    public GameObject pickable;
+
+    void Start()
+    {
+        currentTarget = target;
+    }
+
     private void Update()
     {
         if (convoyBehaviour) ConvoyUpdate();
@@ -43,7 +52,7 @@ public class PoliceCarBehavior : CarBehaviour
     private void SoloUpdate()
     {
         float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
-            new Vector2(target.position.x, target.position.z) -
+            new Vector2(currentTarget.position.x, currentTarget.position.z) -
             new Vector2(transform.position.x, transform.position.z));
 
         rotationValue = -Mathf.Clamp(angleToTarget / 10,-1,1);
@@ -57,17 +66,17 @@ public class PoliceCarBehavior : CarBehaviour
     private void DriveByUpdate()
     {
         
-        rotationValue = (GetRotationValueToObject(target,attractiveRadius,alignementRadius,repulsiveRadius,true) + 
-                         GetRotationValueToObject(target,attractiveRadius,alignementRadius,0,true)) / 2;
+        rotationValue = (GetRotationValueToObject(currentTarget,attractiveRadius,alignementRadius,repulsiveRadius,true) + 
+                         GetRotationValueToObject(currentTarget,attractiveRadius,alignementRadius,0,true)) / 2;
         
-        Vector3 direction = target.position - transform.position;
+        Vector3 direction = currentTarget.position - transform.position;
         float sqrDist = direction.sqrMagnitude;
         if (sqrDist < attractiveRadius * attractiveRadius)
         {
             float dot = Vector2.Dot(
-                new Vector2(target.forward.x, target.forward.z),
+                new Vector2(currentTarget.forward.x, currentTarget.forward.z),
                 new Vector2(transform.position.x, transform.position.z) -
-                new Vector2(target.position.x, target.position.z));
+                new Vector2(currentTarget.position.x, currentTarget.position.z));
 
             float value = (Mathf.Clamp((dot * -1)/2.5f,-1,1) + 1)/2;
             float speedvalue = Mathf.Lerp(0, maxSpeed, value);
@@ -208,6 +217,12 @@ public class PoliceCarBehavior : CarBehaviour
     {
         ApplyWheelForces();
     }
+    
+    public void SwapTarget(Transform newTarget, bool isCarHasPick = false)
+    {
+        currentTarget = isCarHasPick ? newTarget : target;
+    }
+    
 
     private void OnCollisionEnter(Collision other)
     {
@@ -236,6 +251,14 @@ public class PoliceCarBehavior : CarBehaviour
             }
                 
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
+        }
+
+        if (other.gameObject.CompareTag("Cone"))
+        {
+            if (PickableManager.Instance.copsPickableObjects.Count > 0)
+            {
+                PickableManager.Instance.copsPickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
+            }    
         }
     }
     

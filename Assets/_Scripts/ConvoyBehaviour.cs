@@ -78,26 +78,30 @@ public class ConvoyBehaviour : MonoBehaviour
         else
         {
             attackTimer = timeBetweenAttack;
-            for (int i = 0; i < defenseCars.Length; i++)
+            if (defenseCars.Length > 0)
             {
-                if (!defenseCars[i].attackMode)
+                for (int i = 0; i < defenseCars.Length; i++)
                 {
-                    defenseCars[i].attackMode = true;
-                    break;
+                    if (!defenseCars[i].attackMode)
+                    {
+                        defenseCars[i].attackMode = true;
+                        break;
+                    }
                 }
             }
         }
 
-        if (Vector3.SqrMagnitude(transform.position - player.position) > playerLostRadius * playerLostRadius)
+        if (defenseCars.Length > 0)
         {
-            for (int i = 0; i < defenseCars.Length; i++)
+            if (Vector3.SqrMagnitude(transform.position - player.position) > playerLostRadius * playerLostRadius)
             {
-                
-                defenseCars[i].attackMode = false;
-                
-            }
+                for (int i = 0; i < defenseCars.Length; i++)
+                {
+                    defenseCars[i].attackMode = false;
+                }
 
-            attackMode = false;
+                attackMode = false;
+            }
         }
     }
 

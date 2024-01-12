@@ -20,9 +20,10 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         if (other.gameObject.CompareTag("Cone"))
         {
             isCopHasPick = true;
+            other.gameObject.transform.root.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[UnityEngine.Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true);
+            carWhoPickObjet = other.gameObject;
             Debug.Log("Pickable by cops");
         }   
-        carWhoPickObjet = other.gameObject;
         OnPickedUp();
         PickableManager.Instance.AddPickableObject(this.gameObject, isCopHasPick);
     }
@@ -31,6 +32,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     {
         gameObject.GetComponent<SphereCollider>().enabled = false;
         transform.parent = PickableManager.Instance.carPickableSocket;
+        transform.localPosition = Vector3.zero;
         if (isCopHasPick)
         {
             gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -44,6 +46,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         if (isCopHasPick)
         {
             gameObject.GetComponent<MeshRenderer>().enabled = true;
+            carWhoPickObjet.transform.root.GetComponent<PoliceCarBehavior>().SwapTarget( carWhoPickObjet.transform.root.GetComponent<PoliceCarBehavior>().target);
         }
         PickableManager.Instance.RemoveAllPickables(isCopHasPick);
         carWhoPickObjet = null;

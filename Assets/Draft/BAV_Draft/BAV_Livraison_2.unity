@@ -1242,6 +1242,62 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7124615990003335687, guid: 9eb821a0123e8424b8dab240d1df49dd, type: 3}
   m_PrefabInstance: {fileID: 2032341902}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &117744508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 117744510}
+  - component: {fileID: 117744509}
+  m_Layer: 0
+  m_Name: PoliceCarManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &117744509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117744508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eefa26f7321b8e4b9196a948fb81b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  policeCars:
+  - {fileID: 8690761196004022445}
+  - {fileID: 1970244049}
+  - {fileID: 696651015}
+  - {fileID: 882196259}
+  - {fileID: 1920088093}
+  policeTargetPoints:
+  - {fileID: 537453293}
+  - {fileID: 798374239}
+  - {fileID: 779243074}
+  - {fileID: 785354784}
+--- !u!4 &117744510
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117744508}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 284.2, y: 5.8268294, z: -160.8981}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1914032539}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &121954216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1696,51 +1752,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1252271183}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &165339758
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 165339760}
-  - component: {fileID: 165339759}
-  m_Layer: 0
-  m_Name: DebugADestroy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &165339759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165339758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2589929442a768d4a9d5e937f5296053, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deliveryManager: {fileID: 529005579}
---- !u!4 &165339760
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165339758}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 284.2, y: 5.8268294, z: -160.8981}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &171800255
 GameObject:
@@ -6756,11 +6767,6 @@ MonoBehaviour:
   - {fileID: 7244156739226771943}
   - {fileID: 824237488}
   - {fileID: 1176800145}
-  targetCopsPoints:
-  - {fileID: 537453293}
-  - {fileID: 798374239}
-  - {fileID: 779243074}
-  - {fileID: 785354784}
   enableGizmos: 1
   numberOfPointsPerSide: 20
   distanceBetweenPoints: 20
@@ -6780,7 +6786,6 @@ Transform:
   - {fileID: 1947476309}
   - {fileID: 1252271183}
   - {fileID: 1621799768}
-  - {fileID: 1914032539}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &529005581
@@ -7066,6 +7071,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1914032539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &539881427
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1920088096}
+    m_Modifications:
+    - target: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162761742197368576, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_Name
+      value: P_PickableDetection (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162761742197368576, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+      propertyPath: m_TagString
+      value: Cone
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+--- !u!4 &539881428 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 983125448949345675, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+  m_PrefabInstance: {fileID: 539881427}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &539881429 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8162761742197368576, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+  m_PrefabInstance: {fileID: 539881427}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &542630943
 GameObject:
   m_ObjectHideFlags: 0
@@ -8730,7 +8806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &696651013
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8819,6 +8895,7 @@ MonoBehaviour:
   anchoring: 5
   wheelMass: 0.1
   maxSpeed: 25
+  targetSpeed: 25
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -8880,6 +8957,17 @@ MonoBehaviour:
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 81be785b9e16bd347bca31257d5c5595, type: 3}
+  convoyBehaviour: {fileID: 0}
+  attackMode: 0
+  defensePoint: {fileID: 0}
+  repulsiveRadius: 0
+  alignementRadius: 0
+  attractiveRadius: 0
+  showRadiusGizmos: 0
+  driveByCar: 0
+  shootFx: {fileID: 0}
+  shooting: 0
+  pickable: {fileID: 1450003847}
 --- !u!23 &696651016
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11291,7 +11379,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &882196257
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11380,6 +11468,7 @@ MonoBehaviour:
   anchoring: 5
   wheelMass: 0.1
   maxSpeed: 25
+  targetSpeed: 25
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -11441,6 +11530,17 @@ MonoBehaviour:
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 81be785b9e16bd347bca31257d5c5595, type: 3}
+  convoyBehaviour: {fileID: 0}
+  attackMode: 0
+  defensePoint: {fileID: 0}
+  repulsiveRadius: 0
+  alignementRadius: 0
+  attractiveRadius: 0
+  showRadiusGizmos: 0
+  driveByCar: 0
+  shootFx: {fileID: 0}
+  shooting: 0
+  pickable: {fileID: 939156898}
 --- !u!23 &882196260
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11745,7 +11845,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 897638460}
-  - component: {fileID: 897638459}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -11753,18 +11852,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &897638459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 897638458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ede18a90c58244d930582acf2be230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &897638460
 Transform:
   m_ObjectHideFlags: 0
@@ -12338,6 +12425,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920088096}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &939156898 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8162761742197368576, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+  m_PrefabInstance: {fileID: 1244484305}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &943051840
 GameObject:
   m_ObjectHideFlags: 0
@@ -18696,6 +18788,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1252271183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1450003847 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8162761742197368576, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+  m_PrefabInstance: {fileID: 217371041}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1450149038
 GameObject:
   m_ObjectHideFlags: 0
@@ -24018,8 +24115,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1914032538}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -12.114563, y: -4.8268294, z: 121.305984}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -24027,7 +24124,7 @@ Transform:
   - {fileID: 798374239}
   - {fileID: 779243074}
   - {fileID: 785354784}
-  m_Father: {fileID: 529005580}
+  m_Father: {fileID: 117744510}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1914583686
 GameObject:
@@ -24106,12 +24203,12 @@ GameObject:
   - component: {fileID: 1920088092}
   - component: {fileID: 1920088091}
   m_Layer: 0
-  m_Name: Car (4)
+  m_Name: PopoCar
   m_TagString: Cone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1920088091
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24200,6 +24297,7 @@ MonoBehaviour:
   anchoring: 5
   wheelMass: 0.1
   maxSpeed: 27
+  targetSpeed: 25
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -24261,6 +24359,17 @@ MonoBehaviour:
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 81be785b9e16bd347bca31257d5c5595, type: 3}
+  convoyBehaviour: {fileID: 0}
+  attackMode: 0
+  defensePoint: {fileID: 0}
+  repulsiveRadius: 0
+  alignementRadius: 0
+  attractiveRadius: 0
+  showRadiusGizmos: 0
+  driveByCar: 0
+  shootFx: {fileID: 0}
+  shooting: 0
+  pickable: {fileID: 539881429}
 --- !u!23 &1920088094
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24335,6 +24444,7 @@ Transform:
   - {fileID: 2009332571}
   - {fileID: 1476150165}
   - {fileID: 219841594}
+  - {fileID: 539881428}
   - {fileID: 447424462}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25256,7 +25366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1970244047
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25345,6 +25455,7 @@ MonoBehaviour:
   anchoring: 5
   wheelMass: 0.1
   maxSpeed: 20
+  targetSpeed: 25
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -25406,6 +25517,17 @@ MonoBehaviour:
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 81be785b9e16bd347bca31257d5c5595, type: 3}
+  convoyBehaviour: {fileID: 0}
+  attackMode: 0
+  defensePoint: {fileID: 0}
+  repulsiveRadius: 0
+  alignementRadius: 0
+  attractiveRadius: 0
+  showRadiusGizmos: 0
+  driveByCar: 0
+  shootFx: {fileID: 0}
+  shooting: 0
+  pickable: {fileID: 2044535612}
 --- !u!23 &1970244050
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27187,6 +27309,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1252271183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2044535612 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8162761742197368576, guid: 0df3170c82d03874fa9424ff997bfc83, type: 3}
+  m_PrefabInstance: {fileID: 366084478}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2047740557
 GameObject:
   m_ObjectHideFlags: 0
@@ -29948,6 +30075,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeliveryPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 5769098560503109956, guid: 4e6aeaf922eac4a418da53817913d621, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7442389973529092385, guid: 4e6aeaf922eac4a418da53817913d621, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.114563
@@ -30464,6 +30595,7 @@ MonoBehaviour:
   anchoring: 5
   wheelMass: 0.1
   maxSpeed: 25
+  targetSpeed: 25
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -30525,6 +30657,17 @@ MonoBehaviour:
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 81be785b9e16bd347bca31257d5c5595, type: 3}
+  convoyBehaviour: {fileID: 0}
+  attackMode: 0
+  defensePoint: {fileID: 0}
+  repulsiveRadius: 0
+  alignementRadius: 0
+  attractiveRadius: 0
+  showRadiusGizmos: 0
+  driveByCar: 0
+  shootFx: {fileID: 0}
+  shooting: 0
+  pickable: {fileID: 0}
 --- !u!4 &9142429332775447885
 Transform:
   m_ObjectHideFlags: 0
@@ -30559,4 +30702,4 @@ SceneRoots:
   - {fileID: 1920088096}
   - {fileID: 897638460}
   - {fileID: 529005580}
-  - {fileID: 165339760}
+  - {fileID: 117744510}

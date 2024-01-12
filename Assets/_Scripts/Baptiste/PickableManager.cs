@@ -13,8 +13,6 @@ public class PickableManager : MonoBehaviour
     public Transform carPickableSocket;
     public Transform worldSocket;
     
-    [Header("Target Cops Direction")]
-    public List<Transform> copsTargetPointIfIsTake;
     [Header("Object Possess")]
     public List<GameObject> carPickableObjects;
     public List<GameObject> copsPickableObjects;
@@ -52,6 +50,7 @@ public class PickableManager : MonoBehaviour
         {
             if (copsPickableObjects.Count > 0)
             {
+                Debug.Log("hello");
                 RemoveAllPickableObjects(true);            
             }
             else
