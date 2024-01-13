@@ -194,14 +194,15 @@ MonoBehaviour:
   currenSpawnState: 0
   hasDelivered: 0
   currencyToGive: 0
-  deliveryDuration: 5
-  timeBeforeLaunchingDelivery: 5
+  deliveryDuration: 30
+  timeBeforeLaunchingDelivery: 0
   rewardType: 0
   debugImage: {fileID: 3266507917285999564}
   rect: {fileID: 8834613733686254766}
   plane: {fileID: 3121167323483889825}
   timer: 0
   timeDeliveryIncrement: 0
+  index: 0
 --- !u!1 &6493612050149788443
 GameObject:
   m_ObjectHideFlags: 0

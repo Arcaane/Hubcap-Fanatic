@@ -12,22 +12,32 @@ public class TargetUI : MonoBehaviour
     
     [Header("UI Elements")]
     public Image targetImage;
+    public Image durationBeforeSpawnImage;
     public Image backgroundImage;
     public TextMeshProUGUI distanceText;
     
     [Header("Debug")]
-    [Range(0, 2000)]
-    [SerializeField] private float distance = 0f;
+    private float distance = 0f;
+
+    [SerializeField] private float timer;
     
     void Start()
     {
         SetText(distanceText, distance);
+        durationBeforeSpawnImage.fillAmount = 0;
     }
 
     void Update()
     {
         SetText(distanceText, distance);
         SwitchIcon();
+        CalculateDistance();
+    }
+
+    void DecreaseFillAmount()
+    {
+        timer += Time.deltaTime;
+        durationBeforeSpawnImage.fillAmount = 1 - (timer / DeliveryRessourcesManager.Instance.SpawnZoneInstance.DeliveryDuration);
     }
     
     void SetText(TextMeshProUGUI tmpGUI, string text)
@@ -44,10 +54,14 @@ public class TargetUI : MonoBehaviour
         {
             adjustedNumber = number / 1000f;
             unit = "km";
+            tmpGUI.text = adjustedNumber.ToString("0.#") + " " + unit;
         }
-
-        tmpGUI.text = adjustedNumber.ToString("0.#") + " " + unit;
+        else
+        {
+            tmpGUI.text = adjustedNumber.ToString("0") + " " + unit;
+        }
     }
+
 
     void SwitchIcon()
     {
@@ -55,6 +69,7 @@ public class TargetUI : MonoBehaviour
         {
             case TargetType.DropZone:
                 SetImage(targetImage, iconImages[0]);
+                DecreaseFillAmount();
                 break;
             case TargetType.DeliveryZone:
                 SetImage(targetImage, iconImages[1]);
@@ -68,7 +83,12 @@ public class TargetUI : MonoBehaviour
     void SetImage(Image image, Sprite sprite)
     {
         image.sprite = sprite;
-    } 
+    }
+
+    void CalculateDistance()
+    {
+        distance = Vector3.Distance(CarController.instance.transform.position, DeliveryRessourcesManager.Instance.SpawnZoneInstance.transform.position);
+    }
 }
 
 [System.Serializable]

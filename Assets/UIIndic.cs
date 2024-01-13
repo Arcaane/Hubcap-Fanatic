@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIIndic : MonoBehaviour
@@ -12,17 +13,22 @@ public class UIIndic : MonoBehaviour
     [SerializeField] private List<GameObject> obj;
     [SerializeField] private Rect rectAdjusted;
     [SerializeField] private Vector2 center;
-    [SerializeField] private List<Image> image;
+    [SerializeField] private List<TargetUI> targetUIPrefab;
     [SerializeField] private GameObject indic;
     public Transform uiParent;
-    [SerializeField] private Sprite[] sprites;
     public static UIIndic instance;
-    public Color[] colors;
-
 
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        
+        rectAdjusted = new Rect(Vector2.zero,cam.pixelRect.size - new Vector2(80,80));
+        rectAdjusted.center = cam.pixelRect.center;
+        center = cam.WorldToScreenPoint(camCenter.position);
     }
 
     public void Update()
@@ -41,53 +47,40 @@ public class UIIndic : MonoBehaviour
         }
     }
 
-    void CreateImages(int sprite,int color)
+    void CreateImages()
     {
-        
-        image.Add(Instantiate(indic, Vector3.zero, quaternion.identity,uiParent).transform.GetChild(1).GetComponent<Image>());
-        image[image.Count - 1].sprite = sprites[sprite];
-        image[image.Count - 1].color = colors[color];
-        image[image.Count - 1].gameObject.name = sprite.ToString();
-        image[image.Count - 1].transform.parent.localScale = Vector3.one*0.5f;
-        
+        targetUIPrefab.Add(Instantiate(indic, Vector3.zero, quaternion.identity,uiParent).GetComponent<TargetUI>());
     }
 
     public void UpdateIndic(int indexObj)
     {
         if (rectAdjusted.Contains(cam.WorldToScreenPoint(obj[indexObj].transform.position)))
         {
-            image[indexObj].transform.parent.localScale = Vector3.Lerp(image[indexObj].transform.parent.localScale,Vector3.zero,Time.deltaTime*17);
+            targetUIPrefab[indexObj].transform.localScale = Vector3.Lerp(targetUIPrefab[indexObj].transform.localScale,Vector3.zero,Time.deltaTime*17);
         }
         else
         {
-            image[indexObj].transform.parent.localScale = Vector3.Lerp(image[indexObj].transform.parent.localScale,Vector3.one*0.5f *(Mathf.Sin(Time.time*5+indexObj)*0.3f+1),Time.deltaTime*5);
+            targetUIPrefab[indexObj].transform.localScale = Vector3.Lerp(targetUIPrefab[indexObj].transform.localScale,Vector3.one*1f *(Mathf.Sin(Time.time*5+indexObj)*0.3f+1),Time.deltaTime*5);
             Vector3 objPosNear = camCenter.position + (obj[indexObj].transform.position - camCenter.position).normalized*3;
             Vector2 pos = cam.WorldToScreenPoint(objPosNear);
             pos = FindPointOnRectBorder( pos - center,center, rectAdjusted);
-            image[indexObj].transform.parent.position = pos;    
+            targetUIPrefab[indexObj].transform.position = pos;    
         }
     }
 
     public void RemoveIndic(int indexObj)
     {
         
-        Destroy(image[indexObj].transform.parent.gameObject);
-        image.RemoveAt(indexObj);
+        Destroy(targetUIPrefab[indexObj].gameObject);
+        targetUIPrefab.RemoveAt(indexObj);
         
         obj.RemoveAt(indexObj);
     }
     
-    public void ChangeColor(int indexObj,int color)
-    {
-        
-        image[indexObj].color = colors[color];
-        
-    }
-    
-    public void AddIndic(GameObject newObj,int sprite,int color, out int indicNb)
+    public void AddIndic(GameObject newObj, out int indicNb)
     {
         obj.Add(newObj);
-        CreateImages(sprite,color);
+        CreateImages();
         indicNb = obj.Count - 1;
         Debug.Log("INDIC CREATED "+ indicNb);
     }

@@ -11,6 +11,7 @@ public class SpawnZoneDelivery : MonoBehaviour
     public bool HasDelivered { get { return hasDelivered; } }
     [SerializeField] private int currencyToGive;
     [SerializeField] private float deliveryDuration = 20f;
+    public float DeliveryDuration => deliveryDuration;
     [SerializeField] private float timeBeforeLaunchingDelivery = 5f; 
     
     
@@ -27,6 +28,7 @@ public class SpawnZoneDelivery : MonoBehaviour
     [Header("Debug Values")]
     [SerializeField] private float timer;
     [SerializeField] private float timeDeliveryIncrement = 0f;
+    public int index;
     
     private void Start()
     {
@@ -98,11 +100,11 @@ public class SpawnZoneDelivery : MonoBehaviour
         GameObject spawnedObject = DeliveryRessourcesManager.Instance.SpawnObject(randomPosition);
         spawnedObject.transform.parent = PickableManager.Instance.worldSocket;
         hasDelivered = true;
-        DisableTower();
+        DisableZone();
     }
 
     
-    private void EnableTower()
+    private void EnableZone()
     {
         foreach (Transform child in transform)
         {
@@ -110,8 +112,9 @@ public class SpawnZoneDelivery : MonoBehaviour
         }
     }
 
-    private void DisableTower()
+    private void DisableZone()
     {
+        UIIndic.instance.RemoveIndic(index);
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
