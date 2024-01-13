@@ -37,6 +37,7 @@ public class CarBehaviour : MonoBehaviour
     [SerializeField] private float steeringMultiplier = 0.95f;
     [SerializeField] private float accelMultiplier = 1.5f;
     [SerializeField] private float angleMinToExitDrift = 0.1f;
+    [SerializeField] protected ParticleSystem[] driftSparks;
     
     public float speedFactor => rb.velocity.magnitude / targetSpeed;
     
@@ -83,8 +84,9 @@ public class CarBehaviour : MonoBehaviour
             {
                 driftBrake = false;
                 driftEngaged = false;
-                Debug.Log("ENDED");
                 
+                if (driftSparks.Length < 1) return;
+                foreach (var t in driftSparks) t.Stop();
             }
         }
     }

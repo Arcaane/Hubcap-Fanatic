@@ -19,11 +19,9 @@ public class CarController : CarBehaviour
     [SerializeField] private ParticleSystem smoke, smokeNitro;
     [SerializeField] private bool nitroMode;
 
-    [Header("STRAFF")] 
-    [SerializeField] private bool straffMode;
-    [SerializeField] private float straffForce;
-    [SerializeField] private Vector2 straffForward;
-    [SerializeField] private float straffAngleClamp;
+    [Header("JUMP")] 
+    [SerializeField] private ParticleSystem jumpSmoke;
+    
 
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
@@ -44,13 +42,13 @@ public class CarController : CarBehaviour
     {
         rotationValue = stickValue.x;
         
-        
         OnMove();
-
+        
         // SORTIE DU DRIFT BRAKE SI ON LACHE L'ACCELERATION
         if (driftBrake && accelForce < 0.1f)
         {
             driftBrake = false;
+            foreach (var t in driftSparks) t.Stop();
         }
     }
     
@@ -58,7 +56,6 @@ public class CarController : CarBehaviour
     {
         dirCam = Mathf.Lerp(dirCam, rb.velocity.magnitude,Time.fixedDeltaTime*3);
         ApplyWheelForces();
-
         // CAMERA
         cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
     }
@@ -84,6 +81,8 @@ public class CarController : CarBehaviour
         {
 			driftBrake = true;
             brakeForce = context.ReadValue<float>();
+            
+            foreach (var t in driftSparks) t.Play();
         }
         else
         {
@@ -122,17 +121,21 @@ public class CarController : CarBehaviour
         
     }
     
-    public void XButton(InputAction.CallbackContext context)
+    public void BButton(InputAction.CallbackContext context)
     {
-        
-    }
+        if (context.started)
+        {
+            jumpSmoke.Play();
+            rb.AddForce(Vector3.up * 300);
+        }
+	}
 
     #endregion
     
     
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Cone"))
+        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
         {
             //Debug.Log(other.relativeVelocity.magnitude);
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
@@ -158,7 +161,7 @@ public class CarController : CarBehaviour
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
 
-        if (other.gameObject.CompareTag("Cone"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
             if (PickableManager.Instance.carPickableObjects.Count > 0)
             {
@@ -169,12 +172,13 @@ public class CarController : CarBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Fodder")) // Foddler Collision
+        if (other.CompareTag("Enemy")) // EnemyCollision
         {
-            other.GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(rb.velocity.magnitude));
-            CarHealthManager.instance.TakeDamage(1); // Infliger 1 dégats
-            if (rb.velocity.magnitude < 1f) return;
-            rb.AddForce(-transform.forward * 1.1f, ForceMode.Force);
+            if (Vector3.Dot( other.transform.position - transform.position, transform.forward) > 0.75f)
+            {
+                Debug.Log("Dégats aux enemis");
+                other.GetComponent<IDamageable>()?.TakeDamage(1);
+            }
         }
     }
 }
