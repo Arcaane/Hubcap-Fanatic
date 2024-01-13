@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 5438211394427132394}
   m_Layer: 0
   m_Name: ConvoyDefenseCar
-  m_TagString: Cone
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -349,6 +349,7 @@ MonoBehaviour:
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
+  driftSparks: []
   accelForce: 1
   brakeForce: 0
   driftBrake: 0
@@ -2073,7 +2074,7 @@ GameObject:
   - component: {fileID: 5961036254996167518}
   m_Layer: 0
   m_Name: ConvoyDefenseCar
-  m_TagString: Cone
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2259,6 +2260,7 @@ MonoBehaviour:
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
+  driftSparks: []
   accelForce: 1
   brakeForce: 0
   driftBrake: 0
@@ -3070,7 +3072,7 @@ GameObject:
   - component: {fileID: 7530789181062290548}
   m_Layer: 0
   m_Name: ConvoyDefenseCar
-  m_TagString: Cone
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3256,6 +3258,7 @@ MonoBehaviour:
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
+  driftSparks: []
   accelForce: 1
   brakeForce: 0
   driftBrake: 0
@@ -4154,7 +4157,7 @@ GameObject:
   - component: {fileID: 8224598271565432357}
   m_Layer: 0
   m_Name: ConvoyDefenseCar
-  m_TagString: Cone
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4340,6 +4343,7 @@ MonoBehaviour:
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
+  driftSparks: []
   accelForce: 1
   brakeForce: 0
   driftBrake: 0
@@ -9867,7 +9871,7 @@ GameObject:
   - component: {fileID: 510318786942160442}
   m_Layer: 0
   m_Name: ConvoyDefenseCar
-  m_TagString: Cone
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10053,6 +10057,7 @@ MonoBehaviour:
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
+  driftSparks: []
   accelForce: 1
   brakeForce: 0
   driftBrake: 0
@@ -28196,6 +28201,10 @@ MonoBehaviour:
   defenseAttractiveRadius: 5
   showRadiusGizmos: 1
   attackMode: 0
+  oneBarZone: 500
+  twoBarsZone: 200
+  threeBarZone: 80
+  radar: {fileID: 0}
 --- !u!1 &5440032308236554971
 GameObject:
   m_ObjectHideFlags: 0
@@ -41236,7 +41245,7 @@ GameObject:
   - component: {fileID: 8069918713955698115}
   m_Layer: 0
   m_Name: ConvoyDefenseCar
-  m_TagString: Cone
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41422,6 +41431,7 @@ MonoBehaviour:
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
+  driftSparks: []
   accelForce: 1
   brakeForce: 0
   driftBrake: 0
@@ -41648,7 +41658,6 @@ GameObject:
   - component: {fileID: 8422743383579328879}
   - component: {fileID: 2507935290745304817}
   - component: {fileID: 1495838685260492117}
-  - component: {fileID: 3022780839636473177}
   m_Layer: 0
   m_Name: DriveByEnemy (1)
   m_TagString: Cone
@@ -41721,40 +41730,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3022780839636473177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8255245353755626161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ede18a90c58244d930582acf2be230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {x: 0, y: 0, z: 0}
-  currentTarget: 0
-  t: 0
-  targetDetectionRange: 3
-  speed: 0
-  normalSpeed: 0
-  attackModeSpeed: 0
-  player: {fileID: 0}
-  detectionTimer: 3
-  detectionDelay: 3
-  defenseCars: []
-  attackTimer: 1
-  timeBetweenAttack: 1
-  repulsiveRadius: 0
-  alignementRadius: 0
-  attractiveRadius: 0
-  playerDetectionRadius: 0
-  playerLostRadius: 0
-  defenseAlignementRadius: 0
-  defenseAttractiveRadius: 0
-  showRadiusGizmos: 0
-  attackMode: 0
 --- !u!1 &8275114513836787470
 GameObject:
   m_ObjectHideFlags: 0
@@ -47649,7 +47624,7 @@ GameObject:
   - component: {fileID: 7555738222435519946}
   m_Layer: 0
   m_Name: ConvoyDefenseCar
-  m_TagString: Cone
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47835,6 +47810,7 @@ MonoBehaviour:
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
+  driftSparks: []
   accelForce: 1
   brakeForce: 0
   driftBrake: 0

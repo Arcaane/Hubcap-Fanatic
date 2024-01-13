@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 1872413951410836457}
   m_Layer: 0
   m_Name: SlowCar
-  m_TagString: Cone
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -283,6 +283,7 @@ MonoBehaviour:
   anchoring: 5
   wheelMass: 0.1
   maxSpeed: 40
+  targetSpeed: 25
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -331,10 +332,12 @@ MonoBehaviour:
   steeringSpeed: 6.5
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
+  directionalDampMultiplier: 1
   dampeningMultiplier: 0.25
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
+  driftSparks: []
   accelForce: 1
   brakeForce: 0
   driftBrake: 0
@@ -344,8 +347,19 @@ MonoBehaviour:
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 81be785b9e16bd347bca31257d5c5595, type: 3}
+  convoyBehaviour: {fileID: 0}
+  attackMode: 0
+  defensePoint: {fileID: 0}
+  repulsiveRadius: 0
+  alignementRadius: 0
+  attractiveRadius: 0
+  showRadiusGizmos: 0
+  driveByCar: 0
+  shootFx: {fileID: 0}
+  shooting: 0
   enemyKey: 5
   hp: 100
+  pickable: {fileID: 0}
 --- !u!54 &1973940955210623876
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -232,9 +232,18 @@ public class PoliceCarBehavior : CarBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player") )
         {
            
+            if (other.gameObject.CompareTag("Player"))
+            {
+                if (Vector3.Dot(CarController.instance.transform.position - transform.position, transform.forward) > 0.75f)
+                {
+                    Debug.Log("Voiture Percuté!");
+                    CarHealthManager.instance.TakeDamage(20);
+                }
+            }
+            
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
             {
                 Vector2 reflect = Vector2.Reflect(new Vector2(transform.forward.x, transform.forward.z), 
@@ -257,14 +266,7 @@ public class PoliceCarBehavior : CarBehaviour
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
         
-        if (other.gameObject.CompareTag("Player"))
-        {
-            if (Vector3.Dot(CarController.instance.transform.position - transform.position, transform.forward) > 0.75f)
-            {
-                Debug.Log("Voiture Percuté!");
-                CarHealthManager.instance.TakeDamage(20);
-            }
-        }
+        
         
         if (hp < 1)
         {
