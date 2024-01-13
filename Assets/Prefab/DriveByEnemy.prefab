@@ -373,6 +373,7 @@ MonoBehaviour:
   steeringSpeed: 10
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
+  directionalDampMultiplier: 1
   dampeningMultiplier: 0.25
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
@@ -396,6 +397,9 @@ MonoBehaviour:
   driveByCar: 1
   shootFx: {fileID: 3406785552209663586}
   shooting: 0
+  enemyKey: 0
+  hp: 100
+  pickable: {fileID: 0}
 --- !u!54 &4100530699879000119
 Rigidbody:
   m_ObjectHideFlags: 0

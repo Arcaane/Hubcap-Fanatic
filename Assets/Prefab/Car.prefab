@@ -1460,6 +1460,7 @@ MonoBehaviour:
   anchoring: 5
   wheelMass: 0.1
   maxSpeed: 25
+  targetSpeed: 25
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -1508,6 +1509,7 @@ MonoBehaviour:
   steeringSpeed: 50
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
+  directionalDampMultiplier: 1
   dampeningMultiplier: 0.25
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
@@ -1520,6 +1522,12 @@ MonoBehaviour:
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 68f8e38cdcb558d43a07cde4b478f907, type: 3}
+  nitroSpeed: 50
+  smoke: {fileID: 0}
+  smokeNitro: {fileID: 0}
+  nitroMode: 0
+  straffMode: 0
+  straffForce: 0
   dirCam: 0
   cameraHolder: {fileID: 0}
 --- !u!54 &7223312086131934466
@@ -1747,6 +1755,74 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLifePoints: 100
+  lifePoints: 100
+  style:
+    m_Name: 
+    m_Normal:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 0
+    m_WordWrap: 0
+    m_RichText: 1
+    m_TextClipping: 0
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 0
 --- !u!1 &7548192053697698528
 GameObject:
   m_ObjectHideFlags: 0

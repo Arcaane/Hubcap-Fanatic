@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ConvoyBehaviour : MonoBehaviour
 {
     [Header("POLICE CAR")]
-    public Transform[] targets;
+    public Vector3 target;
     public int currentTarget = 0;
     public float t;
     public float targetDetectionRange = 3;
@@ -38,11 +39,23 @@ public class ConvoyBehaviour : MonoBehaviour
     public bool showRadiusGizmos;
 
     public bool attackMode;
+
     
+    public void Initialize()
+    {
+        for (int i = 0; i < defenseCars.Length; i++)
+        {
+            
+        }
+
+        transform.parent.position = new Vector3(Random.Range(-650f, 650f), 1.4f, -650);
+        target = new Vector3(Random.Range(-650f, 650f), 1.4f, 650);
+    }
     
     private void Update()
     {
-        transform.position += Vector3.right * speed * Time.deltaTime;
+        transform.position += (target - transform.position).normalized * speed * Time.deltaTime;
+        transform.forward = (target - transform.position).normalized;
 
         if (attackMode) AttackMode();
         else

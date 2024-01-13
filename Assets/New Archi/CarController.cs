@@ -19,8 +19,11 @@ public class CarController : CarBehaviour
     [SerializeField] private ParticleSystem smoke, smokeNitro;
     [SerializeField] private bool nitroMode;
 
-    [Header("JUMP")] 
-    [SerializeField] private ParticleSystem jumpSmoke;
+    [Header("STRAFF")] 
+    [SerializeField] private bool straffMode;
+    [SerializeField] private float straffForce;
+    [SerializeField] private Vector2 straffForward;
+    [SerializeField] private float straffAngleClamp;
 
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
@@ -41,6 +44,7 @@ public class CarController : CarBehaviour
     {
         rotationValue = stickValue.x;
         
+        
         OnMove();
 
         // SORTIE DU DRIFT BRAKE SI ON LACHE L'ACCELERATION
@@ -54,6 +58,7 @@ public class CarController : CarBehaviour
     {
         dirCam = Mathf.Lerp(dirCam, rb.velocity.magnitude,Time.fixedDeltaTime*3);
         ApplyWheelForces();
+
         // CAMERA
         cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
     }
@@ -117,16 +122,10 @@ public class CarController : CarBehaviour
         
     }
     
-    public void BButton(InputAction.CallbackContext context)
+    public void XButton(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            
-            jumpSmoke.Play();
-            rb.AddForce(Vector3.up * 300);
-        }
         
-	}
+    }
 
     #endregion
     
