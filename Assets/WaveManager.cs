@@ -57,12 +57,13 @@ public class WaveManager : MonoBehaviour
 
     private void CalculateWaveData()
     {
+        if (currentWaveCount >= waves.Count) return;
+        
         enemiesSpawningTimer = new float[waves[currentWaveCount].enemyGroupsList.Count];
         
         for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
         {
             waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate =  waves[currentWaveCount].waveDuration / waves[currentWaveCount].enemyGroupsList[i].enemyCountInWave;
-            //Debug.Log("Spawn rate: " + waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate);
             enemiesSpawningTimer[i] = waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate;
         }
     }

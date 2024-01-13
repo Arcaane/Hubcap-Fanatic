@@ -170,12 +170,13 @@ public class CarController : CarBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Fodder")) // Foddler Collision
+        if (other.CompareTag("Enemy")) // EnemyCollision
         {
-            other.GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(rb.velocity.magnitude));
-            CarHealthManager.instance.TakeDamage(1); // Infliger 1 dégats
-            if (rb.velocity.magnitude < 1f) return;
-            rb.AddForce(-transform.forward * 1.1f, ForceMode.Force);
+            if (Vector3.Dot( other.transform.position - transform.position, transform.forward) > 0.75f)
+            {
+                Debug.Log("Dégats aux enemis");
+                other.GetComponent<IDamageable>()?.TakeDamage(1);
+            }
         }
     }
 }
