@@ -708,6 +708,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5070764719791322929, guid: f7b98a165f2a0e94883ee7358a6401b4, type: 3}
+      propertyPath: m_text
+      value: 13/01/2024 18:24
+      objectReference: {fileID: 0}
+    - target: {fileID: 5070764719791322929, guid: f7b98a165f2a0e94883ee7358a6401b4, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5100097539483776624, guid: f7b98a165f2a0e94883ee7358a6401b4, type: 3}
       propertyPath: m_Name
       value: P_StartMenu

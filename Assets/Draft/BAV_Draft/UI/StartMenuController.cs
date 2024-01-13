@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +14,8 @@ public class StartMenu : MonoBehaviour
     [Header("Button in the Menu")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button quitButton;
+
+    private DateTime buildDateTime;
 
     const string gameTitle = "Proto Week-End";
 
@@ -35,13 +35,7 @@ public class StartMenu : MonoBehaviour
 
     private void DisplayDateAndTime()
     {
-#if UNITY_EDITOR
-        SetText(dateTextGUI, DateTime.Now.ToString("HH:mm dd/MM/yyyy "));
-#else
-        DateTime buildDateTime = GetBuildDateTime();
-        Debug.Log("Build Date and Time: " + buildDateTime.ToString("HH:mm dd/MM/yyyy"));
         SetText(dateTextGUI, buildDateTime.ToString("HH:mm dd/MM/yyyy"));
-#endif
     }
 
     private DateTime GetBuildDateTime()
@@ -56,7 +50,7 @@ public class StartMenu : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Failed to parse build date and time.");
+            //Debug.LogError("Failed to parse build date and time.");
             return DateTime.Now; // Fallback to current date and time in case of failure
         }
     }

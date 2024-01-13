@@ -84280,7 +84280,7 @@ PrefabInstance:
       objectReference: {fileID: 1589885997}
     - target: {fileID: 3907908965169096709, guid: eefd63028ff35414ca1ab7d4c06801a5, type: 3}
       propertyPath: dontSpawn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3907908965169096709, guid: eefd63028ff35414ca1ab7d4c06801a5, type: 3}
       propertyPath: carTransform
