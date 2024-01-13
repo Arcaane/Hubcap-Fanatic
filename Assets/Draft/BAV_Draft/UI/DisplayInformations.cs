@@ -7,11 +7,8 @@ using UnityEngine;
 public class DisplayInformations : MonoBehaviour
 {
     [Header("Display Informations")] 
-    public TextMeshProUGUI currentWaveText;
-    public TextMeshProUGUI convoyKillsNumberText;
-    public TextMeshProUGUI ennemyKillsNumberText;
-    public TextMeshProUGUI deliverysCompleteNumberText;
-
+    public List<TextMeshProUGUI> informationToDisplayTexts;
+    
     private void Start()
     {
         UpdateDisplayInformations();
@@ -19,10 +16,10 @@ public class DisplayInformations : MonoBehaviour
 
     public void UpdateDisplayInformations()
     {
-        SetText(currentWaveText, "Wave ");
-        SetText(convoyKillsNumberText, "Convoy Kills Count : ");
-        SetText(ennemyKillsNumberText, "Enemys Kills Count :");
-        SetText(deliverysCompleteNumberText, "Deliverys Complete Count :");
+        SetText(informationToDisplayTexts[0], "Wave ");
+        SetText(informationToDisplayTexts[1], "Convoy Kills Count : ");
+        SetText(informationToDisplayTexts[2], "Enemys Kills Count :");
+        SetText(informationToDisplayTexts[3], "Deliverys Complete Count :");
     }
     
     private TextMeshProUGUI SetText(TextMeshProUGUI tmpGUI, string text)

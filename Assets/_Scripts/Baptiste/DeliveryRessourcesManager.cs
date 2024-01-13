@@ -241,18 +241,13 @@ public class DeliveryRessourcesManager : MonoBehaviour
         if (!enableGizmos || spawnPoints.Count == 0 || numberOfCapturesAtStart <= 0) return;
 
         Random.InitState(randomSeed);
-
-        // Iterate through the capture zones
         for (int i = 0; i < numberOfCapturesAtStart; i++)
         {
-            // Ensure that selectedSpawnIndex is within the valid range
             selectedSpawnIndex = Random.Range(0, spawnPoints.Count);
-
-            // Visualize spawn points
             foreach (Transform sp in spawnPoints)
             {
                 Gizmos.color = (sp == spawnPoints[selectedSpawnIndex]) ? Color.red : Color.green;
-                Gizmos.DrawSphere(sp.position, 2f);
+                Gizmos.DrawCube(sp.position, Vector3.one * 2);
             }
         }
     }
