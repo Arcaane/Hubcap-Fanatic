@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CarBehaviour : MonoBehaviour
@@ -84,6 +82,7 @@ public class CarBehaviour : MonoBehaviour
                 
                 if (driftSparks.Length < 1) return;
                 foreach (var t in driftSparks) t.Stop();
+                CarAbilitiesManager.Instance.DesactivateDriftAbilities();
             }
         }
         

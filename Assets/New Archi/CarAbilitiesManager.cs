@@ -1,60 +1,101 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CarAbilitiesManager : MonoBehaviour
 {
-    [Header("KIT")]
-    [SerializeField] private Ability xAbility,bAbility,yAbility,aAbility;
+    private static CarAbilitiesManager instance;
+    public static CarAbilitiesManager Instance => instance;
 
-    public void ActivateXAbility()
+    private void Awake()
     {
-        if(!xAbility.activable) return;
-        xAbility.StartAbility();
-    }
-    
-    public void ActivateBAbility()
-    {
-        if(!bAbility.activable) return;
-        bAbility.StartAbility();
-    }
-    
-    public void ActivateYAbility()
-    {
-        if(!yAbility.activable) return;
-        yAbility.StartAbility();
-    }
-    
-    public void ActivateAAbility()
-    {
-        if(!aAbility.activable) return;
-        aAbility.StartAbility();
-    }
-    
-    public void Setup()
-    {
-        aAbility.SetupAbility(AbilitySocket.ABILITY_A);
-        xAbility.SetupAbility(AbilitySocket.ABILITY_X);
-        bAbility.SetupAbility(AbilitySocket.ABILITY_B);
-        yAbility.SetupAbility(AbilitySocket.ABILITY_Y);
+        instance = this;
     }
 
+    //[Header("KIT")]
+    [SerializeField] private Ability[] nitroAbilities;
+    [SerializeField] private Ability[] driftAbilities;
+
+    [SerializeField] public int damageOnCollisionWithEnemy;
+    public void ActivateDriftAbilities()
+    {
+        foreach (var t in driftAbilities)
+        {
+            //if (!t.activable) return;
+            t.StartAbility();
+        }
+    }
+    
+    public void DesactivateDriftAbilities()
+    {
+        foreach (var t in driftAbilities)
+        {
+            //if (!t.activable) return;
+            t.StopAbility();
+        }
+    }
+    
+    public void ActivateNitroAbilities()
+    {
+        foreach (var t in nitroAbilities)
+        {
+            //if (!t.activable) return;
+            t.StartAbility();
+        }
+    }
+    
+    public void DesactivateNitroAbilities()
+    {
+        foreach (var t in nitroAbilities)
+        {
+            //if (!t.activable) return;
+            t.StopAbility();
+        }
+    }
+    
     private void Update()
     {
-        aAbility.UpdateAbility();
-        xAbility.UpdateAbility();
-        bAbility.UpdateAbility();
-        yAbility.UpdateAbility();
+        foreach (var t in nitroAbilities)
+        {
+            t.UpdateAbility();
+        }
+
+        foreach (var t in driftAbilities)
+        {
+            t.UpdateAbility();
+        }
+
+        // if (Input.GetKeyDown(KeyCode.U))
+        // {
+        //     foreach (var t in nitroAbilities)
+        //     {
+        //         t.activable = false;
+        //     }
+        // }
+        //
+        // if (Input.GetKeyUp(KeyCode.U))
+        // {
+        //     foreach (var t in nitroAbilities)
+        //     {
+        //         t.activable = true;
+        //     }
+        // }
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy")) // EnemyCollision
+        {
+            if (Vector3.Dot( other.transform.position - transform.position, transform.forward) > 0.75f)
+            {
+                Debug.Log("Enemy Touché");
+                other.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy);
+            }
+        }
     }
 }
 
 public enum AbilitySocket
 {
-    ABILITY_X,
-    ABILITY_Y,
-    ABILITY_A,
-    ABILITY_B
+    AbilityNitro,
+    AbilityDrift,
 }

@@ -23,6 +23,6 @@ public class GameManager : MonoBehaviour
 
     public void SetupGame()
     {
-        abilitiesManager.Setup();
+        //abilitiesManager.Setup();
     }
 }

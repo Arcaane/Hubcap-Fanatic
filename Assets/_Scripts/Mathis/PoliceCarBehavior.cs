@@ -1,7 +1,7 @@
 using ManagerNameSpace;
 using UnityEngine;
 
-public class PoliceCarBehavior : CarBehaviour
+public class PoliceCarBehavior : CarBehaviour, IDamageable
 {
     [Header("POLICE CAR")]
     public Transform target;
@@ -266,11 +266,6 @@ public class PoliceCarBehavior : CarBehaviour
             }
         }
         
-        if (hp < 1)
-        {
-            Pooler.instance.DestroyInstance(enemyKey, transform);
-		}
-
         if (other.gameObject.CompareTag("Enemy"))
         {
             if (PickableManager.Instance.copsPickableObjects.Count > 0)
@@ -290,4 +285,15 @@ public class PoliceCarBehavior : CarBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position,repulsiveRadius);
     }
+
+    public void TakeDamage(int damages)
+    {
+        hp -= damages;
+        if (hp < 1)
+        {
+            Debug.Log("Die");
+            Pooler.instance.DestroyInstance(enemyKey, transform);
+        }
+    }
+    
 }

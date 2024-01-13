@@ -49,6 +49,7 @@ public class CarController : CarBehaviour
         {
             driftBrake = false;
             foreach (var t in driftSparks) t.Stop();
+            CarAbilitiesManager.Instance.DesactivateDriftAbilities();
         }
     }
     
@@ -83,6 +84,7 @@ public class CarController : CarBehaviour
             brakeForce = context.ReadValue<float>();
             
             foreach (var t in driftSparks) t.Play();
+            CarAbilitiesManager.Instance.ActivateDriftAbilities();
         }
         else
         {
@@ -110,13 +112,16 @@ public class CarController : CarBehaviour
             smoke.Stop();
             smokeNitro.Play();
             targetSpeed = nitroSpeed;
+            CarAbilitiesManager.Instance.ActivateNitroAbilities();
         }
+        
         if (context.canceled)
         {
             nitroMode = false;
             smoke.Play();
             smokeNitro.Stop();
             targetSpeed = maxSpeed;
+            CarAbilitiesManager.Instance.DesactivateNitroAbilities();
         }
         
     }
@@ -167,18 +172,6 @@ public class CarController : CarBehaviour
             {
                 PickableManager.Instance.carPickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
             } 
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy")) // EnemyCollision
-        {
-            if (Vector3.Dot( other.transform.position - transform.position, transform.forward) > 0.75f)
-            {
-                Debug.Log("Dégats aux enemis");
-                other.GetComponent<IDamageable>()?.TakeDamage(1);
-            }
         }
     }
 }

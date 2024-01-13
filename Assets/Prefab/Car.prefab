@@ -1333,9 +1333,8 @@ GameObject:
   - component: {fileID: 7223312086131934466}
   - component: {fileID: 5756490539695504914}
   - component: {fileID: 2106133911537970450}
-  - component: {fileID: 7559086803693417605}
-  - component: {fileID: 4495876958333312486}
   - component: {fileID: 1092070526955468118}
+  - component: {fileID: 3798896081380664901}
   m_Layer: 0
   m_Name: Car
   m_TagString: Player
@@ -1516,6 +1515,9 @@ MonoBehaviour:
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
+  driftSparks:
+  - {fileID: 2397112616274957871}
+  - {fileID: 752028660871927117}
   accelForce: 0
   brakeForce: 0
   driftBrake: 0
@@ -1529,9 +1531,6 @@ MonoBehaviour:
   smokeNitro: {fileID: 0}
   nitroMode: 0
   jumpSmoke: {fileID: 0}
-  driftSparks:
-  - {fileID: 2397112616274957871}
-  - {fileID: 752028660871927117}
   dirCam: 0
   cameraHolder: {fileID: 0}
 --- !u!54 &7223312086131934466
@@ -1665,7 +1664,7 @@ MonoBehaviour:
     m_ActionName: Inputs/XButton[/XInputControllerWindows/buttonWest]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7559086803693417605}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CarDash, Assembly-CSharp
         m_MethodName: LBButton
         m_Mode: 0
@@ -1692,60 +1691,6 @@ MonoBehaviour:
   m_DefaultActionMap: Inputs
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &7559086803693417605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7139619980449615729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25c48383fe60ab94ebc23ec715d0be69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dashDuration: 0.2
-  dashSpeed: 20
-  dashCooldown: 2
-  resetSpeed: 10
-  dashForward: {x: 0, y: 0, z: 0}
-  detectionDst: 15.5
-  isInAimingMode: 0
-  rectImage: {fileID: 0}
-  rectSizeMultiplier: 10
-  targetClonePrefab: {fileID: 284307137656572325, guid: 7293ce2b59611469895354e1173c83aa, type: 3}
-  isCharging: 0
-  chargeDuration: 0.8
-  chargeAmount: 0
-  middleChargeTolerance: 0.1
-  endChargeTolerance: 0.25
-  chargeSlider: {fileID: 0}
-  OnInputRelease:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTargetChange:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &4495876958333312486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7139619980449615729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6971378e855ea8c4196c8b57e85cdf47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldown: 30
-  abilityName: NITRO
-  description: 
-  socket: 0
-  cooldownTimer: 0
-  activable: 1
-  nitroTime: 3
-  nitroForce: 6
 --- !u!114 &1092070526955468118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1827,6 +1772,23 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+--- !u!114 &3798896081380664901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7139619980449615729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2646441ad0e723e4286386040d8e36fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nitroAbilities:
+  - {fileID: 0}
+  driftAbilities:
+  - {fileID: 0}
+  damageOnCollisionWithEnemy: 10
 --- !u!1 &7548192053697698528
 GameObject:
   m_ObjectHideFlags: 0

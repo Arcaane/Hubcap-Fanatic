@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 8350142766987846840}
   - component: {fileID: 4100530699879000119}
   - component: {fileID: 5914609794965945051}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DriveByEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -378,6 +378,7 @@ MonoBehaviour:
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
+  driftSparks: []
   accelForce: 1
   brakeForce: 0
   driftBrake: 0
@@ -397,7 +398,7 @@ MonoBehaviour:
   driveByCar: 1
   shootFx: {fileID: 3406785552209663586}
   shooting: 0
-  enemyKey: 0
+  enemyKey: 4
   hp: 100
   pickable: {fileID: 4090469464698293986}
 --- !u!54 &4100530699879000119
@@ -6539,6 +6540,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_PickableDetectionEnemies
       objectReference: {fileID: 0}
+    - target: {fileID: 1779569603877345908, guid: 00536d4caa1c8ef46b566d2239a5bd8c, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7228693898659762431, guid: 00536d4caa1c8ef46b566d2239a5bd8c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6579,6 +6584,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7393581805013274163, guid: 00536d4caa1c8ef46b566d2239a5bd8c, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6606,6 +6615,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SmokeParticules Main
       objectReference: {fileID: 0}
+    - target: {fileID: 1552520941225865316, guid: 9eb821a0123e8424b8dab240d1df49dd, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3099933334812436240, guid: 9eb821a0123e8424b8dab240d1df49dd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.45
@@ -6613,6 +6626,14 @@ PrefabInstance:
     - target: {fileID: 3099933334812436240, guid: 9eb821a0123e8424b8dab240d1df49dd, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324830586874643697, guid: 9eb821a0123e8424b8dab240d1df49dd, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4076637558122324577, guid: 9eb821a0123e8424b8dab240d1df49dd, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5610362089448617559, guid: 9eb821a0123e8424b8dab240d1df49dd, type: 3}
       propertyPath: m_LocalPosition.x
