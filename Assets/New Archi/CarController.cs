@@ -58,8 +58,6 @@ public class CarController : CarBehaviour
             driftBrake = false;
             
         }
-
-        
     }
     
     void FixedUpdate()
@@ -180,7 +178,10 @@ public class CarController : CarBehaviour
 
         if (other.gameObject.CompareTag("Cone"))
         {
-            //TODO : Mettre le fait de faire tomber un objet.
+            if (PickableManager.Instance.carPickableObjects.Count > 0)
+            {
+                PickableManager.Instance.carPickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
+            } 
         }
     }
 

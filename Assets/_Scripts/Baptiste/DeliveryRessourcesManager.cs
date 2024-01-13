@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class DeliveryRessourcesManager : MonoBehaviour
@@ -13,12 +16,15 @@ public class DeliveryRessourcesManager : MonoBehaviour
     
     [Header("Capture Zone Options")]
     public GameObject captureZone;
-    public int numberOfCaptureZones;
+    public int numberOfCapturesAtStart;
     [Range(0,65565)]
-    public int randomSeed; 
-    
+    public int randomSeed;
+    [Header("Permently Capture Zone Options")]
+    public float spawnInterval = 30f;
+    public float timeSinceLastSpawn = 0f;
+    private SpawnZoneDelivery spawnZoneInstance;
 
-
+        
     public List<GameObject> prefabObjects;
     private int previousSpawnIndex = -1;
     private int selectedSpawnIndex = -1;
@@ -34,6 +40,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
     private Transform spawnPointContainer;
     private GameObject actualObjectPick;
 
+
     void Awake()
     {
         _instance = this;
@@ -41,23 +48,93 @@ public class DeliveryRessourcesManager : MonoBehaviour
     
     void Start()
     {
-        SpawnCaptureZone(randomSeed);
+        randomSeed = PlayerPrefs.GetInt("RandomSeed", randomSeed);
+        numberOfCapturesAtStart = PlayerPrefs.GetInt("NumberOfCapturesAtStart", numberOfCapturesAtStart);
+        Random.InitState(randomSeed);
+        SpawnCaptureZones();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            ReloadScene();
+        }
+        if (spawnZoneInstance != null && !spawnZoneInstance.HasDelivered)
+        {
+            return;
+        }
+        timeSinceLastSpawn += Time.deltaTime;
+
+        if (timeSinceLastSpawn >= spawnInterval)
+        {
+            if (spawnZoneInstance != null && spawnZoneInstance.currenSpawnState != SpawnDeliveryState.IsOrNotDelivered)
+            {
+                Destroy(spawnZoneInstance.gameObject);
+            }
+            SpawnCaptureZone();
+            timeSinceLastSpawn = 0f;
+        }
     }
     
-
-
-    void SpawnCaptureZone(int seed)
+    private void OnGUI()
     {
-        Random.InitState(seed);
+        /*
+        GUI.Label(new Rect(50, 50, 2003, 1003), "Press F1 to reload scene");
 
-        for (int i = 0; i < numberOfCaptureZones; i++)
+        randomSeed = Mathf.RoundToInt(GUI.HorizontalSlider(new Rect(50, 70, 200, 20), randomSeed, 0f, 100000f));
+        GUI.Label(new Rect(260, 70, 150, 20), "Seed Number: " + randomSeed.ToString());
+
+        numberOfCapturesAtStart = Mathf.RoundToInt(GUI.HorizontalSlider(new Rect(50, 100, 200, 20), numberOfCapturesAtStart, 0f, 100f));
+        GUI.Label(new Rect(260, 100, 150, 20), "Captures Number: " + numberOfCapturesAtStart.ToString());
+
+        if (Event.current.type == EventType.Repaint)
+        {
+            PlayerPrefs.SetInt("RandomSeed", randomSeed);
+            PlayerPrefs.SetInt("NumberOfCapturesAtStart", numberOfCapturesAtStart);
+            PlayerPrefs.Save();
+        }
+        */
+    }
+
+    
+    private void ReloadScene()
+    {
+        PlayerPrefs.DeleteKey("RandomSeed");
+        PlayerPrefs.DeleteKey("NumberOfCapturesAtStart");
+        SceneManager.LoadScene(0);
+    }
+
+    void SpawnCaptureZone()
+    {
+        int tempRandomSeed = System.Environment.TickCount;
+        Random.InitState(tempRandomSeed);
+
+        Transform randomSpawnPoint = GetRandomSpawnPoint();
+        GameObject capturedZoneObject = Instantiate(captureZone, randomSpawnPoint.position, Quaternion.identity);
+        spawnZoneInstance = capturedZoneObject.GetComponent<SpawnZoneDelivery>();    
+    }
+    
+    void SpawnCaptureZones()
+    {
+        for (int i = 0; i < numberOfCapturesAtStart; i++)
         {
             Transform randomSpawnPoint = GetRandomSpawnPoint();
             selectedSpawnIndex = spawnPoints.IndexOf(randomSpawnPoint); 
             Instantiate(captureZone, randomSpawnPoint.position, Quaternion.identity);
         }
     }
+
+    public GameObject SpawnObject(Vector3 spawnPoint)
+    {
+        GameObject spawnedObject = Instantiate(prefabObjects[0], spawnPoint, Quaternion.identity);
+        actualObjectPick = spawnedObject;  // Pour Debug
+        return spawnedObject;
+    }
+
     
+    
+    /*
     public void SpawnRandomObject()
     {
         if (!canSpawn) return;
@@ -75,6 +152,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
             Debug.LogError("L'objet instancié ne contient pas de composant IPickupable.");
         }
     }
+    */
 
     public void RemoveDelivery()
     {
@@ -156,16 +234,16 @@ public class DeliveryRessourcesManager : MonoBehaviour
         {
             actualObjectPick.GetComponent<IPickupable>().OnPickedUp();
         }
-        SpawnRandomObject();
+        //SpawnRandomObject();
     }
     void OnDrawGizmos()
     {
-        if (!enableGizmos || spawnPoints.Count == 0 || numberOfCaptureZones <= 0) return;
+        if (!enableGizmos || spawnPoints.Count == 0 || numberOfCapturesAtStart <= 0) return;
 
         Random.InitState(randomSeed);
 
         // Iterate through the capture zones
-        for (int i = 0; i < numberOfCaptureZones; i++)
+        for (int i = 0; i < numberOfCapturesAtStart; i++)
         {
             // Ensure that selectedSpawnIndex is within the valid range
             selectedSpawnIndex = Random.Range(0, spawnPoints.Count);
@@ -178,8 +256,4 @@ public class DeliveryRessourcesManager : MonoBehaviour
             }
         }
     }
-
-
-
-
 }

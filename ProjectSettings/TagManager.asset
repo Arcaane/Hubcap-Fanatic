@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Cone
   - Fodder
+  - ObjectDelivery
   layers:
   - Default
   - TransparentFX
