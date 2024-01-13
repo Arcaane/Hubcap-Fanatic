@@ -160,6 +160,7 @@ public class CapturedZone : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         #if UNITY_EDITOR
@@ -167,6 +168,8 @@ public class CapturedZone : MonoBehaviour
         Handles.DrawWireDisc(transform.position, Vector3.up, currentSize);
         #endif
     }
+#endif
+    
 }
 
 public enum ZoneState

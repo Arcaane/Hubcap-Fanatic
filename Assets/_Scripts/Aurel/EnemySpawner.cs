@@ -1,11 +1,14 @@
+using System;
 using ManagerNameSpace;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
     private Vector3[] positions;
     [SerializeField] private Transform carTransform;
+    [SerializeField] private CarController car;
     
     [Header("Spawning Attributes")]
     [SerializeField] private GameObject enemyPrefab;
@@ -24,13 +27,31 @@ public class EnemySpawner : MonoBehaviour
     
     [Space]
     [Header("RectSpawnAttributes")]
-    [SerializeField] public int spawningPointPerSideCount = 7;
-    [SerializeField] public float height = 30f;
-    [SerializeField] public float width = 20f;
+    [SerializeField] private int spawningPointPerSideCount = 7;
+    [SerializeField] private float height = 30f;
+    [SerializeField] private float width = 20f;
+    [SerializeField] private float addAngleToRectange = 0f;
     
+    [Space]
+    [Header("CameraBoundsAttributes")]
+    [SerializeField] private int spawningPointPerSideForCameraBounds = 7;
+    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private Vector3 offset;
+    [SerializeField] private float heightOffset = 5f;
+    [SerializeField] private float widthOffset = 5f;
+    
+    public bool stopSpawn;
+
+    private void Start()
+    {
+        car = carTransform.GetComponent<CarController>();
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (stopSpawn) return;
+        
         timer += Time.deltaTime;
         if (timer > spawningInterval)
         {
@@ -81,6 +102,8 @@ public class EnemySpawner : MonoBehaviour
         else if (SpawningShape == SpawningShape.Rect)
         {
             positions = new Vector3[spawningPointPerSideCount*4];
+            float rotationAngleRadians = addAngleToRectange * Mathf.Deg2Rad;
+            Quaternion rotationQuaternion = Quaternion.Euler(0, rotationAngleRadians, 0);
             
             float semiHeight = height / 2;
             float semiWidth = width / 2;
@@ -92,7 +115,7 @@ public class EnemySpawner : MonoBehaviour
                 float x = Mathf.Lerp(-semiHeight, semiHeight, t);
                 float y = semiWidth;
                 
-                positions[i] = new Vector3(currentPos.x + x, 0, currentPos.z + y);
+                positions[i] = rotationQuaternion * new Vector3(currentPos.x + x, 0.75f, currentPos.z + y);
             }
 
             // Créer les points sur le côté droit
@@ -102,7 +125,7 @@ public class EnemySpawner : MonoBehaviour
                 float x = semiHeight;
                 float y = Mathf.Lerp(semiWidth, -semiWidth, t);
                 
-                positions[i + spawningPointPerSideCount] = new Vector3(currentPos.x + x, 0, currentPos.z + y);
+                positions[i + spawningPointPerSideCount] = rotationQuaternion * new Vector3(currentPos.x + x, 0.75f, currentPos.z + y);
             }
             
             // Créer les points sur le côté inférieur
@@ -112,7 +135,7 @@ public class EnemySpawner : MonoBehaviour
                 float x = Mathf.Lerp(semiHeight, -semiHeight, t);
                 float y = -semiWidth;
 
-                positions[i + spawningPointPerSideCount * 2] = new Vector3(currentPos.x + x, 0, currentPos.z + y);
+                positions[i + spawningPointPerSideCount * 2] = rotationQuaternion * new Vector3(currentPos.x + x, 0.75f, currentPos.z + y);
             }
 
             // Créer les points sur le côté gauche
@@ -122,26 +145,88 @@ public class EnemySpawner : MonoBehaviour
                 float x = -semiHeight;
                 float y = Mathf.Lerp(-semiWidth, semiWidth, t);
 
-                positions[i + spawningPointPerSideCount * 3] = new Vector3(currentPos.x + x, 0, currentPos.z + y);
+                positions[i + spawningPointPerSideCount * 3] = rotationQuaternion * new Vector3(currentPos.x + x, 0.75f, currentPos.z + y);
+            }
+        }
+        else if (SpawningShape == SpawningShape.CameraBounds)
+        {
+            //positions = new Vector3[4];
+            positions = new Vector3[spawningPointPerSideCount * 4 + 4 - 1];
+            var cam = Camera.main;
+
+            RaycastHit hitInfo;
+            Vector3 camPosReal = cam.transform.position + new Vector3(0, -1, 0);
+            Physics.Raycast(cam.transform.position, cam.transform.forward, out hitInfo, 1000f, groundMask);
+            
+            Vector3 bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, hitInfo.distance)) + offset; // 0;0
+            Vector3 topLeft = cam.ScreenToWorldPoint(new Vector3(0, cam.pixelHeight, hitInfo.distance)) + offset ; // 0;1
+            Vector3 topRight = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, hitInfo.distance)) + offset; // 1;1
+            Vector3 bottomRight = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0, hitInfo.distance)) + offset; // 1;0
+
+            bottomLeft.y = topLeft.y = topRight.y = bottomRight.y = 0.75f;
+
+            bottomLeft += new Vector3(-widthOffset, 0, -heightOffset);
+            topLeft += new Vector3(-widthOffset, 0, heightOffset);
+            topRight += new Vector3(widthOffset, 0, heightOffset);
+            bottomRight += new Vector3(widthOffset, 0, -heightOffset);
+            
+            Quaternion rotationQuaternion = Quaternion.Euler(0, addAngleToRectange, 0);
+            
+            // Créer les points sur le côté supérieur
+            for (int i = 0; i < spawningPointPerSideCount; i++)
+            {
+                float t = i / (float)(spawningPointPerSideCount - 1);
+                Vector3 tempVec = Vector3.Lerp(topLeft, topRight, t);
+                positions[i] = rotationQuaternion * tempVec;
+            }
+
+            // Créer les points sur le côté droit
+            for (int i = 0; i < spawningPointPerSideCount; i++)
+            {
+                float t = i / (float)(spawningPointPerSideCount - 1);
+                Vector3 tempVec = Vector3.Lerp(topRight, bottomRight, t);
+                positions[i + spawningPointPerSideCount] = rotationQuaternion *tempVec;
+            }
+            
+            // Créer les points sur le côté inférieur
+            for (int i = 0; i < spawningPointPerSideCount; i++)
+            {
+                float t = i / (float)(spawningPointPerSideCount - 1);
+                Vector3 tempVec = Vector3.Lerp(bottomRight, bottomLeft, t);
+                positions[i + spawningPointPerSideCount * 2] = rotationQuaternion *tempVec;
+            }
+
+            // Créer les points sur le côté gauche
+            for (int i = 0; i < spawningPointPerSideCount; i++)
+            {
+                float t = i / (float)(spawningPointPerSideCount - 1);
+                Vector3 tempVec = Vector3.Lerp(bottomLeft, topLeft, t);
+                positions[i + spawningPointPerSideCount * 3] = rotationQuaternion *tempVec;
             }
         }
     }
     
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         UpdateEnemySpawingPos();
         
         for (int i = 0; i < positions.Length; i++)
         {
             Gizmos.color =  Color.green;
-            Gizmos.DrawSphere( positions[i]+ carTransform.InverseTransformPoint(positions[i]), 1);
+            Gizmos.DrawSphere(positions[i] /*- car.rb.velocity.normalized * car.dirCam * 0.5f*/, 1);
         }
+    }
+    
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(50, 50, 200*3, 100*3), "Press F1 to reload scene");
     }
 }
 
 enum SpawningShape
 {
     Circle,
-    Rect
+    Rect,
+    CameraBounds
 }
 

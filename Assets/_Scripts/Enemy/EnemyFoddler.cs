@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-//using CarNameSpace;
 using ManagerNameSpace;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,6 +9,7 @@ namespace EnemyNamespace
 {
     public class EnemyFoddler : Enemy, IDamageable
     {
+        private Collider myCol;
         //Variables
         [Space] [Header("Foddler Section")] 
         [SerializeField] private Animator animator;
@@ -21,6 +21,7 @@ namespace EnemyNamespace
         [SerializeField] private LayerMask playerLayer;
         public float timer;
         public bool isAttacking = false;
+        [SerializeField] private Transform puddleSocket;
         
         void Start()
         {
@@ -69,53 +70,53 @@ namespace EnemyNamespace
             // Attack en direction du joueur au moment ou il trigger l'attaque
             // Si voiture présente après l'anim dans un radius -> Apply dégats
             // Switch state
-            
+
+            var tempTimer = 2f;
             if (timer > 1.75f)
             {
+                if (timer > tempTimer)
+                {
+                    if (Physics.OverlapSphereNonAlloc(transform.position, 2.5f, new Collider[1], playerLayer) > 0)
+                    {
+                        CarHealthManager.instance.TakeDamage(1);
+                    }
+                    SwitchState(FoddlerState.FollowPlayer);
+                }
+                
                 if (isAttacking) return;
-                LaunchAttack();
+                int randAttack = Random.Range(0, 3);
+                LaunchAttackAnim(randAttack);
+                
+                // switch (randAttack)
+                // {
+                //     case 0: tempTimer = (float)(658 * 2) / 1000; break;
+                //     case 1: tempTimer = (float)(1158 * 2) / 1000; break;
+                //     case 2: tempTimer = (float) 566 * 2 / 1000; break;
+                // }
+                
             }
         }
 
-        private async void LaunchAttack()
+        private async void LaunchAttackAnim(int i)
         {
             isAttacking = true;
             animator.SetBool("isAttack", isAttacking);
-            int randAttack = Random.Range(0, 3);
-            animator.SetFloat("RandomAttack", randAttack);
-            
+            animator.SetFloat("RandomAttack", i);
             await Task.Yield();
-
             int animTime = 0;
-            switch (randAttack)
+            switch (i)
             {
                 case 0: animTime = 658; break;
                 case 1: animTime = 1158; break;
                 case 2: animTime = 566; break;
             }
-            
-            
-            Debug.Log(animTime);
-            await Task.Delay(animTime);
-            
-            Debug.Log("Attack");
-            Collider[] cols = new Collider[1];
-            int count = Physics.OverlapSphereNonAlloc(transform.position + transform.forward * 1.5f + transform.up, 1.5f, cols, playerLayer);
-
-            if (count > 0)
-            {
-                //Debug.Log(cols[0].name);
-                //GameManager.instance.healthManager.TakeDamage(1); // TODO -  PLAYER TAKE DAMAGE
-            }
-
-            await Task.Delay((animTime / 4) - 100);
-            
-            timer = 0f;
-            SwitchState(FoddlerState.FollowPlayer);
+            await Task.Delay(animTime * 2);
+            animator.SetBool("isAttack", false);
         }
 
         private void DeadState()
         {
+            return;
             // timer & au bout de 10 secondes dépop
             // Lerp du mat opacity 255 -> 0
             
@@ -135,7 +136,7 @@ namespace EnemyNamespace
                 case FoddlerState.Spawning: break;
                 case FoddlerState.FollowPlayer: ToFollow(); break;
                 case FoddlerState.AttackPlayer: ToAttack(); break;
-                case FoddlerState.Dead: Kill(); break;
+                case FoddlerState.Dead: break;
                 default: throw new ArgumentOutOfRangeException(nameof(nextState), nextState, null);
             }
 
@@ -149,6 +150,7 @@ namespace EnemyNamespace
 
         private void ToFollow()
         {
+            timer = 0f;
             isAttacking = false;
             animator.SetBool("isAttack", false);
         }
@@ -156,7 +158,6 @@ namespace EnemyNamespace
         protected override void Spawn()
         {
             base.Spawn();
-            
             //ragdollHandler = GetComponentsInChildren<Rigidbody>();
             
             // foreach (var t in ragdollHandler)
@@ -170,7 +171,6 @@ namespace EnemyNamespace
             //     
             //     t.isKinematic = true;
             // }
-            
             SwitchState(FoddlerState.FollowPlayer);
         }
         
@@ -195,23 +195,26 @@ namespace EnemyNamespace
             EnemyTakeDamage(damages);
         }
 
-        public void Kill() => OnDie();
+        //private void Kill() => OnDie();
 
         protected override void OnDie()
         {
             base.OnDie();
-            EnableRagdoll();
+            SwitchState(FoddlerState.Dead);
+            Pooler.instance.DestroyInstance(Key.OBJ_Foddler, transform);
+            Pooler.instance.SpawnTemporaryInstance(Key.FX_Puddle, puddleSocket.position, puddleSocket.rotation, 15f);
         }
         
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            if (!Application.isPlaying) return;
+            //if (!Application.isPlaying) return;
           
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position + transform.forward * 1.5f + transform.up, 1.5f);
+            //Gizmos.color = Color.blue;
+            //Gizmos.DrawWireSphere(transform.position + transform.forward * 1.5f + transform.up, 1.5f);
             
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, 1.5f);
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(transform.position, 2.5f);
             
             if (agent.destination != null)
             {
@@ -227,15 +230,7 @@ namespace EnemyNamespace
                 }
             }
         }
-        
-        AnimatorClipInfo[] m_CurrentClipInfo;
-        void OnGUI()
-        {
-            //Output the current Animation name and length to the screen
-            m_CurrentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
-            //GUI.Label(new Rect(0, 0, 200, 20),  "Clip Name : " + m_CurrentClipInfo[0].clip.length);
-            //GUI.Label(new Rect(0, 30, 200, 20),  "Clip Length : " + m_CurrentClipInfo[0].clip.name);
-        }
+#endif
     }
 }
 
@@ -248,9 +243,7 @@ public enum FoddlerState
 }
 
 public static class ExtensionMethods {
- 
     public static float Remap (this float value, float from1, float to1, float from2, float to2) {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
-   
 }

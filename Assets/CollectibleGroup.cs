@@ -48,16 +48,17 @@ public class CollectibleGroup : MonoBehaviour
     private async void ResetSpawner()
     {
         isCollecting = false;
+        timer = 0;
         for (int i = 0; i < entities.Count; i++)
         {
             entities[i].gameObject.SetActive(false);
-            entities[i].isTrigger = false;
         }
 
         await Task.Delay(10 * 1000);
         
         for (int i = 0; i < entities.Count; i++)
         {
+            entities[i].isTrigger = false;
             entities[i].gameObject.SetActive(true);
         }
     }
