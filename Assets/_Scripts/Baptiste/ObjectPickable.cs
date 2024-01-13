@@ -17,7 +17,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
             Debug.Log("Pickable by player");
         }
 
-        if (other.gameObject.CompareTag("Cone"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
             isCopHasPick = true;
             other.gameObject.transform.root.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[UnityEngine.Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true); //https://www.youtube.com/watch?v=h9kSAWqqjuw

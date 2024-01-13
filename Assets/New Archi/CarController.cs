@@ -133,7 +133,7 @@ public class CarController : CarBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Cone"))
+        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
         {
             //Debug.Log(other.relativeVelocity.magnitude);
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
@@ -159,7 +159,7 @@ public class CarController : CarBehaviour
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
 
-        if (other.gameObject.CompareTag("Cone"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
             if (PickableManager.Instance.carPickableObjects.Count > 0)
             {

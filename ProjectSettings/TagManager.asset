@@ -6,9 +6,9 @@ TagManager:
   tags:
   - PlayerBonusCollider
   - Wall
-  - Cone
   - Fodder
   - ObjectDelivery
+  - Enemy
   layers:
   - Default
   - TransparentFX

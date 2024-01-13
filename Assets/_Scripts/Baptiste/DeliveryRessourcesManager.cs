@@ -127,7 +127,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
 
     public GameObject SpawnObject(Vector3 spawnPoint)
     {
-        GameObject spawnedObject = Instantiate(prefabObjects[0], spawnPoint, Quaternion.identity);
+        GameObject spawnedObject = Instantiate(prefabObjects[0], spawnPoint + new Vector3(0, 1.5f, 0), Quaternion.identity);
         actualObjectPick = spawnedObject;  // Pour Debug
         return spawnedObject;
     }

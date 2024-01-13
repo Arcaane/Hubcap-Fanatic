@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using ManagerNameSpace;
 using UnityEngine;
 
@@ -42,6 +39,7 @@ public class PoliceCarBehavior : CarBehaviour
 
     void Start()
     {
+        target = CarController.instance.transform;
         currentTarget = target;
     }
 
@@ -234,7 +232,7 @@ public class PoliceCarBehavior : CarBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Cone"))
+        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
         {
            
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
@@ -259,7 +257,7 @@ public class PoliceCarBehavior : CarBehaviour
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
 
-        if (other.gameObject.CompareTag("Cone")) hp -= 100;
+        if (other.gameObject.CompareTag("Enemy")) hp -= 100;
         if (other.gameObject.CompareTag("Wall")) hp -= 25;
         if (other.gameObject.CompareTag("Player"))
         {
@@ -272,7 +270,7 @@ public class PoliceCarBehavior : CarBehaviour
             Pooler.instance.DestroyInstance(enemyKey, this.transform);
 		}
 
-        if (other.gameObject.CompareTag("Cone"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
             if (PickableManager.Instance.copsPickableObjects.Count > 0)
             {
