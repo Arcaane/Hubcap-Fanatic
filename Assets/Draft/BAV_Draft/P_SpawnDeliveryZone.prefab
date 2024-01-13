@@ -195,7 +195,7 @@ MonoBehaviour:
   hasDelivered: 0
   currencyToGive: 0
   deliveryDuration: 30
-  timeBeforeLaunchingDelivery: 60
+  timeBeforeLaunchingDelivery: 0
   rewardType: 0
   debugImage: {fileID: 3266507917285999564}
   rect: {fileID: 8834613733686254766}

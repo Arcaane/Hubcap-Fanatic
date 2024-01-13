@@ -11,6 +11,7 @@ public class SpawnZoneDelivery : MonoBehaviour
     public bool HasDelivered { get { return hasDelivered; } }
     [SerializeField] private int currencyToGive;
     [SerializeField] private float deliveryDuration = 20f;
+    public float DeliveryDuration => deliveryDuration;
     [SerializeField] private float timeBeforeLaunchingDelivery = 5f; 
     
     

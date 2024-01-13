@@ -12,15 +12,19 @@ public class TargetUI : MonoBehaviour
     
     [Header("UI Elements")]
     public Image targetImage;
+    public Image durationBeforeSpawnImage;
     public Image backgroundImage;
     public TextMeshProUGUI distanceText;
     
     [Header("Debug")]
     private float distance = 0f;
+
+    [SerializeField] private float timer;
     
     void Start()
     {
         SetText(distanceText, distance);
+        durationBeforeSpawnImage.fillAmount = 0;
     }
 
     void Update()
@@ -28,6 +32,12 @@ public class TargetUI : MonoBehaviour
         SetText(distanceText, distance);
         SwitchIcon();
         CalculateDistance();
+    }
+
+    void DecreaseFillAmount()
+    {
+        timer += Time.deltaTime;
+        durationBeforeSpawnImage.fillAmount = 1 - (timer / DeliveryRessourcesManager.Instance.SpawnZoneInstance.DeliveryDuration);
     }
     
     void SetText(TextMeshProUGUI tmpGUI, string text)
@@ -59,6 +69,7 @@ public class TargetUI : MonoBehaviour
         {
             case TargetType.DropZone:
                 SetImage(targetImage, iconImages[0]);
+                DecreaseFillAmount();
                 break;
             case TargetType.DeliveryZone:
                 SetImage(targetImage, iconImages[1]);
