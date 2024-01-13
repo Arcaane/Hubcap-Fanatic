@@ -32,7 +32,7 @@ public class WaveManager : MonoBehaviour
     
     //Spawning
     [SerializeField] private Transform carTransform;
-    private Vector3[] positions;
+    public Vector3[] positions;
     
     [Space]
     [Header("CameraBoundsAttributes")]
@@ -116,18 +116,19 @@ public class WaveManager : MonoBehaviour
         UpdateEnemySpawingPos();
         var rand = UnityEngine.Random.Range(0, positions.Length);
         Vector3 spawnPos = positions[rand];
-        spawnPos.y = 0.75f;
-        Pooler.instance.SpawnInstance(entityKey, spawnPos, Quaternion.identity);
+        spawnPos.y = 1f;
+        
+        Vector3 relativePos = carTransform.position - spawnPos;
+        Pooler.instance.SpawnInstance(entityKey, spawnPos, Quaternion.LookRotation(relativePos));
     }
-    
-    
+
+    public Transform camholder;
     void UpdateEnemySpawingPos()
     {
-        positions = new Vector3[spawningPointPerSideCount * 4 + 4 - 1];
+        positions = new Vector3[spawningPointPerSideCount * 4];
             var cam = Camera.main;
 
             RaycastHit hitInfo;
-            Vector3 camPosReal = cam.transform.position + new Vector3(0, -1, 0);
             Physics.Raycast(cam.transform.position, cam.transform.forward, out hitInfo, 1000f, groundMask);
             
             Vector3 bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, hitInfo.distance)) + offset; // 0;0
@@ -155,9 +156,9 @@ public class WaveManager : MonoBehaviour
             // Créer les points sur le côté droit
             for (int i = 0; i < spawningPointPerSideCount; i++)
             {
-                float t = i / (float)(spawningPointPerSideCount / 2f - 1);
+                float t = i / (spawningPointPerSideCount / 2f - 1);
                 Vector3 tempVec = Vector3.Lerp(topRight, bottomRight, t);
-                positions[i + spawningPointPerSideCount] = rotationQuaternion *tempVec;
+                positions[i + spawningPointPerSideCount] = rotationQuaternion * tempVec;
             }
             
             // Créer les points sur le côté inférieur
@@ -171,7 +172,7 @@ public class WaveManager : MonoBehaviour
             // Créer les points sur le côté gauche
             for (int i = 0; i < spawningPointPerSideCount; i++)
             {
-                float t = i / (float)(spawningPointPerSideCount / 2f - 1);
+                float t = i / (spawningPointPerSideCount / 2f - 1);
                 Vector3 tempVec = Vector3.Lerp(bottomLeft, topLeft, t);
                 positions[i + spawningPointPerSideCount * 3] = rotationQuaternion *tempVec;
             }
@@ -180,12 +181,14 @@ public class WaveManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
+        if (!Application.isPlaying) return;
+       
         UpdateEnemySpawingPos();
         
         for (int i = 0; i < positions.Length; i++)
         {
             Gizmos.color =  Color.green;
-            Gizmos.DrawSphere(positions[i] /*- car.rb.velocity.normalized * car.dirCam * 0.5f*/, 1);
+            Gizmos.DrawSphere(positions[i], 1);
         }
     }
 #endif

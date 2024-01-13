@@ -21,6 +21,7 @@ public class CarController : CarBehaviour
 
     [Header("JUMP")] 
     [SerializeField] private ParticleSystem jumpSmoke;
+    
 
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
@@ -42,11 +43,12 @@ public class CarController : CarBehaviour
         rotationValue = stickValue.x;
         
         OnMove();
-
+        
         // SORTIE DU DRIFT BRAKE SI ON LACHE L'ACCELERATION
         if (driftBrake && accelForce < 0.1f)
         {
             driftBrake = false;
+            foreach (var t in driftSparks) t.Stop();
         }
     }
     
@@ -79,6 +81,8 @@ public class CarController : CarBehaviour
         {
 			driftBrake = true;
             brakeForce = context.ReadValue<float>();
+            
+            foreach (var t in driftSparks) t.Play();
         }
         else
         {
@@ -121,11 +125,9 @@ public class CarController : CarBehaviour
     {
         if (context.started)
         {
-            
             jumpSmoke.Play();
             rb.AddForce(Vector3.up * 300);
         }
-        
 	}
 
     #endregion

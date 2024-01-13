@@ -399,7 +399,7 @@ MonoBehaviour:
   shooting: 0
   enemyKey: 0
   hp: 100
-  pickable: {fileID: 0}
+  pickable: {fileID: 4090469464698293986}
 --- !u!54 &4100530699879000119
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6584,6 +6584,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00536d4caa1c8ef46b566d2239a5bd8c, type: 3}
+--- !u!1 &4090469464698293986 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1779569603877345908, guid: 00536d4caa1c8ef46b566d2239a5bd8c, type: 3}
+  m_PrefabInstance: {fileID: 2339067424581457046}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4911021063401079913 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7228693898659762431, guid: 00536d4caa1c8ef46b566d2239a5bd8c, type: 3}

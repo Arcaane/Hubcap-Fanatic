@@ -20,7 +20,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         if (other.gameObject.CompareTag("Enemy"))
         {
             isCopHasPick = true;
-            other.gameObject.transform.root.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[UnityEngine.Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true); //https://www.youtube.com/watch?v=h9kSAWqqjuw
+            other.gameObject.transform.parent.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[UnityEngine.Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true); //https://www.youtube.com/watch?v=h9kSAWqqjuw
             carWhoPickObjet = other.gameObject;
             Debug.Log("Pickable by cops");
         }   
@@ -46,7 +46,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         if (isCopHasPick)
         {
             gameObject.GetComponent<MeshRenderer>().enabled = true;
-            carWhoPickObjet.transform.root.GetComponent<PoliceCarBehavior>().SwapTarget( carWhoPickObjet.transform.root.GetComponent<PoliceCarBehavior>().target);
+            carWhoPickObjet.transform.parent.GetComponent<PoliceCarBehavior>().SwapTarget( carWhoPickObjet.transform.parent.GetComponent<PoliceCarBehavior>().target);
         }
         PickableManager.Instance.RemoveAllPickables(isCopHasPick);
         carWhoPickObjet = null;
