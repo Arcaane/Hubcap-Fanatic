@@ -27,6 +27,8 @@ public class CarBehaviour : MonoBehaviour
     [SerializeField] private Vector3 localCenterOfMass;
     [Tooltip("La rotation Max de la voiture sur les axes X et Z")]
     [SerializeField] private float maxRotation;
+    public float directionalDampMultiplier = 1;
+    
     
     [Header("BRAKEDRIFT")] 
     [SerializeField] private float dampeningMultiplier = 0.25f;
@@ -35,6 +37,7 @@ public class CarBehaviour : MonoBehaviour
     [SerializeField] private float angleMinToExitDrift = 0.1f;
     [SerializeField] protected ParticleSystem[] driftSparks;
     
+    public float speedFactor => rb.velocity.magnitude / targetSpeed;
     
     
     private bool driftEngaged;
@@ -85,8 +88,6 @@ public class CarBehaviour : MonoBehaviour
                 CarAbilitiesManager.Instance.DesactivateDriftAbilities();
             }
         }
-        
-        
     }
     
     public void ApplyWheelForces()
@@ -99,6 +100,14 @@ public class CarBehaviour : MonoBehaviour
             rb.AddForceAtPosition(wheelForce,wheels[i].transform.position);
         }
         
+    }
+    
+    public void AddWheelForces(Vector3 force)
+    {
+        for (int i = 0; i < wheels.Length; i++)
+        {
+            rb.AddForceAtPosition(force,wheels[i].transform.position);
+        }
     }
     
     #region Wheel Methods
@@ -115,10 +124,11 @@ public class CarBehaviour : MonoBehaviour
             float drivingForce = wheel.drivingFactor > 0 ? GetWheelAcceleration(wheel) : 0;
             wheelForce = wheel.transform.up * suspension +
                          wheel.transform.right * directionalDamp +
-                         wheel.transform.forward * drivingForce ;
-            
+                         wheel.transform.forward * drivingForce;
+
+                         
             // DEBUG RAYS
-            
+            Debug.DrawRay(wheel.transform.position,wheel.transform.right * directionalDamp ,Color.red);
         }
 
         return wheelForce;
@@ -144,7 +154,7 @@ public class CarBehaviour : MonoBehaviour
         Vector3 wheelWorldVelocity = rb.GetPointVelocity(wheel.transform.position);
         float tangentSpeed = Vector3.Dot(wheelWorldVelocity,wheel.transform.right);
         float counterAcceleration = (-tangentSpeed * wheel.directionalDampening) / Time.fixedDeltaTime;
-
+        
         force = wheelMass * counterAcceleration * (driftBrake ? dampeningMultiplier : 1);
         
         return force;
@@ -154,9 +164,9 @@ public class CarBehaviour : MonoBehaviour
     {
         float force = 0;
 
-        float factor = rb.velocity.magnitude / targetSpeed;
         
-        float accel = accelForce * acceleration * accelerationBySpeedFactor.Evaluate(factor) * wheel.drivingFactor * (driftBrake ? accelMultiplier : 1);
+        
+        float accel = accelForce * acceleration * accelerationBySpeedFactor.Evaluate(speedFactor) * wheel.drivingFactor * (driftBrake ? accelMultiplier : 1);
         
         
 
