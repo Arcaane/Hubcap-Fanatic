@@ -21,6 +21,13 @@ public class CarController : CarBehaviour
     [SerializeField] private float minAngleToBounce = 0.3f;
     [SerializeField] private GameObject fxBounce;
 
+    [Header("NITRO")] 
+    [SerializeField] private float nitroSpeed = 50;
+    [SerializeField] private ParticleSystem smoke, smokeNitro;
+    [SerializeField] private bool nitroMode;
+
+    [Header("JUMP")] 
+    [SerializeField] private ParticleSystem jumpSmoke;
     
     private float dirCam;
     public Transform cameraHolder;
@@ -107,6 +114,37 @@ public class CarController : CarBehaviour
         {
             stickValue = Vector2.zero;
         }
+    }
+    
+    public void AButton(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            nitroMode = true;
+            smoke.Stop();
+            smokeNitro.Play();
+            targetSpeed = nitroSpeed;
+        }
+        if (context.canceled)
+        {
+            nitroMode = false;
+            smoke.Play();
+            smokeNitro.Stop();
+            targetSpeed = maxSpeed;
+        }
+        
+    }
+    
+    public void BButton(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            
+            jumpSmoke.Play();
+            rb.AddForce(Vector3.up * 300);
+        }
+        
+        
     }
     #endregion
     
