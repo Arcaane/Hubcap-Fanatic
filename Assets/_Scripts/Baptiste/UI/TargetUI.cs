@@ -16,8 +16,7 @@ public class TargetUI : MonoBehaviour
     public TextMeshProUGUI distanceText;
     
     [Header("Debug")]
-    [Range(0, 2000)]
-    [SerializeField] private float distance = 0f;
+    private float distance = 0f;
     
     void Start()
     {
@@ -28,6 +27,7 @@ public class TargetUI : MonoBehaviour
     {
         SetText(distanceText, distance);
         SwitchIcon();
+        CalculateDistance();
     }
     
     void SetText(TextMeshProUGUI tmpGUI, string text)
@@ -44,10 +44,14 @@ public class TargetUI : MonoBehaviour
         {
             adjustedNumber = number / 1000f;
             unit = "km";
+            tmpGUI.text = adjustedNumber.ToString("0.#") + " " + unit;
         }
-
-        tmpGUI.text = adjustedNumber.ToString("0.#") + " " + unit;
+        else
+        {
+            tmpGUI.text = adjustedNumber.ToString("0") + " " + unit;
+        }
     }
+
 
     void SwitchIcon()
     {
@@ -68,7 +72,12 @@ public class TargetUI : MonoBehaviour
     void SetImage(Image image, Sprite sprite)
     {
         image.sprite = sprite;
-    } 
+    }
+
+    void CalculateDistance()
+    {
+        distance = Vector3.Distance(CarController.instance.transform.position, DeliveryRessourcesManager.Instance.SpawnZoneInstance.transform.position);
+    }
 }
 
 [System.Serializable]

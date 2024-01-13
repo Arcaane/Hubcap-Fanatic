@@ -8949,6 +8949,7 @@ MonoBehaviour:
   steeringSpeed: 3
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
+  directionalDampMultiplier: 1
   dampeningMultiplier: 0.25
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
@@ -11627,6 +11628,7 @@ MonoBehaviour:
   steeringSpeed: 10
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
+  directionalDampMultiplier: 1
   dampeningMultiplier: 0.25
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
@@ -24459,6 +24461,7 @@ MonoBehaviour:
   steeringSpeed: 6.5
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
+  directionalDampMultiplier: 1
   dampeningMultiplier: 0.25
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
@@ -25620,6 +25623,7 @@ MonoBehaviour:
   steeringSpeed: 6.5
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
+  directionalDampMultiplier: 1
   dampeningMultiplier: 0.25
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
@@ -30041,6 +30045,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 785316572}
     m_Modifications:
+    - target: {fileID: 2631470961159914192, guid: 096e8f44c7295df4bb9dd403ebe73571, type: 3}
+      propertyPath: distance
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5936672362400797070, guid: 096e8f44c7295df4bb9dd403ebe73571, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -30860,6 +30868,7 @@ MonoBehaviour:
   steeringSpeed: 6.5
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
+  directionalDampMultiplier: 1
   dampeningMultiplier: 0.25
   steeringMultiplier: 0.95
   accelMultiplier: 1.5

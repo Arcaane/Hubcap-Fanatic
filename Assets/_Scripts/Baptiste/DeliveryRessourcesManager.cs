@@ -22,8 +22,8 @@ public class DeliveryRessourcesManager : MonoBehaviour
     [Header("Permently Capture Zone Options")]
     public float spawnInterval = 30f;
     public float timeSinceLastSpawn = 0f;
-    private SpawnZoneDelivery spawnZoneInstance;
-
+    [SerializeField] private SpawnZoneDelivery spawnZoneInstance;
+    public SpawnZoneDelivery SpawnZoneInstance => spawnZoneInstance;
         
     public List<GameObject> prefabObjects;
     private int previousSpawnIndex = -1;
@@ -113,6 +113,8 @@ public class DeliveryRessourcesManager : MonoBehaviour
         Transform randomSpawnPoint = GetRandomSpawnPoint();
         GameObject capturedZoneObject = Instantiate(captureZone, randomSpawnPoint.position, Quaternion.identity);
         spawnZoneInstance = capturedZoneObject.GetComponent<SpawnZoneDelivery>();    
+        UIIndic.instance.AddIndic(capturedZoneObject, out int index);
+        spawnZoneInstance.index = index;
     }
     
     void SpawnCaptureZones()
