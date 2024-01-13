@@ -35,26 +35,38 @@ public class StartMenu : MonoBehaviour
 
     private void DisplayDateAndTime()
     {
-        #if UNITY_EDITOR
-            SetText(dateTextGUI, DateTime.Now.ToString("HH:mm dd/MM/yyyy "));
-        #else
-            SetText(dateTextGUI, GetBuildDateTime().ToString("HH:mm dd/MM/yyyy"));
-        #endif
+#if UNITY_EDITOR
+        SetText(dateTextGUI, DateTime.Now.ToString("HH:mm dd/MM/yyyy "));
+#else
+        DateTime buildDateTime = GetBuildDateTime();
+        Debug.Log("Build Date and Time: " + buildDateTime.ToString("HH:mm dd/MM/yyyy"));
+        SetText(dateTextGUI, buildDateTime.ToString("HH:mm dd/MM/yyyy"));
+#endif
     }
+
+    private DateTime GetBuildDateTime()
+    {
+        string buildDateString = Application.buildGUID.Substring(0, 12);
+        Debug.Log("Build Date String: " + buildDateString);
+
+        DateTime buildDateTime;
+        if (DateTime.TryParseExact(buildDateString, "yyyyMMddHHmm", null, System.Globalization.DateTimeStyles.None, out buildDateTime))
+        {
+            return buildDateTime;
+        }
+        else
+        {
+            Debug.LogError("Failed to parse build date and time.");
+            return DateTime.Now; // Fallback to current date and time in case of failure
+        }
+    }
+
 
     private TextMeshProUGUI SetText(TextMeshProUGUI tmpGUI, string text)
     {
         tmpGUI.text = text;
         return tmpGUI;
     }
-
-    private DateTime GetBuildDateTime()
-    {
-        string buildDateString = Application.buildGUID.Substring(0, 12);
-        return DateTime.ParseExact(buildDateString, "yyyyMMddHHmm", null);
-    }
-
-
 
     private void LoadScene(int sceneIndex)
     {
