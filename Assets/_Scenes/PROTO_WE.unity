@@ -3480,7 +3480,7 @@ PrefabInstance:
     - target: {fileID: 5608794645675349254, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
       propertyPath: carPickableSocket
       value: 
-      objectReference: {fileID: 380683819}
+      objectReference: {fileID: 1060443531}
     - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
       propertyPath: enableGizmos
       value: 0
@@ -14678,11 +14678,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 380476056}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &380683819 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6343897251689483116, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
-  m_PrefabInstance: {fileID: 2769335920627222219}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &381766406
 GameObject:
   m_ObjectHideFlags: 0
@@ -39568,6 +39563,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1059369672}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1060443531 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1344947106089738928, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+  m_PrefabInstance: {fileID: 2769335920627222219}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1060809923
 GameObject:
   m_ObjectHideFlags: 0
@@ -81225,6 +81225,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1344947106089738928, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 1408316152737072624, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -1,5 +1,6 @@
 using ManagerNameSpace;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PoliceCarBehavior : CarBehaviour, IDamageable
 {
@@ -24,7 +25,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public float repulsiveRadius;
     public float alignementRadius;
     public float attractiveRadius;
-
+ 
     public bool showRadiusGizmos;
 
     public bool driveByCar;
@@ -34,8 +35,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 	[SerializeField] private Key enemyKey;
     [SerializeField] private int hp = 100;
 
-    [Header("Pickable")]
-    public GameObject pickable;
+    [Header("Pickable")] 
+    public GameObject socketPickableCop;
+    public GameObject objectPickable;
 
     void Start()
     {
@@ -241,6 +243,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
                     CarHealthManager.instance.TakeDamage(20);
                 }
             }
+
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                DropItem();
+            }
             
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
             {
@@ -278,13 +285,21 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     public void TakeDamage(int damages)
     {
-        if (PickableManager.Instance.copsPickableObjects.Count > 0) PickableManager.Instance.copsPickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
+        DropItem();
 
         hp -= damages;
         if (hp < 1)
         {
             Pooler.instance.DestroyInstance(enemyKey, transform);
             CarExperienceManager.Instance.GetExp(1);
+        }
+    }
+
+    private void DropItem()
+    {
+        if (objectPickable != null)
+        {
+            objectPickable.GetComponent<ObjectPickable>().OnDrop();
         }
     }
 }
