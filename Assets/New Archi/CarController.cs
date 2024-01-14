@@ -17,8 +17,11 @@ public class CarController : CarBehaviour
     [Header("NITRO")] 
     [SerializeField] private float nitroSpeed = 50;
     [SerializeField] private ParticleSystem smoke, smokeNitro;
-    [SerializeField] private bool nitroMode;
-
+    [SerializeField] private bool nitroMode,canNitro;
+    [SerializeField] private float nitroTime;
+    [SerializeField] private float nitroDuration;
+    [SerializeField] private float nitroRegen;
+    
     [Header("JUMP")] 
     [SerializeField] private ParticleSystem jumpSmoke;
     
@@ -50,6 +53,37 @@ public class CarController : CarBehaviour
             driftBrake = false;
             foreach (var t in driftSparks) t.Stop();
             CarAbilitiesManager.Instance.DesactivateDriftAbilities();
+        }
+
+        if (nitroMode)
+        {
+            if (nitroTime > 0)
+            {
+                nitroTime -= Time.deltaTime;   
+                UIManager.instance.SetNitroJauge(nitroTime/nitroDuration);
+            }
+            else
+            {
+                nitroMode = false;
+                smoke.Play();
+                smokeNitro.Stop();
+                targetSpeed = maxSpeed;
+                CarAbilitiesManager.Instance.DesactivateNitroAbilities();
+            }
+        }
+        else if(!canNitro)
+        {
+            if (nitroTime < nitroDuration)
+            {
+                nitroTime += Time.deltaTime * nitroRegen;   
+                UIManager.instance.SetNitroJauge(nitroTime/nitroDuration);
+            }
+            else
+            {
+                canNitro = true;
+                nitroTime = nitroDuration;
+                UIManager.instance.SetNitroJauge(1);
+            }
         }
     }
     
@@ -106,16 +140,17 @@ public class CarController : CarBehaviour
     
     public void AButton(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && canNitro)
         {
             nitroMode = true;
+            canNitro = false;
             smoke.Stop();
             smokeNitro.Play();
             targetSpeed = nitroSpeed;
             CarAbilitiesManager.Instance.ActivateNitroAbilities();
         }
         
-        if (context.canceled)
+        if (context.canceled && nitroMode)
         {
             nitroMode = false;
             smoke.Play();
@@ -124,6 +159,16 @@ public class CarController : CarBehaviour
             CarAbilitiesManager.Instance.DesactivateNitroAbilities();
         }
         
+    }
+    
+    // POUR PLAYTEST
+    public void YButton(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (Time.timeScale > 0.5f) Time.timeScale = 0;
+            else Time.timeScale = 1;
+        }
     }
     
     public void BButton(InputAction.CallbackContext context)
