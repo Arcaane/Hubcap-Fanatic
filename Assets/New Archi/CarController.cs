@@ -213,10 +213,11 @@ public class CarController : CarBehaviour
 
         if (other.gameObject.CompareTag("Enemy"))
         {
-            if (PickableManager.Instance.carPickableObjects.Count > 0)
+            foreach (var obj in PickableManager.Instance.carPickableObjects)
             {
-                PickableManager.Instance.carPickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
-            } 
+                  obj.GetComponent<ObjectPickable>().OnDrop();   
+            }
+            PickableManager.Instance.RemoveAllPickables();
         }
     }
 }

@@ -19,21 +19,28 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         {
             isCopHasPick = false;
             UIIndic.instance.EnableOrDisableDeliveryZone(true);
-            Debug.Log("Pickable by player");
             transform.parent = PickableManager.Instance.carPickableSocket;
             OnPickedUp();
             PickableManager.Instance.AddPickableObject(gameObject, isCopHasPick);
+            Debug.Log("Pickable by player");
         }
 
         if (other.gameObject.CompareTag("Enemy"))
         {
             isCopHasPick = true;
-            other.gameObject.transform.parent.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[UnityEngine.Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true); //https://www.youtube.com/watch?v=h9kSAWqqjuw
+            //Swap target
+            other.gameObject.transform.GetComponent<PoliceCarBehavior>().SwapTarget(
+                PoliceCarManager.Instance.policeTargetPoints
+                [Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], 
+                true
+                );
+            //Ref to the car who pick the object
             carWhoPickObjet = other.gameObject;
-            Debug.Log("Pickable by cops");
-            transform.parent = other.transform.GetChild(0);
+            transform.parent = other.transform.gameObject.transform.GetComponent<PoliceCarBehavior>().socketPickableCop.transform;
+            other.transform.GetComponent<PoliceCarBehavior>().objectPickable = gameObject;
             OnPickedUp();
-            PickableManager.Instance.AddPickableObject(gameObject, isCopHasPick);
+            PickableManager.Instance.AddCopsWhoPickAnObject(other.gameObject);
+            Debug.Log("Pickable by cops");
         }   
     }
 
@@ -47,16 +54,18 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     
     public void OnDrop()
     {
-        transform.parent = PickableManager.Instance.worldSocket;
-        
+        transform.parent = PickableManager.Instance.worldSocket; //Switch to World Socket
         sCol.enabled = false;
         
         if (isCopHasPick)
         {
-            meshRenderer.enabled = true;
-            carWhoPickObjet.transform.parent.GetComponent<PoliceCarBehavior>().SwapTarget( carWhoPickObjet.transform.parent.GetComponent<PoliceCarBehavior>().target);
+            carWhoPickObjet.transform.parent.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true);
+            PickableManager.Instance.RemoveCopsWhoPickAnObject(carWhoPickObjet);
         }
-        PickableManager.Instance.RemoveAllPickables(isCopHasPick);
+        else
+        {
+            PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick);
+        }
         carWhoPickObjet = null;
         UIIndic.instance.EnableOrDisableDeliveryZone();
         StartCoroutine(EnablePickupAfterDelay(timeBeforePickable));
@@ -79,7 +88,6 @@ public class ObjectPickable : MonoBehaviour, IPickupable
 
         gameObject.GetComponent<SphereCollider>().enabled = true;
         UIIndic.instance.EnableOrDisableDeliveryZone();
-        //PickableManager.Instance.ResetPickableSocketPosition();
         Destroy(this.gameObject);
     }
 }

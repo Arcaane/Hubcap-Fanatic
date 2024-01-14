@@ -12,42 +12,52 @@ public class PickableManager : MonoBehaviour
     [Header("Socket to take the object")] public Transform carPickableSocket;
     public Transform worldSocket;
 
-    [Header("Object Possess")] public List<GameObject> carPickableObjects;
-    public List<GameObject> copsPickableObjects;
+    [Header("Object Possess")] 
+    public List<GameObject> carPickableObjects;
+    public List<GameObject> copsWhoPickAnObject;
 
 
     public void Start()
     {
         _instance = this;
     }
+    
+    public void AddCopsWhoPickAnObject(GameObject pickableObject)
+    {
+        copsWhoPickAnObject.Add(pickableObject);
+    }
+    
+    public void RemoveCopsWhoPickAnObject(GameObject pickableObject)
+    {
+        copsWhoPickAnObject.Remove(pickableObject);
+    }
 
     public void AddPickableObject(GameObject pickableObject, bool isCopsPickable = false)
     {
-        (isCopsPickable ? copsPickableObjects : carPickableObjects).Add(pickableObject);
+        (isCopsPickable ? copsWhoPickAnObject : carPickableObjects).Add(pickableObject);
     }
 
     public void RemovePickableObject(GameObject pickableObject, bool isCopsPickable = false)
     {
-        (isCopsPickable ? copsPickableObjects : carPickableObjects).Remove(pickableObject);
+        (isCopsPickable ? copsWhoPickAnObject : carPickableObjects).Remove(pickableObject);
     }
 
     public void RemovePickableObject(int index, bool isCopsPickable = false)
     {
-        (isCopsPickable ? copsPickableObjects : carPickableObjects).RemoveAt(index);
+        (isCopsPickable ? copsWhoPickAnObject : carPickableObjects).RemoveAt(index);
     }
 
     public void RemoveAllPickableObjects(bool isCopsPickable = false)
     {
-        (isCopsPickable ? copsPickableObjects : carPickableObjects).Clear();
+        (isCopsPickable ? copsWhoPickAnObject : carPickableObjects).Clear();
     }
 
     public void RemoveAllPickables(bool isCopsPickable = false)
     {
         if (isCopsPickable)
         {
-            if (copsPickableObjects.Count > 0)
+            if (copsWhoPickAnObject.Count > 0)
             {
-                Debug.Log("hello");
                 RemoveAllPickableObjects(true);
             }
             else
