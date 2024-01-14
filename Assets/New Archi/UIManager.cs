@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +6,15 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     [SerializeField] private Image nitroJauge;
-    [SerializeField] private Transform straffJauge;
     public RadarDetectorUI radar;
+    
+    [Header("Level & Experience")]
+    [SerializeField] private Image experienceJauge;
+    [SerializeField] private TextMeshProUGUI playerLevelText;
+    
+    [Header("Wave Informations")]
+    [SerializeField] private Image waveDurationJauge;
+    [SerializeField] private TextMeshProUGUI waveCountText;
 
     private void Awake()
     {
@@ -20,9 +25,24 @@ public class UIManager : MonoBehaviour
     {
         nitroJauge.fillAmount = amount;
     }
-    
-    public void SetStraffJauge(float amount)
+
+    public void SetExperienceFillAmount(float amount)
     {
-        straffJauge.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, amount);
+        experienceJauge.fillAmount = amount;
+    }
+
+    public void SetLevelPlayerText(int i)
+    {
+        playerLevelText.text = i.ToString(); 
+    }
+
+    public void UpdateWaveDuration(float amount)
+    {
+        waveDurationJauge.fillAmount = amount;
+    }
+
+    public void UpdateWaveCount(int i)
+    {
+        waveCountText.text = i.ToString();
     }
 }

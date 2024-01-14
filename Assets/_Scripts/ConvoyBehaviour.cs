@@ -128,7 +128,6 @@ public class ConvoyBehaviour : MonoBehaviour
         }
 
         float dot = Vector2.Dot((new Vector2(transform.position.x,transform.position.z) - new Vector2(player.position.x,player.position.z)).normalized, new Vector2(player.forward.x,player.forward.z).normalized);
-        
         float dotpower;
         if (dot < 0)
         {
