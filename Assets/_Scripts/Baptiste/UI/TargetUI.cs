@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class TargetUI : MonoBehaviour
 {
     [Header("Target Type")]
-    [SerializeField] private TargetType targetType;
+    [SerializeField] public TargetType targetType;
     [SerializeField] private List<Sprite> iconImages;
     
     [Header("UI Elements")]
@@ -18,8 +18,8 @@ public class TargetUI : MonoBehaviour
     
     [Header("Debug")]
     private float distance = 0f;
-
     [SerializeField] private float timer;
+    public int indexDeliveryPoints = 0; 
     
     void Start()
     {
@@ -31,13 +31,17 @@ public class TargetUI : MonoBehaviour
     {
         SetText(distanceText, distance);
         SwitchIcon();
-        CalculateDistance();
+        CalculateDistance(targetType, indexDeliveryPoints);
     }
 
     void DecreaseFillAmount()
     {
         timer += Time.deltaTime;
-        durationBeforeSpawnImage.fillAmount = 1 - (timer / DeliveryRessourcesManager.Instance.SpawnZoneInstance.DeliveryDuration);
+        durationBeforeSpawnImage.fillAmount = timer / DeliveryRessourcesManager.Instance.SpawnZoneInstance.DeliveryDuration;
+        if (timer >= 1)
+        {
+            timer = 1;
+        }
     }
     
     void SetText(TextMeshProUGUI tmpGUI, string text)
@@ -85,14 +89,24 @@ public class TargetUI : MonoBehaviour
         image.sprite = sprite;
     }
 
-    void CalculateDistance()
+    void CalculateDistance(TargetType targetType, int index = 0)
     {
-        distance = Vector3.Distance(CarController.instance.transform.position, DeliveryRessourcesManager.Instance.SpawnZoneInstance.transform.position);
+        switch (targetType)
+        {
+            case TargetType.DropZone:
+                distance = Vector3.Distance(CarController.instance.transform.position, DeliveryRessourcesManager.Instance.SpawnZoneInstance.transform.position);
+                break;
+            case TargetType.DeliveryZone:
+                distance = Vector3.Distance(CarController.instance.transform.position, DeliveryRessourcesManager.Instance.deliveryPoints[index].transform.position);
+                break;
+            case TargetType.ShopZone:
+                break;
+        }
     }
 }
 
 [System.Serializable]
-enum TargetType
+public enum TargetType
 {
     DropZone,
     DeliveryZone,

@@ -25,10 +25,13 @@ public class UIIndic : MonoBehaviour
 
     private void Start()
     {
-        
+        //Setup Rect    
         rectAdjusted = new Rect(Vector2.zero,cam.pixelRect.size - new Vector2(80,80));
         rectAdjusted.center = cam.pixelRect.center;
         center = cam.WorldToScreenPoint(camCenter.position);
+        
+        //Setup 
+        CreateIndicForDeliveryZone(DeliveryRessourcesManager.Instance.deliveryPoints.Count);
     }
 
     public void Update()
@@ -52,6 +55,19 @@ public class UIIndic : MonoBehaviour
         targetUIPrefab.Add(Instantiate(indic, Vector3.zero, quaternion.identity,uiParent).GetComponent<TargetUI>());
     }
 
+    void CreateIndicForDeliveryZone(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            TargetUI deliveryZoneUI = Instantiate(indic, Vector3.zero, quaternion.identity, uiParent).GetComponent<TargetUI>();
+            deliveryZoneUI.targetType = TargetType.DeliveryZone;
+            deliveryZoneUI.indexDeliveryPoints = i;
+            targetUIPrefab.Add(deliveryZoneUI);
+        }
+        EnableOrDisableDeliveryZone();
+    }
+
+
     public void UpdateIndic(int indexObj)
     {
         if (rectAdjusted.Contains(cam.WorldToScreenPoint(obj[indexObj].transform.position)))
@@ -65,6 +81,14 @@ public class UIIndic : MonoBehaviour
             Vector2 pos = cam.WorldToScreenPoint(objPosNear);
             pos = FindPointOnRectBorder( pos - center,center, rectAdjusted);
             targetUIPrefab[indexObj].transform.position = pos;    
+        }
+    }
+
+    public void EnableOrDisableDeliveryZone(bool enable = false)
+    {
+        for (int i = 0; i < DeliveryRessourcesManager.Instance.deliveryPoints.Count; i++)
+        {
+            targetUIPrefab[i].gameObject.SetActive(enable);
         }
     }
 
