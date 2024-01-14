@@ -28,13 +28,16 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         if (other.gameObject.CompareTag("Enemy"))
         {
             isCopHasPick = true;
+            //Swap target
             other.gameObject.transform.GetComponent<PoliceCarBehavior>().SwapTarget(
                 PoliceCarManager.Instance.policeTargetPoints
                 [Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], 
                 true
                 );
+            //Ref to the car who pick the object
             carWhoPickObjet = other.gameObject;
             transform.parent = other.transform.gameObject.transform.GetComponent<PoliceCarBehavior>().socketPickableCop.transform;
+            other.transform.GetComponent<PoliceCarBehavior>().objectPickable = gameObject;
             OnPickedUp();
             PickableManager.Instance.AddCopsWhoPickAnObject(other.gameObject);
             Debug.Log("Pickable by cops");
@@ -51,7 +54,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     
     public void OnDrop()
     {
-        transform.parent = PickableManager.Instance.worldSocket;
+        transform.parent = PickableManager.Instance.worldSocket; //Switch to World Socket
         sCol.enabled = false;
         
         if (isCopHasPick)
@@ -85,7 +88,6 @@ public class ObjectPickable : MonoBehaviour, IPickupable
 
         gameObject.GetComponent<SphereCollider>().enabled = true;
         UIIndic.instance.EnableOrDisableDeliveryZone();
-        //PickableManager.Instance.ResetPickableSocketPosition();
         Destroy(this.gameObject);
     }
 }

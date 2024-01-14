@@ -25,7 +25,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public float repulsiveRadius;
     public float alignementRadius;
     public float attractiveRadius;
-
+ 
     public bool showRadiusGizmos;
 
     public bool driveByCar;
@@ -35,8 +35,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 	[SerializeField] private Key enemyKey;
     [SerializeField] private int hp = 100;
 
-    [Header("Pickable")]
+    [Header("Pickable")] 
     public GameObject socketPickableCop;
+    public GameObject objectPickable;
 
     void Start()
     {
@@ -279,7 +280,10 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     public void TakeDamage(int damages)
     {
-        if (PickableManager.Instance.copsWhoPickAnObject.Count > 0) PickableManager.Instance.copsWhoPickAnObject[0].gameObject.GetComponent<IPickupable>().OnDrop();
+        if (objectPickable != null)
+        {
+            objectPickable.GetComponent<ObjectPickable>().OnDrop();
+        }
 
         hp -= damages;
         if (hp < 1)
