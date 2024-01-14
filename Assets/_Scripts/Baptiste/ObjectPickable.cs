@@ -20,6 +20,8 @@ public class ObjectPickable : MonoBehaviour, IPickupable
             isCopHasPick = false;
             UIIndic.instance.EnableOrDisableDeliveryZone(true);
             Debug.Log("Pickable by player");
+            OnPickedUp();
+            PickableManager.Instance.AddPickableObject(gameObject, isCopHasPick);
         }
 
         if (other.gameObject.CompareTag("Enemy"))
@@ -28,10 +30,9 @@ public class ObjectPickable : MonoBehaviour, IPickupable
             other.gameObject.transform.parent.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[UnityEngine.Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true); //https://www.youtube.com/watch?v=h9kSAWqqjuw
             carWhoPickObjet = other.gameObject;
             Debug.Log("Pickable by cops");
+            OnPickedUp();
+            PickableManager.Instance.AddPickableObject(gameObject, isCopHasPick);
         }   
-        
-        OnPickedUp();
-        PickableManager.Instance.AddPickableObject(gameObject, isCopHasPick);
     }
 
     public void OnPickedUp()

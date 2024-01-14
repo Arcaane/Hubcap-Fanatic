@@ -374,6 +374,7 @@ MonoBehaviour:
   steeringSpeed: 10
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
+  directionalDampMultiplier: 1
   dampeningMultiplier: 0.25
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
@@ -6543,6 +6544,10 @@ PrefabInstance:
     - target: {fileID: 1779569603877345908, guid: 00536d4caa1c8ef46b566d2239a5bd8c, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4843958605630814281, guid: 00536d4caa1c8ef46b566d2239a5bd8c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.568
       objectReference: {fileID: 0}
     - target: {fileID: 7228693898659762431, guid: 00536d4caa1c8ef46b566d2239a5bd8c, type: 3}
       propertyPath: m_LocalPosition.x
