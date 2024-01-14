@@ -22,19 +22,21 @@ public class ObjectPickable : MonoBehaviour, IPickupable
             transform.parent = PickableManager.Instance.carPickableSocket;
             OnPickedUp();
             PickableManager.Instance.AddPickableObject(gameObject, isCopHasPick);
-            
             Debug.Log("Pickable by player");
         }
 
         if (other.gameObject.CompareTag("Enemy"))
         {
             isCopHasPick = true;
-            other.gameObject.transform.parent.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true); //https://www.youtube.com/watch?v=h9kSAWqqjuw
+            other.gameObject.transform.GetComponent<PoliceCarBehavior>().SwapTarget(
+                PoliceCarManager.Instance.policeTargetPoints
+                [Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], 
+                true
+                );
             carWhoPickObjet = other.gameObject;
-            transform.parent = other.transform.GetChild(0);
+            transform.parent = other.transform.gameObject.transform.GetComponent<PoliceCarBehavior>().socketPickableCop.transform;
             OnPickedUp();
             PickableManager.Instance.AddCopsWhoPickAnObject(other.gameObject);
-            
             Debug.Log("Pickable by cops");
         }   
     }
@@ -55,8 +57,12 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         if (isCopHasPick)
         {
             carWhoPickObjet.transform.parent.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true);
+            PickableManager.Instance.RemoveCopsWhoPickAnObject(carWhoPickObjet);
         }
-        PickableManager.Instance.RemoveCopsWhoPickAnObject(carWhoPickObjet);
+        else
+        {
+            PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick);
+        }
         carWhoPickObjet = null;
         UIIndic.instance.EnableOrDisableDeliveryZone();
         StartCoroutine(EnablePickupAfterDelay(timeBeforePickable));

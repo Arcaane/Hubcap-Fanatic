@@ -1,5 +1,6 @@
 using ManagerNameSpace;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PoliceCarBehavior : CarBehaviour, IDamageable
 {
@@ -35,7 +36,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     [SerializeField] private int hp = 100;
 
     [Header("Pickable")]
-    public GameObject pickable;
+    public GameObject socketPickableCop;
 
     void Start()
     {

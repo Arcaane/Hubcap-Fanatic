@@ -42,7 +42,7 @@ public class Delivery : MonoBehaviour
             }
             else
             {
-                Debug.LogError("The first pickable object does not have IPickupable component.");
+                Debug.LogError("The first socketPickableCop object does not have IPickupable component.");
             }
 
             PickableManager.Instance.RemovePickableObject(0);
