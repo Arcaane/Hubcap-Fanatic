@@ -16119,6 +16119,10 @@ MonoBehaviour:
   smoke: {fileID: 2769205190187855822}
   smokeNitro: {fileID: 1092622957694510972}
   nitroMode: 0
+  canNitro: 1
+  nitroTime: 3
+  nitroDuration: 3
+  nitroRegen: 0.5
   jumpSmoke: {fileID: 5933447195783879363}
   dirCam: 0
   cameraHolder: {fileID: 0}
@@ -16296,7 +16300,19 @@ MonoBehaviour:
     m_ActionId: 6cea8f1b-09a1-42db-be10-5f02056fedad
     m_ActionName: Inputs/BButton[/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6496687812959214544}
+        m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        m_MethodName: YButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4422cefd-c168-45c8-8849-06045833336e
     m_ActionName: Inputs/YButton[/XInputControllerWindows/buttonNorth]
   m_NeverAutoSwitchControlSchemes: 0

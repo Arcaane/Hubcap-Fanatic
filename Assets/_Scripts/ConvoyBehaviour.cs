@@ -42,7 +42,6 @@ public class ConvoyBehaviour : MonoBehaviour
     public float oneBarZone,twoBarsZone,threeBarZone,fourBarZone;
     
 
-    public RadarDetectorUI radar;
     
 
     private void Start()
@@ -98,30 +97,62 @@ public class ConvoyBehaviour : MonoBehaviour
             }
         }
 
+
+        SetRadar();
+    }
+
+
+    void SetRadar()
+    {
         float dist = Vector3.SqrMagnitude(transform.position - player.position);
+        float power;
         if (dist > oneBarZone * oneBarZone)
         {
-            radar.SetActivation(0);
+            power = 0;
         }
         else if (dist > twoBarsZone * twoBarsZone)
         {
-            radar.SetActivation(1);
+            power = 1;
         }
         else if (dist > threeBarZone * threeBarZone)
         {
-            radar.SetActivation(2);
+            power = 2;
         }
         else if (dist > fourBarZone * fourBarZone)
         {
-            radar.SetActivation(3);
+            power = 3;
         }
         else 
         {
-            radar.SetActivation(4);
+            power = 4;
         }
 
+        float dot = Vector2.Dot((new Vector2(transform.position.x,transform.position.z) - new Vector2(player.position.x,player.position.z)).normalized, new Vector2(player.forward.x,player.forward.z).normalized);
+        Debug.Log("DOT : "+ dot);
+        float dotpower;
+        if (dot < 0)
+        {
+            dotpower = 0;
+        }
+        else if (dot < 0.5f)
+        {
+            dotpower = 1;
+        }
+        else if (dot < 0.75f)
+        {
+            dotpower = 2;
+        }
+        else if (dot < 0.9f)
+        {
+            dotpower = 3;
+        }
+        else
+        {
+            dotpower = 4;
+        }
+        
+        UIManager.instance.radar.SetActivation(Mathf.RoundToInt(power * 0.6f + dotpower * 0.4f));
     }
-
 
     void AttackMode()
     {
