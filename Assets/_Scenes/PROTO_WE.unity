@@ -3779,10 +3779,6 @@ PrefabInstance:
       propertyPath: numberOfCapturesAtStart
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
-      propertyPath: prefabObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 7973088269524434984, guid: e93994a37130d18439bd26dbc328a999, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
