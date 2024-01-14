@@ -35004,7 +35004,7 @@ MonoBehaviour:
   - {fileID: 724336762748255123}
   - {fileID: 5331578269938979783}
   - {fileID: 4475173362939737530}
-  enableGizmos: 1
+  enableGizmos: 0
   numberOfPointsPerSide: 38
   distanceBetweenPoints: 38
 --- !u!114 &5608794645675349254
