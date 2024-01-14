@@ -14,6 +14,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         if (other.gameObject.CompareTag("Player"))
         {
             isCopHasPick = false;
+            UIIndic.instance.EnableOrDisableDeliveryZone(true);
             Debug.Log("Pickable by player");
         }
 
@@ -50,6 +51,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         }
         PickableManager.Instance.RemoveAllPickables(isCopHasPick);
         carWhoPickObjet = null;
+        UIIndic.instance.EnableOrDisableDeliveryZone();
         StartCoroutine(EnablePickupAfterDelay(timeBeforePickable));
     }
 
@@ -62,6 +64,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     public void OnDelivered()
     {
         gameObject.GetComponent<SphereCollider>().enabled = true;
+        UIIndic.instance.EnableOrDisableDeliveryZone();
         //PickableManager.Instance.ResetPickableSocketPosition();
         Destroy(this.gameObject);
     }
