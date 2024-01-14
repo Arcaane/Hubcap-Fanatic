@@ -243,6 +243,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
                     CarHealthManager.instance.TakeDamage(20);
                 }
             }
+
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                DropItem();
+            }
             
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
             {
@@ -280,16 +285,21 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     public void TakeDamage(int damages)
     {
-        if (objectPickable != null)
-        {
-            objectPickable.GetComponent<ObjectPickable>().OnDrop();
-        }
+        DropItem();
 
         hp -= damages;
         if (hp < 1)
         {
             Pooler.instance.DestroyInstance(enemyKey, transform);
             CarExperienceManager.Instance.GetExp(1);
+        }
+    }
+
+    private void DropItem()
+    {
+        if (objectPickable != null)
+        {
+            objectPickable.GetComponent<ObjectPickable>().OnDrop();
         }
     }
 }

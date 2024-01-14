@@ -59,7 +59,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         
         if (isCopHasPick)
         {
-            carWhoPickObjet.transform.parent.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true);
+            carWhoPickObjet.transform.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true);
             PickableManager.Instance.RemoveCopsWhoPickAnObject(carWhoPickObjet);
         }
         else
