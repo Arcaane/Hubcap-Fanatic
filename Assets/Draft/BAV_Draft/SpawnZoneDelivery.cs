@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -114,12 +115,19 @@ public class SpawnZoneDelivery : MonoBehaviour
 
     private void DisableZone()
     {
-        UIIndic.instance.RemoveIndic(index);
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
+        StartCoroutine(DisableWithDelay());
     }
+
+    private IEnumerator DisableWithDelay()
+    {
+        yield return new WaitForSeconds(UIIndic.instance.DelayBeforeRemove);
+        UIIndic.instance.RemoveIndic(index);
+    }
+
     
     
     private void OnDrawGizmos()
