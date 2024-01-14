@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,6 +7,11 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     private float timeBeforePickable = 2f;
     private bool isCopHasPick = false;
     public GameObject carWhoPickObjet;
+
+    [SerializeField] private BoxCollider bCol;
+    [SerializeField] private SphereCollider sCol;
+    [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private Rigidbody rb;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -24,28 +28,34 @@ public class ObjectPickable : MonoBehaviour, IPickupable
             carWhoPickObjet = other.gameObject;
             Debug.Log("Pickable by cops");
         }   
+        
         OnPickedUp();
-        PickableManager.Instance.AddPickableObject(this.gameObject, isCopHasPick);
+        PickableManager.Instance.AddPickableObject(gameObject, isCopHasPick);
     }
 
     public void OnPickedUp()
     {
-        gameObject.GetComponent<SphereCollider>().enabled = false;
+        sCol.enabled = false;
+        bCol.enabled = false;
+        gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        
         transform.parent = PickableManager.Instance.carPickableSocket;
         transform.localPosition = Vector3.zero;
         if (isCopHasPick)
         {
-            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            meshRenderer.enabled = false;
         }
     }
     
     public void OnDrop()
     {
         transform.parent = PickableManager.Instance.worldSocket;
-        gameObject.GetComponent<SphereCollider>().enabled = false;
+        
+        sCol.enabled = false;
+        
         if (isCopHasPick)
         {
-            gameObject.GetComponent<MeshRenderer>().enabled = true;
+            meshRenderer.enabled = true;
             carWhoPickObjet.transform.parent.GetComponent<PoliceCarBehavior>().SwapTarget( carWhoPickObjet.transform.parent.GetComponent<PoliceCarBehavior>().target);
         }
         PickableManager.Instance.RemoveAllPickables(isCopHasPick);
@@ -56,12 +66,17 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     IEnumerator EnablePickupAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        gameObject.GetComponent<SphereCollider>().enabled = true;
+        sCol.enabled = true;
+        bCol.enabled = true;
+        rb.isKinematic = false;
     }
 
     public void OnDelivered()
     {
-        gameObject.GetComponent<SphereCollider>().enabled = true;
+        sCol.enabled = true;
+        bCol.enabled = true;
+        rb.isKinematic = false;
+        meshRenderer.enabled = false;
         //PickableManager.Instance.ResetPickableSocketPosition();
         Destroy(this.gameObject);
     }

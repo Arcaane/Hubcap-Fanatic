@@ -34997,8 +34997,9 @@ MonoBehaviour:
   randomSeed: 0
   spawnInterval: 5
   timeSinceLastSpawn: 0
+  spawnZoneInstance: {fileID: 0}
   prefabObjects:
-  - {fileID: 7973088269524434984, guid: e93994a37130d18439bd26dbc328a999, type: 3}
+  - {fileID: 3540574380503886976, guid: e07fb74c709fa1a49b3ecba2480f2db7, type: 3}
   deliveryPoints:
   - {fileID: 724336762748255123}
   - {fileID: 5331578269938979783}
