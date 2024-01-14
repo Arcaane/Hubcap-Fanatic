@@ -3779,10 +3779,6 @@ PrefabInstance:
       propertyPath: numberOfCapturesAtStart
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
-      propertyPath: prefabObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 7973088269524434984, guid: e93994a37130d18439bd26dbc328a999, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -26729,6 +26725,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 639535839}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &640077499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7126968455767558121, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+  m_PrefabInstance: {fileID: 87681590}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &643429849
 GameObject:
   m_ObjectHideFlags: 0
@@ -27414,7 +27415,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 181531904}
   camCenter: {fileID: 1589885997}
-  obj: []
+  obj:
+  - {fileID: 1830643088}
+  - {fileID: 640077499}
+  - {fileID: 680662262}
   rectAdjusted:
     serializedVersion: 2
     x: 0
@@ -27679,6 +27683,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 677069219}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &680662262 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1517295578147922324, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+  m_PrefabInstance: {fileID: 87681590}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &681005406
 GameObject:
   m_ObjectHideFlags: 0
@@ -73581,6 +73590,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826229020}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1830643088 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2384896032003239869, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+  m_PrefabInstance: {fileID: 87681590}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1830663413
 GameObject:
   m_ObjectHideFlags: 0

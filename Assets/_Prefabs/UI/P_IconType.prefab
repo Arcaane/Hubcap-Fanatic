@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9607843, g: 0.9308279, b: 0.2941177, a: 1}
+  m_Color: {r: 0.2941177, g: 0.9607843, b: 0.95438373, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -336,14 +336,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetType: 0
   iconImages:
-  - {fileID: 21300000, guid: 276ca7b99b3a7a545a6a8cf50eb359c4, type: 3}
-  - {fileID: 21300000, guid: 69414ce131f888b4587bed8719324aef, type: 3}
   - {fileID: 21300000, guid: bc8d61e36e1ef5041aac3e6c4d558bf9, type: 3}
+  - {fileID: 21300000, guid: 69414ce131f888b4587bed8719324aef, type: 3}
+  - {fileID: 21300000, guid: 276ca7b99b3a7a545a6a8cf50eb359c4, type: 3}
   targetImage: {fileID: 6787114765035757471}
   durationBeforeSpawnImage: {fileID: 693477080305065453}
   backgroundImage: {fileID: 552836560885316335}
   distanceText: {fileID: 2551033925896720763}
   timer: 0
+  indexDeliveryPoints: 0
 --- !u!1 &7852696092369425997
 GameObject:
   m_ObjectHideFlags: 0

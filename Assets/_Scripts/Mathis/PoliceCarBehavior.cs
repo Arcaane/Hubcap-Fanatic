@@ -293,7 +293,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         hp -= damages;
         if (hp < 1)
         {
-            Debug.Log("Die");
+            if (pickable != null) pickable.GetComponent<ObjectPickable>().OnDrop();
             Pooler.instance.DestroyInstance(enemyKey, transform);
         }
     }
