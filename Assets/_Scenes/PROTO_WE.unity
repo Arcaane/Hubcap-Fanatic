@@ -11534,10 +11534,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1589885997}
     - target: {fileID: 2553120890910329301, guid: 101d20fe73fbc4147bceeb0775eef57a, type: 3}
-      propertyPath: obj.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2553120890910329301, guid: 101d20fe73fbc4147bceeb0775eef57a, type: 3}
       propertyPath: obj.Array.data[0]
       value: 
       objectReference: {fileID: 1830643088}
@@ -60626,6 +60622,52 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609142497}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1613402452 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7442559343737182478, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+  m_PrefabInstance: {fileID: 2769335920627222219}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1613402460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613402452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df3eceb21a2914a42b0ab9af44059614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiManager: {fileID: 0}
+  currentPlayerLevel: 0
+  expCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2
+      inSlope: 9.96
+      outSlope: 9.96
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 50
+      value: 500
+      inSlope: 9.96
+      outSlope: 9.96
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  expBeforeNextLevelAmount: 0
+  currentExperienceAmount: 0
+  levelUpTokensAvailable: 0
 --- !u!1 &1616691574
 GameObject:
   m_ObjectHideFlags: 0
@@ -81230,7 +81272,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7442559343737182478, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1613402460}
   m_SourcePrefab: {fileID: 100100000, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

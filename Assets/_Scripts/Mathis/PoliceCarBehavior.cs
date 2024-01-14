@@ -284,6 +284,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         if (hp < 1)
         {
             Pooler.instance.DestroyInstance(enemyKey, transform);
+            CarExperienceManager.Instance.GetExp(1);
         }
     }
 }
