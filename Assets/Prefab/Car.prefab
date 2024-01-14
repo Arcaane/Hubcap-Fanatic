@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4612998039749914833
 Transform:
   m_ObjectHideFlags: 0
@@ -79,11 +79,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4, y: 0.8, z: 1.5}
+  m_Size: {x: 10, y: 0.8, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5670995835939285263
 MonoBehaviour:
@@ -11267,12 +11267,13 @@ MonoBehaviour:
   nitroDuration: 3
   nitroRegen: 0.5
   jumpSmoke: {fileID: 0}
-  straffColider: {fileID: 0}
-  straffTime: 0
-  straffDuration: 0
+  straffColider: {fileID: 5670995835939285263}
+  straffTime: 2
+  straffDuration: 2
   animation: {fileID: 6205959775607353322}
   dirCam: 0
   cameraHolder: {fileID: 0}
+  pickedItems: []
 --- !u!54 &7223312086131934466
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11411,7 +11412,19 @@ MonoBehaviour:
     m_ActionId: a4a3943e-6aac-435d-a4c8-62b0b479ae6c
     m_ActionName: Inputs/LStick[/XInputControllerWindows/leftStick,/XInputControllerWindows/leftStick]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6496687812959214544}
+        m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        m_MethodName: XButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 634e5fd6-b8c4-41e8-9050-f2b84b78e6ba
     m_ActionName: Inputs/XButton[/XInputControllerWindows/buttonWest]
   - m_PersistentCalls:

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,8 +34,9 @@ public class CarController : CarBehaviour
 
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
-    
 
+    public List<GameObject> pickedItems = new();
+    
     // INPUT VALUES
     private Vector2 stickValue;
 
@@ -105,9 +107,7 @@ public class CarController : CarBehaviour
         // CAMERA
         cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
     }
-
     
-
     #region Inputs
     public void RShoulder(InputAction.CallbackContext context)
     {
@@ -244,14 +244,16 @@ public class CarController : CarBehaviour
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
 
-        if (other.gameObject.CompareTag("Enemy"))
+        
+        if (other.gameObject.CompareTag("Enemy") && pickedItems.Count > 0)
         {
-            if (PickableManager.Instance.carPickableObjects.Count <= 0) return;
-            foreach (var obj in PickableManager.Instance.carPickableObjects)
+            for (int i = 0; i < pickedItems.Count; i++)
             {
-                obj.GetComponent<ObjectPickable>().OnDrop();   
+                pickedItems[i].GetComponent<ObjectPickable>().OnDrop();
             }
-            PickableManager.Instance.RemoveAllPickables();
+            
+            pickedItems.Clear();
+            //PickableManager.Instance.RemoveAllPickables();
         }
     }
 }

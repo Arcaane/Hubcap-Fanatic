@@ -16,6 +16,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image waveDurationJauge;
     [SerializeField] private TextMeshProUGUI waveCountText;
 
+    [SerializeField] private Transform straffJauge;
+    
+
     private void Awake()
     {
         instance = this;
@@ -44,5 +47,10 @@ public class UIManager : MonoBehaviour
     public void UpdateWaveCount(int i)
     {
         waveCountText.text = i.ToString();
+    }
+
+    public void SetStraffJauge(float amount)
+    {
+        straffJauge.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, amount);
     }
 }

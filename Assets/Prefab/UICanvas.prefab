@@ -260,8 +260,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nitroJauge: {fileID: 4246730696612167580}
-  straffJauge: {fileID: 3782839382852965323}
   radar: {fileID: 4762254263984769392}
+  experienceJauge: {fileID: 2328801799179139244}
+  playerLevelText: {fileID: 4814584728906371361}
+  waveDurationJauge: {fileID: 2527720391471822049}
+  waveCountText: {fileID: 7363897929845054564}
+  straffJauge: {fileID: 8679804344764105712}
 --- !u!1 &2478388278530066238
 GameObject:
   m_ObjectHideFlags: 0
