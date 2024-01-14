@@ -279,12 +279,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public void TakeDamage(int damages)
     {
         if (PickableManager.Instance.copsPickableObjects.Count > 0) PickableManager.Instance.copsPickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
-        
+
         hp -= damages;
         if (hp < 1)
         {
             Pooler.instance.DestroyInstance(enemyKey, transform);
         }
     }
-    
 }
