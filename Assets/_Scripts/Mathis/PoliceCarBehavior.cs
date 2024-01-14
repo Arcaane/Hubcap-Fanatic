@@ -278,7 +278,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     public void TakeDamage(int damages)
     {
-        if (PickableManager.Instance.copsPickableObjects.Count > 0) PickableManager.Instance.copsPickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
+        if (PickableManager.Instance.copsWhoPickAnObject.Count > 0) PickableManager.Instance.copsWhoPickAnObject[0].gameObject.GetComponent<IPickupable>().OnDrop();
 
         hp -= damages;
         if (hp < 1)
