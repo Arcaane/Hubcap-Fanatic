@@ -24,7 +24,12 @@ public class CarController : CarBehaviour
     
     [Header("JUMP")] 
     [SerializeField] private ParticleSystem jumpSmoke;
-    
+
+    [Header("STRAFF")] 
+    [SerializeField] private StraffColider straffColider;
+    [SerializeField] private float straffTime;
+    [SerializeField] private float straffDuration;
+    [SerializeField] private Animation animation;
 
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
@@ -84,6 +89,12 @@ public class CarController : CarBehaviour
                 nitroTime = nitroDuration;
                 UIManager.instance.SetNitroJauge(1);
             }
+        }
+
+        if (straffTime < straffDuration)
+        {
+            straffTime += Time.deltaTime;
+            UIManager.instance.SetStraffJauge(straffTime / straffDuration);
         }
     }
     
@@ -168,6 +179,28 @@ public class CarController : CarBehaviour
         {
             if (Time.timeScale > 0.5f) Time.timeScale = 0;
             else Time.timeScale = 1;
+        }
+    }
+    
+    public void XButton(InputAction.CallbackContext context)
+    {
+        if (context.started && straffTime >= straffDuration)
+        {
+            if (straffColider.enemyCar != null)
+            {
+                if (Vector3.Dot((straffColider.enemyCar.transform.position - transform.position).normalized, transform.right) > 0)
+                {
+                    animation.Play("StraffLeft");
+                }
+                else
+                {
+                    animation.Play("StraffRight");
+                }
+                straffColider.enemyCar.TakeDamage(100);
+                Debug.Log("STRAFFED");
+                
+            }
+            straffTime = 0;
         }
     }
     
