@@ -11165,23 +11165,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7223312086131934466}
   wheels:
-  - transform: {fileID: 0}
-    wheelVisual: {fileID: 0}
+  - transform: {fileID: 4980589173374672119}
+    wheelVisual: {fileID: 8313525766690617819}
     directionalDampening: 0.35
     drivingFactor: 1
     steeringFactor: 5.25
-  - transform: {fileID: 0}
-    wheelVisual: {fileID: 0}
+  - transform: {fileID: 422089550907774201}
+    wheelVisual: {fileID: 8166388250625827031}
     directionalDampening: 0.35
     drivingFactor: 1
     steeringFactor: 5.25
-  - transform: {fileID: 0}
-    wheelVisual: {fileID: 0}
+  - transform: {fileID: 2470873284411068704}
+    wheelVisual: {fileID: 2313699898289759998}
     directionalDampening: 0.33
     drivingFactor: 0
     steeringFactor: 0
-  - transform: {fileID: 0}
-    wheelVisual: {fileID: 0}
+  - transform: {fileID: 5956411217378894201}
+    wheelVisual: {fileID: 4757760250436602413}
     directionalDampening: 0.33
     drivingFactor: 0
     steeringFactor: 0
@@ -11246,8 +11246,8 @@ MonoBehaviour:
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
   driftSparks:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2603052165275359096}
+  - {fileID: 8470169649526814839}
   accelForce: 0
   brakeForce: 0
   driftBrake: 0
@@ -11257,8 +11257,8 @@ MonoBehaviour:
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 68f8e38cdcb558d43a07cde4b478f907, type: 3}
   nitroSpeed: 50
-  smoke: {fileID: 0}
-  smokeNitro: {fileID: 0}
+  smoke: {fileID: 8122604561749209318}
+  smokeNitro: {fileID: 5123692597283315678}
   nitroMode: 0
   canNitro: 1
   nitroTime: 3
@@ -16563,6 +16563,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7124615990003335687, guid: 9eb821a0123e8424b8dab240d1df49dd, type: 3}
   m_PrefabInstance: {fileID: 396636565177162111}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &8122604561749209318 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8446618794081102233, guid: 9eb821a0123e8424b8dab240d1df49dd, type: 3}
+  m_PrefabInstance: {fileID: 396636565177162111}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3002397342357724158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16647,6 +16652,11 @@ PrefabInstance:
 --- !u!4 &1694529835180195873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4480665539495631839, guid: 4c4a6ae1feb97574d8c21c9f1b28065a, type: 3}
+  m_PrefabInstance: {fileID: 3002397342357724158}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2603052165275359096 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 987781861642308742, guid: 4c4a6ae1feb97574d8c21c9f1b28065a, type: 3}
   m_PrefabInstance: {fileID: 3002397342357724158}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8546364453752789038
@@ -16791,5 +16801,10 @@ PrefabInstance:
 --- !u!4 &5050749205567254318 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4480665539495631839, guid: 4c4a6ae1feb97574d8c21c9f1b28065a, type: 3}
+  m_PrefabInstance: {fileID: 8663052347067643121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8470169649526814839 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 987781861642308742, guid: 4c4a6ae1feb97574d8c21c9f1b28065a, type: 3}
   m_PrefabInstance: {fileID: 8663052347067643121}
   m_PrefabAsset: {fileID: 0}
