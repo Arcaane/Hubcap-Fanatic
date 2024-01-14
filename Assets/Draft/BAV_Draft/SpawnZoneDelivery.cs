@@ -77,7 +77,6 @@ public class SpawnZoneDelivery : MonoBehaviour
 
     private void GivePlayerReward()
     {
-       Debug.Log("Player drop " + currencyToGive + " scraps!");
        switch (rewardType)
        {
            case RewardType.IncrementValue:

@@ -225,6 +225,7 @@ MonoBehaviour:
   enemyKey: 3
   hp: 100
   socketPickableCop: {fileID: 679365991049518415}
+  objectPickable: {fileID: 0}
 --- !u!54 &5105550976351317835
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -727,7 +728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4697921353486561034
 Transform:
   m_ObjectHideFlags: 0

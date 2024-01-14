@@ -84,7 +84,7 @@ public class WaveManager : MonoBehaviour
         
         if(currentWaveCount == waves.Count) return;
         spawingTimer += Time.deltaTime;
-        uiManager.UpdateWaveDuration(spawingTimer/waves[currentWaveCount].waveDuration);
+        uiManager.UpdateWaveDuration(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves));
 
         for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
         {

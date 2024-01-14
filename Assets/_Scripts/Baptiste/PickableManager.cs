@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PickableManager : MonoBehaviour
 {
@@ -13,13 +10,14 @@ public class PickableManager : MonoBehaviour
     public Transform worldSocket;
 
     [Header("Object Possess")] 
-    public List<GameObject> carPickableObjects;
-    public List<GameObject> copsWhoPickAnObject;
+    public List<GameObject> copsWhoPickAnObject = new();
+    public CarController car;
 
 
     public void Start()
     {
         _instance = this;
+        car = CarController.instance;
     }
     
     public void AddCopsWhoPickAnObject(GameObject pickableObject)
@@ -34,22 +32,22 @@ public class PickableManager : MonoBehaviour
 
     public void AddPickableObject(GameObject pickableObject, bool isCopsPickable = false)
     {
-        (isCopsPickable ? copsWhoPickAnObject : carPickableObjects).Add(pickableObject);
+        (isCopsPickable ? copsWhoPickAnObject : car.pickedItems).Add(pickableObject);
     }
 
     public void RemovePickableObject(GameObject pickableObject, bool isCopsPickable = false)
     {
-        (isCopsPickable ? copsWhoPickAnObject : carPickableObjects).Remove(pickableObject);
+        (isCopsPickable ? copsWhoPickAnObject : car.pickedItems).Remove(pickableObject);
     }
 
     public void RemovePickableObject(int index, bool isCopsPickable = false)
     {
-        (isCopsPickable ? copsWhoPickAnObject : carPickableObjects).RemoveAt(index);
+        (isCopsPickable ? copsWhoPickAnObject : car.pickedItems).RemoveAt(index);
     }
 
     public void RemoveAllPickableObjects(bool isCopsPickable = false)
     {
-        (isCopsPickable ? copsWhoPickAnObject : carPickableObjects).Clear();
+        (isCopsPickable ? copsWhoPickAnObject : car.pickedItems).Clear();
     }
 
     public void RemoveAllPickables(bool isCopsPickable = false)
@@ -67,7 +65,7 @@ public class PickableManager : MonoBehaviour
         }
         else
         {
-            if (carPickableObjects.Count > 0)
+            if (car.pickedItems.Count > 0)
             {
                 RemoveAllPickableObjects();
             }

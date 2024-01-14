@@ -59,9 +59,9 @@ public class Delivery : MonoBehaviour
     {
         firstPickableObject = null;
 
-        if (PickableManager.Instance != null && PickableManager.Instance.carPickableObjects != null && PickableManager.Instance.carPickableObjects.Count > 0)
+        if (PickableManager.Instance != null && PickableManager.Instance.car.pickedItems != null && PickableManager.Instance.car.pickedItems.Count > 0)
         {
-            firstPickableObject = PickableManager.Instance.carPickableObjects[0];
+            firstPickableObject = PickableManager.Instance.car.pickedItems[0];
         }
 
         return firstPickableObject != null;

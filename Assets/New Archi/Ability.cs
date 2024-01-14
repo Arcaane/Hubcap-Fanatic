@@ -31,18 +31,4 @@ public abstract class Ability : MonoBehaviour
     {
         activable = true;
     }
-
-    // public void CoolDown()
-    // {
-    //     if (cooldownTimer > 0)
-    //     {
-    //         cooldownTimer -= Time.deltaTime;
-    //         GameManager.instance.uiManager.SetAbilityCooldown(socket,1-cooldownTimer/cooldown);
-    //     }
-    //     else
-    //     {
-    //         activable = true;
-    //         GameManager.instance.uiManager.SetAbilityCooldown(socket,1);
-    //     }
-    // }
 }
