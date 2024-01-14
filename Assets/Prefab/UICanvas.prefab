@@ -50,7 +50,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   camCenter: {fileID: 0}
-  obj: []
+  obj:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   rectAdjusted:
     serializedVersion: 2
     x: 0
@@ -60,6 +63,7 @@ MonoBehaviour:
   center: {x: 0.5, y: 0.5}
   targetUIPrefab: []
   indic: {fileID: 7084530948796678026, guid: 096e8f44c7295df4bb9dd403ebe73571, type: 3}
+  delayBeforeRemove: 5
   uiParent: {fileID: 6918418757805780654}
 --- !u!1 &1915315553421230836
 GameObject:

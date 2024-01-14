@@ -9,14 +9,11 @@ public class PickableManager : MonoBehaviour
     private static PickableManager _instance;
     public static PickableManager Instance => _instance;
 
-    [Header("Socket to take the object")]
-    public Transform carPickableSocket;
+    [Header("Socket to take the object")] public Transform carPickableSocket;
     public Transform worldSocket;
-    
-    [Header("Object Possess")]
-    public List<GameObject> carPickableObjects;
+
+    [Header("Object Possess")] public List<GameObject> carPickableObjects;
     public List<GameObject> copsPickableObjects;
-    
 
 
     public void Start()
@@ -43,15 +40,15 @@ public class PickableManager : MonoBehaviour
     {
         (isCopsPickable ? copsPickableObjects : carPickableObjects).Clear();
     }
-    
+
     public void RemoveAllPickables(bool isCopsPickable = false)
     {
-        if(isCopsPickable)
+        if (isCopsPickable)
         {
             if (copsPickableObjects.Count > 0)
             {
                 Debug.Log("hello");
-                RemoveAllPickableObjects(true);            
+                RemoveAllPickableObjects(true);
             }
             else
             {
@@ -60,17 +57,17 @@ public class PickableManager : MonoBehaviour
         }
         else
         {
-               if (carPickableObjects.Count > 0)
-               {
-                   RemoveAllPickableObjects();            
-               }
-               else
-               {
-                   RemovePickableObject(0);
-               }
+            if (carPickableObjects.Count > 0)
+            {
+                RemoveAllPickableObjects();
+            }
+            else
+            {
+                RemovePickableObject(0);
+            }
         }
     }
-    
+
     public void SetParentTransform(GameObject pickableObject, Transform parentTransform)
     {
         pickableObject.transform.parent = parentTransform;
@@ -80,7 +77,7 @@ public class PickableManager : MonoBehaviour
     {
         pickableSocket.position = carPickableSocket.position;
     }
-    
+
     public void ResetPickableSocketPosition()
     {
         carPickableSocket.position = Vector3.zero;

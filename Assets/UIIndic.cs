@@ -15,6 +15,8 @@ public class UIIndic : MonoBehaviour
     [SerializeField] private Vector2 center;
     [SerializeField] private List<TargetUI> targetUIPrefab;
     [SerializeField] private GameObject indic;
+    [SerializeField] private float delayBeforeRemove = 5f;
+    public float DelayBeforeRemove => delayBeforeRemove;
     public Transform uiParent;
     public static UIIndic instance;
 
@@ -94,12 +96,18 @@ public class UIIndic : MonoBehaviour
 
     public void RemoveIndic(int indexObj)
     {
-        
         Destroy(targetUIPrefab[indexObj].gameObject);
         targetUIPrefab.RemoveAt(indexObj);
-        
         obj.RemoveAt(indexObj);
     }
+
+
+    private IEnumerator DestroyWithDelay(GameObject objToDestroy, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(objToDestroy);
+    }
+
     
     public void AddIndic(GameObject newObj, out int indicNb)
     {

@@ -234,12 +234,10 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     {
         if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player") )
         {
-           
             if (other.gameObject.CompareTag("Player"))
             {
                 if (Vector3.Dot(CarController.instance.transform.position - transform.position, transform.forward) > 0.75f)
                 {
-                    Debug.Log("Voiture Percuté!");
                     CarHealthManager.instance.TakeDamage(20);
                 }
             }
@@ -265,16 +263,6 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             }
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
-        
-        
-        
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            if (PickableManager.Instance.copsPickableObjects.Count > 0)
-            {
-                PickableManager.Instance.copsPickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
-            }    
-        }
     }
     
     private void OnDrawGizmos()
@@ -290,12 +278,12 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     public void TakeDamage(int damages)
     {
+        if (PickableManager.Instance.copsPickableObjects.Count > 0) PickableManager.Instance.copsPickableObjects[0].gameObject.GetComponent<IPickupable>().OnDrop();
+
         hp -= damages;
         if (hp < 1)
         {
-            if (pickable != null) pickable.GetComponent<ObjectPickable>().OnDrop();
             Pooler.instance.DestroyInstance(enemyKey, transform);
         }
     }
-    
 }

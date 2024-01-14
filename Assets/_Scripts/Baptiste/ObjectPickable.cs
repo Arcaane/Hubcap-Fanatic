@@ -42,12 +42,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         sCol.enabled = false;
         bCol.enabled = false;
         rb.isKinematic = true;
-        
         transform.localPosition = Vector3.zero;
-        if (isCopHasPick)
-        {
-            meshRenderer.enabled = false;
-        }
     }
     
     public void OnDrop()
