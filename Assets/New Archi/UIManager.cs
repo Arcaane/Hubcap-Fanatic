@@ -11,6 +11,10 @@ public class UIManager : MonoBehaviour
     [Header("Level & Experience")]
     [SerializeField] private Image experienceJauge;
     [SerializeField] private TextMeshProUGUI playerLevelText;
+    
+    [Header("Wave Informations")]
+    [SerializeField] private Image waveDurationJauge;
+    [SerializeField] private TextMeshProUGUI waveCountText;
 
     private void Awake()
     {
@@ -30,5 +34,15 @@ public class UIManager : MonoBehaviour
     public void SetLevelPlayerText(int i)
     {
         playerLevelText.text = i.ToString(); 
+    }
+
+    public void UpdateWaveDuration(float amount)
+    {
+        waveDurationJauge.fillAmount = amount;
+    }
+
+    public void UpdateWaveCount(int i)
+    {
+        waveCountText.text = i.ToString();
     }
 }

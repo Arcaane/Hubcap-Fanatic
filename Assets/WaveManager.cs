@@ -42,6 +42,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float widthOffset = 5f;
     [SerializeField] private float addAngleToRectange = 0f;
     [SerializeField] private int spawningPointPerSideCount = 7;
+    private UIManager uiManager;
 
     public float spawingTimer;
     public int counter;
@@ -49,14 +50,18 @@ public class WaveManager : MonoBehaviour
     public float[] enemiesSpawningTimer = new float[0];
 
     
+    
     // Start is called before the first frame update
     void Start()
     {
+        uiManager = UIManager.instance;
         CalculateWaveData();
     }
 
     private void CalculateWaveData()
     {
+        uiManager.UpdateWaveCount(currentWaveCount+1);
+        
         if (currentWaveCount >= waves.Count) return;
         
         enemiesSpawningTimer = new float[waves[currentWaveCount].enemyGroupsList.Count];
@@ -79,6 +84,7 @@ public class WaveManager : MonoBehaviour
         
         if(currentWaveCount == waves.Count) return;
         spawingTimer += Time.deltaTime;
+        uiManager.UpdateWaveDuration(spawingTimer/waves[currentWaveCount].waveDuration);
 
         for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
         {
