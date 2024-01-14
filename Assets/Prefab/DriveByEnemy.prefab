@@ -294,12 +294,12 @@ MonoBehaviour:
     wheelVisual: {fileID: 7501871495154887767}
     directionalDampening: 0.35
     drivingFactor: 1
-    steeringFactor: 6
+    steeringFactor: 8
   - transform: {fileID: 8610342093852660301}
     wheelVisual: {fileID: 3771069882266505261}
     directionalDampening: 0.35
     drivingFactor: 1
-    steeringFactor: 6
+    steeringFactor: 8
   - transform: {fileID: 6226448240157185301}
     wheelVisual: {fileID: 5948376025969191024}
     directionalDampening: 0.33
@@ -315,8 +315,8 @@ MonoBehaviour:
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 45
-  targetSpeed: 45
+  maxSpeed: 32
+  targetSpeed: 32
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -371,7 +371,7 @@ MonoBehaviour:
   acceleration: 12
   braking: 12
   decceleration: 4
-  steeringSpeed: 10
+  steeringSpeed: 50
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
   directionalDampMultiplier: 1
@@ -392,9 +392,9 @@ MonoBehaviour:
   convoyBehaviour: {fileID: 0}
   attackMode: 0
   defensePoint: {fileID: 0}
-  repulsiveRadius: 6
-  alignementRadius: 9.5
-  attractiveRadius: 10
+  repulsiveRadius: 5
+  alignementRadius: 10
+  attractiveRadius: 10.5
   showRadiusGizmos: 1
   driveByCar: 1
   shootFx: {fileID: 3406785552209663586}

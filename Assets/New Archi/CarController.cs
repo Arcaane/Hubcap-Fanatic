@@ -1,36 +1,39 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CarController : CarBehaviour
 {
     public static CarController instance;
-
-    [Header("WALLBOUNCE")] [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")] [SerializeField]
-    private float speedRetained = 0.7f;
-
-    [Tooltip("Le pourcentage de vitesse Max gardée lors d'un wallBounce")] [SerializeField]
-    private float maxSpeedRetained = 0.8f;
-
-    [Tooltip("L'angle Minimum ( 1 = 90° ) pour WallBounce")] [SerializeField]
-    private float minAngleToBounce = 0.3f;
-
+    
+    [Header("WALLBOUNCE")]
+    [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")]
+    [SerializeField] private float speedRetained = 0.7f;
+    [Tooltip("Le pourcentage de vitesse Max gardée lors d'un wallBounce")]
+    [SerializeField] private float maxSpeedRetained = 0.8f;
+    [Tooltip("L'angle Minimum ( 1 = 90° ) pour WallBounce")]
+    [SerializeField] private float minAngleToBounce = 0.3f;
     [SerializeField] private GameObject fxBounce;
 
-    [Header("NITRO")] [SerializeField] private float nitroSpeed = 50;
+    [Header("NITRO")] 
+    [SerializeField] private float nitroSpeed = 50;
     [SerializeField] private ParticleSystem smoke, smokeNitro;
-    [SerializeField] private bool nitroMode, canNitro;
+    [SerializeField] private bool nitroMode,canNitro;
     [SerializeField] private float nitroTime;
     [SerializeField] private float nitroDuration;
     [SerializeField] private float nitroRegen;
+    
+    [Header("JUMP")] 
+    [SerializeField] private ParticleSystem jumpSmoke;
 
-    [Header("JUMP")] [SerializeField] private ParticleSystem jumpSmoke;
-
+    [Header("STRAFF")] 
+    [SerializeField] private StraffColider straffColider;
+    [SerializeField] private float straffTime;
+    [SerializeField] private float straffDuration;
+    [SerializeField] private Animation animation;
 
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
-
-    [Header("PickedItems")] public List<GameObject> pickedItems;
+    
 
     // INPUT VALUES
     private Vector2 stickValue;
@@ -42,13 +45,13 @@ public class CarController : CarBehaviour
             instance = this;
         }
     }
-
+    
     private void Update()
     {
         rotationValue = stickValue.x;
-
+        
         OnMove();
-
+        
         // SORTIE DU DRIFT BRAKE SI ON LACHE L'ACCELERATION
         if (driftBrake && accelForce < 0.1f)
         {
@@ -61,8 +64,8 @@ public class CarController : CarBehaviour
         {
             if (nitroTime > 0)
             {
-                nitroTime -= Time.deltaTime;
-                UIManager.instance.SetNitroJauge(nitroTime / nitroDuration);
+                nitroTime -= Time.deltaTime;   
+                UIManager.instance.SetNitroJauge(nitroTime/nitroDuration);
             }
             else
             {
@@ -73,12 +76,12 @@ public class CarController : CarBehaviour
                 CarAbilitiesManager.Instance.DesactivateNitroAbilities();
             }
         }
-        else if (!canNitro)
+        else if(!canNitro)
         {
             if (nitroTime < nitroDuration)
             {
-                nitroTime += Time.deltaTime * nitroRegen;
-                UIManager.instance.SetNitroJauge(nitroTime / nitroDuration);
+                nitroTime += Time.deltaTime * nitroRegen;   
+                UIManager.instance.SetNitroJauge(nitroTime/nitroDuration);
             }
             else
             {
@@ -87,20 +90,25 @@ public class CarController : CarBehaviour
                 UIManager.instance.SetNitroJauge(1);
             }
         }
-    }
 
+        if (straffTime < straffDuration)
+        {
+            straffTime += Time.deltaTime;
+            UIManager.instance.SetStraffJauge(straffTime / straffDuration);
+        }
+    }
+    
     void FixedUpdate()
     {
-        dirCam = Mathf.Lerp(dirCam, rb.velocity.magnitude, Time.fixedDeltaTime * 3);
+        dirCam = Mathf.Lerp(dirCam, rb.velocity.magnitude,Time.fixedDeltaTime*3);
         ApplyWheelForces();
         // CAMERA
-        cameraHolder.position = Vector3.Lerp(cameraHolder.position,
-            transform.position + rb.velocity.normalized * dirCam * 0.5f, 5 * Time.fixedDeltaTime);
+        cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
     }
 
+    
 
     #region Inputs
-
     public void RShoulder(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -112,14 +120,14 @@ public class CarController : CarBehaviour
             accelForce = 0;
         }
     }
-
+    
     public void LShoulder(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            driftBrake = true;
+			driftBrake = true;
             brakeForce = context.ReadValue<float>();
-
+            
             foreach (var t in driftSparks) t.Play();
             CarAbilitiesManager.Instance.ActivateDriftAbilities();
         }
@@ -140,7 +148,7 @@ public class CarController : CarBehaviour
             stickValue = Vector2.zero;
         }
     }
-
+    
     public void AButton(InputAction.CallbackContext context)
     {
         if (context.started && canNitro)
@@ -152,7 +160,7 @@ public class CarController : CarBehaviour
             targetSpeed = nitroSpeed;
             CarAbilitiesManager.Instance.ActivateNitroAbilities();
         }
-
+        
         if (context.canceled && nitroMode)
         {
             nitroMode = false;
@@ -161,8 +169,9 @@ public class CarController : CarBehaviour
             targetSpeed = maxSpeed;
             CarAbilitiesManager.Instance.DesactivateNitroAbilities();
         }
+        
     }
-
+    
     // POUR PLAYTEST
     public void YButton(InputAction.CallbackContext context)
     {
@@ -172,7 +181,29 @@ public class CarController : CarBehaviour
             else Time.timeScale = 1;
         }
     }
-
+    
+    public void XButton(InputAction.CallbackContext context)
+    {
+        if (context.started && straffTime >= straffDuration)
+        {
+            if (straffColider.enemyCar != null)
+            {
+                if (Vector3.Dot((straffColider.enemyCar.transform.position - transform.position).normalized, transform.right) > 0)
+                {
+                    animation.Play("StraffLeft");
+                }
+                else
+                {
+                    animation.Play("StraffRight");
+                }
+                straffColider.enemyCar.TakeDamage(100);
+                Debug.Log("STRAFFED");
+                
+            }
+            straffTime = 0;
+        }
+    }
+    
     public void BButton(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -180,11 +211,11 @@ public class CarController : CarBehaviour
             jumpSmoke.Play();
             rb.AddForce(Vector3.up * 300);
         }
-    }
+	}
 
     #endregion
-
-
+    
+    
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
@@ -192,39 +223,36 @@ public class CarController : CarBehaviour
             //Debug.Log(other.relativeVelocity.magnitude);
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
             {
+                    
                 Vector2 reflect = Vector2.Reflect(new Vector2(transform.forward.x, transform.forward.z),
-                    new Vector2(other.contacts[0].normal.x, other.contacts[0].normal.z));
-                transform.forward = new Vector3(reflect.x, 0, reflect.y);
+                    new Vector2(other.contacts[0].normal.x,other.contacts[0].normal.z));
+                transform.forward = new Vector3(reflect.x,0, reflect.y);
                 rb.velocity = transform.forward * other.relativeVelocity.magnitude * speedRetained;
                 rb.angularVelocity = Vector3.zero;
-
+                    
                 for (int i = 0; i < wheels.Length; i++)
                 {
                     if (wheels[i].steeringFactor > 0)
                     {
-                        wheels[i].wheelVisual.localRotation =
-                            wheels[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        wheels[i].wheelVisual.localRotation = wheels[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
                     }
                 }
 
-                Destroy(
-                    Instantiate(fxBounce, other.contacts[0].point, Quaternion.LookRotation(other.contacts[0].normal)),
-                    2);
+                Destroy(Instantiate(fxBounce, other.contacts[0].point, Quaternion.LookRotation(other.contacts[0].normal)),2);
             }
-
+                
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
 
-        if (other.gameObject.CompareTag("Enemy") && pickedItems.Count > 0)
+        if (other.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("COLLISION W PLAYER WITH OBJ");
-            for (int i = 0; i < pickedItems.Count; i++)
+            if (PickableManager.Instance.carPickableObjects.Count <= 0) return;
+            foreach (var obj in PickableManager.Instance.carPickableObjects)
             {
-                pickedItems[i].GetComponent<ObjectPickable>().OnDrop();
+                obj.GetComponent<ObjectPickable>().OnDrop();   
             }
-            
-            pickedItems.Clear();
-            //PickableManager.Instance.RemoveAllPickables();
+            PickableManager.Instance.RemoveAllPickables();
         }
     }
 }
+
