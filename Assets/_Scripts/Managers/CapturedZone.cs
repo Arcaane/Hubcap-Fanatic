@@ -87,7 +87,7 @@ public class CapturedZone : MonoBehaviour
                GiveIncrementValue(ref currencyToGive);
                break;
               case RewardType.ObjectDelivery:
-                  GivePlayerRessources();
+                  //GivePlayerRessources();
                     break;
        }
     }
@@ -97,6 +97,9 @@ public class CapturedZone : MonoBehaviour
         value++;
     }
 
+    /*
+     * 
+
     private void GivePlayerRessources()
     {
         GameObject spawnedObject = DeliveryRessourcesManager.Instance.SpawnObject(PickableManager.Instance.carPickableSocket.position);
@@ -104,6 +107,7 @@ public class CapturedZone : MonoBehaviour
         spawnedObject.transform.parent = PickableManager.Instance.carPickableSocket;
         DisableTower();
     }
+    */
     
     private void EnableTower()
     {
