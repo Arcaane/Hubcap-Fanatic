@@ -1,20 +1,26 @@
 using System;
 using UnityEngine;
 
+public delegate void AbilitiesDelegate();
+
 public class CarAbilitiesManager : MonoBehaviour
 {
     private static CarAbilitiesManager instance;
     public static CarAbilitiesManager Instance => instance;
-
+    
+    public AbilitiesDelegate OnBrake;
+    //public AbilitiesDelegate OnNitro;
+    //public AbilitiesDelegate OnDrift;
+    
     private void Awake()
     {
         instance = this;
+        OnBrake += CurseExplodeOnDeath;
     }
 
     //[Header("KIT")]
     [SerializeField] private Ability[] nitroAbilities;
     [SerializeField] private Ability[] driftAbilities;
-
     [SerializeField] public int damageOnCollisionWithEnemy;
     public void ActivateDriftAbilities()
     {
@@ -92,6 +98,46 @@ public class CarAbilitiesManager : MonoBehaviour
             }
         }
     }
+
+
+    public LayerMask enemyLayerMask;
+
+    public CarAbilitiesManager(AbilitiesDelegate onBrake)
+    {
+        OnBrake = onBrake;
+    }
+
+    #region Curse
+
+    public void MakeCurseExplodeOnDeath()
+    {
+        var cols = Physics.OverlapSphere(GetComponent<Transform>().position, 5f, enemyLayerMask);
+        if (cols.Length <= 0) return;
+        foreach (var t in cols)
+        {
+            PoliceCarBehavior police = t.GetComponent<PoliceCarBehavior>();
+            
+            // if (police.OnPoliceCarDie.)
+            // {
+            //     
+            // }
+            // t.GetComponent<PoliceCarBehavior>().OnPoliceCarDie += CurseExplodeOnDeath;
+        }
+    }
+    
+    private void CurseExplodeOnDeath()
+    {
+        var cols = Physics.OverlapSphere(GetComponent<Transform>().position, 5f, enemyLayerMask);
+        if (cols.Length <= 0) return;
+        for (int i = 0; i < cols.Length; i++)
+        {
+            cols[i].GetComponent<IDamageable>()?.TakeDamage(50);
+            Debug.Log($"{cols[i].name} took damage");
+        }
+    }
+    
+    #endregion
+    
 }
 
 public enum AbilitySocket

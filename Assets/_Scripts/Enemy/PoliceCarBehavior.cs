@@ -38,11 +38,16 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     [Header("Pickable")] 
     public GameObject socketPickableCop;
     public GameObject objectPickable;
-
+    
+    public AbilitiesDelegate OnPoliceCarDie;
+    
     void Start()
     {
         target = CarController.instance.transform;
         currentTarget = target;
+        
+        OnPoliceCarDie += delegate { Pooler.instance.DestroyInstance(enemyKey, transform); };
+        OnPoliceCarDie += delegate { CarExperienceManager.Instance.GetExp(1); };
     }
 
     private void Update()
@@ -282,7 +287,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position,repulsiveRadius);
     }
-
+    
     public void TakeDamage(int damages)
     {
         DropItem();
@@ -290,8 +295,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         hp -= damages;
         if (hp < 1)
         {
-            Pooler.instance.DestroyInstance(enemyKey, transform);
-            CarExperienceManager.Instance.GetExp(1);
+            OnPoliceCarDie.Invoke();
         }
     }
 

@@ -42,7 +42,7 @@ public class CarBehaviour : MonoBehaviour
     
     private bool driftEngaged;
     private float driftValue;
-    
+    private bool brakeMethodApplied;
 
     // INPUT VALUES
     
@@ -163,20 +163,22 @@ public class CarBehaviour : MonoBehaviour
     float GetWheelAcceleration(Wheel wheel)
     {
         float force = 0;
-
-        
-        
         float accel = accelForce * acceleration * accelerationBySpeedFactor.Evaluate(speedFactor) * wheel.drivingFactor * (driftBrake ? accelMultiplier : 1);
         
-        
-
         float brake = 0;
         if (Vector3.Dot(rb.velocity, transform.forward) > 0.1f)
         {
             brake = brakeForce * -braking * wheel.drivingFactor * (driftBrake ? 0 :1);
+            brakeMethodApplied = false;
         }
         else
         {
+            if (!brakeMethodApplied)
+            {
+                brakeMethodApplied = true;
+                PlayerBrake();
+            }
+            
             brake = brakeForce * -decceleration * wheel.drivingFactor;
         }
 
@@ -186,6 +188,11 @@ public class CarBehaviour : MonoBehaviour
     }
     
     #endregion
+
+    protected virtual void PlayerBrake()
+    {
+        
+    }
 }
 
 
