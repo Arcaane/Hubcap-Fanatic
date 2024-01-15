@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Abilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,7 +19,7 @@ public class CarController : CarBehaviour
     [Header("NITRO")] 
     [SerializeField] private float nitroSpeed = 50;
     [SerializeField] private ParticleSystem smoke, smokeNitro;
-    [SerializeField] private bool nitroMode,canNitro;
+    [SerializeField] public bool nitroMode,canNitro;
     [SerializeField] private float nitroTime;
     [SerializeField] private float nitroDuration;
     [SerializeField] private float nitroRegen;
@@ -208,10 +209,9 @@ public class CarController : CarBehaviour
     {
         if (straffColider.enemyCar != null)
         {
-            
-            straffColider.enemyDamageable.TakeDamage(100);
+            straffColider.enemyDamageable.TakeDamage(50);
+            CarAbilitiesManager.Instance.OnStrafeForDamageableEntity.Invoke(transform);
             Debug.Log("STRAFFED");
-                
         }
     }
     
@@ -229,7 +229,7 @@ public class CarController : CarBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Wall"))
         {
             //Debug.Log(other.relativeVelocity.magnitude);
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
@@ -264,7 +264,29 @@ public class CarController : CarBehaviour
             }
             
             pickedItems.Clear();
-            //PickableManager.Instance.RemoveAllPickables();
+        }
+
+        if (other.gameObject.CompareTag("Enemy") && !nitroMode)
+        {
+            if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
+            {
+                    
+                Vector2 reflect = Vector2.Reflect(new Vector2(transform.forward.x, transform.forward.z),
+                    new Vector2(other.contacts[0].normal.x,other.contacts[0].normal.z));
+                transform.forward = new Vector3(reflect.x,0, reflect.y);
+                rb.velocity = transform.forward * other.relativeVelocity.magnitude * speedRetained;
+                rb.angularVelocity = Vector3.zero;
+                    
+                for (int i = 0; i < wheels.Length; i++)
+                {
+                    if (wheels[i].steeringFactor > 0)
+                    {
+                        wheels[i].wheelVisual.localRotation = wheels[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    }
+                }
+
+                Destroy(Instantiate(fxBounce, other.contacts[0].point, Quaternion.LookRotation(other.contacts[0].normal)),2);
+            }
         }
     }
     

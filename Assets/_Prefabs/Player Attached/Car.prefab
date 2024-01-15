@@ -11273,7 +11273,6 @@ MonoBehaviour:
   animation: {fileID: 6205959775607353322}
   dirCam: 0
   cameraHolder: {fileID: 0}
-  camDist: 0.8
   pickedItems: []
 --- !u!54 &7223312086131934466
 Rigidbody:
@@ -11574,11 +11573,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2646441ad0e723e4286386040d8e36fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  car: {fileID: 0}
   nitroAbilities:
   - {fileID: 0}
   driftAbilities:
   - {fileID: 0}
-  damageOnCollisionWithEnemy: 10
+  damageOnCollisionWithEnemy: 34
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  P_TestExplo: {fileID: 6335372874567478365, guid: 079d0ebca68e2ed4f899b88eda8a316d, type: 3}
 --- !u!111 &6205959775607353322
 Animation:
   m_ObjectHideFlags: 0

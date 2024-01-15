@@ -192,8 +192,11 @@ namespace EnemyNamespace
 
         public void TakeDamage(int damages)
         {
+            if (!IsDamageable()) return;
             EnemyTakeDamage(damages);
         }
+
+        public bool IsDamageable() => gameObject.activeSelf;
 
         //private void Kill() => OnDie();
 

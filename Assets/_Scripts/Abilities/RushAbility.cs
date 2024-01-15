@@ -1,3 +1,5 @@
+using Abilities;
+
 public class RushAbility : Ability
 {
     public override void StartAbility()
