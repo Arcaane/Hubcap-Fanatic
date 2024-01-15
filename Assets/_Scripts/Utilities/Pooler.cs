@@ -130,7 +130,8 @@ namespace ManagerNameSpace
         FX_FluidSplash,
         OBJ_Foddler,
         OBJ_BerserkEnemy,
-        OBJ_DriveByEnemy
+        OBJ_DriveByEnemy,
+        OBJ_DefenseEnemy,
     }
 
     public enum ReturnType
