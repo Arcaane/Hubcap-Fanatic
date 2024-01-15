@@ -33,6 +33,6 @@ public class CarHealthManager : MonoBehaviour , IDamageable
     private void OnGUI()
     {
         GUI.Label(new Rect(50, 150, 500, 150), "Press F1 to reload scene");
-        GUI.Label(new Rect(50, 50, 350, 150), $"Life: {lifePoints}/{maxLifePoints}", style);
+        //GUI.Label(new Rect(50, 50, 350, 150), $"Life: {lifePoints}/{maxLifePoints}", style);
     }
 }

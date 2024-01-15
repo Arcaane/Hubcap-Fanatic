@@ -123,15 +123,19 @@ public class CarController : CarBehaviour
     
     public void LShoulder(InputAction.CallbackContext context)
     {
+        if (context.started)
+        {
+            driftBrake = true;
+        }
+        
         if (context.performed)
         {
-			driftBrake = true;
             brakeForce = context.ReadValue<float>();
-            
             foreach (var t in driftSparks) t.Play();
             CarAbilitiesManager.Instance.ActivateDriftAbilities();
         }
-        else
+
+        if (context.canceled)
         {
             brakeForce = 0;
         }
@@ -143,7 +147,8 @@ public class CarController : CarBehaviour
         {
             stickValue = context.ReadValue<Vector2>();
         }
-        else
+        
+        if (context.canceled)
         {
             stickValue = Vector2.zero;
         }
@@ -214,7 +219,6 @@ public class CarController : CarBehaviour
 	}
 
     #endregion
-    
     
     private void OnCollisionEnter(Collision other)
     {
