@@ -267,5 +267,11 @@ public class CarController : CarBehaviour
             //PickableManager.Instance.RemoveAllPickables();
         }
     }
+    
+    protected override void PlayerBrake()
+    {
+        base.PlayerBrake();
+        CarAbilitiesManager.Instance.OnBrake.Invoke();
+    }
 }
 
