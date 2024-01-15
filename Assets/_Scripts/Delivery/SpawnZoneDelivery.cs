@@ -12,7 +12,12 @@ public class SpawnZoneDelivery : MonoBehaviour
     public bool HasDelivered { get { return hasDelivered; } }
     [SerializeField] private int currencyToGive;
     [SerializeField] private float deliveryDuration = 20f;
-    public float DeliveryDuration => deliveryDuration;
+    public float DeliveryDuration
+    {
+        get => deliveryDuration;
+        set => deliveryDuration = value;
+    }
+
     [SerializeField] private float timeBeforeLaunchingDelivery = 5f; 
     
     
@@ -85,6 +90,7 @@ public class SpawnZoneDelivery : MonoBehaviour
               case RewardType.ObjectDelivery:
                   GivePlayerRessources();
                     break;
+              
        }
     }
 
@@ -97,8 +103,8 @@ public class SpawnZoneDelivery : MonoBehaviour
     {
         Vector2 randomPosition2D = Random.insideUnitCircle * currentSize;
         Vector3 randomPosition = new Vector3(randomPosition2D.x, 0f, randomPosition2D.y) + transform.position;
-        GameObject spawnedObject = DeliveryRessourcesManager.Instance.SpawnObject(randomPosition);
-        spawnedObject.transform.parent = PickableManager.Instance.worldSocket;
+        //GameObject spawnedObject = DeliveryRessourcesManager.Instance.SpawnObject(randomPosition);
+        //spawnedObject.transform.parent = PickableManager.Instance.worldSocket;
         hasDelivered = true;
         DisableZone();
     }

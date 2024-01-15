@@ -1,21 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-[System.Serializable]
-public class DeliveryObject
+public class DeliverySpawner : MonoBehaviour
 {
-    public GameObject prefab;
-    public Vector2 X_DeliveryDuration__Y_TimeBeforeSpawn;
-}
-
-public class DeliveryRessourcesManager : MonoBehaviour
-{
-    private static DeliveryRessourcesManager _instance;
-    public static DeliveryRessourcesManager Instance => _instance;
-    
     [Header("Setup Options Spawn")] 
     public int numberOfPointsPerSide;
     public float distanceBetweenPoints;
@@ -23,8 +11,9 @@ public class DeliveryRessourcesManager : MonoBehaviour
     public int randomSeed;
     
     [Header("Timeline Spawn Options")]
-    [SerializeField] private List<DeliveryObject> deliveryObjects; 
-    public List<GameObject> deliveryPoints;
+    [SerializeField] private GameObject deliveryPrefab;
+    [SerializeField] private List<DeliveryObject> deliveryObjects;
+    
     
     //Setup Spawn Points
     private Transform spawnPointContainer;
