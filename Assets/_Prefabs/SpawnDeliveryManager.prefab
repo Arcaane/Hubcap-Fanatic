@@ -26328,9 +26328,11 @@ MonoBehaviour:
   randomSeed: 0
   deliveryObjects:
   - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
-    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 30, y: 5}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 10, y: 0}
   - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
-    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 20, y: 10}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 5, y: 5}
+  - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 10, y: 10}
   deliveryPoints:
   - {fileID: 2384896032003239869}
   - {fileID: 7126968455767558121}
