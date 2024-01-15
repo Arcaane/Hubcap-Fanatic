@@ -34,6 +34,7 @@ public class CarController : CarBehaviour
 
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
+    public float camDist;
 
     public List<GameObject> pickedItems = new();
     
@@ -78,18 +79,19 @@ public class CarController : CarBehaviour
                 CarAbilitiesManager.Instance.DesactivateNitroAbilities();
             }
         }
-        else if(!canNitro)
+        else /*if(!canNitro)*/
         {
             if (nitroTime < nitroDuration)
             {
                 nitroTime += Time.deltaTime * nitroRegen;   
                 UIManager.instance.SetNitroJauge(nitroTime/nitroDuration);
             }
-            else
+            
+            if(nitroTime >= nitroDuration / 4f)
             {
                 canNitro = true;
-                nitroTime = nitroDuration;
-                UIManager.instance.SetNitroJauge(1);
+                //nitroTime = nitroDuration;
+                //UIManager.instance.SetNitroJauge(1);
             }
         }
 
@@ -105,7 +107,8 @@ public class CarController : CarBehaviour
         dirCam = Mathf.Lerp(dirCam, rb.velocity.magnitude,Time.fixedDeltaTime*3);
         ApplyWheelForces();
         // CAMERA
-        cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
+        //cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
+        cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f * camDist,5 * Time.fixedDeltaTime);
     }
     
     #region Inputs
