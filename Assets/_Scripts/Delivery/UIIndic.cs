@@ -11,6 +11,7 @@ public class UIIndic : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private Transform camCenter;
     [SerializeField] private List<GameObject> obj;
+    public List<GameObject> Obj => obj;
     [SerializeField] private Rect rectAdjusted;
     [SerializeField] private Vector2 center;
     [SerializeField] private List<TargetUI> targetUIPrefab;

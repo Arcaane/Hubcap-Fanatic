@@ -30,8 +30,12 @@ public class DeliveryRessourcesManager : MonoBehaviour
     private Transform spawnPointContainer;
     [SerializeField] private List<Transform> spawnPoints;
     private int previousSpawnIndex = -1;
-    
 
+    private void Awake()
+    {
+        _instance = this;
+    }
+    
     private void Start()
     {
         Random.InitState(randomSeed);
