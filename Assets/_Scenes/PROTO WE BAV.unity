@@ -3490,8 +3490,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
     - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+      propertyPath: deliveryObjects.Array.data[0].X_DeliveryDuration__Y_TimeBeforeSpawn.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
       propertyPath: deliveryObjects.Array.data[0].X_DeliveryDuration__Y_TimeBeforeSpawn.y
-      value: 2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+      propertyPath: deliveryObjects.Array.data[1].X_DeliveryDuration__Y_TimeBeforeSpawn.x
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
       propertyPath: deliveryObjects.Array.data[1].X_DeliveryDuration__Y_TimeBeforeSpawn.y
@@ -3499,7 +3507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
       propertyPath: deliveryObjects.Array.data[2].X_DeliveryDuration__Y_TimeBeforeSpawn.x
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
       propertyPath: deliveryObjects.Array.data[2].X_DeliveryDuration__Y_TimeBeforeSpawn.y

@@ -39,15 +39,15 @@ public class UIIndic : MonoBehaviour
 
     public void Update()
     {
-        for (int i = 0; i < obj.Count; i++)
+        int count = obj.Count;
+        for (int i = count - 1; i >= 0; i--)
         {
-            if (obj[i] == null || obj[i].activeSelf == false)
+            if (i < obj.Count && (obj[i] == null || obj[i].activeSelf == false))
             {
                 RemoveIndic(i);
             }
-            else
+            else if (i < obj.Count) 
             {
-                
                 UpdateIndic(i);
             }
         }
@@ -73,19 +73,24 @@ public class UIIndic : MonoBehaviour
 
     public void UpdateIndic(int indexObj)
     {
-        if (rectAdjusted.Contains(cam.WorldToScreenPoint(obj[indexObj].transform.position)))
+        if (targetUIPrefab[indexObj] != null)
         {
-            targetUIPrefab[indexObj].transform.localScale = Vector3.Lerp(targetUIPrefab[indexObj].transform.localScale,Vector3.zero,Time.deltaTime*17);
+            if (rectAdjusted.Contains(cam.WorldToScreenPoint(obj[indexObj].transform.position)))
+            {
+                targetUIPrefab[indexObj].transform.localScale = Vector3.Lerp(targetUIPrefab[indexObj].transform.localScale, Vector3.zero, Time.deltaTime * 17);
+            }
+            else
+            {
+                targetUIPrefab[indexObj].transform.localScale = Vector3.Lerp(targetUIPrefab[indexObj].transform.localScale, Vector3.one * 1f * (Mathf.Sin(Time.time * 5 + indexObj) * 0.3f + 1), Time.deltaTime * 5);
+                Vector3 objPosNear = camCenter.position + (obj[indexObj].transform.position - camCenter.position).normalized * 3;
+                Vector2 pos = cam.WorldToScreenPoint(objPosNear);
+                pos = FindPointOnRectBorder(pos - center, center, rectAdjusted);
+                targetUIPrefab[indexObj].transform.position = pos;
+            }
         }
-        else
-        {
-            targetUIPrefab[indexObj].transform.localScale = Vector3.Lerp(targetUIPrefab[indexObj].transform.localScale,Vector3.one*1f *(Mathf.Sin(Time.time*5+indexObj)*0.3f+1),Time.deltaTime*5);
-            Vector3 objPosNear = camCenter.position + (obj[indexObj].transform.position - camCenter.position).normalized*3;
-            Vector2 pos = cam.WorldToScreenPoint(objPosNear);
-            pos = FindPointOnRectBorder( pos - center,center, rectAdjusted);
-            targetUIPrefab[indexObj].transform.position = pos;    
-        }
+
     }
+
 
     public void EnableOrDisableDeliveryZone(bool enable = false)
     {
@@ -97,24 +102,20 @@ public class UIIndic : MonoBehaviour
 
     public void RemoveIndic(int indexObj)
     {
+        obj.RemoveAt(indexObj);
         Destroy(targetUIPrefab[indexObj].gameObject);
         targetUIPrefab.RemoveAt(indexObj);
-        obj.RemoveAt(indexObj);
+        Debug.Log("INDIC REMOVED " + indexObj);
     }
-
-
-    private IEnumerator DestroyWithDelay(GameObject objToDestroy, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Destroy(objToDestroy);
-    }
-
+    
     
     public void AddIndic(GameObject newObj, out int indicNb)
     {
         obj.Add(newObj);
         CreateImages();
         indicNb = obj.Count - 1;
+        targetUIPrefab[indicNb].indexDeliveryPoints = indicNb;
+        targetUIPrefab[indicNb].objBinded = newObj;
         Debug.Log("INDIC CREATED "+ indicNb);
     }
 
