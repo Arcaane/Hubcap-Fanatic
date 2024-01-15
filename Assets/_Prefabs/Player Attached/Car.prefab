@@ -11273,6 +11273,7 @@ MonoBehaviour:
   animation: {fileID: 6205959775607353322}
   dirCam: 0
   cameraHolder: {fileID: 0}
+  camDist: 0.8
   pickedItems: []
 --- !u!54 &7223312086131934466
 Rigidbody:
