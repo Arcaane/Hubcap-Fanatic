@@ -125,11 +125,13 @@ public class CarController : CarBehaviour
     {
         if (context.performed)
         {
-			driftBrake = true;
             brakeForce = context.ReadValue<float>();
-            
-            foreach (var t in driftSparks) t.Play();
-            CarAbilitiesManager.Instance.ActivateDriftAbilities();
+            if (stickValue.x > 0.6f || stickValue.x < -0.6f)
+            {
+                driftBrake = true;
+                CarAbilitiesManager.Instance.ActivateDriftAbilities();
+                foreach (var t in driftSparks) t.Play();
+            }
         }
         else
         {
@@ -196,11 +198,20 @@ public class CarController : CarBehaviour
                 {
                     animation.Play("StraffRight");
                 }
-                straffColider.enemyCar.TakeDamage(100);
-                Debug.Log("STRAFFED");
-                
+
             }
             straffTime = 0;
+        }
+    }
+
+    public void StraffHit()
+    {
+        if (straffColider.enemyCar != null)
+        {
+            
+            straffColider.enemyDamageable.TakeDamage(100);
+            Debug.Log("STRAFFED");
+                
         }
     }
     
