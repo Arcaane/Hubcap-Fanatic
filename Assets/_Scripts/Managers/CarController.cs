@@ -78,18 +78,18 @@ public class CarController : CarBehaviour
                 CarAbilitiesManager.Instance.DesactivateNitroAbilities();
             }
         }
-        else if(!canNitro)
+        else /*if(!canNitro)*/
         {
             if (nitroTime < nitroDuration)
             {
                 nitroTime += Time.deltaTime * nitroRegen;   
                 UIManager.instance.SetNitroJauge(nitroTime/nitroDuration);
             }
-            else
+            if(nitroTime >= nitroDuration / 4f)
             {
                 canNitro = true;
-                nitroTime = nitroDuration;
-                UIManager.instance.SetNitroJauge(1);
+                //nitroTime = nitroDuration;
+                //UIManager.instance.SetNitroJauge(1);
             }
         }
 
