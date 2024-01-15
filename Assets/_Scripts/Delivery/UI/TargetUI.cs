@@ -20,6 +20,7 @@ public class TargetUI : MonoBehaviour
     private float distance = 0f;
     [SerializeField] private float timer;
     public int indexDeliveryPoints = 0; 
+    public GameObject objBinded;
     
     void Start()
     {
@@ -36,14 +37,15 @@ public class TargetUI : MonoBehaviour
 
     void IncreaseFillAmount()
     {
+        if (timer <= 1) return;
         timer += Time.deltaTime;
-        durationBeforeSpawnImage.fillAmount = timer / DeliveryRessourcesManager.Instance.SpawnZoneInstance.DeliveryDuration;
+        durationBeforeSpawnImage.fillAmount = 1 - (timer / UIIndic.instance.Obj[indexDeliveryPoints].GetComponent<SpawnZoneDelivery>().DeliveryDuration);
     }
 
     void DecreaseFillAmount()
     {
         timer += Time.deltaTime;
-        durationBeforeSpawnImage.fillAmount = 1 - (timer / DeliveryRessourcesManager.Instance.SpawnZoneInstance.DeliveryDuration);
+        durationBeforeSpawnImage.fillAmount = 1 - (timer / UIIndic.instance.Obj[indexDeliveryPoints].GetComponent<SpawnZoneDelivery>().DeliveryDuration);
     }
     
     void SetText(TextMeshProUGUI tmpGUI, string text)
@@ -96,10 +98,10 @@ public class TargetUI : MonoBehaviour
         switch (targetType)
         {
             case TargetType.DropZone:
-                distance = Vector3.Distance(CarController.instance.transform.position, DeliveryRessourcesManager.Instance.SpawnZoneInstance.transform.position);
+                distance = Vector3.Distance(CarController.instance.transform.position, objBinded.transform.position);
                 break;
             case TargetType.DeliveryZone:
-                distance = Vector3.Distance(CarController.instance.transform.position, DeliveryRessourcesManager.Instance.deliveryPoints[index].transform.position);
+                distance = Vector3.Distance(CarController.instance.transform.position, objBinded.transform.position);
                 break;
             case TargetType.ShopZone:
                 break;
