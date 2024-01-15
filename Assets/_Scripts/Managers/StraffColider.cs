@@ -5,18 +5,24 @@ using UnityEngine;
 
 public class StraffColider : MonoBehaviour
 {
-    public PoliceCarBehavior enemyCar;
+    public IDamageable enemyDamageable;
+    public Transform enemyCar;
     
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            enemyCar = other.GetComponent<PoliceCarBehavior>();   
+            enemyDamageable = other.GetComponent<IDamageable>();
+            enemyCar = other.transform;
         }
     }
     
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == enemyCar.gameObject) enemyCar = null;
+        if (enemyCar && other.transform == enemyCar)
+        {
+            enemyCar = null;
+            enemyDamageable = null;
+        }
     }
 }

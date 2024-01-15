@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class ConvoyBehaviour : MonoBehaviour
+public class ConvoyBehaviour : MonoBehaviour , IDamageable
 {
     [Header("POLICE CAR")]
     public Vector3 target;
@@ -14,6 +16,7 @@ public class ConvoyBehaviour : MonoBehaviour
     public float speed, normalSpeed,attackModeSpeed;
 
     public Transform player;
+    public NavMeshAgent agent;
     
     [Header("CONVOY")]
     
@@ -21,6 +24,7 @@ public class ConvoyBehaviour : MonoBehaviour
     public float detectionTimer = 3;
     public float detectionDelay = 3;
     public PoliceCarBehavior[] defenseCars;
+    public DefensePoint[] defensePoints;
     
     public float attackTimer = 1;
     public float timeBetweenAttack = 1;
@@ -41,46 +45,45 @@ public class ConvoyBehaviour : MonoBehaviour
     public bool attackMode;
     public float oneBarZone,twoBarsZone,threeBarZone,fourBarZone;
     
-
+    [SerializeField] private int hp = 1000;
     
-
-    private void Start()
-    {
-        Initialize();
-    }
 
     public void Initialize()
     {
+        defenseCars = new PoliceCarBehavior[defensePoints.Length];
         
-
-        transform.parent.position = new Vector3(Random.Range(-730f, 730f), 1.4f, -730);
-        
-        target = new Vector3(Random.Range(-730f, 730f), 1.4f, 730);
-        for (int i = 0; i < defenseCars.Length; i++)
+        for (int i = 0; i < defensePoints.Length; i++)
         {
-            defenseCars[i].target = CarController.instance.transform;
+            defenseCars[i] = Instantiate(defensePoints[i].defenseCar, defensePoints[i].point.position,
+                Quaternion.identity).GetComponent<PoliceCarBehavior>();
             
+            defenseCars[i].target = CarController.instance.transform;
+            defenseCars[i].convoyBehaviour = this;
+            defenseCars[i].defensePoint = defensePoints[i].point;
         }
         player = CarController.instance.transform;
-        transform.localPosition =Vector3.zero;
-        
-        
+        agent.SetDestination(target);
+
     }
     
     private void Update()
     {
-        transform.position += (target - transform.position).normalized * speed * Time.deltaTime;
-        transform.forward = (target - transform.position).normalized;
-
-        if (transform.position.z > 725)
+        if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(target.x, target.z)) <
+            5)
         {
-            Initialize();
+            ConvoyManager.instance.waitingForConvoy = true;
+            for (int i = 0; i < defenseCars.Length; i++)
+            {
+                Destroy(defenseCars[i].gameObject);
+            }
+            Destroy(gameObject);
         }
+        
         
         if (attackMode) AttackMode();
         else
         {
-            speed = Mathf.Lerp(speed, normalSpeed, Time.deltaTime * 5);
+            agent.speed = Mathf.Lerp(agent.speed, normalSpeed, Time.deltaTime * 5);
             
             if (Vector3.SqrMagnitude(transform.position - player.position) < playerDetectionRadius * playerDetectionRadius)
             {
@@ -155,7 +158,7 @@ public class ConvoyBehaviour : MonoBehaviour
 
     void AttackMode()
     {
-        speed = Mathf.Lerp(speed, attackModeSpeed, Time.deltaTime * 5);
+        agent.speed = Mathf.Lerp(agent.speed, attackModeSpeed, Time.deltaTime * 5);
 
         if (attackTimer > 0)
         {
@@ -207,4 +210,31 @@ public class ConvoyBehaviour : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position,playerLostRadius);
     }
+
+    public void TakeDamage(int damages)
+    {
+        hp -= damages;
+        if (hp < 1)
+        {
+            DestroyConvoy();
+            
+        }
+    }
+
+    public void DestroyConvoy()
+    {
+        CarExperienceManager.Instance.GetExp(10);
+        ConvoyManager.instance.waitingForConvoy = true;
+        for (int i = 0; i < defenseCars.Length; i++)
+        {
+            defenseCars[i].convoyBehaviour = null;
+        }
+        Destroy(gameObject);
+    }
+}
+[Serializable]
+public struct DefensePoint
+{
+    public GameObject defenseCar;
+    public Transform point;
 }

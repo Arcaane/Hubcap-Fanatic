@@ -34,7 +34,6 @@ public class CarController : CarBehaviour
 
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
-    public float camDist;
 
     public List<GameObject> pickedItems = new();
     
@@ -79,18 +78,18 @@ public class CarController : CarBehaviour
                 CarAbilitiesManager.Instance.DesactivateNitroAbilities();
             }
         }
-        else /*if(!canNitro)*/
+        else if(!canNitro)
         {
             if (nitroTime < nitroDuration)
             {
                 nitroTime += Time.deltaTime * nitroRegen;   
                 UIManager.instance.SetNitroJauge(nitroTime/nitroDuration);
             }
-            if(nitroTime >= nitroDuration / 4f)
+            else
             {
                 canNitro = true;
-                //nitroTime = nitroDuration;
-                //UIManager.instance.SetNitroJauge(1);
+                nitroTime = nitroDuration;
+                UIManager.instance.SetNitroJauge(1);
             }
         }
 
@@ -106,7 +105,7 @@ public class CarController : CarBehaviour
         dirCam = Mathf.Lerp(dirCam, rb.velocity.magnitude,Time.fixedDeltaTime*3);
         ApplyWheelForces();
         // CAMERA
-        cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f * camDist,5 * Time.fixedDeltaTime);
+        cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
     }
     
     #region Inputs
@@ -124,19 +123,17 @@ public class CarController : CarBehaviour
     
     public void LShoulder(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            driftBrake = true;
-        }
-        
         if (context.performed)
         {
             brakeForce = context.ReadValue<float>();
-            foreach (var t in driftSparks) t.Play();
-            CarAbilitiesManager.Instance.ActivateDriftAbilities();
+            if (stickValue.x > 0.6f || stickValue.x < -0.6f)
+            {
+                driftBrake = true;
+                CarAbilitiesManager.Instance.ActivateDriftAbilities();
+                foreach (var t in driftSparks) t.Play();
+            }
         }
-
-        if (context.canceled)
+        else
         {
             brakeForce = 0;
         }
@@ -148,8 +145,7 @@ public class CarController : CarBehaviour
         {
             stickValue = context.ReadValue<Vector2>();
         }
-        
-        if (context.canceled)
+        else
         {
             stickValue = Vector2.zero;
         }
@@ -202,11 +198,20 @@ public class CarController : CarBehaviour
                 {
                     animation.Play("StraffRight");
                 }
-                straffColider.enemyCar.TakeDamage(100);
-                Debug.Log("STRAFFED");
-                
+
             }
             straffTime = 0;
+        }
+    }
+
+    public void StraffHit()
+    {
+        if (straffColider.enemyCar != null)
+        {
+            
+            straffColider.enemyDamageable.TakeDamage(100);
+            Debug.Log("STRAFFED");
+                
         }
     }
     
@@ -220,6 +225,7 @@ public class CarController : CarBehaviour
 	}
 
     #endregion
+    
     
     private void OnCollisionEnter(Collision other)
     {
