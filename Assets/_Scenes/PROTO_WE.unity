@@ -86430,6 +86430,10 @@ PrefabInstance:
       propertyPath: nitroAbilities.Array.data[0]
       value: 
       objectReference: {fileID: 2079301886}
+    - target: {fileID: 4329711796915854895, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.867
+      objectReference: {fileID: 0}
     - target: {fileID: 4919197588331430954, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: m_Name
       value: PlayerCarContainer
@@ -86541,6 +86545,10 @@ PrefabInstance:
     - target: {fileID: 5160187011438475635, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: waves.Array.data[4].enemyGroupsList.Array.data[0].enemyCountInWave
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463474741254569708, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.867
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
