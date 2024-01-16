@@ -22,6 +22,7 @@ namespace Abilities
         public DefaultDelegate OnStateExit;
         public ObjectDelegate OnEnemyDamageTaken;
         public DefaultDelegate OnPlayerDamageTaken;
+        public DefaultDelegate OnUpdate;
         
         private void Awake()
         {
@@ -31,11 +32,6 @@ namespace Abilities
         private void Start()
         {
             car = CarController.instance;
-
-            // TEST ABILITIES
-            //OnBrake += ApplyCurseExplodeOnDeath;
-            //OnCollideWithNitro += AddBoostIfCollideEnemyWithNitro;
-            //OnStrafeForDamageableEntity += Explosion;
         }
 
         //[Header("KIT")]
@@ -51,7 +47,6 @@ namespace Abilities
                 t.StartAbility();
             }
         }
-
         public void DesactivateDriftAbilities()
         {
             foreach (var t in driftAbilities)
@@ -60,7 +55,6 @@ namespace Abilities
                 t.StopAbility();
             }
         }
-
         public void ActivateNitroAbilities()
         {
             foreach (var t in nitroAbilities)
@@ -69,7 +63,6 @@ namespace Abilities
                 t.StartAbility();
             }
         }
-
         public void DesactivateNitroAbilities()
         {
             foreach (var t in nitroAbilities)
@@ -78,8 +71,10 @@ namespace Abilities
             }
         }
 
-        private void Update()
+        public void Update()
         {
+            OnUpdate.Invoke();
+            
             foreach (var t in nitroAbilities)
             {
                 t.UpdateAbility();
@@ -95,6 +90,8 @@ namespace Abilities
         {
             if (!other.CompareTag("Enemy")) return;
 
+            OnEnemyCollision.Invoke(other.gameObject);
+            
             if (Vector3.Dot(other.transform.position - transform.position, transform.forward) > 0.75f) // EnemyCollision
             {
                 other.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy);

@@ -63,6 +63,7 @@ public class CarController : CarBehaviour
         // SORTIE DU DRIFT BRAKE SI ON LACHE L'ACCELERATION
         if (driftBrake && accelForce < 0.1f)
         {
+            CarAbilitiesManager.instance.OnStateExit.Invoke();
             driftBrake = false;
             foreach (var t in driftSparks) t.Stop();
             CarAbilitiesManager.instance.DesactivateDriftAbilities();
@@ -74,6 +75,7 @@ public class CarController : CarBehaviour
             {
                 nitroTime -= Time.deltaTime;   
                 UIManager.instance.SetNitroJauge(nitroTime/nitroDuration);
+                CarAbilitiesManager.instance.OnUpdate.Invoke();
             }
             else
             {
@@ -81,6 +83,7 @@ public class CarController : CarBehaviour
                 smoke.Play();
                 smokeNitro.Stop();
                 targetSpeed = maxSpeed;
+                CarAbilitiesManager.instance.OnStateExit.Invoke();
                 CarAbilitiesManager.instance.DesactivateNitroAbilities();
             }
         }
@@ -164,6 +167,7 @@ public class CarController : CarBehaviour
         if (context.started && canNitro)
         {
             nitroMode = true;
+            CarAbilitiesManager.instance.OnStateEnter.Invoke();
             canNitro = false;
             smoke.Stop();
             smokeNitro.Play();
@@ -178,6 +182,7 @@ public class CarController : CarBehaviour
             smokeNitro.Stop();
             targetSpeed = maxSpeed;
             CarAbilitiesManager.instance.DesactivateNitroAbilities();
+            CarAbilitiesManager.instance.OnStateExit.Invoke();
         }
         
     }
@@ -257,7 +262,12 @@ public class CarController : CarBehaviour
 
                 Destroy(Instantiate(fxBounce, other.contacts[0].point, Quaternion.LookRotation(other.contacts[0].normal)),2);
             }
-                
+
+            if (other.gameObject.CompareTag("Wall"))
+            {
+                CarAbilitiesManager.instance.OnWallCollision.Invoke(other);
+            }
+            
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
 
@@ -278,6 +288,11 @@ public class CarController : CarBehaviour
     {
         base.PlayerBrake();
         //CarAbilitiesManager.instance.OnBrake.Invoke();
+    }
+
+    public override void OnStopPlayerDrift()
+    {
+        CarAbilitiesManager.instance.OnStateExit.Invoke();
     }
 }
 

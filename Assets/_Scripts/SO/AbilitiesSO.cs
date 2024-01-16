@@ -10,7 +10,7 @@ namespace Abilities
         [Header("Informations")] public string abilityName;
         [TextArea(3, 3)] public string description;
         public Sprite abilitySprite;
-        public int level;
+        public int level = 0;
 
         [Space(5)] [Header("Abilities Creation")]
         public AbilityTrigger trigger;
@@ -50,13 +50,13 @@ namespace Abilities
                 case AbilityTrigger.OnWallCollision: CarAbilitiesManager.instance.OnWallCollision += Activate ; break;
                 case AbilityTrigger.OnEnterState: CarAbilitiesManager.instance.OnStateEnter += Activate ; break;
                 case AbilityTrigger.OnExitState: CarAbilitiesManager.instance.OnStateExit += Activate ; break;
-                case AbilityTrigger.OnUpdateState: break; // Abonner a l'update
+                case AbilityTrigger.OnUpdateState: CarAbilitiesManager.instance.OnUpdate += Activate; break;
                 case AbilityTrigger.OnEnemyDamageDealt: CarAbilitiesManager.instance.OnEnemyDamageTaken += Activate ; break;
                 case AbilityTrigger.OnPlayerDamageDealt: CarAbilitiesManager.instance.OnPlayerDamageTaken += Activate ; break;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
-
+        
         public void Activate()
         {
             ApplyWhenModifiers();
@@ -192,8 +192,7 @@ namespace Abilities
         }
 
         #endregion
-
-
+        
         #region EffectFunctions
 
         private void EffectSpear(GameObject targetObj)
@@ -215,9 +214,30 @@ namespace Abilities
             carBehaviour.forceBreak = true;
             carBehaviour.forceBreakTimer = effectDuration;
         }
-
         #endregion
+
+
+        #region Stats
+
+        public void LevelUpStats()
+        {
+            if (levelsAbilitiesModifiers[level] == null) return;
+            
+            for (int i = 0; i < levelsAbilitiesModifiers[level].Modifiers.Length; i++)
+            {
+                switch (levelsAbilitiesModifiers[level].Modifiers[i].stat)
+                {
+                    case AbilitiesStats.EffectDamage: effectDamage += (int)levelsAbilitiesModifiers[level].Modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectSizeRadius: effectSizeRadius += (int)levelsAbilitiesModifiers[level].Modifiers[i].newValue;  break;
+                    case AbilitiesStats.EffectDuration: effectDuration += levelsAbilitiesModifiers[level].Modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectDelayMilliseconds: effectDelayMilliseconds += (int)levelsAbilitiesModifiers[level].Modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectRepeatDelay: effectRepeatDelay += levelsAbilitiesModifiers[level].Modifiers[i].newValue; break;
+                    default: throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
         
+        #endregion
     }
 }
 
@@ -267,4 +287,13 @@ public enum Effect
     ForceBreak,
     Undefined_4,
     Undefined_5
+}
+
+public enum AbilitiesStats
+{
+    EffectDamage,
+    EffectSizeRadius,
+    EffectDuration,
+    EffectDelayMilliseconds,
+    EffectRepeatDelay,
 }

@@ -1,9 +1,13 @@
+using System.Collections.Generic;
+using Abilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class TestShop : MonoBehaviour
 {
-    [SerializeField] private ScriptableObject[] shopItems;
+    [SerializeField] private List<AbilitiesSO> allAbilities;
+    [SerializeField] private List<AbilitiesSO> purchasableAbilities;
+    
     [SerializeField] private GameObject shopCanvas;
     [SerializeField] private ButtonsItems[] itemsHandler;
     private bool isShopActive;
@@ -33,6 +37,7 @@ public class TestShop : MonoBehaviour
 
     private void SetupItemsInShop()
     {
+        
     }
 
     private void ExitShop()
