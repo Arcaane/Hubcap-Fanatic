@@ -4544,10 +4544,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4075042119925229768, guid: 59891ae04a6c39a40bf146d030be8196, type: 3}
-      propertyPath: antennaEffectSize
-      value: 400
-      objectReference: {fileID: 0}
     - target: {fileID: 6276860488817494166, guid: 59891ae04a6c39a40bf146d030be8196, type: 3}
       propertyPath: m_Name
       value: Event_AntennaZonePrefab
@@ -12306,6 +12302,10 @@ PrefabInstance:
       propertyPath: camCenter
       value: 
       objectReference: {fileID: 1589885997}
+    - target: {fileID: 2553120890910329301, guid: 101d20fe73fbc4147bceeb0775eef57a, type: 3}
+      propertyPath: obj.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2553120890910329301, guid: 101d20fe73fbc4147bceeb0775eef57a, type: 3}
       propertyPath: obj.Array.data[0]
       value: 
@@ -51854,10 +51854,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allAbilities: []
   purchasableAbilities: []
-  itemsHandler:
-  - {fileID: 481385051}
-  - {fileID: 769534948}
-  - {fileID: 602087808}
+  buttonsItemsArray:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1286312695
 GameObject:
   m_ObjectHideFlags: 0

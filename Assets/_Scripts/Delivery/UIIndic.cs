@@ -32,6 +32,11 @@ public class UIIndic : MonoBehaviour
         rectAdjusted = new Rect(Vector2.zero,cam.pixelRect.size - new Vector2(80,80));
         rectAdjusted.center = cam.pixelRect.center;
         center = cam.WorldToScreenPoint(camCenter.position);
+
+        for (int i = 0; i < DeliveryRessourcesManager.Instance.deliveryPoints.Count; i++)
+        {
+            obj.Add(DeliveryRessourcesManager.Instance.deliveryPoints[i]);
+        }
         
         //Setup 
         CreateIndicForDeliveryZone(DeliveryRessourcesManager.Instance.deliveryPoints.Count);
@@ -64,6 +69,7 @@ public class UIIndic : MonoBehaviour
         {
             TargetUI deliveryZoneUI = Instantiate(indic, Vector3.zero, quaternion.identity, uiParent).GetComponent<TargetUI>();
             deliveryZoneUI.targetType = TargetType.DeliveryZone;
+            deliveryZoneUI.objBinded = obj[i];
             deliveryZoneUI.indexDeliveryPoints = i;
             targetUIPrefab.Add(deliveryZoneUI);
         }
