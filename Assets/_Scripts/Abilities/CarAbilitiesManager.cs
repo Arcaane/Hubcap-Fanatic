@@ -73,6 +73,7 @@ namespace Abilities
         {
             if (abilities.Contains(abilitySo))
             {
+                abilitySo.level++;
                 abilitySo.LevelUpStats();
             }
             else

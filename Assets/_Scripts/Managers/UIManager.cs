@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI waveCountText;
 
     [SerializeField] private Transform straffJauge;
+
+    [SerializeField] public ButtonsItems[] buttonsHandlers;
     
 
     private void Awake()
@@ -54,4 +56,6 @@ public class UIManager : MonoBehaviour
     {
         straffJauge.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, amount);
     }
+    
+    
 }

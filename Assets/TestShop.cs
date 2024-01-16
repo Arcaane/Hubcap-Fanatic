@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using Abilities;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,13 +8,17 @@ public class TestShop : MonoBehaviour
     [SerializeField] private List<AbilitiesSO> allAbilities;
     [SerializeField] private List<AbilitiesSO> purchasableAbilities;
     
-    
-    [SerializeField] private ButtonsItems[] itemsHandler;
+    [SerializeField] private ButtonsItems[] buttonsItemsArray = new ButtonsItems[3];
     private bool isShopActive;
 
     private void Start()
     {
         UIManager.instance.shopScreen.SetActive(false);
+        for (int i = 0; i < 3; i++)
+        {
+            buttonsItemsArray[i] = UIManager.instance.buttonsHandlers[i];
+        }
+        
         isShopActive = false;
 
         for (int i = 0; i < allAbilities.Count; i++) purchasableAbilities.Add(allAbilities[i]);
@@ -24,7 +26,7 @@ public class TestShop : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && CarExperienceManager.Instance.levelUpTokensAvailable > 0)
         {
             StartShopUI();
         }
@@ -35,36 +37,26 @@ public class TestShop : MonoBehaviour
         Time.timeScale = 0;
         UIManager.instance.shopScreen.SetActive(true);
         isShopActive = true;
-        EventSystem.current.SetSelectedGameObject(itemsHandler[0].gameObject);
+        EventSystem.current.SetSelectedGameObject(buttonsItemsArray[0].gameObject);
         SetupItemsInShop();
     }
 
     private void SetupItemsInShop()
     {
+        for (int i = 0; i < buttonsItemsArray.Length; i++) buttonsItemsArray[i].gameObject.SetActive(false);
+        
         firstItemIndex = secondItemIndex = thirdItemIndex = -1;
         GetRandomsNumbers();
 
-        if (firstItemIndex < -1)
-        {
-            SetupButton(0);
-            Debug.Log("First item setup");
-        }
-
-        if (secondItemIndex < -1)
-        {
-            SetupButton(1);
-            Debug.Log("Second item setup");
-        }
-
-        if (thirdItemIndex < -1)
-        {
-            SetupButton(2);
-            Debug.Log("Third item setup");
-        }
+        if (firstItemIndex > -1) SetupButton(0);
+        if (secondItemIndex > -1) SetupButton(1);
+        if (thirdItemIndex > -1) SetupButton(2);
     }
 
     private void SetupButton(int i)
     {
+        buttonsItemsArray[i].gameObject.SetActive(true);
+        
         var index = i switch
         {
             0 => firstItemIndex,
@@ -73,25 +65,20 @@ public class TestShop : MonoBehaviour
             _ => 0
         };
 
-        itemsHandler[i].powerUpTitle.text = purchasableAbilities[index].abilityName;
-        itemsHandler[i].powerUpDescription.text = purchasableAbilities[index].description;
-        itemsHandler[i].powerUpSprite.sprite = purchasableAbilities[index].abilitySprite;
-        itemsHandler[i].powerUpButton.onClick.RemoveAllListeners();
-        itemsHandler[i].isNew.SetActive(!CarAbilitiesManager.instance.abilities.Contains(purchasableAbilities[index]));
-        itemsHandler[i].powerUpButton.onClick.AddListener(ExitShop);
-        
-        
-        // Si contains déja abilities
+        buttonsItemsArray[i].powerUpTitle.text = purchasableAbilities[index].abilityName;
+        buttonsItemsArray[i].powerUpDescription.text = purchasableAbilities[index].description;
+        buttonsItemsArray[i].powerUpSprite.sprite = purchasableAbilities[index].abilitySprite;
+        buttonsItemsArray[i].powerUpButton.onClick.RemoveAllListeners();
+        buttonsItemsArray[i].isNew.SetActive(!CarAbilitiesManager.instance.abilities.Contains(purchasableAbilities[index]));
+        buttonsItemsArray[i].powerUpButton.onClick.AddListener(ExitShop);
         
         // Sinon
-        itemsHandler[i].powerUpButton.onClick.AddListener((() =>
+        buttonsItemsArray[i].powerUpButton.onClick.AddListener(() =>
         {
-            CarAbilitiesManager.instance.abilities.Add(purchasableAbilities[index]);
-            purchasableAbilities.Remove(purchasableAbilities[index]);
-            CarAbilitiesManager.instance.abilities.Last().Initialize();
-        }));
-        
-        
+            CarAbilitiesManager.instance.AddAbility(purchasableAbilities[index]);
+            CarExperienceManager.Instance.levelUpTokensAvailable--;
+            if (CarAbilitiesManager.instance.abilities.Find(so => purchasableAbilities[index]).level == 2) purchasableAbilities.Remove(purchasableAbilities[index]);
+        });
     }
     
     private int firstItemIndex, secondItemIndex, thirdItemIndex;

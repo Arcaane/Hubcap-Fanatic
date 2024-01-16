@@ -226,7 +226,8 @@ namespace Abilities
 
         public void LevelUpStats()
         {
-            if (levelsAbilitiesModifiers[level] == null) return;
+            Debug.Log(levelsAbilitiesModifiers[level]);
+            if (levelsAbilitiesModifiers[level] == null || level > 3) return;
             
             for (int i = 0; i < levelsAbilitiesModifiers[level].Modifiers.Length; i++)
             {

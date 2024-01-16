@@ -11,7 +11,7 @@ public class CarExperienceManager : MonoBehaviour
     [SerializeField] private AnimationCurve expCurve;
     [SerializeField] private int expBeforeNextLevelAmount;
     [SerializeField] private int currentExperienceAmount;
-    [SerializeField] private int levelUpTokensAvailable;
+    [SerializeField] public int levelUpTokensAvailable;
     
     private void Awake()
     {
@@ -52,9 +52,11 @@ public class CarExperienceManager : MonoBehaviour
 
     private void LevelUp()
     {
-        levelUpTokensAvailable++;
+        AddToken(1);
         currentPlayerLevel++;
         uiManager.SetLevelPlayerText(currentPlayerLevel + 1);
         SetupNextLevelData();
     }
+
+    public void AddToken(int i) => levelUpTokensAvailable += i;
 }

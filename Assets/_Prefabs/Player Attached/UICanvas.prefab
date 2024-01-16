@@ -1028,11 +1028,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nitroJauge: {fileID: 4246730696612167580}
   radar: {fileID: 4762254263984769392}
+  shopScreen: {fileID: 7846061246430249203}
   experienceJauge: {fileID: 2328801799179139244}
   playerLevelText: {fileID: 4814584728906371361}
   waveDurationJauge: {fileID: 2527720391471822049}
   waveCountText: {fileID: 7363897929845054564}
   straffJauge: {fileID: 8679804344764105712}
+  buttonsHandlers:
+  - {fileID: 3579097795695727245}
+  - {fileID: 7743490239482194384}
+  - {fileID: 3494175115732555499}
 --- !u!1 &2218902862158439335
 GameObject:
   m_ObjectHideFlags: 0
@@ -2596,7 +2601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpTitle: {fileID: 3742236772694372074}
   powerUpDescription: {fileID: 1682982572232244206}
-  powerUpSprite: {fileID: 0}
+  powerUpSprite: {fileID: 2142092256736865891}
   powerUpButton: {fileID: 8119358192676513427}
   isNew: {fileID: 1544883903679056247}
 --- !u!1 &6405394708196655378
@@ -3347,7 +3352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5401436300465651797
 RectTransform:
   m_ObjectHideFlags: 0

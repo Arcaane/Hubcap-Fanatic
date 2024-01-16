@@ -21,7 +21,10 @@ MonoBehaviour:
   when: 3
   state: 2
   effect: 1
-  levelsAbilitiesModifiers: []
+  levelsAbilitiesModifiers:
+  - {fileID: 11400000, guid: 7bc9915b35720874481b183925178d81, type: 2}
+  - {fileID: 11400000, guid: 53c8de25fd185e147b13c5389ac3fd1d, type: 2}
+  - {fileID: 11400000, guid: bd9a1a7535699cc40b005b9f08e2e6c9, type: 2}
   effectDamage: 100
   effectSizeRadius: 20
   effectDuration: 0

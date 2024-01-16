@@ -10,6 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed83fc0c16082414885541ab697510b2, type: 3}
-  m_Name: New AbilityModifier
+  m_Name: Level1Modifiers
   m_EditorClassIdentifier: 
-  <Modifiers>k__BackingField: []
+  <Modifiers>k__BackingField:
+  - stat: 0
+    newValue: 10

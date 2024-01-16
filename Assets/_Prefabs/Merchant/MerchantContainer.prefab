@@ -1219,7 +1219,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32b3d55941ff1c48bc8f86dec211573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allAbilities: []
+  allAbilities:
+  - {fileID: 11400000, guid: c592d66f795c0954b8ea0e381916e083, type: 2}
+  - {fileID: 11400000, guid: ed923c301713c854786e841f340be0eb, type: 2}
+  - {fileID: 11400000, guid: e41e918da8551c64dbb0f6980310634f, type: 2}
+  - {fileID: 11400000, guid: b7904b4aba9346d4eb7303a888e8fa96, type: 2}
   purchasableAbilities: []
   itemsHandler:
   - {fileID: 0}
