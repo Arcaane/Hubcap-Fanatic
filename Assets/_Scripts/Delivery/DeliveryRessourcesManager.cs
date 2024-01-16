@@ -50,27 +50,6 @@ public class DeliveryRessourcesManager : MonoBehaviour
             SpawnDeliveryPrefab(deliveryObject.prefab, deliveryObject.X_DeliveryDuration__Y_TimeBeforeSpawn.x);
         }
     }
-
-    private void Update()
-    {
-        CheckDistanceToConvoy();
-    }
-
-    private bool convoyIsInRange = false;
-    private void CheckDistanceToConvoy()
-    {
-        if (ConvoyManager.instance != null && ConvoyManager.instance.currentConvoy != null && !convoyIsInRange)
-        {
-            Vector3 antennaPosition = transform.position;
-            Vector3 convoyPosition = ConvoyManager.instance.currentConvoy.transform.position;
-            float distance = Vector3.Distance(antennaPosition, convoyPosition);
-            if (distance < 20000f)
-            {
-                convoyIsInRange = true;
-                UIIndic.instance.AddIndic(ConvoyManager.instance.currentConvoy.gameObject, TargetType.Convoy, out int index);
-            }
-        }
-    }
     
     private void SpawnDeliveryPrefab(GameObject prefab, float deliveryDuration)
     {

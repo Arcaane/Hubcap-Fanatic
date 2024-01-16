@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -43,6 +44,8 @@ public class AntennaArea : MonoBehaviour
     [Header("Fill Amount")]
     [SerializeField] private float fillAmountValue = 0f;
     private float currentSize = 0f;
+    
+    public List<int> indexList = new List<int>();
     
     private void Start()
     {
@@ -146,22 +149,19 @@ public class AntennaArea : MonoBehaviour
 
     private void AntennaDiscoverMap()
     {
-        //Disable the fill Amount and the Other
         DisableAntennaTowerChild();
-
         AntennaDiscoverEffect();
-        
         
         timerActivation += Time.deltaTime;
         if (timerActivation >= activationTowerDuration)
         {
             TurnOffAntenna();
+            ClearIndex();
         }
     }
 
     private void AntennaDiscoverEffect()
     {
-        //TODO : Implement the UI Logic
         CheckDistanceToConvoy(); //Convoy
     }
 
@@ -176,7 +176,18 @@ public class AntennaArea : MonoBehaviour
             {
                 convoyIsInRange = true;
                 UIIndic.instance.AddIndic(ConvoyManager.instance.currentConvoy.gameObject, TargetType.Convoy, out int index);
+                indexList.Add(index);
             }
+        }
+    }
+
+    private void ClearIndex()
+    {
+        if (indexList.Count <= 0) return;
+        for (int i = 0; i < indexList.Count; i++)
+        {
+            UIIndic.instance.RemoveIndic(indexList[i]);
+            indexList.Clear();
         }
     }
 
