@@ -7,8 +7,10 @@ using Random = UnityEngine.Random;
 
 public class SpawnZoneDelivery : MonoBehaviour
 {
+    [Header("Setup Zone Size Values")]  
     [SerializeField] private float initSize = 40;
     [SerializeField] private float currentSize = 40;
+    [Header("Zone State")]
     [SerializeField] public SpawnDeliveryState currenSpawnState = SpawnDeliveryState.IsOrNotDelivered;
     [SerializeField] private bool hasDelivered = false;
 
@@ -17,7 +19,6 @@ public class SpawnZoneDelivery : MonoBehaviour
         get { return hasDelivered; }
     }
 
-    [SerializeField] private int currencyToGive;
     [SerializeField] private float deliveryDuration = 20f;
 
     public float DeliveryDuration
@@ -29,19 +30,18 @@ public class SpawnZoneDelivery : MonoBehaviour
     [SerializeField] private float timeBeforeLaunchingDelivery = 5f;
 
 
-    [Header("Reward Type")] [SerializeField]
-    private RewardType rewardType;
+    [Header("Reward Type")] 
+    [SerializeField] private GameObject packageToDeliver;
 
-    [Header("Renderer")] [SerializeField] private Image debugImage;
+    [Header("Renderer")] 
+    [SerializeField] private Image debugImage;
     [SerializeField] private RectTransform rect;
     [SerializeField] private Transform plane;
-
-
+    
     private SphereCollider collider;
 
-    [Header("Debug Values")] [SerializeField]
-    private float timer;
-
+    [Header("---------- Debug Editor Values ----------")] 
+    [SerializeField] private float timer;
     [SerializeField] private float timeDeliveryIncrement = 0f;
     public int index;
 
@@ -92,33 +92,20 @@ public class SpawnZoneDelivery : MonoBehaviour
 
     private void GivePlayerReward()
     {
-        switch (rewardType)
-        {
-            case RewardType.IncrementValue:
-                GiveIncrementValue(ref currencyToGive);
-                break;
-            case RewardType.ObjectDelivery:
-                GivePlayerRessources();
-                break;
-        }
+         GivePlayerRessources(); 
     }
-
-    private void GiveIncrementValue(ref int value)
-    {
-        value++;
-    }
+    
 
     private void GivePlayerRessources()
     {
         Vector2 randomPosition2D = Random.insideUnitCircle * currentSize;
         Vector3 randomPosition = new Vector3(randomPosition2D.x, 0f, randomPosition2D.y) + transform.position;
-        //GameObject spawnedObject = DeliveryRessourcesManager.Instance.SpawnObject(randomPosition);
-        //spawnedObject.transform.parent = PickableManager.Instance.worldSocket;
+        GameObject spawnedObject = Instantiate(packageToDeliver, randomPosition + new Vector3(0, 1.5f, 0), Quaternion.identity);
+        spawnedObject.transform.parent = PickableManager.Instance.worldSocket;
         hasDelivered = true;
         DisableZone();
     }
-
-
+    
     private void EnableZone()
     {
         foreach (Transform child in transform)

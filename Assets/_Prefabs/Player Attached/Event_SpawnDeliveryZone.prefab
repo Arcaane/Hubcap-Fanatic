@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 310548908352955229}
   - component: {fileID: -2206024191495929494}
   m_Layer: 0
-  m_Name: P_SpawnDeliveryZone
+  m_Name: Event_SpawnDeliveryZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -193,10 +193,9 @@ MonoBehaviour:
   currentSize: 30
   currenSpawnState: 0
   hasDelivered: 0
-  currencyToGive: 0
   deliveryDuration: 30
   timeBeforeLaunchingDelivery: 0
-  rewardType: 0
+  packageToDeliver: {fileID: 3540574380503886976, guid: e07fb74c709fa1a49b3ecba2480f2db7, type: 3}
   debugImage: {fileID: 3266507917285999564}
   rect: {fileID: 8834613733686254766}
   plane: {fileID: 3121167323483889825}
