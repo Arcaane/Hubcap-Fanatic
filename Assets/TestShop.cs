@@ -45,12 +45,19 @@ public class TestShop : MonoBehaviour
     {
         for (int i = 0; i < buttonsItemsArray.Length; i++) buttonsItemsArray[i].gameObject.SetActive(false);
         
-        firstItemIndex = secondItemIndex = thirdItemIndex = -1;
-        GetRandomsNumbers();
+        if (purchasableAbilities.Count == 1)
+        {
+            SetupButton(0);
+        }
+        else
+        {
+            firstItemIndex = secondItemIndex = thirdItemIndex = -1;
+            GetRandomsNumbers();
 
-        if (firstItemIndex > -1) SetupButton(0);
-        if (secondItemIndex > -1) SetupButton(1);
-        if (thirdItemIndex > -1) SetupButton(2);
+            if (firstItemIndex > -1) SetupButton(0);
+            if (secondItemIndex > -1) SetupButton(1);
+            if (thirdItemIndex > -1) SetupButton(2);
+        }
     }
 
     private void SetupButton(int i)
@@ -123,7 +130,7 @@ public class TestShop : MonoBehaviour
         }
         else
         {
-            Debug.Log("Pas d'items a vendre");
+            ExitShop();
         }
 
         return null;
