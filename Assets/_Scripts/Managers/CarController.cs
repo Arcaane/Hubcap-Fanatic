@@ -32,12 +32,16 @@ public class CarController : CarBehaviour
     [SerializeField] private float straffTime;
     [SerializeField] private float straffDuration;
     [SerializeField] private Animation animation;
+    public bool isStraffing;
 
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
     public float camDist;
 
     public List<GameObject> pickedItems = new();
+
+    public State currentCarState;
+    public bool isDefault => !driftBrake && !isStraffing && !brakeMethodApplied && !nitroMode;
     
     // INPUT VALUES
     private Vector2 stickValue;
@@ -61,7 +65,7 @@ public class CarController : CarBehaviour
         {
             driftBrake = false;
             foreach (var t in driftSparks) t.Stop();
-            CarAbilitiesManager.Instance.DesactivateDriftAbilities();
+            CarAbilitiesManager.instance.DesactivateDriftAbilities();
         }
 
         if (nitroMode)
@@ -77,7 +81,7 @@ public class CarController : CarBehaviour
                 smoke.Play();
                 smokeNitro.Stop();
                 targetSpeed = maxSpeed;
-                CarAbilitiesManager.Instance.DesactivateNitroAbilities();
+                CarAbilitiesManager.instance.DesactivateNitroAbilities();
             }
         }
         else /*if(!canNitro)*/
@@ -133,7 +137,7 @@ public class CarController : CarBehaviour
             if (stickValue.x > 0.6f || stickValue.x < -0.6f)
             {
                 driftBrake = true;
-                CarAbilitiesManager.Instance.ActivateDriftAbilities();
+                CarAbilitiesManager.instance.ActivateDriftAbilities();
                 foreach (var t in driftSparks) t.Play();
             }
         }
@@ -164,7 +168,7 @@ public class CarController : CarBehaviour
             smoke.Stop();
             smokeNitro.Play();
             targetSpeed = nitroSpeed;
-            CarAbilitiesManager.Instance.ActivateNitroAbilities();
+            CarAbilitiesManager.instance.ActivateNitroAbilities();
         }
         
         if (context.canceled && nitroMode)
@@ -173,7 +177,7 @@ public class CarController : CarBehaviour
             smoke.Play();
             smokeNitro.Stop();
             targetSpeed = maxSpeed;
-            CarAbilitiesManager.Instance.DesactivateNitroAbilities();
+            CarAbilitiesManager.instance.DesactivateNitroAbilities();
         }
         
     }
@@ -212,10 +216,8 @@ public class CarController : CarBehaviour
     {
         if (straffColider.enemyCar != null)
         {
-            
             straffColider.enemyDamageable.TakeDamage(100);
             Debug.Log("STRAFFED");
-                
         }
     }
     
@@ -275,7 +277,7 @@ public class CarController : CarBehaviour
     protected override void PlayerBrake()
     {
         base.PlayerBrake();
-        CarAbilitiesManager.Instance.OnBrake.Invoke();
+        //CarAbilitiesManager.instance.OnBrake.Invoke();
     }
 }
 

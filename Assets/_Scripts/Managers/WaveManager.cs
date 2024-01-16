@@ -15,9 +15,10 @@ public class WaveManager : MonoBehaviour
         public string waveName;
         public float waveDuration;
         public List<EnemyGroups> enemyGroupsList;
-        [HideInInspector] public int enemySpawnedCount = 0;
+        
+        [HideInInspector] public float enemyGroupsSpawnRate = 0;
     }
-
+    
     [Serializable]
     public class EnemyGroups
     {
@@ -47,9 +48,7 @@ public class WaveManager : MonoBehaviour
     public float spawingTimer;
     public int counter;
 
-    public float[] enemiesSpawningTimer = new float[0];
-
-    
+    public float enemiesSpawningTimer = 0f;
     
     // Start is called before the first frame update
     void Start()
@@ -64,57 +63,56 @@ public class WaveManager : MonoBehaviour
         
         if (currentWaveCount >= waves.Count) return;
         
-        enemiesSpawningTimer = new float[waves[currentWaveCount].enemyGroupsList.Count];
-        
         for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
         {
             waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate =  waves[currentWaveCount].waveDuration / waves[currentWaveCount].enemyGroupsList[i].enemyCountInWave;
-            enemiesSpawningTimer[i] = waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate;
+            
+            enemiesSpawningTimer = waves[currentWaveCount].enemyGroupsList.Count / waves[currentWaveCount].waveDuration; // Spawn en fonction de la durée de la wave & le nombre de groupes d'ennemis
         }
     }
 
     void Update()
     {
-        if (dontSpawn) return;
-        
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            SceneManager.LoadScene(0);
-        }
-        
-        if(currentWaveCount == waves.Count) return;
-        spawingTimer += Time.deltaTime;
-        uiManager.UpdateWaveDuration(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves));
-
-        for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
-        {
-            enemiesSpawningTimer[i] += Time.deltaTime;
-        }
-        
-        if (spawingTimer < waves[currentWaveCount].waveDuration)
-        {
-            SpawnEnemiesV2();
-        }
-
-        if (spawingTimer > waves[currentWaveCount].waveDuration + intervalBetweenWaves)
-        {
-            currentWaveCount++;
-            spawingTimer = 0f;
-            CalculateWaveData();
-        }
+        // if (dontSpawn) return;
+        //
+        // if (Input.GetKeyDown(KeyCode.F1))
+        // {
+        //     SceneManager.LoadScene(0);
+        // }
+        //
+        // if(currentWaveCount == waves.Count) return;
+        // spawingTimer += Time.deltaTime;
+        // uiManager.UpdateWaveDuration(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves));
+        //
+        // for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
+        // {
+        //     enemiesSpawningTimer[i] += Time.deltaTime;
+        // }
+        //
+        // if (spawingTimer < waves[currentWaveCount].waveDuration)
+        // {
+        //     SpawnEnemiesV2();
+        // }
+        //
+        // if (spawingTimer > waves[currentWaveCount].waveDuration + intervalBetweenWaves)
+        // {
+        //     currentWaveCount++;
+        //     spawingTimer = 0f;
+        //     CalculateWaveData();
+        // }
     }
 
     private void SpawnEnemiesV2()
     {
-        for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
-        {
-            if (enemiesSpawningTimer[i] > waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate)
-            {
-                SpawnEntity(waves[currentWaveCount].enemyGroupsList[i].entityKey);
-                enemiesSpawningTimer[i] = 0;
-                counter++;
-            }
-        }
+        // for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
+        // {
+        //     if (enemiesSpawningTimer[i] > waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate)
+        //     {
+        //         SpawnEntity(waves[currentWaveCount].enemyGroupsList[i].entityKey);
+        //         enemiesSpawningTimer[i] = 0;
+        //         counter++;
+        //     }
+        // }
     }
 
     private void SpawnEntity(Key entityKey)

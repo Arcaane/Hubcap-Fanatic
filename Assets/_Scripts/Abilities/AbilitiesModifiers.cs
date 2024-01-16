@@ -9,16 +9,13 @@ namespace Abilities
         public AbilitiesStats stat;
         public float newValue;
     }
-
-    public class AbilitiesModifiers : MonoBehaviour
+    
+    [CreateAssetMenu(menuName = "AbilityModifier", fileName = "New AbilityModifier")]
+    public class AbilitiesModifiers : ScriptableObject
     {
-        [CreateAssetMenu(menuName = "Active Item Modifier", fileName = "New ActiveItemModifier")]
-        public class ActiveItemModifier : ScriptableObject
-        {
-            [field:SerializeField] public ActiveModifier[] Modifiers { get; private set; }
-        }
+        [field:SerializeField] public ActiveModifier[] Modifiers { get; private set; }
     }
-
+        
     public enum AbilitiesStats
     {
         Damage,

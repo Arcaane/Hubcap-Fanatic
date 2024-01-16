@@ -30,7 +30,6 @@ public class CarBehaviour : MonoBehaviour
     [SerializeField] private float maxRotation;
     public float directionalDampMultiplier = 1;
     
-    
     [Header("BRAKEDRIFT")] 
     [SerializeField] private float dampeningMultiplier = 0.25f;
     [SerializeField] private float steeringMultiplier = 0.95f;
@@ -43,7 +42,7 @@ public class CarBehaviour : MonoBehaviour
     
     private bool driftEngaged;
     private float driftValue;
-    private bool brakeMethodApplied;
+    public bool brakeMethodApplied;
 
     // INPUT VALUES
     
@@ -86,7 +85,7 @@ public class CarBehaviour : MonoBehaviour
                 
                 if (driftSparks.Length < 1) return;
                 foreach (var t in driftSparks) t.Stop();
-                CarAbilitiesManager.Instance.DesactivateDriftAbilities();
+                CarAbilitiesManager.instance.DesactivateDriftAbilities();
             }
         }
     }

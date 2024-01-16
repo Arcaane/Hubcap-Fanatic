@@ -3,20 +3,25 @@ using UnityEngine;
 
 public delegate void DefaultDelegate();
 public delegate void TransformDelegate(Transform tr);
+public delegate void DamageableDelegate(IDamageable en);
+public delegate void CollisionDelegate(Collision col);
+
 
 namespace Abilities
 {
     public class CarAbilitiesManager : MonoBehaviour
     {
-        private static CarAbilitiesManager instance;
-        public static CarAbilitiesManager Instance => instance;
+        public static CarAbilitiesManager instance;
+        
 
         public CarController car;
         
-        // Delegates
-        public DefaultDelegate OnBrake;
-        public DefaultDelegate OnCollideWithNitro;
-        public TransformDelegate OnStrafeForDamageableEntity;
+        public DamageableDelegate OnEnemyCollision;
+        public CollisionDelegate OnWallCollision;
+        public DefaultDelegate OnStateEnter;
+        public DefaultDelegate OnStateExit;
+        public DamageableDelegate OnEnemyDamageTaken;
+        public DefaultDelegate OnPlayerDamageTaken;
         
         private void Awake()
         {
@@ -28,9 +33,9 @@ namespace Abilities
             car = CarController.instance;
 
             // TEST ABILITIES
-            OnBrake += ApplyCurseExplodeOnDeath;
+            //OnBrake += ApplyCurseExplodeOnDeath;
             //OnCollideWithNitro += AddBoostIfCollideEnemyWithNitro;
-            OnStrafeForDamageableEntity += Explosion;
+            //OnStrafeForDamageableEntity += Explosion;
         }
 
         //[Header("KIT")]
@@ -95,7 +100,7 @@ namespace Abilities
                 other.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy);
                 if (car.nitroMode)
                 {
-                    OnCollideWithNitro.Invoke();
+                    //OnCollideWithNitro.Invoke();
                 }
             }
         }
