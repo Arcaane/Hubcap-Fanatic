@@ -29,6 +29,7 @@ public class AntennaArea : MonoBehaviour
     [SerializeField] private Image debugImage;
     [SerializeField] private RectTransform rect;
     [SerializeField] private Transform plane;
+    [SerializeField] private Transform parentFodder;
 
     private SphereCollider collider;
     [Header("---------- Debug Editor Values ----------")]
@@ -45,7 +46,7 @@ public class AntennaArea : MonoBehaviour
     [SerializeField] private float fillAmountValue = 0f;
     private float currentSize = 0f;
     
-    public List<int> indexList = new List<int>();
+    private List<int> indexList = new List<int>();
     
     private void Start()
     {
@@ -215,7 +216,7 @@ public class AntennaArea : MonoBehaviour
     private void EnableAntennaTowerChild()
     {
         gameObject.GetComponent<SphereCollider>().enabled = true;
-        foreach (Transform child in transform)
+        foreach (Transform child in parentFodder)
         {
             child.gameObject.SetActive(true);
         }
@@ -224,7 +225,7 @@ public class AntennaArea : MonoBehaviour
     private void DisableAntennaTowerChild()
     {
         gameObject.GetComponent<SphereCollider>().enabled = false;
-        foreach (Transform child in transform)
+        foreach (Transform child in parentFodder)
         {
             child.gameObject.SetActive(false);
         }
