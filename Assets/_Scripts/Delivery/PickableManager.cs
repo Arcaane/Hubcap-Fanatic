@@ -28,6 +28,7 @@ public class PickableManager : MonoBehaviour
     public void RemoveCopsWhoPickAnObject(GameObject pickableObject)
     {
         copsWhoPickAnObject.Remove(pickableObject);
+        copsWhoPickAnObject = null;
     }
 
     public void AddPickableObject(GameObject pickableObject, bool isCopsPickable = false)

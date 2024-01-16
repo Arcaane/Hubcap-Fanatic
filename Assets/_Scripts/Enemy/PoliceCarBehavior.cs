@@ -238,17 +238,14 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     {
         if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player") )
         {
+            DropItem();
+            
             if (other.gameObject.CompareTag("Player"))
             {
                 if (Vector3.Dot(CarController.instance.transform.position - transform.position, transform.forward) > 0.75f)
                 {
                     CarHealthManager.instance.TakeDamage(20);
                 }
-            }
-
-            if (other.gameObject.CompareTag("Enemy"))
-            {
-                DropItem();
             }
             
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
@@ -303,6 +300,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         if (objectPickable != null)
         {
             objectPickable.GetComponent<ObjectPickable>().OnDrop();
+            objectPickable = null;
         }
     }
 }
