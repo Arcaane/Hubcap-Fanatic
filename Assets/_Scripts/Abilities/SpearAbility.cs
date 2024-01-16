@@ -50,4 +50,30 @@ public class SpearAbility : Ability
             Instantiate(spearPrefab, CarController.instance.transform.position, Quaternion.LookRotation(-relativePos));
         }
     }
+    
+    // EFFECTS
+    
+    public int damageValue;
+    public float effectDurationValue;
+    
+    private void EffectSpear(GameObject target)
+    {
+        var carPos = CarController.instance.transform.position;
+        Vector3 relativePos = carPos - target.transform.position;
+        Instantiate(spearPrefab, carPos, Quaternion.LookRotation(-relativePos));
+    }
+    
+    private void EffectDamage(GameObject target)
+    {
+        IDamageable damageable = target.GetComponent<IDamageable>();
+        damageable.TakeDamage(damageValue);
+    }
+    
+    private void EffectForceBreak(GameObject target)
+    {
+        CarBehaviour carBehaviour = target.GetComponent<CarBehaviour>();
+        carBehaviour.forceBreak = true;
+        carBehaviour.forceBreakTimer = effectDurationValue;
+    }
+    
 }
