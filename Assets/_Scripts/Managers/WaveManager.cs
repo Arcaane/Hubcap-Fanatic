@@ -2,42 +2,46 @@ using System;
 using System.Collections.Generic;
 using ManagerNameSpace;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class WaveManager : MonoBehaviour
 {
     public bool dontSpawn = false;
-    
+
     [Serializable]
     public class Wave
     {
         public string waveName;
         public float waveDuration;
         public List<EnemyGroups> enemyGroupsList;
-        
+
         [HideInInspector] public float enemyGroupsSpawnRate = 0;
     }
-    
+
     [Serializable]
     public class EnemyGroups
     {
-        public Key entityKey;
-        [FormerlySerializedAs("enemyCount")] public int enemyCountInWave;
-        [HideInInspector] public float enemySpawnRate = 0;
+        public EnemySpawnParam[] enemyInSpawnBurst;
     }
-    
+
+    [Serializable]
+    public class EnemySpawnParam
+    {
+        public Key entityKey;
+        public Vector2Int enemyCount;
+    }
+
     public List<Wave> waves;
     public int currentWaveCount;
     public float intervalBetweenWaves;
-    
+
     //Spawning
     [SerializeField] private Transform carTransform;
     public Vector3[] positions;
-    
-    [Space]
-    [Header("CameraBoundsAttributes")]
-    [SerializeField] private LayerMask groundMask;
+
+    [Space] [Header("CameraBoundsAttributes")] [SerializeField]
+    private LayerMask groundMask;
+
     [SerializeField] private Vector3 offset;
     [SerializeField] private float heightOffset = 5f;
     [SerializeField] private float widthOffset = 5f;
@@ -46,10 +50,11 @@ public class WaveManager : MonoBehaviour
     private UIManager uiManager;
 
     public float spawingTimer;
-    public int counter;
-
+    public float waveSpawnTimer;
     public float enemiesSpawningTimer = 0f;
-    
+    public float spawnBurstInsideWave;
+    public int spawnBurstCounter;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,139 +64,137 @@ public class WaveManager : MonoBehaviour
 
     private void CalculateWaveData()
     {
-        uiManager.UpdateWaveCount(currentWaveCount+1);
-        
+        uiManager.UpdateWaveCount(currentWaveCount + 1);
         if (currentWaveCount >= waves.Count) return;
-        
-        for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
-        {
-            waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate =  waves[currentWaveCount].waveDuration / waves[currentWaveCount].enemyGroupsList[i].enemyCountInWave;
-            
-            enemiesSpawningTimer = waves[currentWaveCount].enemyGroupsList.Count / waves[currentWaveCount].waveDuration; // Spawn en fonction de la durée de la wave & le nombre de groupes d'ennemis
-        }
+
+        spawnBurstInsideWave = waves[currentWaveCount].enemyGroupsList.Count;
+        //enemiesSpawningTimer = spawnBurstInsideWave / waves[currentWaveCount].waveDuration; // Spawn en fonction de la durée de la wave & le nombre de groupes d'ennemis
+        enemiesSpawningTimer = waves[currentWaveCount].waveDuration / spawnBurstInsideWave;
+        spawnBurstCounter = 0;
+        waveSpawnTimer = 100;
     }
 
     void Update()
     {
-        // if (dontSpawn) return;
-        //
-        // if (Input.GetKeyDown(KeyCode.F1))
-        // {
-        //     SceneManager.LoadScene(0);
-        // }
-        //
-        // if(currentWaveCount == waves.Count) return;
-        // spawingTimer += Time.deltaTime;
-        // uiManager.UpdateWaveDuration(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves));
-        //
-        // for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
-        // {
-        //     enemiesSpawningTimer[i] += Time.deltaTime;
-        // }
-        //
-        // if (spawingTimer < waves[currentWaveCount].waveDuration)
-        // {
-        //     SpawnEnemiesV2();
-        // }
-        //
-        // if (spawingTimer > waves[currentWaveCount].waveDuration + intervalBetweenWaves)
-        // {
-        //     currentWaveCount++;
-        //     spawingTimer = 0f;
-        //     CalculateWaveData();
-        // }
+        if (dontSpawn) return;
+        if (currentWaveCount == waves.Count) return;
+
+        spawingTimer += Time.deltaTime;
+        waveSpawnTimer += Time.deltaTime;
+        uiManager.UpdateWaveDuration(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves));
+
+        if (spawnBurstCounter < spawnBurstInsideWave)
+        {
+            SpawnEnemiesV2();
+        }
+
+        if (spawingTimer > waves[currentWaveCount].waveDuration + intervalBetweenWaves)
+        {
+            currentWaveCount++;
+            spawingTimer = 0f;
+            CalculateWaveData();
+        }
     }
 
     private void SpawnEnemiesV2()
     {
-        // for (int i = 0; i < waves[currentWaveCount].enemyGroupsList.Count; i++)
-        // {
-        //     if (enemiesSpawningTimer[i] > waves[currentWaveCount].enemyGroupsList[i].enemySpawnRate)
-        //     {
-        //         SpawnEntity(waves[currentWaveCount].enemyGroupsList[i].entityKey);
-        //         enemiesSpawningTimer[i] = 0;
-        //         counter++;
-        //     }
-        // }
+        if (waveSpawnTimer < enemiesSpawningTimer) return;
+        
+        UpdateEnemySpawingPos();
+        var randPos = Random.Range(0, positions.Length);
+        Vector3 spawnPos = positions[randPos];
+        spawnPos.y = 0.75f;
+        
+        foreach (var t in waves[currentWaveCount].enemyGroupsList[spawnBurstCounter].enemyInSpawnBurst)
+        {
+            var rand = Random.Range(t.enemyCount.x, t.enemyCount.y + 1);
+            SpawnEntity(t.entityKey, rand, spawnPos);
+        }
+        
+        waveSpawnTimer = 0;
+        spawnBurstCounter++;
     }
 
-    private void SpawnEntity(Key entityKey)
+    private void SpawnEntity(Key entityKey, int i, Vector3 spawnPos)
     {
-        UpdateEnemySpawingPos();
-        var rand = UnityEngine.Random.Range(0, positions.Length);
-        Vector3 spawnPos = positions[rand];
-        spawnPos.y = 1f;
-        
-        Vector3 relativePos = carTransform.position - spawnPos;
-        Pooler.instance.SpawnInstance(entityKey, spawnPos, Quaternion.LookRotation(relativePos));
+        for (int j = 0; j < i; j++)
+        {
+            var randPosInsideCircle = Random.insideUnitCircle * 7;
+            var unitSpawnPos = spawnPos + new Vector3(randPosInsideCircle.x, 0, randPosInsideCircle.y);
+
+            Vector3 relativePos = carTransform.position - unitSpawnPos;
+            Pooler.instance.SpawnInstance(entityKey, unitSpawnPos, Quaternion.LookRotation(relativePos));
+        }
     }
 
     public Transform camholder;
+
     void UpdateEnemySpawingPos()
     {
         positions = new Vector3[spawningPointPerSideCount * 4];
-            var cam = Camera.main;
+        var cam = Camera.main;
 
-            RaycastHit hitInfo;
-            Physics.Raycast(cam.transform.position, cam.transform.forward, out hitInfo, 1000f, groundMask);
-            
-            Vector3 bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, hitInfo.distance)) + offset; // 0;0
-            Vector3 topLeft = cam.ScreenToWorldPoint(new Vector3(0, cam.pixelHeight, hitInfo.distance)) + offset ; // 0;1
-            Vector3 topRight = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, hitInfo.distance)) + offset; // 1;1
-            Vector3 bottomRight = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0, hitInfo.distance)) + offset; // 1;0
+        RaycastHit hitInfo;
+        Physics.Raycast(cam.transform.position, cam.transform.forward, out hitInfo, 1000f, groundMask);
 
-            bottomLeft.y = topLeft.y = topRight.y = bottomRight.y = 0.75f;
+        Vector3 bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, hitInfo.distance)) + offset; // 0;0
+        Vector3 topLeft = cam.ScreenToWorldPoint(new Vector3(0, cam.pixelHeight, hitInfo.distance)) + offset; // 0;1
+        Vector3 topRight = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, hitInfo.distance)) +
+                           offset; // 1;1
+        Vector3 bottomRight = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0, hitInfo.distance)) + offset; // 1;0
 
-            bottomLeft += new Vector3(-widthOffset, 0, -heightOffset);
-            topLeft += new Vector3(-widthOffset, 0, heightOffset);
-            topRight += new Vector3(widthOffset, 0, heightOffset);
-            bottomRight += new Vector3(widthOffset, 0, -heightOffset);
-            
-            Quaternion rotationQuaternion = Quaternion.Euler(0, addAngleToRectange, 0);
-            
-            // Créer les points sur le côté supérieur
-            for (int i = 0; i < spawningPointPerSideCount; i++)
-            {
-                float t = i / (float)(spawningPointPerSideCount - 1);
-                Vector3 tempVec = Vector3.Lerp(topLeft, topRight, t);
-                positions[i] = rotationQuaternion * tempVec;
-            }
+        bottomLeft.y = topLeft.y = topRight.y = bottomRight.y = 0.75f;
 
-            // Créer les points sur le côté droit
-            for (int i = 0; i < spawningPointPerSideCount; i++)
-            {
-                float t = i / (spawningPointPerSideCount / 2f - 1);
-                Vector3 tempVec = Vector3.Lerp(topRight, bottomRight, t);
-                positions[i + spawningPointPerSideCount] = rotationQuaternion * tempVec;
-            }
-            
-            // Créer les points sur le côté inférieur
-            for (int i = 0; i < spawningPointPerSideCount; i++)
-            {
-                float t = i / (float)(spawningPointPerSideCount - 1);
-                Vector3 tempVec = Vector3.Lerp(bottomRight, bottomLeft, t);
-                positions[i + spawningPointPerSideCount * 2] = rotationQuaternion *tempVec;
-            }
+        bottomLeft += new Vector3(-widthOffset, 0, -heightOffset);
+        topLeft += new Vector3(-widthOffset, 0, heightOffset);
+        topRight += new Vector3(widthOffset, 0, heightOffset);
+        bottomRight += new Vector3(widthOffset, 0, -heightOffset);
 
-            // Créer les points sur le côté gauche
-            for (int i = 0; i < spawningPointPerSideCount; i++)
-            {
-                float t = i / (spawningPointPerSideCount / 2f - 1);
-                Vector3 tempVec = Vector3.Lerp(bottomLeft, topLeft, t);
-                positions[i + spawningPointPerSideCount * 3] = rotationQuaternion *tempVec;
-            }
+        Quaternion rotationQuaternion = Quaternion.Euler(0, addAngleToRectange, 0);
+
+        // Créer les points sur le côté supérieur
+        for (int i = 0; i < spawningPointPerSideCount; i++)
+        {
+            float t = i / (float)(spawningPointPerSideCount - 1);
+            Vector3 tempVec = Vector3.Lerp(topLeft, topRight, t);
+            positions[i] = rotationQuaternion * tempVec;
+        }
+
+        // Créer les points sur le côté droit
+        for (int i = 0; i < spawningPointPerSideCount; i++)
+        {
+            float t = i / (spawningPointPerSideCount / 2f - 1);
+            Vector3 tempVec = Vector3.Lerp(topRight, bottomRight, t);
+            positions[i + spawningPointPerSideCount] = rotationQuaternion * tempVec;
+        }
+
+        // Créer les points sur le côté inférieur
+        for (int i = 0; i < spawningPointPerSideCount; i++)
+        {
+            float t = i / (float)(spawningPointPerSideCount - 1);
+            Vector3 tempVec = Vector3.Lerp(bottomRight, bottomLeft, t);
+            positions[i + spawningPointPerSideCount * 2] = rotationQuaternion * tempVec;
+        }
+
+        // Créer les points sur le côté gauche
+        for (int i = 0; i < spawningPointPerSideCount; i++)
+        {
+            float t = i / (spawningPointPerSideCount / 2f - 1);
+            Vector3 tempVec = Vector3.Lerp(bottomLeft, topLeft, t);
+            positions[i + spawningPointPerSideCount * 3] = rotationQuaternion * tempVec;
+        }
     }
-    
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (!Application.isPlaying) return;
-       
+
         UpdateEnemySpawingPos();
-        
+
         for (int i = 0; i < positions.Length; i++)
         {
-            Gizmos.color =  Color.green;
+            Gizmos.color = Color.green;
             Gizmos.DrawSphere(positions[i], 1);
         }
     }
