@@ -86434,6 +86434,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.867
       objectReference: {fileID: 0}
+    - target: {fileID: 4663364008746936679, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: field of view
+      value: 105
+      objectReference: {fileID: 0}
     - target: {fileID: 4919197588331430954, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: m_Name
       value: PlayerCarContainer
@@ -86549,6 +86553,86 @@ PrefabInstance:
     - target: {fileID: 5160187011438475635, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: waves.Array.data[4].enemyGroupsList.Array.data[0].enemyCountInWave
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5458194955169261677, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: m_Size.x
+      value: 0.9594667
+      objectReference: {fileID: 0}
+    - target: {fileID: 5458194955169261677, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: m_Size.z
+      value: 2.6249726
+      objectReference: {fileID: 0}
+    - target: {fileID: 5458194955169261677, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: m_Center.x
+      value: 0.041784704
+      objectReference: {fileID: 0}
+    - target: {fileID: 5458194955169261677, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: m_Center.z
+      value: -0.20892346
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: dirCam
+      value: 13.808237
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: braking
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: maxSpeed
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: nitroTime
+      value: 2.0015504
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: nitroSpeed
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: targetSpeed
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: acceleration
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: decceleration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: steeringSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: accelMultiplier
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: steeringMultiplier
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: dampeningMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: wheels.Array.data[0].directionalDampening
+      value: 0.275
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: wheels.Array.data[1].directionalDampening
+      value: 0.275
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: wheels.Array.data[2].directionalDampening
+      value: 0.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: wheels.Array.data[3].directionalDampening
+      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: 8463474741254569708, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: m_LocalPosition.z
