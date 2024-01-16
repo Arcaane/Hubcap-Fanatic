@@ -93,6 +93,7 @@ public class CarBehaviour : MonoBehaviour
             }
             else if (driftEngaged && driftValue < angleMinToExitDrift)
             {
+                
                 driftBrake = false;
                 driftEngaged = false;
                 
@@ -101,6 +102,11 @@ public class CarBehaviour : MonoBehaviour
                 CarAbilitiesManager.instance.DesactivateDriftAbilities();
             }
         }
+    }
+
+    public virtual void OnStopPlayerDrift()
+    {
+        
     }
     
     public void ApplyWheelForces()

@@ -15,10 +15,5 @@ namespace Abilities
     {
         [field:SerializeField] public ActiveModifier[] Modifiers { get; private set; }
     }
-        
-    public enum AbilitiesStats
-    {
-        Damage,
-        Size
-    }
+    
 }
