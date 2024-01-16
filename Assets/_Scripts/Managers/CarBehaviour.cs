@@ -37,6 +37,10 @@ public class CarBehaviour : MonoBehaviour
     [SerializeField] private float accelMultiplier = 1.5f;
     [SerializeField] private float angleMinToExitDrift = 0.1f;
     [SerializeField] protected ParticleSystem[] driftSparks;
+
+    // EFFECTS APPLIED
+    [HideInInspector] public bool forceBreak;
+    [HideInInspector] public float forceBreakTimer;
     
     public float speedFactor => rb.velocity.magnitude / targetSpeed;
     
@@ -56,6 +60,15 @@ public class CarBehaviour : MonoBehaviour
     private void Start()
     {
         rb.centerOfMass = localCenterOfMass;
+    }
+
+    private void Update()
+    {
+        if (forceBreak)
+        {
+            forceBreakTimer -= Time.deltaTime;
+            if (forceBreakTimer <= 0) forceBreak = false;
+        }
     }
 
     public void OnMove()
@@ -183,6 +196,12 @@ public class CarBehaviour : MonoBehaviour
             brake = brakeForce * -decceleration * wheel.drivingFactor;
         }
 
+        if (forceBreak && Vector3.Dot(rb.velocity, transform.forward) > 0.1f)
+        {
+            brake = brakeForce * -braking * wheel.drivingFactor * (driftBrake ? 0 :1);
+            accel = 0;
+        }
+        
         force = accel + brake;
         
         return force;
