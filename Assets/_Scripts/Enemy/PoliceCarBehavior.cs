@@ -1,6 +1,5 @@
 using ManagerNameSpace;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PoliceCarBehavior : CarBehaviour, IDamageable
 {
@@ -39,7 +38,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public GameObject socketPickableCop;
     public GameObject objectPickable;
     
-    public AbilitiesDelegate OnPoliceCarDie;
+    public TransformDelegate OnPoliceCarDie;
     
     void Start()
     {
@@ -128,10 +127,8 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     
     private void ConvoyUpdate()
     {
-
         if (!attackMode) BoidUpdate();
         else SoloUpdate();
-
     }
     
     
@@ -180,8 +177,6 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     }
     
-    
-
     private float GetRotationValueToObject(Transform obj,float attrRad,float alignRad,float repulRad, bool alwaysAttract = false)
     {
         Vector3 direction = obj.position - transform.position;
@@ -291,13 +286,15 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public void TakeDamage(int damages)
     {
         DropItem();
-
         hp -= damages;
+        Debug.Log($"{gameObject.name} life : {hp}");
         if (hp < 1)
         {
-            OnPoliceCarDie.Invoke();
+            OnPoliceCarDie.Invoke(transform);
         }
     }
+
+    public bool IsDamageable() => gameObject.activeSelf == true && hp > 0;
 
     private void DropItem()
     {

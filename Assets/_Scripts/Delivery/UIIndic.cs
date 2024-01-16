@@ -105,7 +105,7 @@ public class UIIndic : MonoBehaviour
         obj.RemoveAt(indexObj);
         Destroy(targetUIPrefab[indexObj].gameObject);
         targetUIPrefab.RemoveAt(indexObj);
-        Debug.Log("INDIC REMOVED " + indexObj);
+        //Debug.Log("INDIC REMOVED " + indexObj);
     }
     
     
@@ -116,7 +116,7 @@ public class UIIndic : MonoBehaviour
         indicNb = obj.Count - 1;
         targetUIPrefab[indicNb].indexDeliveryPoints = indicNb;
         targetUIPrefab[indicNb].objBinded = newObj;
-        Debug.Log("INDIC CREATED "+ indicNb);
+        //Debug.Log("INDIC CREATED "+ indicNb);
     }
 
     public Vector2 FindPointOnRectBorder(Vector2 dir,Vector2 center,Rect rect)
