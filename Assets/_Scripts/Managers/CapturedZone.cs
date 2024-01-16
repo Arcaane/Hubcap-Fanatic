@@ -67,6 +67,7 @@ public class CapturedZone : MonoBehaviour
                 if (timer < 0)
                 {
                     CaptureZone();
+                    DisableTower();
                 }
             }    
         }
@@ -143,7 +144,7 @@ public class CapturedZone : MonoBehaviour
         
         if (currentZoneState == ZoneState.NotCaptured)
         {
-            ReduceZoneSize();
+            //ReduceZoneSize();
             isCapturing = false;
             timer = captureDuration;
             debugImage.fillAmount = 0;

@@ -32,7 +32,7 @@ public class TargetUI : MonoBehaviour
     {
         SetText(distanceText, distance);
         SwitchIcon();
-        CalculateDistance(targetType, indexDeliveryPoints);
+        CalculateDistance();
     }
 
     void IncreaseFillAmount()
@@ -85,6 +85,12 @@ public class TargetUI : MonoBehaviour
             case TargetType.ShopZone:
                 SetImage(targetImage, iconImages[2]);
                 break;
+            case TargetType.CampZone:
+                SetImage(targetImage, iconImages[3]);
+                break;            
+            case TargetType.Convoy:
+                SetImage(targetImage, iconImages[4]);
+                break;
         }
     }
     
@@ -93,19 +99,9 @@ public class TargetUI : MonoBehaviour
         image.sprite = sprite;
     }
 
-    void CalculateDistance(TargetType targetType, int index = 0)
+    void CalculateDistance()
     {
-        switch (targetType)
-        {
-            case TargetType.DropZone:
-                distance = Vector3.Distance(CarController.instance.transform.position, objBinded.transform.position);
-                break;
-            case TargetType.DeliveryZone:
-                distance = Vector3.Distance(CarController.instance.transform.position, objBinded.transform.position);
-                break;
-            case TargetType.ShopZone:
-                break;
-        }
+        distance = Vector3.Distance(CarController.instance.transform.position, objBinded.transform.position);
     }
 }
 
@@ -114,5 +110,7 @@ public enum TargetType
 {
     DropZone,
     DeliveryZone,
-    ShopZone
+    ShopZone,
+    CampZone,
+    Convoy
 }

@@ -41,7 +41,7 @@ public class DeliverySpawner : MonoBehaviour
         Transform randomSpawnPoint = GetRandomSpawnPoint();
         GameObject deliveryZone = Instantiate(prefab, randomSpawnPoint.position, Quaternion.identity);
         SpawnZoneDelivery spawnZoneDelivery = deliveryZone.GetComponent<SpawnZoneDelivery>();
-        UIIndic.instance.AddIndic(deliveryZone, out int index);
+        UIIndic.instance.AddIndic(deliveryZone, TargetType.DropZone, out int index);
         spawnZoneDelivery.index = index;
         if (spawnZoneDelivery != null)
         {
