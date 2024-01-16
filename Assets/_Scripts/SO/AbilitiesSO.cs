@@ -37,22 +37,25 @@ namespace Abilities
         private Collider[] cols; 
         private float effectRepeatTimer;
         private CarController player;
+        private CarAbilitiesManager carAbilities;
         
         [Space(5)] [Header("Layer Masks")]
         public LayerMask enemyLayerMask;
-
+        
         public void Initialize()
         {
             player = CarController.instance;
+            carAbilities = CarAbilitiesManager.instance;
+            
             switch (trigger)
             {
-                case AbilityTrigger.OnEnemyCollision:  CarAbilitiesManager.instance.OnEnemyCollision += Activate ; break;
-                case AbilityTrigger.OnWallCollision: CarAbilitiesManager.instance.OnWallCollision += Activate ; break;
-                case AbilityTrigger.OnEnterState: CarAbilitiesManager.instance.OnStateEnter += Activate ; break;
-                case AbilityTrigger.OnExitState: CarAbilitiesManager.instance.OnStateExit += Activate ; break;
-                case AbilityTrigger.OnUpdateState: CarAbilitiesManager.instance.OnUpdate += Activate; break;
-                case AbilityTrigger.OnEnemyDamageDealt: CarAbilitiesManager.instance.OnEnemyDamageTaken += Activate ; break;
-                case AbilityTrigger.OnPlayerDamageDealt: CarAbilitiesManager.instance.OnPlayerDamageTaken += Activate ; break;
+                case AbilityTrigger.OnEnemyCollision:  carAbilities.OnEnemyCollision += Activate ; break;
+                case AbilityTrigger.OnWallCollision: carAbilities.OnWallCollision += Activate ; break;
+                case AbilityTrigger.OnEnterState: carAbilities.OnStateEnter += Activate ; break;
+                case AbilityTrigger.OnExitState: carAbilities.OnStateExit += Activate ; break;
+                case AbilityTrigger.OnUpdateState: carAbilities.OnUpdate += Activate; break;
+                case AbilityTrigger.OnEnemyDamageDealt: carAbilities.OnEnemyDamageTaken += Activate ; break;
+                case AbilityTrigger.OnPlayerDamageDealt: carAbilities.OnPlayerDamageTaken += Activate ; break;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
