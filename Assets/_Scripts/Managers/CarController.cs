@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Abilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+    
 public class CarController : CarBehaviour
 {
     public static CarController instance;
@@ -18,7 +19,7 @@ public class CarController : CarBehaviour
     [Header("NITRO")] 
     [SerializeField] private float nitroSpeed = 50;
     [SerializeField] private ParticleSystem smoke, smokeNitro;
-    [SerializeField] private bool nitroMode,canNitro;
+    [SerializeField] public bool nitroMode, canNitro;
     [SerializeField] private float nitroTime;
     [SerializeField] private float nitroDuration;
     [SerializeField] private float nitroRegen;
