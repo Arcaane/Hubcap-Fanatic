@@ -8,13 +8,13 @@ public class AntennaArea : MonoBehaviour
 {
     [Header("Setup Zone Size Values")]  
     [SerializeField] private float initSize = 40;
-    [SerializeField] private float currentSize = 40;
+    [SerializeField] private float antennaEffectSize = 40;
     
     [Header("Zone State")]
     [SerializeField] public AntennaState currentAntennaState;
     [SerializeField] private bool isCapturing;
     
-    [Header("Setup Parameters Values")]  
+    [Header("----------Setup Parameter Values ----------")]
     [Tooltip("Step 1.1 => Time to capture the antenna")]
     [SerializeField] private float captureDuration = 20f;
     [Tooltip("Step 1.2 => Time to before decreasing the capture value")]
@@ -24,18 +24,25 @@ public class AntennaArea : MonoBehaviour
     [Tooltip("Step 3 => Time to reactivate the antenna after being captured and show indicator on the map")]
     [SerializeField] private float reactivateTimeDelay = 5f; 
     
+    [Header("---------- Current Renderer Part ----------")]
     [SerializeField] private Image debugImage;
     [SerializeField] private RectTransform rect;
     [SerializeField] private Transform plane;
 
     private SphereCollider collider;
     [Header("---------- Debug Editor Values ----------")]
+    [Header("Gizmos")]
+    [SerializeField] private bool enabledGizmos;
+    [SerializeField] private bool convoyIsInRange;
+    
     [Header("Timer Value")]
     [SerializeField] private float timerCapturing;
     [SerializeField] private float timerLeaving;
+    [SerializeField] private float timerActivation;
     [SerializeField] private float timeSinceCaptured = 0f;
     [Header("Fill Amount")]
     [SerializeField] private float fillAmountValue = 0f;
+    private float currentSize = 0f;
     
     private void Start()
     {
@@ -139,8 +146,60 @@ public class AntennaArea : MonoBehaviour
 
     private void AntennaDiscoverMap()
     {
+        //Disable the fill Amount and the Other
         DisableAntennaTowerChild();
+
+        AntennaDiscoverEffect();
+        
+        
+        timerActivation += Time.deltaTime;
+        if (timerActivation >= activationTowerDuration)
+        {
+            TurnOffAntenna();
+        }
     }
+
+    private void AntennaDiscoverEffect()
+    {
+        //TODO : Implement the UI Logic
+        CheckDistanceToConvoy(); //Convoy
+    }
+
+    private void CheckDistanceToConvoy()
+    {
+        if (ConvoyManager.instance != null && ConvoyManager.instance.currentConvoy != null && !convoyIsInRange)
+        {
+            Vector3 antennaPosition = transform.position;
+            Vector3 convoyPosition = ConvoyManager.instance.currentConvoy.transform.position;
+            float distance = Vector3.Distance(antennaPosition, convoyPosition);
+            if (distance < antennaEffectSize)
+            {
+                convoyIsInRange = true;
+                UIIndic.instance.AddIndic(ConvoyManager.instance.currentConvoy.gameObject, TargetType.Convoy, out int index);
+            }
+        }
+    }
+
+    private void CheckDistanceToMerchand()
+    {
+        //TODO : Do the merchant
+    }
+
+    private void TurnOnAntenna()
+    {
+        EnableAntennaTowerChild();
+        SetupAntennaValue();
+    }
+
+    private void TurnOffAntenna()
+    {
+        timeSinceCaptured += Time.deltaTime;
+        if (timeSinceCaptured >= reactivateTimeDelay)
+        {
+            TurnOnAntenna();
+        }
+    }
+    
     
     private void EnableAntennaTowerChild()
     {
@@ -179,14 +238,16 @@ public class AntennaArea : MonoBehaviour
             currentAntennaState = AntennaState.IsBeingLeaved;
         }
     }
-    
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        #if UNITY_EDITOR
+        if (!enabledGizmos) return;
         Handles.color = Color.red;
-        Handles.DrawWireDisc(transform.position, Vector3.up, currentSize);
-        #endif
+        Handles.DrawWireDisc(transform.position, Vector3.up,  initSize);
+
+        Handles.color = Color.green;
+        Handles.DrawWireDisc(transform.position, Vector3.up,  antennaEffectSize);
     }
 #endif
 }

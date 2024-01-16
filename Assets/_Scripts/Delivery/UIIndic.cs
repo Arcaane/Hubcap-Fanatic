@@ -88,7 +88,6 @@ public class UIIndic : MonoBehaviour
                 targetUIPrefab[indexObj].transform.position = pos;
             }
         }
-
     }
 
 
@@ -109,11 +108,12 @@ public class UIIndic : MonoBehaviour
     }
     
     
-    public void AddIndic(GameObject newObj, out int indicNb)
+    public void AddIndic(GameObject newObj, TargetType type, out int indicNb)
     {
         obj.Add(newObj);
         CreateImages();
         indicNb = obj.Count - 1;
+        targetUIPrefab[indicNb].targetType = type;
         targetUIPrefab[indicNb].indexDeliveryPoints = indicNb;
         targetUIPrefab[indicNb].objBinded = newObj;
         //Debug.Log("INDIC CREATED "+ indicNb);

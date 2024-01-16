@@ -3477,6 +3477,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpawnDeliveryManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5165974946077922788, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5608794645675349254, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
       propertyPath: carPickableSocket
       value: 
@@ -63146,67 +63150,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1664566065}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1671454161
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3147599529880929873, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_Name
-      value: Event_CaptureZonePrefab (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4072864761029717604, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: captureDuration
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5772554990234920797, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5772554990234920797, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5772554990234920797, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5772554990234920797, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5772554990234920797, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5772554990234920797, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5772554990234920797, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5772554990234920797, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5772554990234920797, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5772554990234920797, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2c52a695d1516dc4daf0a28e2f5d309f, type: 3}
 --- !u!1 &1681124099
 GameObject:
   m_ObjectHideFlags: 0
@@ -81281,32 +81224,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5278772662828845204}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2438825654906077613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3671364921168619928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28775e8c16181ba429695ec43e868576, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initSize: 30
-  currentSize: 30
-  currentZoneState: 0
-  isCapturing: 0
-  currencyToGive: 0
-  captureDuration: 15
-  reactivateDelay: 5
-  percentReduceCaptureSizeIfPlayerGoOut: 0
-  debugImage: {fileID: 2737306891888928480}
-  rect: {fileID: 969767099158443984}
-  plane: {fileID: 2101694887315384475}
-  rewardType: 0
-  timer: 0
-  timeSinceCaptured: 0
 --- !u!114 &2737306891888928480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81421,6 +81338,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCarContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 5160187011438475635, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: dontSpawn
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -81446,15 +81367,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5278772662828845204}
-  - component: {fileID: 2438825654906077613}
+  - component: {fileID: 8894774844859029296}
   - component: {fileID: 8894774844859029295}
   m_Layer: 0
-  m_Name: Event_CaptureZonePrefab
+  m_Name: Event_AntennaZonePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4523031683227937255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -81608,6 +81529,35 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8894774844859029296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3671364921168619928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4483a83c92b81a04295a3c3c64145343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initSize: 29.2
+  antennaEffectSize: 400
+  currentAntennaState: 0
+  isCapturing: 0
+  captureDuration: 5
+  timeBeforeDecreasing: 5
+  activationTowerDuration: 5
+  reactivateTimeDelay: 5
+  debugImage: {fileID: 2737306891888928480}
+  rect: {fileID: 969767099158443984}
+  plane: {fileID: 2101694887315384475}
+  enabledGizmos: 1
+  timerCapturing: 0
+  timerLeaving: 0
+  timerActivation: 0
+  timeSinceCaptured: 0
+  fillAmountValue: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -81622,4 +81572,3 @@ SceneRoots:
   - {fileID: 1988358109}
   - {fileID: 314960737}
   - {fileID: 5278772662828845204}
-  - {fileID: 1671454161}

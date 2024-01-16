@@ -86,7 +86,6 @@ public class SpawnZoneDelivery : MonoBehaviour
 
     private void DeliveryZone()
     {
-        
         currenSpawnState = SpawnDeliveryState.Delivered;
         GivePlayerReward();
     }
