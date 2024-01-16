@@ -43,7 +43,6 @@ public class CarExperienceManager : MonoBehaviour
 
     private void CheckLevelUp()
     {
-        Debug.Log("CheckLevelUp");
         if (currentExperienceAmount >= expBeforeNextLevelAmount)
         {
             LevelUp();
@@ -53,7 +52,6 @@ public class CarExperienceManager : MonoBehaviour
 
     private void LevelUp()
     {
-        Debug.Log("LevelUP");
         levelUpTokensAvailable++;
         currentPlayerLevel++;
         uiManager.SetLevelPlayerText(currentPlayerLevel + 1);

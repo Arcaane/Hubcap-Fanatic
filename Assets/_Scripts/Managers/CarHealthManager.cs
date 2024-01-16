@@ -16,10 +16,13 @@ public class CarHealthManager : MonoBehaviour , IDamageable
 
     public void TakeDamage(int damages)
     {
+        if (!IsDamageable()) return;
+        
         lifePoints -= damages;
-        //GameManager.instance.uiManager.SetHealthJauge((float) lifePoints / maxLifePoints);
         if(lifePoints < 1) Death();
     }
+
+    public bool IsDamageable() => gameObject.activeSelf;
 
     public void Death()
     {

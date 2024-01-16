@@ -213,13 +213,13 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 
     public void TakeDamage(int damages)
     {
+        if (!IsDamageable()) return;
+        
         hp -= damages;
-        if (hp < 1)
-        {
-            DestroyConvoy();
-            
-        }
+        if (hp < 1) DestroyConvoy();
     }
+
+    public bool IsDamageable() => gameObject.activeSelf;
 
     public void DestroyConvoy()
     {
