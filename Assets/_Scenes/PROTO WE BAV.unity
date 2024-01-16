@@ -56103,6 +56103,66 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1500696723}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1504532582
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2751974833476167297, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_Name
+      value: TowerRadio
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968790353296506659, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968790353296506659, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5000038
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968790353296506659, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 12.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968790353296506659, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968790353296506659, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968790353296506659, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968790353296506659, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968790353296506659, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968790353296506659, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968790353296506659, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2751974833476167297, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1794020815}
+  m_SourcePrefab: {fileID: 100100000, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
 --- !u!1 &1507068940
 GameObject:
   m_ObjectHideFlags: 0
@@ -67087,6 +67147,34 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793077781}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1794020813 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2751974833476167297, guid: 626e44b117909764d918d5e7dad2900b, type: 3}
+  m_PrefabInstance: {fileID: 1504532582}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1794020815
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794020813}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 7.24
+  m_Height: 22
+  m_Direction: 1
+  m_Center: {x: 0, y: 5, z: 0}
 --- !u!1 &1797415105
 GameObject:
   m_ObjectHideFlags: 0
@@ -81553,6 +81641,7 @@ MonoBehaviour:
   rect: {fileID: 969767099158443984}
   plane: {fileID: 2101694887315384475}
   enabledGizmos: 1
+  convoyIsInRange: 0
   timerCapturing: 0
   timerLeaving: 0
   timerActivation: 0
@@ -81572,3 +81661,4 @@ SceneRoots:
   - {fileID: 1988358109}
   - {fileID: 314960737}
   - {fileID: 5278772662828845204}
+  - {fileID: 1504532582}
