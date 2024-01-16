@@ -86434,12 +86434,20 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.867
       objectReference: {fileID: 0}
+    - target: {fileID: 4663364008746936679, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: field of view
+      value: 105
+      objectReference: {fileID: 0}
     - target: {fileID: 4919197588331430954, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: m_Name
       value: PlayerCarContainer
       objectReference: {fileID: 0}
     - target: {fileID: 5160187011438475635, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: dontSpawn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160187011438475635, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5160187011438475635, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
