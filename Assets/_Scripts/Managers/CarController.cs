@@ -56,6 +56,8 @@ public class CarController : CarBehaviour
     
     private void Update()
     {
+        base.Update();
+        
         rotationValue = stickValue.x;
         
         OnMove();
@@ -66,7 +68,6 @@ public class CarController : CarBehaviour
             CarAbilitiesManager.instance.OnStateExit.Invoke();
             driftBrake = false;
             foreach (var t in driftSparks) t.Stop();
-            CarAbilitiesManager.instance.DesactivateDriftAbilities();
         }
 
         if (nitroMode)
@@ -84,7 +85,6 @@ public class CarController : CarBehaviour
                 smokeNitro.Stop();
                 targetSpeed = maxSpeed;
                 CarAbilitiesManager.instance.OnStateExit.Invoke();
-                CarAbilitiesManager.instance.DesactivateNitroAbilities();
             }
         }
         else /*if(!canNitro)*/
@@ -140,7 +140,6 @@ public class CarController : CarBehaviour
             if (stickValue.x > 0.6f || stickValue.x < -0.6f)
             {
                 driftBrake = true;
-                CarAbilitiesManager.instance.ActivateDriftAbilities();
                 foreach (var t in driftSparks) t.Play();
             }
         }
@@ -172,7 +171,6 @@ public class CarController : CarBehaviour
             smoke.Stop();
             smokeNitro.Play();
             targetSpeed = nitroSpeed;
-            CarAbilitiesManager.instance.ActivateNitroAbilities();
         }
         
         if (context.canceled && nitroMode)
@@ -181,7 +179,6 @@ public class CarController : CarBehaviour
             smoke.Play();
             smokeNitro.Stop();
             targetSpeed = maxSpeed;
-            CarAbilitiesManager.instance.DesactivateNitroAbilities();
             CarAbilitiesManager.instance.OnStateExit.Invoke();
         }
         

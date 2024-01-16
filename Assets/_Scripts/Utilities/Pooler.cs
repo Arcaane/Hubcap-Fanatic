@@ -132,6 +132,8 @@ namespace ManagerNameSpace
         OBJ_BerserkEnemy,
         OBJ_DriveByEnemy,
         OBJ_DefenseEnemy,
+        OBJ_Spear,
+        
     }
 
     public enum ReturnType

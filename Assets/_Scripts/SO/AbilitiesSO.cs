@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using ManagerNameSpace;
 using UnityEngine;
 
 namespace Abilities
@@ -70,6 +71,7 @@ namespace Abilities
         
         public void Activate(Collision collision)
         {
+            Debug.Log("Trigger Activated " + abilityName);
             returnedCollision = collision;
             ApplyWhenModifiers();
         }
@@ -199,7 +201,7 @@ namespace Abilities
         {
             var carPos = player.transform.position;
             Vector3 relativePos = carPos - targetObj.transform.position;
-            //Instantiate(spearPrefab, carPos, Quaternion.LookRotation(-relativePos));
+            Pooler.instance.SpawnInstance(Key.OBJ_Spear, carPos, Quaternion.LookRotation(-relativePos));
         }
     
         private void EffectDamage(GameObject targetObj)

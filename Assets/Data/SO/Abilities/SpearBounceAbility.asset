@@ -24,7 +24,7 @@ MonoBehaviour:
   effect: 1
   levelsAbilitiesModifiers: []
   effectDamage: 50
-  effectSizeRadius: 0
+  effectSizeRadius: 30
   effectDuration: 0
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0

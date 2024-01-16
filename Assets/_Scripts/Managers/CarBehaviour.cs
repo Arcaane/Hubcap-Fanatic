@@ -38,8 +38,10 @@ public class CarBehaviour : MonoBehaviour
     [SerializeField] protected ParticleSystem[] driftSparks;
 
     // EFFECTS APPLIED
-    [HideInInspector] public bool forceBreak;
-    [HideInInspector] public float forceBreakTimer;
+    public bool forceBreak;
+    public float forceBreakTimer;
+    
+    
     
     public float speedFactor => rb.velocity.magnitude / targetSpeed;
     
@@ -61,7 +63,7 @@ public class CarBehaviour : MonoBehaviour
         rb.centerOfMass = localCenterOfMass;
     }
 
-    private void Update()
+    public virtual void Update()
     {
         if (forceBreak)
         {
@@ -99,7 +101,6 @@ public class CarBehaviour : MonoBehaviour
                 
                 if (driftSparks.Length < 1) return;
                 foreach (var t in driftSparks) t.Stop();
-                CarAbilitiesManager.instance.DesactivateDriftAbilities();
             }
         }
     }

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void DefaultDelegate();
@@ -12,18 +13,21 @@ namespace Abilities
     public class CarAbilitiesManager : MonoBehaviour
     {
         public static CarAbilitiesManager instance;
-        
 
+        public AbilitiesSO firstAbility;
+        
         public CarController car;
         
-        public ObjectDelegate OnEnemyCollision;
-        public CollisionDelegate OnWallCollision;
-        public DefaultDelegate OnStateEnter;
-        public DefaultDelegate OnStateExit;
-        public ObjectDelegate OnEnemyDamageTaken;
-        public DefaultDelegate OnPlayerDamageTaken;
-        public DefaultDelegate OnUpdate;
-        
+        public ObjectDelegate OnEnemyCollision = delegate {  };
+        public CollisionDelegate OnWallCollision = delegate {  };
+        public DefaultDelegate OnStateEnter = delegate {  };
+        public DefaultDelegate OnStateExit = delegate {  };
+        public ObjectDelegate OnEnemyDamageTaken = delegate {  };
+        public DefaultDelegate OnPlayerDamageTaken = delegate {  };
+        public DefaultDelegate OnUpdate = delegate {  };
+
+        public List<AbilitiesSO> abilities;
+
         private void Awake()
         {
             instance = this;
@@ -32,58 +36,17 @@ namespace Abilities
         private void Start()
         {
             car = CarController.instance;
+            if(firstAbility) AddAbility(firstAbility);
         }
 
         //[Header("KIT")]
-        [SerializeField] private Ability[] nitroAbilities;
-        [SerializeField] private Ability[] driftAbilities;
         [SerializeField] public int damageOnCollisionWithEnemy;
 
-        public void ActivateDriftAbilities()
-        {
-            foreach (var t in driftAbilities)
-            {
-                //if (!t.activable) return;
-                t.StartAbility();
-            }
-        }
-        public void DesactivateDriftAbilities()
-        {
-            foreach (var t in driftAbilities)
-            {
-                //if (!t.activable) return;
-                t.StopAbility();
-            }
-        }
-        public void ActivateNitroAbilities()
-        {
-            foreach (var t in nitroAbilities)
-            {
-                //if (!t.activable) return;
-                t.StartAbility();
-            }
-        }
-        public void DesactivateNitroAbilities()
-        {
-            foreach (var t in nitroAbilities)
-            {
-                t.StopAbility();
-            }
-        }
+       
 
         public void Update()
         {
             OnUpdate.Invoke();
-            
-            foreach (var t in nitroAbilities)
-            {
-                t.UpdateAbility();
-            }
-
-            foreach (var t in driftAbilities)
-            {
-                t.UpdateAbility();
-            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -106,81 +69,21 @@ namespace Abilities
 
         #region Abilities
 
-        #region Curse
-
-        private void ApplyCurseExplodeOnDeath()
+        public void AddAbility(AbilitiesSO abilitySo)
         {
-            var cols = Physics.OverlapSphere(transform.position, 10f, enemyLayerMask);
-            if (cols.Length < 1) return;
-            for (var i = 0; i < cols.Length; i++)
+            if (abilities.Contains(abilitySo))
             {
-                PoliceCarBehavior police = cols[i].GetComponent<PoliceCarBehavior>();
-                police.OnPoliceCarDie -= CurseExplodeOnDeath;
-                police.OnPoliceCarDie += CurseExplodeOnDeath;
-                Debug.Log(police.gameObject.name + " Add CurseExplodeOnDeath On Death Event");
+                abilitySo.LevelUpStats();
             }
-        }
-
-        public GameObject P_TestExplo;
-
-        private void CurseExplodeOnDeath(Transform tr)
-        {
-            var position = tr.position;
-            Destroy(Instantiate(P_TestExplo, position, Quaternion.identity), 3.5f);
-            var cols = Physics.OverlapSphere(position, 20, enemyLayerMask);
-            if (cols.Length < 1) return;
-            for (int i = 0; i < cols.Length; i++)
+            else
             {
-                cols[i].GetComponent<IDamageable>()?.TakeDamage(50);
-                Debug.Log($"{cols[i].name} took damage");
+                abilities.Add(abilitySo);   
+                abilitySo.Initialize();
             }
         }
 
         #endregion
-
-        #region Collision
-
-        private void AddBoostIfCollideEnemyWithNitro()
-        {
-            Debug.Log("AddBoostIfCollideEnemyWithNitro");
-            car.targetSpeed += 50f;
-        }
-
-        #endregion
-
-        private void Explosion(Transform tr)
-        {
-            CurseExplodeOnDeath(tr);
-        }
-
-        #region Tick Damage
-
-        private void ApplyTickDamageOnStrafe(IDamageable damageable)
-        {
-            TickDamageInIndefinitely(damageable, 1.5f);
-        }
-
-        private void TickDamageInIndefinitely(IDamageable damageable, float duration)
-        {
-            StartCoroutine(TickDamage(duration, damageable));
-        }
-
-        private void TickDamageForDuration(IDamageable damageable, float tickDuration, float curseDuration)
-        {
-
-        }
-
-        private IEnumerator TickDamage(float tickDuration, IDamageable damageable)
-        {
-            yield return new WaitForSeconds(tickDuration);
-            damageable?.TakeDamage(10);
-            if (damageable.IsDamageable() == false) yield break;
-            StartCoroutine(TickDamage(tickDuration, damageable));
-        }
-
-        #endregion
-
-        #endregion
+        
 
         private void OnGUI()
         {

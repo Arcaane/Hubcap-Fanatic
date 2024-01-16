@@ -24,7 +24,7 @@ MonoBehaviour:
   levelsAbilitiesModifiers: []
   effectDamage: 0
   effectSizeRadius: 0
-  effectDuration: 0
+  effectDuration: 5
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
   enemyLayerMask:

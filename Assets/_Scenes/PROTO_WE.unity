@@ -32646,6 +32646,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pooler
       objectReference: {fileID: 0}
+    - target: {fileID: 4564652138824410922, guid: f58645a14a281ce45a008336ee602788, type: 3}
+      propertyPath: poolKeys.Array.data[5].key
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564652138824410922, guid: f58645a14a281ce45a008336ee602788, type: 3}
+      propertyPath: poolKeys.Array.data[5].pool.prefab
+      value: 
+      objectReference: {fileID: 932604927756978874, guid: 54be28ab23677464ea5236473f40b36a, type: 3}
     - target: {fileID: 4957744581124681992, guid: f58645a14a281ce45a008336ee602788, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -51791,7 +51799,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32b3d55941ff1c48bc8f86dec211573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopItems: []
+  allAbilities: []
+  purchasableAbilities: []
   shopCanvas: {fileID: 643787355}
   itemsHandler:
   - {fileID: 481385051}
@@ -86418,6 +86427,10 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3522990401953886266, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: firstAbility
+      value: 
+      objectReference: {fileID: 11400000, guid: c592d66f795c0954b8ea0e381916e083, type: 2}
     - target: {fileID: 3522990401953886266, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: driftAbilities.Array.size
       value: 1

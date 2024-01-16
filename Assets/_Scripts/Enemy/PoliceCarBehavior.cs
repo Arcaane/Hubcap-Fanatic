@@ -51,6 +51,8 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     private void Update()
     {
+        base.Update();
+        
         if (convoyBehaviour) ConvoyUpdate();
         else if(driveByCar) DriveByUpdate();
         else SoloUpdate();
