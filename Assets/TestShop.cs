@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Abilities;
 using TMPro;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class TestShop : MonoBehaviour
     {
         shopCanvas.SetActive(false);
         isShopActive = false;
+
+        for (int i = 0; i < allAbilities.Count; i++) purchasableAbilities.Add(allAbilities[i]);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -73,8 +76,22 @@ public class TestShop : MonoBehaviour
         itemsHandler[i].powerUpTitle.text = purchasableAbilities[index].abilityName;
         itemsHandler[i].powerUpDescription.text = purchasableAbilities[index].description;
         itemsHandler[i].powerUpSprite.sprite = purchasableAbilities[index].abilitySprite;
-        //itemsHandler[i].isNew.SetActive(CarAbilitiesManager.instance.); 
-        //itemsHandler[i].powerUpButton
+        itemsHandler[i].powerUpButton.onClick.RemoveAllListeners();
+        itemsHandler[i].isNew.SetActive(!CarAbilitiesManager.instance.abilities.Contains(purchasableAbilities[index]));
+        itemsHandler[i].powerUpButton.onClick.AddListener(ExitShop);
+        
+        
+        // Si contains déja abilities
+        
+        // Sinon
+        itemsHandler[i].powerUpButton.onClick.AddListener((() =>
+        {
+            CarAbilitiesManager.instance.abilities.Add(purchasableAbilities[index]);
+            purchasableAbilities.Remove(purchasableAbilities[index]);
+            CarAbilitiesManager.instance.abilities.Last().Initialize();
+        }));
+        
+        
     }
     
     private int firstItemIndex, secondItemIndex, thirdItemIndex;
