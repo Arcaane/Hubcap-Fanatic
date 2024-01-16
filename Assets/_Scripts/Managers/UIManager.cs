@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
     [SerializeField] private Image nitroJauge;
     public RadarDetectorUI radar;
+    public GameObject shopScreen;
     
     [Header("Level & Experience")]
     [SerializeField] private Image experienceJauge;

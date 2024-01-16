@@ -10,6 +10,15 @@ public class MerchantBehavior : MonoBehaviour
     public Transform[] points;
     public float speed;
     public int index;
+
+    public static MerchantBehavior instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+
     void Update()
     {
         if (Vector2.SqrMagnitude(new Vector2(transform.position.x, transform.position.z) -

@@ -9,13 +9,13 @@ public class TestShop : MonoBehaviour
     [SerializeField] private List<AbilitiesSO> allAbilities;
     [SerializeField] private List<AbilitiesSO> purchasableAbilities;
     
-    [SerializeField] private GameObject shopCanvas;
+    
     [SerializeField] private ButtonsItems[] itemsHandler;
     private bool isShopActive;
 
     private void Start()
     {
-        shopCanvas.SetActive(false);
+        UIManager.instance.shopScreen.SetActive(false);
         isShopActive = false;
     }
 
@@ -30,7 +30,7 @@ public class TestShop : MonoBehaviour
     private void StartShopUI()
     {
         Time.timeScale = 0;
-        shopCanvas.SetActive(true);
+        UIManager.instance.shopScreen.SetActive(true);
         isShopActive = true;
         EventSystem.current.SetSelectedGameObject(itemsHandler[0].gameObject);
         SetupItemsInShop();
@@ -128,7 +128,7 @@ public class TestShop : MonoBehaviour
     private void ExitShop()
     {
         Time.timeScale = 1;
-        shopCanvas.SetActive(false);
+        UIManager.instance.shopScreen.SetActive(false);
         isShopActive = false;
     }
 }
