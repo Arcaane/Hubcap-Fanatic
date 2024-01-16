@@ -286,20 +286,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 233087053556425083}
     - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
-      propertyPath: braking
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
       propertyPath: cameraHolder
       value: 
       objectReference: {fileID: 4336229909369011418}
     - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
       propertyPath: speedRetained
       value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
-      propertyPath: accelMultiplier
-      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
       propertyPath: maxSpeedRetained

@@ -10982,22 +10982,22 @@ MonoBehaviour:
   wheels:
   - transform: {fileID: 4980589173374672119}
     wheelVisual: {fileID: 8313525766690617819}
-    directionalDampening: 0.35
+    directionalDampening: 0.275
     drivingFactor: 1
     steeringFactor: 7
   - transform: {fileID: 422089550907774201}
     wheelVisual: {fileID: 8166388250625827031}
-    directionalDampening: 0.35
+    directionalDampening: 0.275
     drivingFactor: 1
     steeringFactor: 7
   - transform: {fileID: 2470873284411068704}
     wheelVisual: {fileID: 2313699898289759998}
-    directionalDampening: 0.33
+    directionalDampening: 0.28
     drivingFactor: 0
     steeringFactor: 0
   - transform: {fileID: 5956411217378894201}
     wheelVisual: {fileID: 4757760250436602413}
-    directionalDampening: 0.33
+    directionalDampening: 0.28
     drivingFactor: 0
     steeringFactor: 0
   suspensionLenght: 0.5
@@ -11005,8 +11005,8 @@ MonoBehaviour:
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 47.5
-  targetSpeed: 47.5
+  maxSpeed: 65
+  targetSpeed: 65
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -11049,16 +11049,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  acceleration: 15
-  braking: 12
-  decceleration: 4
-  steeringSpeed: 50
+  acceleration: 20
+  braking: 25
+  decceleration: 8
+  steeringSpeed: 4
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 60
   directionalDampMultiplier: 1
-  dampeningMultiplier: 0.3
-  steeringMultiplier: 1.2
-  accelMultiplier: 1.5
+  dampeningMultiplier: 0.5
+  steeringMultiplier: 1.7
+  accelMultiplier: 1.4
   angleMinToExitDrift: 0.1
   driftSparks:
   - {fileID: 2603052165275359096}
@@ -11071,12 +11071,12 @@ MonoBehaviour:
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 68f8e38cdcb558d43a07cde4b478f907, type: 3}
-  nitroSpeed: 65
+  nitroSpeed: 85
   smoke: {fileID: 8122604561749209318}
   smokeNitro: {fileID: 5123692597283315678}
   nitroMode: 0
   canNitro: 1
-  nitroTime: 2
+  nitroTime: 2.0015504
   nitroDuration: 2
   nitroRegen: 0.15
   jumpSmoke: {fileID: 0}
@@ -11084,7 +11084,7 @@ MonoBehaviour:
   straffTime: 2
   straffDuration: 2
   animation: {fileID: 6205959775607353322}
-  dirCam: 0
+  dirCam: 13.808237
   cameraHolder: {fileID: 0}
   camDist: 0.8
   pickedItems: []
