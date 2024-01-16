@@ -117,6 +117,9 @@ public class CarController : CarBehaviour
         // CAMERA
         //cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
         cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f * camDist,5 * Time.fixedDeltaTime);
+        
+        /*cameraHolder.rotation = Quaternion.Lerp(cameraHolder.rotation,  Quaternion.Euler(0,transform.eulerAngles.y, 0),500 * Time.fixedDeltaTime);
+        cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position /**+ rb.velocity.normalized * dirCam * 0.5f * camDist,50 * Time.fixedDeltaTime);*/
     }
     
     #region Inputs
