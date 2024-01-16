@@ -3,7 +3,7 @@ using UnityEngine;
 
 public delegate void DefaultDelegate();
 public delegate void TransformDelegate(Transform tr);
-public delegate void DamageableDelegate(IDamageable en);
+public delegate void ObjectDelegate(GameObject obj);
 public delegate void CollisionDelegate(Collision col);
 
 
@@ -16,11 +16,11 @@ namespace Abilities
 
         public CarController car;
         
-        public DamageableDelegate OnEnemyCollision;
+        public ObjectDelegate OnEnemyCollision;
         public CollisionDelegate OnWallCollision;
         public DefaultDelegate OnStateEnter;
         public DefaultDelegate OnStateExit;
-        public DamageableDelegate OnEnemyDamageTaken;
+        public ObjectDelegate OnEnemyDamageTaken;
         public DefaultDelegate OnPlayerDamageTaken;
         
         private void Awake()

@@ -17,6 +17,7 @@ namespace Abilities
         public TargetAbility target;
         public When when;
         public State state;
+        public Effect effect;
 
         [Space(5)] [Header("Abilities Level Modifiers")]
         public AbilitiesModifiers[] levelsAbilitiesModifiers;
@@ -24,69 +25,199 @@ namespace Abilities
         // Stats
         public int effectDamage;
         public int effectSizeRadius;
+        public float effectDuration;
+        public int effectDelayMilliseconds;
+        public float effectRepeatDelay;
+        
+        // Target Objects
+        private GameObject returnedTargetObject;
+        private Collision returnedCollision;
+        
+        // Memory Vars
+        private Collider[] cols; 
+        private float effectRepeatTimer;
+        private CarController player;
+        
+        [Space(5)] [Header("Layer Masks")]
+        public LayerMask enemyLayerMask;
 
-        public void Activate()
+        public void Initialize()
         {
+            player = CarController.instance;
             switch (trigger)
             {
-                case AbilityTrigger.OnEnemyCollision: /* CarAbilitiesManager.instance.OnEnemyCollision += ApplyWhenModifiers */; break;
-                case AbilityTrigger.OnWallCollision: break;
-                case AbilityTrigger.OnEnterState: break;
-                case AbilityTrigger.OnExitState: break;
-                case AbilityTrigger.OnUpdateState: break;
-                case AbilityTrigger.OnEnemyDamageDealt: break;
-                case AbilityTrigger.OnPlayerDamageDealt: break;
+                case AbilityTrigger.OnEnemyCollision:  CarAbilitiesManager.instance.OnEnemyCollision += Activate ; break;
+                case AbilityTrigger.OnWallCollision: CarAbilitiesManager.instance.OnWallCollision += Activate ; break;
+                case AbilityTrigger.OnEnterState: CarAbilitiesManager.instance.OnStateEnter += Activate ; break;
+                case AbilityTrigger.OnExitState: CarAbilitiesManager.instance.OnStateExit += Activate ; break;
+                case AbilityTrigger.OnUpdateState: break; // Abonner a l'update
+                case AbilityTrigger.OnEnemyDamageDealt: CarAbilitiesManager.instance.OnEnemyDamageTaken += Activate ; break;
+                case AbilityTrigger.OnPlayerDamageDealt: CarAbilitiesManager.instance.OnPlayerDamageTaken += Activate ; break;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
+        public void Activate()
+        {
+            ApplyWhenModifiers();
+        }
+        
+        public void Activate(GameObject targetObj)
+        {
+            returnedTargetObject = targetObj;
+            ApplyWhenModifiers();
+        }
+        
+        public void Activate(Collision collision)
+        {
+            returnedCollision = collision;
+            ApplyWhenModifiers();
+        }
+        
         public void ApplyWhenModifiers()
         {
             switch (state)
             {
                 case State.All: break;
-                case State.Default: if(!CarController.instance.isDefault); return;
-                case State.Drift: if (!CarController.instance.driftBrake) return; break;
-                case State.Straff: if(!CarController.instance.isStraffing) return; break;
-                case State.Pill: if(!CarController.instance.brakeMethodApplied) return; break;
-                case State.Nitro: if(!CarController.instance.nitroMode) return; break;
+                case State.Default: if(!player.isDefault); return;
+                case State.Drift: if (!player.driftBrake) return; break;
+                case State.Straff: if(!player.isStraffing) return; break;
+                case State.Pill: if(!player.brakeMethodApplied) return; break;
+                case State.Nitro: if(!player.nitroMode) return; break;
                 default: throw new ArgumentOutOfRangeException(); break;
             }
 
             Debug.Log($"State: {state} Passed!");
             
-            switch (when)
-            {
-                case When.Immediate: break;
-                case When.Delayed: break;
-                case When.OnTargetDie: break;
-                case When.EveryXSeconds: break;
-                default: throw new ArgumentOutOfRangeException(nameof(when), when, null);
-            }
-        }
-
-        public void ApplyEffectOnTarget()
-        {
+            
             switch (target)
             {
-                case TargetAbility.Enemy: break;
-                case TargetAbility.Player: break;
-                case TargetAbility.ZoneAroundEnemy: break;
-                case TargetAbility.ZoneAroundPlayer: break;
+                case TargetAbility.HitEnemy: ApplyEffectOnTarget(returnedTargetObject); break;
+                case TargetAbility.Player: ApplyEffectOnTarget(player.gameObject); break;
+                case TargetAbility.ZoneAroundHitEnemy: ApplyEffectOnTargetsInZone(returnedTargetObject.transform.position,effectSizeRadius); break;
+                case TargetAbility.ZoneAroundPlayer: ApplyEffectOnTargetsInZone(player.transform.position, effectSizeRadius); break;
+                case TargetAbility.ClosestEnemyToPlayer: ApplyEffectOnClosestTarget(player.transform.position, effectSizeRadius); break;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void ApplyEffect(Effect eft)
+        #region Target
+
+        public void ApplyEffectOnTarget(GameObject targetObj)
         {
-            
+            switch (when)
+            {
+                case When.Immediate: ApplyEffect(targetObj);
+                    break;
+                case When.Delayed: DelayEffect(targetObj,effectDelayMilliseconds);
+                    break;
+                case When.OnTargetDie: Debug.LogError("ON TARGET DIE PAS FAIT");
+                    break;
+                case When.EveryXSeconds: RepeatedEffect(targetObj);
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(when), when, null);
+            }
         }
         
-        private async void DelayEffect(Effect eft, int delayInMS)
+        public void ApplyEffectOnTargetsInZone(Vector3 zonePos,float zoneRadius)
+        {
+            cols = Physics.OverlapSphere(zonePos, zoneRadius, enemyLayerMask);
+            if (cols.Length > 0)
+            {
+                for (int i = 0; i < cols.Length; i++)
+                {
+                    ApplyEffectOnTarget(cols[i].gameObject);
+                }
+            }
+        }
+
+        public void ApplyEffectOnClosestTarget(Vector3 zonePos,float zoneRadius)
+        {
+            float tempShorterDst = 10000;
+            int shorterIndex = -1;
+            
+            cols = Physics.OverlapSphere(zonePos, zoneRadius, enemyLayerMask);
+            if (cols.Length > 0)
+            {
+                for (int i = 0; i < cols.Length; i++)
+                {
+                    var tempDst = Vector3.Distance(zonePos, cols[i].transform.position);
+                
+                    if (tempDst < tempShorterDst)
+                    {
+                        tempShorterDst = tempDst;
+                        shorterIndex = i;
+                    }
+                }
+            
+                ApplyEffectOnTarget(cols[shorterIndex].gameObject);
+            }
+        }
+
+        #endregion
+
+        #region When
+
+        private void ApplyEffect(GameObject targetObj)
+        {
+            switch (effect)
+            {
+                case Effect.Explosion: Debug.LogError("PAS ENCORE D'EXPLOSION");
+                    break;
+                case Effect.Spear: EffectSpear(targetObj);
+                    break;
+                case Effect.Damage: EffectDamage(targetObj);
+                    break;
+                case Effect.ForceBreak: EffectForceBreak(targetObj);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(effect), effect, null);
+            }
+        }
+        
+        private async void DelayEffect(GameObject targetObj,int delayInMS)
         {
             await Task.Delay(delayInMS);
-            ApplyEffect(eft);
+            ApplyEffect(targetObj);
         }
+
+        private void RepeatedEffect(GameObject targetObj)
+        {
+            if (effectRepeatTimer > 0) effectRepeatTimer -= Time.deltaTime;
+            else
+            {
+                effectRepeatTimer = effectRepeatDelay;
+                ApplyEffect(targetObj);
+            }
+        }
+
+        #endregion
+
+
+        #region EffectFunctions
+
+        private void EffectSpear(GameObject targetObj)
+        {
+            var carPos = player.transform.position;
+            Vector3 relativePos = carPos - targetObj.transform.position;
+            //Instantiate(spearPrefab, carPos, Quaternion.LookRotation(-relativePos));
+        }
+    
+        private void EffectDamage(GameObject targetObj)
+        {
+            IDamageable damageable = targetObj.GetComponent<IDamageable>();
+            damageable.TakeDamage(effectDamage);
+        }
+    
+        private void EffectForceBreak(GameObject targetObj)
+        {
+            CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
+            carBehaviour.forceBreak = true;
+            carBehaviour.forceBreakTimer = effectDuration;
+        }
+
+        #endregion
+        
     }
 }
 
@@ -103,11 +234,11 @@ public enum AbilityTrigger
 
 public enum TargetAbility
 {
-    Enemy,  
+    HitEnemy,  
     Player,
-    ZoneAroundEnemy,
+    ZoneAroundHitEnemy,
     ZoneAroundPlayer,
-    ClosestEnemy
+    ClosestEnemyToPlayer
 }
 
 public enum When
@@ -131,9 +262,9 @@ public enum State
 public enum Effect
 {
     Explosion,
-    Undefined_1,
-    Undefined_2,
-    Undefined_3,
+    Spear,
+    Damage,
+    ForceBreak,
     Undefined_4,
     Undefined_5
 }
