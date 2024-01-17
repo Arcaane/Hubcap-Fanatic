@@ -28,6 +28,7 @@ public class MerchantBehavior : MonoBehaviour
         {
             index = (index + 1) % points.Length;
             agent.SetDestination(points[(index + 1) % points.Length].position);
+            UIManager.instance.UpdateMerchantNotif("MERCHANT PASSED BY " + pointNames[index]);
         }
     }
 
