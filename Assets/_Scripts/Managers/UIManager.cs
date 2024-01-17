@@ -12,20 +12,26 @@ public class UIManager : MonoBehaviour
     [Header("Level & Experience")]
     [SerializeField] private Image experienceJauge;
     [SerializeField] private TextMeshProUGUI playerLevelText;
+    [SerializeField] private TextMeshProUGUI playerLevelText2;
+    
+    [SerializeField] private TextMeshProUGUI tokenText;
+    [SerializeField] private TextMeshProUGUI tokenText2;
     
     [Header("Wave Informations")]
     [SerializeField] private Image waveDurationJauge;
     [SerializeField] private TextMeshProUGUI waveCountText;
+    [SerializeField] private TextMeshProUGUI waveCountText2;
 
     [Header("Player vitals")] [SerializeField]
     private Image lifeImage;
+    [SerializeField] private TextMeshProUGUI lifeText;
+    [SerializeField] private TextMeshProUGUI lifeText2;
     
-    [Header("Straff")]
-    [SerializeField] private Transform straffJauge;
-
     [SerializeField] public ButtonsItems[] buttonsHandlers;
 
     public Transform shootIcon;
+
+    public Image[] shotJauges;
     
 
     private void Awake()
@@ -45,7 +51,8 @@ public class UIManager : MonoBehaviour
 
     public void SetLevelPlayerText(int i)
     {
-        playerLevelText.text = i.ToString(); 
+        playerLevelText.text = i.ToString();
+        playerLevelText2.text = i.ToString();
     }
 
     public void UpdateWaveDuration(float amount)
@@ -58,14 +65,20 @@ public class UIManager : MonoBehaviour
         waveCountText.text = i.ToString();
     }
 
-    public void SetStraffJauge(float amount)
-    {
-        straffJauge.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, amount);
-    }
+    // public void SetStraffJauge(float amount)
+    // {
+    //     straffJauge.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, amount);
+    // }
 
     public void SetPlayerLifeJauge(float f)
     {
         lifeImage.fillAmount = f;
+    }
+
+    public void SetLifePlayerText(int i)
+    {
+        lifeText.text = i.ToString();
+        lifeText2.text = i.ToString();
     }
     
 }

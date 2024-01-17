@@ -125,7 +125,7 @@ public class CarController : CarBehaviour
         if (straffTime < straffDuration)
         {
             straffTime += Time.deltaTime;
-            UIManager.instance.SetStraffJauge(straffTime / straffDuration);
+            //UIManager.instance.SetStraffJauge(straffTime / straffDuration);
         }
     }
     
