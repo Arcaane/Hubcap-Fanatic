@@ -266,7 +266,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9012145
 Transform:
   m_ObjectHideFlags: 0
@@ -277,7 +277,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.47852, y: 1, z: 0.47852}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2108094941}
@@ -340,9 +340,9 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.8333333
+  m_VoxelSize: 0.5
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: e2772ada2b64c9049bd88b4553cfea6e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 8cc293bdabf497a4f867dfa5dc865a8e, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &9481131
 GameObject:
@@ -55264,7 +55264,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1500, y: 1, z: 1500}
+  m_LocalScale: {x: 700, y: 1, z: 700}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1382430171}
@@ -55296,7 +55296,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.8333333
+  m_VoxelSize: 0.5
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 6502b1b296ad7984b89fd8218f06d62b, type: 2}
   m_BuildHeightMesh: 0
@@ -84216,10 +84216,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1344947106089738928, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.75
-      objectReference: {fileID: 0}
     - target: {fileID: 1408316152737072624, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -84300,14 +84296,6 @@ PrefabInstance:
       propertyPath: nitroAbilities.Array.data[0]
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 4329711796915854895, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.867
-      objectReference: {fileID: 0}
-    - target: {fileID: 4663364008746936679, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
-      propertyPath: field of view
-      value: 105
-      objectReference: {fileID: 0}
     - target: {fileID: 4919197588331430954, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: m_Name
       value: PlayerCarContainer
@@ -84315,10 +84303,6 @@ PrefabInstance:
     - target: {fileID: 5160187011438475635, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: dontSpawn
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5160187011438475635, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5160187011438475635, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: waves.Array.size
@@ -84627,10 +84611,6 @@ PrefabInstance:
     - target: {fileID: 7525522573800427913, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: levelUpTokensAvailable
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8463474741254569708, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.867
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
