@@ -3753,6 +3753,30 @@ PrefabInstance:
       propertyPath: numberOfCapturesAtStart
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+      propertyPath: deliveryObjects.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+      propertyPath: deliveryObjects.Array.data[3].prefab
+      value: 
+      objectReference: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
+    - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+      propertyPath: deliveryObjects.Array.data[1].X_DeliveryDuration__Y_TimeBeforeSpawn.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+      propertyPath: deliveryObjects.Array.data[2].X_DeliveryDuration__Y_TimeBeforeSpawn.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+      propertyPath: deliveryObjects.Array.data[3].X_DeliveryDuration__Y_TimeBeforeSpawn.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176457855188962358, guid: 6774e4a5274000245b857f5dfb4b3e24, type: 3}
+      propertyPath: deliveryObjects.Array.data[3].X_DeliveryDuration__Y_TimeBeforeSpawn.y
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -83384,17 +83408,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077621594}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &2079301886 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7448012381389848006, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
-  m_PrefabInstance: {fileID: 2769335920627222219}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5fe4bf6c0950124789d6bcc8a6f762a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2084903970
 GameObject:
   m_ObjectHideFlags: 0
@@ -86486,11 +86499,11 @@ PrefabInstance:
     - target: {fileID: 3522990401953886266, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: driftAbilities.Array.data[0]
       value: 
-      objectReference: {fileID: 2079301886}
+      objectReference: {fileID: 0}
     - target: {fileID: 3522990401953886266, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: nitroAbilities.Array.data[0]
       value: 
-      objectReference: {fileID: 2079301886}
+      objectReference: {fileID: 0}
     - target: {fileID: 4329711796915854895, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.867
