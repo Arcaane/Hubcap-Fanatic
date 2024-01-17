@@ -53,12 +53,12 @@ public class DeliveryRessourcesManager : MonoBehaviour
     
     private void SpawnDeliveryPrefab(GameObject prefab, float deliveryDuration, float timeBeforeSpawn)
     {
-        Debug.Log($"{prefab.gameObject.name} - Delivery Duration: {deliveryDuration} - Time Before Spawn: {timeBeforeSpawn}");
         Transform randomSpawnPoint = GetRandomSpawnPoint();
         GameObject deliveryZone = Instantiate(prefab, randomSpawnPoint.position, Quaternion.identity);
         SpawnZoneDelivery spawnZoneDelivery = deliveryZone.GetComponent<SpawnZoneDelivery>();
         UIIndic.instance.AddIndic(deliveryZone, TargetType.DropZone, out int index);
         spawnZoneDelivery.index = index;
+        Debug.Log($"{spawnZoneDelivery.gameObject.name} - Delivery Duration: {deliveryDuration} - Time Before Spawn: {timeBeforeSpawn}");
         if (spawnZoneDelivery != null)
         {
             spawnZoneDelivery.DeliveryDuration = deliveryDuration;
