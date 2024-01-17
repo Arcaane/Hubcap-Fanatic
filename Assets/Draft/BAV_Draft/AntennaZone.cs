@@ -36,6 +36,7 @@ public class AntennaArea : MonoBehaviour
     [Header("Gizmos")]
     [SerializeField] private bool enabledGizmos;
     [SerializeField] private bool convoyIsInRange;
+    [SerializeField] private bool merchantIsInRange;
     
     [Header("Timer Value")]
     [SerializeField] private float timerCapturing;
@@ -162,39 +163,52 @@ public class AntennaArea : MonoBehaviour
 
     private void AntennaDiscoverEffect()
     {
-        CheckDistanceToConvoy(); //Convoy
+        CheckDistanceToConvoy(); 
+        //CheckDistanceToMerchand();
     }
 
-    private void CheckDistanceToConvoy()
+    private void CheckDistanceToTarget(Transform targetTransform, TargetType targetType, ref bool targetIsInRange, List<int> indexList)
     {
-        if (ConvoyManager.instance != null && ConvoyManager.instance.currentConvoy != null && !convoyIsInRange)
+        if (targetTransform != null && !targetIsInRange)
         {
             Vector3 antennaPosition = transform.position;
-            Vector3 convoyPosition = ConvoyManager.instance.currentConvoy.transform.position;
-            float distance = Vector3.Distance(antennaPosition, convoyPosition);
+            Vector3 targetPosition = targetTransform.position;
+            float distance = Vector3.Distance(antennaPosition, targetPosition);
+        
             if (distance < antennaEffectSize)
             {
-                convoyIsInRange = true;
-                UIIndic.instance.AddIndic(ConvoyManager.instance.currentConvoy.gameObject, TargetType.Convoy, out int index);
+                targetIsInRange = true;
+                UIIndic.instance.AddIndic(targetTransform.gameObject, targetType, out int index);
                 indexList.Add(index);
             }
         }
     }
 
-    private void ClearIndex()
+    private void CheckDistanceToConvoy()
     {
-        if (indexList.Count <= 0) return;
-        for (int i = 0; i < indexList.Count; i++)
-        {
-            UIIndic.instance.RemoveIndic(indexList[i]);
-            indexList.Clear();
-        }
+        CheckDistanceToTarget(ConvoyManager.instance?.currentConvoy?.transform, TargetType.Convoy, ref convoyIsInRange, indexList);
     }
 
     private void CheckDistanceToMerchand()
     {
-        //TODO : Do the merchant
+        CheckDistanceToTarget(MerchantBehavior.instance?.gameObject?.transform, TargetType.Merchant, ref merchantIsInRange, indexList);
     }
+
+    private void ClearIndex()
+    {
+        convoyIsInRange = false;
+        merchantIsInRange = false;
+        if (indexList.Count > 0)
+        {
+            for (int i = 0; i < indexList.Count; i++)
+            {
+                UIIndic.instance.RemoveIndic(indexList[i]);
+            }
+            indexList.Clear();
+        }
+    }
+
+
 
     private void TurnOnAntenna()
     {
