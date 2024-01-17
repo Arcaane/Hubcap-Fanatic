@@ -12,6 +12,7 @@ public class ConvoyManager : MonoBehaviour
     public float timeBetweenConvoys;
     private float timer;
     public ConvoySpawnData[] convoys;
+    public float mapSize = 730;
 
     private void Awake()
     {
@@ -50,21 +51,22 @@ public class ConvoyManager : MonoBehaviour
         int rng = Random.Range(0, 4);
 
         Vector3 start;
+        
         start = rng switch
         {
-            0 => new Vector3(Random.Range(-730f, 730f), 1.4f, -730),
-            1 => new Vector3(730, 1.4f, Random.Range(-730f, 730f)),
-            2 => new Vector3(Random.Range(-730f, 730f), 1.4f, 730),
-            3 => new Vector3(-730, 1.4f, Random.Range(-730f, 730f))
+            0 => new Vector3(Random.Range(-mapSize, mapSize), 1.4f, -mapSize),
+            1 => new Vector3(730, 1.4f, Random.Range(-mapSize, mapSize)),
+            2 => new Vector3(Random.Range(-mapSize, mapSize), 1.4f, mapSize),
+            3 => new Vector3(-730, 1.4f, Random.Range(-mapSize, mapSize))
         };
         currentConvoy.agent.Warp(start);
         
         currentConvoy.target = rng switch
         {
-            0 => new Vector3(Random.Range(-730f, 730f), 1.4f, 730),
-            1 => new Vector3(-730, 1.4f, Random.Range(-730f, 730f)),
-            2 => new Vector3(Random.Range(-730f, 730f), 1.4f, -730),
-            3 => new Vector3(730, 1.4f, Random.Range(-730f, 730f))
+            0 => new Vector3(Random.Range(-mapSize, mapSize), 1.4f, mapSize),
+            1 => new Vector3(-730, 1.4f, Random.Range(-mapSize, mapSize)),
+            2 => new Vector3(Random.Range(-mapSize, mapSize), 1.4f, -mapSize),
+            3 => new Vector3(730, 1.4f, Random.Range(-mapSize, mapSize))
         };
         
         currentConvoy.Initialize();

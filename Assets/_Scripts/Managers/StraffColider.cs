@@ -1,25 +1,49 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StraffColider : MonoBehaviour
 {
-    public IDamageable enemyDamageable;
-    public Transform enemyCar;
-    
+    public List<IDamageable> enemyDamageable = new List<IDamageable>();
+    public List<Transform> enemyCar = new List<Transform>();
+
+    private void Start()
+    {
+        enemyCar = new List<Transform>();
+        enemyDamageable = new List<IDamageable>();
+    }
+
+    private void Update()
+    {
+        for (int i = 0; i < enemyCar.Count; i++)
+        {
+            if (!enemyCar[i].gameObject.activeSelf)
+            {
+                RemoveObjectCar(enemyCar[i]);
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            enemyDamageable = other.GetComponent<IDamageable>();
-            enemyCar = other.transform;
+            enemyDamageable.Add(other.GetComponent<IDamageable>());
+            enemyCar.Add(other.transform);
         }
     }
     
     private void OnTriggerExit(Collider other)
     {
-        if (enemyCar && other.transform == enemyCar)
+        RemoveObjectCar(other.transform);
+    }
+
+    public void RemoveObjectCar(Transform car)
+    {
+        if (enemyCar.Contains(car))
         {
-            enemyCar = null;
-            enemyDamageable = null;
+            enemyCar.Remove(car);
+            enemyDamageable.Remove(car.GetComponent<IDamageable>());
         }
     }
 }
