@@ -32,7 +32,14 @@ public class UIManager : MonoBehaviour
     public Transform shootIcon;
 
     public Image[] shotJauges;
-    
+
+    public AbilitiesPair[] abilitiesSlots;
+
+    public struct AbilitiesPair
+    {
+        public Image passiveAbilityIcon;
+        public Image statAbilityIcon;
+    }
 
     private void Awake()
     {
@@ -80,5 +87,10 @@ public class UIManager : MonoBehaviour
         lifeText.text = i.ToString();
         lifeText2.text = i.ToString();
     }
-    
+
+    public void UnlockAbilitySlot(int i)
+    {
+        abilitiesSlots[i].passiveAbilityIcon.gameObject.SetActive(true);
+        abilitiesSlots[i].statAbilityIcon.gameObject.SetActive(true);
+    }
 }

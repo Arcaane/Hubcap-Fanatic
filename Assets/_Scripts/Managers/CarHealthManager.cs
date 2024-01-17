@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using ManagerNameSpace;
 using UnityEngine;
 
@@ -7,8 +8,10 @@ public class CarHealthManager : MonoBehaviour, IDamageable
 
     [SerializeField] private int maxLifePoints = 100;
     [SerializeField] private int lifePoints = 100;
-    [SerializeField] private GameObject damageText;
 
+    [SerializeField] private Material[] mat;
+    [SerializeField] private int feedbackDurationInMS = 300;
+    
     private void Start()
     {
         instance = this;
@@ -29,6 +32,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
 
         lifePoints -= damages;
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
+        ActiveDamageFB();
         
         if (lifePoints < 1) Death();
     }
@@ -40,5 +44,23 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         // TODO : DEFINIR LA FONCTION DE MORT DU JOUEUR
         // TODO - Explosion 
         // TODO - Reduce timeScale
+    }
+
+    private async void ActiveDamageFB()
+    {
+        foreach (var t in mat)
+        {
+            t.SetFloat("_UseDamage", 1);
+        }
+
+        await Task.Delay(feedbackDurationInMS);
+
+        foreach (var t in mat)
+        {
+            if (instance)
+            {
+                t.SetFloat("_UseDamage", 0);
+            }
+        }
     }
 }

@@ -243,7 +243,6 @@ namespace Abilities
                 }
             }
         }
-        
         #endregion
     }
 }

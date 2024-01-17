@@ -7,6 +7,7 @@ public class TestShop : MonoBehaviour
 {
     [SerializeField] private List<AbilitiesSO> allAbilities;
     [SerializeField] private List<AbilitiesSO> purchasableAbilities;
+    [SerializeField] private AbilitiesSO gold;
     
     [SerializeField] private ButtonsItems[] buttonsItemsArray = new ButtonsItems[3];
     private bool isShopActive;
@@ -26,9 +27,16 @@ public class TestShop : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && CarExperienceManager.Instance.levelUpTokensAvailable > 0)
+        if (other.CompareTag("Player"))
         {
-            StartShopUI();
+            if (CarExperienceManager.Instance.levelUpTokensAvailable > 0)
+            {
+                StartShopUI();
+            }
+            else
+            {
+                Debug.Log("Pas de thunes igo");
+            }
         }
     }
 
@@ -44,6 +52,11 @@ public class TestShop : MonoBehaviour
     private void SetupItemsInShop()
     {
         for (int i = 0; i < buttonsItemsArray.Length; i++) buttonsItemsArray[i].gameObject.SetActive(false);
+
+        if (purchasableAbilities.Count == 0)
+        {
+            SetupGoldInShop();
+        }
         
         if (purchasableAbilities.Count == 1)
         {
@@ -62,30 +75,37 @@ public class TestShop : MonoBehaviour
 
     private void SetupButton(int i)
     {
-        buttonsItemsArray[i].gameObject.SetActive(true);
-        
-        var index = i switch
+        if (!CarAbilitiesManager.instance.IsPlayerFullAbilities())
         {
-            0 => firstItemIndex,
-            1 => secondItemIndex,
-            2 => thirdItemIndex,
-            _ => 0
-        };
+            buttonsItemsArray[i].gameObject.SetActive(true);
+        
+            var index = i switch
+            {
+                0 => firstItemIndex,
+                1 => secondItemIndex,
+                2 => thirdItemIndex,
+                _ => 0
+            };
 
-        buttonsItemsArray[i].powerUpTitle.text = purchasableAbilities[index].abilityName;
-        buttonsItemsArray[i].powerUpDescription.text = purchasableAbilities[index].description;
-        buttonsItemsArray[i].powerUpSprite.sprite = purchasableAbilities[index].abilitySprite;
-        buttonsItemsArray[i].powerUpButton.onClick.RemoveAllListeners();
-        buttonsItemsArray[i].isNew.SetActive(!CarAbilitiesManager.instance.abilities.Contains(purchasableAbilities[index]));
-        buttonsItemsArray[i].powerUpButton.onClick.AddListener(ExitShop);
+            buttonsItemsArray[i].powerUpTitle.text = purchasableAbilities[index].abilityName;
+            buttonsItemsArray[i].powerUpDescription.text = purchasableAbilities[index].description;
+            buttonsItemsArray[i].powerUpSprite.sprite = purchasableAbilities[index].abilitySprite;
+            buttonsItemsArray[i].powerUpButton.onClick.RemoveAllListeners();
+            buttonsItemsArray[i].isNew.SetActive(!CarAbilitiesManager.instance.abilities.Contains(purchasableAbilities[index]));
+            buttonsItemsArray[i].powerUpButton.onClick.AddListener(ExitShop);
         
-        // Sinon
-        buttonsItemsArray[i].powerUpButton.onClick.AddListener(() =>
+            // Sinon
+            buttonsItemsArray[i].powerUpButton.onClick.AddListener(() =>
+            {
+                CarAbilitiesManager.instance.AddAbility(purchasableAbilities[index]);
+                CarExperienceManager.Instance.levelUpTokensAvailable--;
+                if (CarAbilitiesManager.instance.abilities.Find(so => purchasableAbilities[index]).level == 2) purchasableAbilities.Remove(purchasableAbilities[index]);
+            });
+        }
+        else
         {
-            CarAbilitiesManager.instance.AddAbility(purchasableAbilities[index]);
-            CarExperienceManager.Instance.levelUpTokensAvailable--;
-            if (CarAbilitiesManager.instance.abilities.Find(so => purchasableAbilities[index]).level == 2) purchasableAbilities.Remove(purchasableAbilities[index]);
-        });
+            SetupGoldInShop();
+        }
     }
     
     private int firstItemIndex, secondItemIndex, thirdItemIndex;
@@ -141,5 +161,24 @@ public class TestShop : MonoBehaviour
         Time.timeScale = 1;
         UIManager.instance.shopScreen.SetActive(false);
         isShopActive = false;
+    }
+
+    public void SetupGoldInShop()
+    {
+        for (int i = 0; i < buttonsItemsArray.Length; i++)
+        {
+            buttonsItemsArray[i].gameObject.SetActive(true);
+            buttonsItemsArray[i].powerUpTitle.text = gold.abilityName;
+            buttonsItemsArray[i].powerUpDescription.text = gold.description;
+            buttonsItemsArray[i].powerUpSprite.sprite = gold.abilitySprite;
+            buttonsItemsArray[i].powerUpButton.onClick.RemoveAllListeners();
+            buttonsItemsArray[i].isNew.SetActive(false);
+            buttonsItemsArray[i].powerUpButton.onClick.AddListener(ExitShop);
+
+            buttonsItemsArray[i].powerUpButton.onClick.AddListener(() =>
+            {
+                CarAbilitiesManager.instance.goldAmountWonOnRun += gold.effectDamage;
+            });
+        }
     }
 }

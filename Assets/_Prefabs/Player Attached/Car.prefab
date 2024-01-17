@@ -11320,73 +11320,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLifePoints: 100
   lifePoints: 100
-  style:
-    m_Name: 
-    m_Normal:
-      m_Background: {fileID: 0}
-      m_ScaledBackgrounds: []
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-    m_Hover:
-      m_Background: {fileID: 0}
-      m_ScaledBackgrounds: []
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-    m_Active:
-      m_Background: {fileID: 0}
-      m_ScaledBackgrounds: []
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-    m_Focused:
-      m_Background: {fileID: 0}
-      m_ScaledBackgrounds: []
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-    m_OnNormal:
-      m_Background: {fileID: 0}
-      m_ScaledBackgrounds: []
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-    m_OnHover:
-      m_Background: {fileID: 0}
-      m_ScaledBackgrounds: []
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-    m_OnActive:
-      m_Background: {fileID: 0}
-      m_ScaledBackgrounds: []
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-    m_OnFocused:
-      m_Background: {fileID: 0}
-      m_ScaledBackgrounds: []
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
-    m_Border:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
-    m_Margin:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
-    m_Padding:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
-    m_Overflow:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
-    m_Font: {fileID: 0}
-    m_FontSize: 0
-    m_FontStyle: 0
-    m_Alignment: 0
-    m_WordWrap: 0
-    m_RichText: 1
-    m_TextClipping: 0
-    m_ImagePosition: 0
-    m_ContentOffset: {x: 0, y: 0}
-    m_FixedWidth: 0
-    m_FixedHeight: 0
-    m_StretchWidth: 1
-    m_StretchHeight: 0
+  mat:
+  - {fileID: 2100000, guid: 386b0a0737b11e84ab39a9cbaf7f1f26, type: 2}
+  - {fileID: 2100000, guid: 84f29b92166152641a695fa8106d850e, type: 2}
+  - {fileID: 2100000, guid: 5f79629ff684a564796979d268a7463c, type: 2}
+  - {fileID: 2100000, guid: 391ee890b4f5702469ae6ff1d073887b, type: 2}
+  - {fileID: 2100000, guid: d977bb15bc056384292049669816cf70, type: 2}
+  - {fileID: 2100000, guid: 59027ac32b29e184e9ab60b179cf7671, type: 2}
+  - {fileID: 2100000, guid: 93a8e967aa48bf3409c20880789d2477, type: 2}
+  - {fileID: 2100000, guid: d523c1fe905a4dc429adf2c6b9d1791a, type: 2}
+  feedbackDurationInMS: 300
 --- !u!114 &3798896081380664901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11402,6 +11345,8 @@ MonoBehaviour:
   firstAbility: {fileID: 0}
   car: {fileID: 0}
   abilities: []
+  slotAbilitiesAmount: 4
+  goldAmountWonOnRun: 0
   damageOnCollisionWithEnemy: 10
   enemyLayerMask:
     serializedVersion: 2

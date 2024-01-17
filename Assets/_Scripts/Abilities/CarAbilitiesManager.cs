@@ -44,9 +44,7 @@ namespace Abilities
 
         //[Header("KIT")]
         [SerializeField] public int damageOnCollisionWithEnemy;
-
-       
-
+        
         public void Update()
         {
             OnUpdate.Invoke();
@@ -61,8 +59,7 @@ namespace Abilities
             var a = collision.transform.transform.position - transform.position; a.Normalize();
             var b = transform.forward; b.Normalize();
             
-            if (Vector3.Dot(b,  a) < -0.70f) // EnemyCollision
-            { collision.transform.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy); }
+            if (Vector3.Dot(b,  a) < -0.70f) collision.transform.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy);
         }
 
         public LayerMask enemyLayerMask;
@@ -93,15 +90,26 @@ namespace Abilities
 
         #endregion
         
-
         private void OnGUI()
         {
             GUI.Label(new Rect(50, 550, 500, 150), "Target Speed: " + car.targetSpeed);
             GUI.Label(new Rect(50, 570, 500, 150), "Max Speed: " + car.maxSpeed);
             GUI.Label(new Rect(50, 590, 500, 150), "Current Speed: " + car.rb.velocity.magnitude);
         }
-    }
 
+        public bool IsPlayerFullAbilities() => abilities.Count == slotAbilitiesAmount;
+        
+        public void AddAbilityIconOnSlot(Sprite sprite) => UIManager.instance.abilitiesSlots[abilities.Count].passiveAbilityIcon.sprite = sprite;
+        
+        [ContextMenu("UnlockAbilitySlot")]
+        public void UnlockAbilitySlot(int i)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                UIManager.instance.UnlockAbilitySlot(abilities.Count+1);
+            }
+        }
+    }
 }
 
 public enum AbilitySocket
