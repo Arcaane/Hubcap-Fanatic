@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Abilities;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
     
@@ -34,6 +35,11 @@ public class CarController : CarBehaviour
     [SerializeField] private ParticleSystem shotgunParticles;
     public bool isStraffing;
 
+
+    [Header("ROAD DETECTION")] 
+    [SerializeField] private LayerMask roadMask;
+    [SerializeField] private float offRoadSpeed = 10;
+    
     public bool canStraff => straffTime >= straffDuration;
 
     [HideInInspector] public float dirCam;
@@ -72,6 +78,7 @@ public class CarController : CarBehaviour
             foreach (var t in driftSparks) t.Stop();
         }
 
+
         if (nitroMode)
         {
             if (nitroTime > 0)
@@ -103,6 +110,16 @@ public class CarController : CarBehaviour
                 //nitroTime = nitroDuration;
                 //UIManager.instance.SetNitroJauge(1);
             }
+            
+            if (Physics.Raycast(transform.position + Vector3.up*5, Vector3.down, Mathf.Infinity, roadMask))
+            {
+                targetSpeed = maxSpeed;
+            }
+            else
+            {
+                targetSpeed = offRoadSpeed;
+            }
+            Debug.DrawRay(transform.position + Vector3.up*5,Vector3.down * 1000,Color.blue);
         }
 
         if (straffTime < straffDuration)

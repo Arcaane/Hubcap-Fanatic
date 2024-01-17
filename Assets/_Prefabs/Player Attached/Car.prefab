@@ -83,7 +83,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 15, y: 0.8, z: 4}
+  m_Size: {x: 15, y: 0.8, z: 5.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5670995835939285263
 MonoBehaviour:
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyCar:
   - {fileID: 0}
+  cam: {fileID: 0}
 --- !u!1 &127675829432006599
 GameObject:
   m_ObjectHideFlags: 0
@@ -10984,14 +10985,14 @@ MonoBehaviour:
   wheels:
   - transform: {fileID: 4980589173374672119}
     wheelVisual: {fileID: 8313525766690617819}
-    directionalDampening: 0.3
+    directionalDampening: 0.35
     drivingFactor: 1
-    steeringFactor: 8.5
+    steeringFactor: 6
   - transform: {fileID: 422089550907774201}
     wheelVisual: {fileID: 8166388250625827031}
-    directionalDampening: 0.3
+    directionalDampening: 0.35
     drivingFactor: 1
-    steeringFactor: 8.5
+    steeringFactor: 6
   - transform: {fileID: 2470873284411068704}
     wheelVisual: {fileID: 2313699898289759998}
     directionalDampening: 0.28
@@ -11007,8 +11008,8 @@ MonoBehaviour:
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 35
-  targetSpeed: 35
+  maxSpeed: 32.5
+  targetSpeed: 32.5
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -11076,7 +11077,7 @@ MonoBehaviour:
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 68f8e38cdcb558d43a07cde4b478f907, type: 3}
-  nitroSpeed: 85
+  nitroSpeed: 50
   smoke: {fileID: 8122604561749209318}
   smokeNitro: {fileID: 5123692597283315678}
   nitroMode: 0
@@ -11090,6 +11091,10 @@ MonoBehaviour:
   straffDuration: 2
   shotgunParticles: {fileID: 9085789767532920518}
   isStraffing: 0
+  roadMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  offRoadSpeed: 10
   dirCam: 13.808237
   cameraHolder: {fileID: 0}
   camDist: 0.8
