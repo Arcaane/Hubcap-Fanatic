@@ -191,13 +191,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initSize: 29.2
-  antennaEffectSize: 400
+  antennaEffectSize: 1200
   currentAntennaState: 0
   isCapturing: 0
-  captureDuration: 5
-  timeBeforeDecreasing: 5
-  activationTowerDuration: 5
-  reactivateTimeDelay: 5
+  captureDuration: 4
+  timeBeforeDecreasing: 1
+  activationTowerDuration: 25
+  reactivateTimeDelay: 100
   debugImage: {fileID: 1272888013316565391}
   rect: {fileID: 6859921158180547215}
   plane: {fileID: 3665331060205834920}
