@@ -58,7 +58,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
         SpawnZoneDelivery spawnZoneDelivery = deliveryZone.GetComponent<SpawnZoneDelivery>();
         UIIndic.instance.AddIndic(deliveryZone, TargetType.DropZone, out int index);
         spawnZoneDelivery.index = index;
-        Debug.Log($"{spawnZoneDelivery.gameObject.name} - Delivery Duration: {deliveryDuration} - Time Before Spawn: {timeBeforeSpawn}");
+        //Debug.Log($"{spawnZoneDelivery.gameObject.name} - Delivery Duration: {deliveryDuration} - Time Before Spawn: {timeBeforeSpawn}");
         if (spawnZoneDelivery != null)
         {
             spawnZoneDelivery.DeliveryDuration = deliveryDuration;

@@ -133,7 +133,7 @@ namespace ManagerNameSpace
         OBJ_DriveByEnemy,
         OBJ_DefenseEnemy,
         OBJ_Spear,
-        
+        OBJ_DamagePopUp
     }
 
     public enum ReturnType
