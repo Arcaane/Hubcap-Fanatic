@@ -6,9 +6,14 @@ using Random = UnityEngine.Random;
 
 public class PoliceCarBehavior : CarBehaviour, IDamageable
 {
+    [Space(4)]
+    [Header("!MISC STATS!")]
 	[SerializeField] private Key enemyKey;
     [SerializeField] private int hp = 100;
+    [SerializeField] private Key textObjKey;
+    [SerializeField] private int carDamage;
     [SerializeField] private AnimationCurve expToGiveBasedOnLevel;
+    [Space(4)]
 
     public static List<PoliceCarBehavior> policeCars = new List<PoliceCarBehavior>();
 
@@ -231,7 +236,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         
         if (sqrDist > attrRad * attrRad) // En dehors des radius
         {
-            Debug.DrawLine(transform.position,obj.position,Color.magenta);
+            //Debug.DrawLine(transform.position,obj.position,Color.magenta);
             if (alwaysAttract)
             {
                 
@@ -245,17 +250,17 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         else if (sqrDist > alignRad * alignRad) // Radius attractif
         {
             targetDir = new Vector2(direction.x, direction.z).normalized;
-            Debug.DrawLine(transform.position,obj.position,Color.green);
+            //Debug.DrawLine(transform.position,obj.position,Color.green);
         }
         else if (sqrDist > repulRad * repulRad) // Radius alignement
         {
             targetDir = new Vector2(obj.forward.x, obj.forward.z).normalized;
-            Debug.DrawLine(transform.position,obj.position,Color.yellow);
+            //Debug.DrawLine(transform.position,obj.position,Color.yellow);
         }
         else // Radius repulsif
         {
             targetDir = new Vector2(-direction.x, -direction.z).normalized;
-            Debug.DrawLine(transform.position,obj.position,Color.red);
+            //Debug.DrawLine(transform.position,obj.position,Color.red);
         }
 
         return GetRotationValueToAlign(targetDir);
@@ -276,19 +281,22 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     {
         currentTarget = isCarHasPick ? newTarget : target;
     }
-    
 
+    
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player") )
         {
             DropItem();
             
-            if (other.gameObject.CompareTag("Player"))
+            if (other.transform.CompareTag("Player"))
             {
-                if (Vector3.Dot(CarController.instance.transform.position - transform.position, transform.forward) > 0.75f)
+                var a = other.transform.transform.position - transform.position; a.Normalize();
+                var b = transform.forward; b.Normalize();
+                
+                if (Vector3.Dot(a,  b) > 0.90f) // EnemyCollision
                 {
-                    CarHealthManager.instance.TakeDamage(20);
+                    other.gameObject.GetComponent<IDamageable>()?.TakeDamage(carDamage);
                 }
             }
             
@@ -317,24 +325,30 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     
     private void OnDrawGizmos()
     {
-        if (!showRadiusGizmos) return;
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position,attractiveRadius);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position,alignementRadius);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position,repulsiveRadius);
+        //if (!showRadiusGizmos) return;
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(transform.position, transform.forward * 2);
+
+        Gizmos.color = Vector3.Dot(CarController.instance.transform.forward, transform.forward) < 0.75f
+                ? Color.green
+                : Color.red;
+        
+        Gizmos.DrawLine(transform.position, currentTarget.position);
+        
+        // Gizmos.DrawWireSphere(transform.position,attractiveRadius);
+        // Gizmos.color = Color.yellow;
+        // Gizmos.DrawWireSphere(transform.position,alignementRadius);
+        // Gizmos.color = Color.red;
+        // Gizmos.DrawWireSphere(transform.position,repulsiveRadius);
     }
     
     public void TakeDamage(int damages)
     {
         DropItem();
         hp -= damages;
-        Debug.Log($"{gameObject.name} life : {hp}");
-        if (hp < 1)
-        {
-            OnPoliceCarDie.Invoke(transform);
-        }
+        //DamageIndicator indicator = Pooler.instance.SpawnTemporaryInstance(textObjKey, transform.position, Quaternion.identity, 1.5f).GetComponent<DamageIndicator>();
+        //indicator.SetDamageText(damages);
+        if (hp < 1) OnPoliceCarDie.Invoke(transform);
     }
 
     public bool IsDamageable() => gameObject.activeSelf == true && hp > 0;

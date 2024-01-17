@@ -27,6 +27,9 @@ namespace Abilities
         public DefaultDelegate OnUpdate = delegate {  };
 
         public List<AbilitiesSO> abilities;
+        
+        public int slotAbilitiesAmount = 4;
+        public int goldAmountWonOnRun;
 
         private void Awake()
         {
@@ -49,20 +52,17 @@ namespace Abilities
             OnUpdate.Invoke();
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
-            if (!other.CompareTag("Enemy")) return;
+            if (!collision.transform.CompareTag("Enemy")) return;
 
-            OnEnemyCollision.Invoke(other.gameObject);
+            OnEnemyCollision.Invoke(collision.transform.gameObject);
             
-            if (Vector3.Dot(other.transform.position - transform.position, transform.forward) > 0.75f) // EnemyCollision
-            {
-                other.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy);
-                if (car.nitroMode)
-                {
-                    //OnCollideWithNitro.Invoke();
-                }
-            }
+            var a = collision.transform.transform.position - transform.position; a.Normalize();
+            var b = transform.forward; b.Normalize();
+            
+            if (Vector3.Dot(b,  a) < -0.70f) // EnemyCollision
+            { collision.transform.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy); }
         }
 
         public LayerMask enemyLayerMask;
@@ -71,15 +71,23 @@ namespace Abilities
 
         public void AddAbility(AbilitiesSO abilitySo)
         {
-            if (abilities.Contains(abilitySo))
+            if (abilitySo.type == AbilityType.ClassicAbilites)
             {
-                abilitySo.level++;
-                abilitySo.LevelUpStats();
+                if (abilities.Contains(abilitySo))
+                {
+                    abilitySo.level++;
+                    abilitySo.LevelUpStats();
+                }
+                else
+                {
+                    abilities.Add(abilitySo);   
+                    abilitySo.Initialize();
+                }
             }
-            else
+
+            if (abilitySo.type == AbilityType.GoldGiver)
             {
-                abilities.Add(abilitySo);   
-                abilitySo.Initialize();
+                goldAmountWonOnRun += 50;
             }
         }
 
