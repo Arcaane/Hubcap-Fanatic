@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using ManagerNameSpace;
 using UnityEngine;
 
 public class CarHealthManager : MonoBehaviour, IDamageable
@@ -17,6 +16,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         instance = this;
         lifePoints = maxLifePoints;
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
+        UIManager.instance.SetLifePlayerText(lifePoints);
     }
 
     [ContextMenu("DamagePlayerTestUI")]
@@ -31,7 +31,9 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         if (!IsDamageable()) return;
 
         lifePoints -= damages;
+        
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
+        UIManager.instance.SetLifePlayerText(lifePoints);
         ActiveDamageFB();
         
         if (lifePoints < 1) Death();

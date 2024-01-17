@@ -26,6 +26,7 @@ public class CarExperienceManager : MonoBehaviour
     {
         uiManager = UIManager.instance;
         SetupNextLevelData();
+        uiManager.SetLevelPlayerText(playerLevel + 1);
     }
 
     private void SetupNextLevelData()
@@ -58,5 +59,9 @@ public class CarExperienceManager : MonoBehaviour
         SetupNextLevelData();
     }
 
-    public void AddToken(int i) => levelUpTokensAvailable += i;
+    public void AddToken(int i)
+    {
+        levelUpTokensAvailable += i;
+        uiManager.SetTokenText(levelUpTokensAvailable);
+    }
 }

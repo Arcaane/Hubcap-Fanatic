@@ -315,7 +315,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
                 if (Vector3.Dot(a, b) > 0.90f) // EnemyCollision
                 {
-                    other.gameObject.GetComponent<IDamageable>()?.TakeDamage(carDamage);
+                    CarHealthManager.instance.TakeDamage(carDamage);
                 }
             }
 
@@ -346,15 +346,15 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     private void OnDrawGizmos()
     {
-        //if (!showRadiusGizmos) return;
-        Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position, transform.forward * 2);
-
-        Gizmos.color = Vector3.Dot(CarController.instance.transform.forward, transform.forward) < 0.75f
-            ? Color.green
-            : Color.red;
-
-        Gizmos.DrawLine(transform.position, currentTarget.position);
+        // if (!showRadiusGizmos) return;
+        // Gizmos.color = Color.white;
+        // Gizmos.DrawLine(transform.position, transform.forward * 2);
+        //
+        // Gizmos.color = Vector3.Dot(CarController.instance.transform.forward, transform.forward) < 0.75f
+        //     ? Color.green
+        //     : Color.red;
+        //
+        // Gizmos.DrawLine(transform.position, currentTarget.position);
 
         // Gizmos.DrawWireSphere(transform.position,attractiveRadius);
         // Gizmos.color = Color.yellow;

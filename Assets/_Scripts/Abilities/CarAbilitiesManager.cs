@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public delegate void DefaultDelegate();
 public delegate void TransformDelegate(Transform tr);
@@ -79,6 +80,7 @@ namespace Abilities
                 {
                     abilities.Add(abilitySo);   
                     abilitySo.Initialize();
+                    AddPassiveAbilityIconOnSlot(abilitySo.abilitySprite);
                 }
             }
 
@@ -98,16 +100,39 @@ namespace Abilities
         }
 
         public bool IsPlayerFullAbilities() => abilities.Count == slotAbilitiesAmount;
+
+        [Space] 
+        [SerializeField] private Color passiveAbilityUnlockedIconBackgroundColor;
+        [SerializeField] private Color statAbilityUnlockedIconBackgroundColor;
+        [SerializeField] private Color abilitiesUnlockedIconBackgroundColor;
         
-        public void AddAbilityIconOnSlot(Sprite sprite) => UIManager.instance.abilitiesSlots[abilities.Count].passiveAbilityIcon.sprite = sprite;
+        public void AddPassiveAbilityIconOnSlot(Sprite sprite)
+        {
+            UIManager.instance.abilitiesSlots[abilities.Count-1].passiveAbilityIcon.sprite = sprite;
+            UIManager.instance.abilitiesSlots[abilities.Count-1].passiveAbilityIcon.gameObject.SetActive(true);
+            
+            // Parent transparence -> 255
+            UIManager.instance.abilitiesSlots[abilities.Count - 1].passiveAbilityIcon.transform.parent.GetComponent<Image>().color = passiveAbilityUnlockedIconBackgroundColor;
+            // Parent.parent transparence -> 255
+            UIManager.instance.abilitiesSlots[abilities.Count - 1].passiveAbilityIcon.transform.parent.parent.GetComponent<Image>().color = abilitiesUnlockedIconBackgroundColor;
+        }
+        
+        public void AddStatAbilityIconOnSlot(Sprite sprite)
+        {
+            UIManager.instance.abilitiesSlots[abilities.Count-1].statAbilityIcon.sprite = sprite;
+            UIManager.instance.abilitiesSlots[abilities.Count-1].statAbilityIcon.gameObject.SetActive(true);
+            
+            // Parent transparence -> 255
+            UIManager.instance.abilitiesSlots[abilities.Count - 1].passiveAbilityIcon.transform.parent.GetComponent<Image>().color = statAbilityUnlockedIconBackgroundColor;
+            // Parent.parent transparence -> 255
+            UIManager.instance.abilitiesSlots[abilities.Count - 1].passiveAbilityIcon.transform.parent.parent.GetComponent<Image>().color = abilitiesUnlockedIconBackgroundColor;
+        }
         
         [ContextMenu("UnlockAbilitySlot")]
-        public void UnlockAbilitySlot(int i)
+        public void UnlockAbilitySlot()
         {
-            for (int j = 0; j < i; j++)
-            {
-                UIManager.instance.UnlockAbilitySlot(abilities.Count+1);
-            }
+            slotAbilitiesAmount++;
+            UIManager.instance.UnlockAbilitySlot(abilities.Count);
         }
     }
 }

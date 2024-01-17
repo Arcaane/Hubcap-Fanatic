@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -23,19 +24,20 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI waveCountText;
     [SerializeField] private TextMeshProUGUI waveCountText2;
 
-    [Header("Player vitals")] [SerializeField]
-    private Image lifeImage;
+    [Header("Player vitals")]
+    [SerializeField] private Image lifeImage;
     [SerializeField] private TextMeshProUGUI lifeText;
     [SerializeField] private TextMeshProUGUI lifeText2;
     
     [SerializeField] public ButtonsItems[] buttonsHandlers;
 
-    public Transform shootIcon;
+    [SerializeField] public Transform shootIcon;
 
-    public Image[] shotJauges;
+    [SerializeField] private Image[] shotJauges;
 
-    public AbilitiesPair[] abilitiesSlots;
+    [SerializeField] public AbilitiesPair[] abilitiesSlots;
 
+    [Serializable]
     public struct AbilitiesPair
     {
         public Image passiveAbilityIcon;
@@ -52,6 +54,12 @@ public class UIManager : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        SetExperienceFillAmount(0);
+        SetTokenText(CarExperienceManager.Instance.levelUpTokensAvailable);
+    }
+
     public void SetNitroJauge(float amount)
     {
         nitroJauge.fillAmount = amount;
@@ -64,8 +72,8 @@ public class UIManager : MonoBehaviour
 
     public void SetLevelPlayerText(int i)
     {
-        playerLevelText.text = i.ToString();
-        playerLevelText2.text = i.ToString();
+        playerLevelText.text = $"LEVEL {i.ToString()}";
+        playerLevelText2.text = $"LEVEL {i.ToString()}";
     }
 
     public void UpdateWaveDuration(float amount)
@@ -75,29 +83,31 @@ public class UIManager : MonoBehaviour
 
     public void UpdateWaveCount(int i)
     {
-        waveCountText.text = i.ToString();
+        waveCountText.text = $"WAVE {i.ToString()}";
+        waveCountText2.text = $"WAVE {i.ToString()}";
     }
-
-    // public void SetStraffJauge(float amount)
-    // {
-    //     straffJauge.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, amount);
-    // }
-
+    
     public void SetPlayerLifeJauge(float f)
     {
+        Debug.Log(f);
         lifeImage.fillAmount = f;
     }
 
     public void SetLifePlayerText(int i)
     {
-        lifeText.text = i.ToString();
-        lifeText2.text = i.ToString();
+        lifeText.text = $"LIFE : {i.ToString()}";
+        lifeText2.text = $"LIFE : {i.ToString()}";
+    }
+
+    public void SetTokenText(int i)
+    {
+        tokenText.text = i.ToString();
+        tokenText2.text = i.ToString();
     }
 
     public void UnlockAbilitySlot(int i)
     {
-        abilitiesSlots[i].passiveAbilityIcon.gameObject.SetActive(true);
-        abilitiesSlots[i].statAbilityIcon.gameObject.SetActive(true);
+        abilitiesSlots[i].passiveAbilityIcon.transform.parent.parent.parent.gameObject.SetActive(true);
     }
     
     public async void UpdateMerchantNotif(string text)
@@ -109,7 +119,5 @@ public class UIManager : MonoBehaviour
         await Task.Delay(3000);
         merchantText.gameObject.SetActive(false);
         merchantText2.gameObject.SetActive(false);
-        
-        
     }
 }

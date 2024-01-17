@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Abilities;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,6 +11,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 {
     [SerializeField] private int hp = 500;
     [SerializeField] private int tokenToGiveOnDestroy = 2;
+    [SerializeField] private int slotUnlockOnDestroy = 1;
     
     [Header("POLICE CAR")]
     public Vector3 target;
@@ -226,6 +228,10 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     public void DestroyConvoy()
     {
         CarExperienceManager.Instance.AddToken(tokenToGiveOnDestroy);
+        
+        for (int i = 0; i < slotUnlockOnDestroy; i++)
+            CarAbilitiesManager.instance.UnlockAbilitySlot();
+        
         ConvoyManager.instance.waitingForConvoy = true;
         for (int i = 0; i < defenseCars.Length; i++)
         {
