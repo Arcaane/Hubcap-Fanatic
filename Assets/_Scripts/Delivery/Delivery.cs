@@ -38,7 +38,6 @@ public class Delivery : MonoBehaviour
             if (pickupableComponent != null)
             {
                 pickupableComponent.OnDelivered();
-                UpdateDeliveryCount();
             }
             else
             {
@@ -67,12 +66,6 @@ public class Delivery : MonoBehaviour
         return firstPickableObject != null;
     }
     
-    private void UpdateDeliveryCount()
-    {
-        deliveryCount++;
-        deliveryCountText.text = deliveryCount.ToString();
-    }
-
     private void ResetLifeTime()
     {
         canBeDelivered = false;
