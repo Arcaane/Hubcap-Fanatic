@@ -75,7 +75,6 @@ public class AntennaArea : MonoBehaviour
                     BeingLeaved();
                  break;
                 case AntennaState.AntennaIsActivated:
-                    Debug.Log("Hello");
                     AntennaCaptured();
                  break;
         }

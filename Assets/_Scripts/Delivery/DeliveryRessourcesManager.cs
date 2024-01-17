@@ -35,24 +35,25 @@ public class DeliveryRessourcesManager : MonoBehaviour
     {
         _instance = this;
     }
-    
+
     private void Start()
     {
         Random.InitState(randomSeed);
-        StartCoroutine(SpawnDeliveryTimeline());
-    }
-    
-    private IEnumerator SpawnDeliveryTimeline()
-    {
         foreach (var deliveryObject in deliveryObjects)
         {
-            yield return new WaitForSeconds(deliveryObject.X_DeliveryDuration__Y_TimeBeforeSpawn.y);
-            SpawnDeliveryPrefab(deliveryObject.prefab, deliveryObject.X_DeliveryDuration__Y_TimeBeforeSpawn.x);
+            StartCoroutine(SpawnDeliveryTimeline(deliveryObject));
         }
     }
-    
-    private void SpawnDeliveryPrefab(GameObject prefab, float deliveryDuration)
+
+    private IEnumerator SpawnDeliveryTimeline(DeliveryObject deliveryObject)
     {
+        yield return new WaitForSeconds(deliveryObject.X_DeliveryDuration__Y_TimeBeforeSpawn.y);
+        SpawnDeliveryPrefab(deliveryObject.prefab, deliveryObject.X_DeliveryDuration__Y_TimeBeforeSpawn.x, deliveryObject.X_DeliveryDuration__Y_TimeBeforeSpawn.y);
+    }
+    
+    private void SpawnDeliveryPrefab(GameObject prefab, float deliveryDuration, float timeBeforeSpawn)
+    {
+        Debug.Log($"{prefab.gameObject.name} - Delivery Duration: {deliveryDuration} - Time Before Spawn: {timeBeforeSpawn}");
         Transform randomSpawnPoint = GetRandomSpawnPoint();
         GameObject deliveryZone = Instantiate(prefab, randomSpawnPoint.position, Quaternion.identity);
         SpawnZoneDelivery spawnZoneDelivery = deliveryZone.GetComponent<SpawnZoneDelivery>();
