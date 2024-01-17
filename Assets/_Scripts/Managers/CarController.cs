@@ -27,11 +27,11 @@ public class CarController : CarBehaviour
     [Header("JUMP")] 
     [SerializeField] private ParticleSystem jumpSmoke;
 
-    [Header("STRAFF")] 
+    [Header("SHOTGUN")] 
     [SerializeField] private StraffColider straffColider;
     [SerializeField] private float straffTime;
     [SerializeField] private float straffDuration;
-    [SerializeField] private Animation animation;
+    [SerializeField] private ParticleSystem shotgunParticles;
     public bool isStraffing;
 
     [HideInInspector] public float dirCam;
@@ -201,29 +201,33 @@ public class CarController : CarBehaviour
     {
         if (context.started && straffTime >= straffDuration)
         {
-            if (straffColider.enemyCar != null)
+            if (straffColider.enemyCar.Count > 0)
             {
-                if (Vector3.Dot((straffColider.enemyCar.transform.position - transform.position).normalized, transform.right) > 0)
-                {
-                    animation.Play("StraffLeft");
-                }
-                else
-                {
-                    animation.Play("StraffRight");
-                }
-
+                ShotgunHit();
             }
             straffTime = 0;
         }
     }
 
-    public void StraffHit()
+    public void ShotgunHit()
     {
-        if (straffColider.enemyCar != null)
+        
+        Vector3 direction = straffColider.enemyCar[0].position - transform.position;
+        if (Vector3.Dot(direction,transform.right) > 0)
         {
-            straffColider.enemyDamageable.TakeDamage(100);
-            Debug.Log("STRAFFED");
+            rb.AddForce(-transform.right * 100);
         }
+        else
+        {
+            rb.AddForce(transform.right * 100);
+        }
+        shotgunParticles.transform.rotation = Quaternion.LookRotation(direction);
+        shotgunParticles.Play();
+        straffColider.enemyDamageable[0].TakeDamage(100);
+        Debug.Log("STRAFFED");
+        
+        
+        
     }
     
     public void BButton(InputAction.CallbackContext context)
