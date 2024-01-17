@@ -11953,7 +11953,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1915315553421230836, guid: 101d20fe73fbc4147bceeb0775eef57a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2553120890910329301, guid: 101d20fe73fbc4147bceeb0775eef57a, type: 3}
       propertyPath: cam
@@ -64735,6 +64735,10 @@ PrefabInstance:
     - target: {fileID: 7850625710096787506, guid: 0a233bade3ab6fb46801ea47e39fc783, type: 3}
       propertyPath: m_Name
       value: Example_assets_list
+      objectReference: {fileID: 0}
+    - target: {fileID: 7850625710096787506, guid: 0a233bade3ab6fb46801ea47e39fc783, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

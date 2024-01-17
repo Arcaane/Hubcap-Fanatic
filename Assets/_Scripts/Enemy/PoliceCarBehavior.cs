@@ -1,15 +1,22 @@
 using System;
+using System.Collections.Generic;
 using ManagerNameSpace;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PoliceCarBehavior : CarBehaviour, IDamageable
 {
 	[SerializeField] private Key enemyKey;
     [SerializeField] private int hp = 100;
     [SerializeField] private AnimationCurve expToGiveBasedOnLevel;
-    
+
+    public static List<PoliceCarBehavior> policeCars = new List<PoliceCarBehavior>();
+
     [Header("POLICE CAR")]
     public Transform target;
+
+    public Vector2 randomOffset;
+    public Vector2 maxRngOffset;
     private Transform currentTarget;
 
     [Header("WALLBOUNCE")]
@@ -44,8 +51,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     
     void Start()
     {
+        if (policeCars == null) policeCars = new List<PoliceCarBehavior>();
         target = CarController.instance.transform;
         currentTarget = target;
+        policeCars.Add(this);
+        randomOffset = new Vector2(Random.Range(-maxRngOffset.x, maxRngOffset.x), Random.Range(-maxRngOffset.y, maxRngOffset.y));
     }
 
     private void OnEnable()
@@ -58,6 +68,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     {
         OnPoliceCarDie -= delegate { Pooler.instance.DestroyInstance(enemyKey, transform); };
         OnPoliceCarDie -= delegate { CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel))); };
+    }
+
+    private void OnDestroy()
+    {
+        policeCars.Remove(this);
     }
 
     private void Update()
@@ -75,9 +90,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         {
             target = CarController.instance.transform;
         }
+
+        Vector3 targetPos = currentTarget.position + currentTarget.right * randomOffset.x + currentTarget.forward * randomOffset.y;
         
         float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
-            new Vector2(currentTarget.position.x, currentTarget.position.z) -
+            new Vector2(targetPos.x, targetPos.z) -
             new Vector2(transform.position.x, transform.position.z));
 
         rotationValue = -Mathf.Clamp(angleToTarget / 10,-1,1);
@@ -89,9 +106,24 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     
     private void DriveByUpdate()
     {
+        float rot = 0;
+        float result;
+        int nb = 2;
         
-        rotationValue = (GetRotationValueToObject(currentTarget,attractiveRadius,alignementRadius,repulsiveRadius,true) + 
-                         GetRotationValueToObject(currentTarget,attractiveRadius,alignementRadius,0,true)) / 2;
+        
+        rot += (GetRotationValueToObject(currentTarget,attractiveRadius,alignementRadius,repulsiveRadius,true) + 
+               GetRotationValueToObject(currentTarget,attractiveRadius,alignementRadius,0,true));
+        
+        for (int i = 0; i < policeCars.Count; i++)
+        {
+            if (policeCars[i] == this || !policeCars[i].gameObject.activeSelf) continue;
+            result = GetRotationValueToObject(policeCars[i].transform,attractiveRadius,alignementRadius,repulsiveRadius);
+            if (result > -10)
+            {
+                rot += result;
+                nb++;
+            }
+        }
         
         Vector3 direction = currentTarget.position - transform.position;
         float sqrDist = direction.sqrMagnitude;
@@ -133,6 +165,8 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             }
         }
         
+        rotationValue = rot / nb;
+        
         OnMove();
 
     }
@@ -150,8 +184,8 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         float result;
         int nb = 2;
 
-        rot += GetRotationValueToObject(convoyBehaviour.transform,convoyBehaviour.attractiveRadius,convoyBehaviour.alignementRadius,convoyBehaviour.repulsiveRadius,true);
-        rot += GetRotationValueToObject(defensePoint,convoyBehaviour.defenseAttractiveRadius,convoyBehaviour.defenseAlignementRadius,0,true) * 2;
+        rot += GetRotationValueToObject(convoyBehaviour.transform,convoyBehaviour.attractiveRadius,convoyBehaviour.alignementRadius,convoyBehaviour.repulsiveRadius,true,true);
+        rot += GetRotationValueToObject(defensePoint,convoyBehaviour.defenseAttractiveRadius,convoyBehaviour.defenseAlignementRadius,0,true,true) * 2;
         
         Vector3 direction = defensePoint.position - transform.position;
         float sqrDist = direction.sqrMagnitude;
@@ -189,9 +223,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     }
     
-    private float GetRotationValueToObject(Transform obj,float attrRad,float alignRad,float repulRad, bool alwaysAttract = false)
+    private float GetRotationValueToObject(Transform obj,float attrRad,float alignRad,float repulRad, bool alwaysAttract = false,bool applyOffset = false)
     {
-        Vector3 direction = obj.position - transform.position;
+        Vector3 direction = obj.position + (applyOffset ? obj.right * randomOffset.x + obj.forward * randomOffset.y : Vector3.zero) - transform.position;
         float sqrDist = direction.sqrMagnitude;
         Vector2 targetDir;
         

@@ -31,7 +31,7 @@ public class StraffColider : MonoBehaviour
         }
         else
         {
-            UIManager.instance.shootIcon.localScale = Vector3.Lerp(UIManager.instance.shootIcon.localScale,Vector3.zero, Time.deltaTime*5);
+            UIManager.instance.shootIcon.localScale = Vector3.Lerp(UIManager.instance.shootIcon.localScale,Vector3.zero, Time.deltaTime*10);
         }
     }
 

@@ -387,7 +387,17 @@ MonoBehaviour:
   brakeForce: 0
   driftBrake: 0
   rotationValue: 0
+  enemyKey: 4
+  hp: 100
+  expToGiveBasedOnLevel:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   target: {fileID: 0}
+  randomOffset: {x: 0, y: 0}
+  maxRngOffset: {x: 2, y: 0.2}
   speedRetained: 0.7
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
@@ -402,8 +412,6 @@ MonoBehaviour:
   driveByCar: 1
   shootFx: {fileID: 3406785552209663586}
   shooting: 0
-  enemyKey: 4
-  hp: 100
   socketPickableCop: {fileID: 1618216812133477272}
   objectPickable: {fileID: 0}
 --- !u!54 &4100530699879000119
