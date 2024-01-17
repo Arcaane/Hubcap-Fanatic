@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyCar:
   - {fileID: 0}
+  cam: {fileID: 0}
 --- !u!1 &127675829432006599
 GameObject:
   m_ObjectHideFlags: 0
@@ -11090,6 +11091,10 @@ MonoBehaviour:
   straffDuration: 2
   shotgunParticles: {fileID: 9085789767532920518}
   isStraffing: 0
+  roadMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  offRoadSpeed: 10
   dirCam: 13.808237
   cameraHolder: {fileID: 0}
   camDist: 0.8
