@@ -315,8 +315,8 @@ MonoBehaviour:
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 32
-  targetSpeed: 32
+  maxSpeed: 40
+  targetSpeed: 40
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -380,6 +380,9 @@ MonoBehaviour:
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
   driftSparks: []
+  forceBreak: 0
+  forceBreakTimer: 0
+  brakeMethodApplied: 0
   accelForce: 1
   brakeForce: 0
   driftBrake: 0

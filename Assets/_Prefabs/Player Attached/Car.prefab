@@ -365,7 +365,7 @@ Transform:
   m_GameObject: {fileID: 980236084884073853}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.618988, y: -0.25875, z: -0.641}
+  m_LocalPosition: {x: 0.618988, y: -0.25875, z: -0.867}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.20000003}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10336,7 +10336,7 @@ Transform:
   m_GameObject: {fileID: 5622730520165092390}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.63101196, y: -0.25875, z: -0.641}
+  m_LocalPosition: {x: -0.63101196, y: -0.25875, z: -0.867}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.20000003}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10982,14 +10982,14 @@ MonoBehaviour:
   wheels:
   - transform: {fileID: 4980589173374672119}
     wheelVisual: {fileID: 8313525766690617819}
-    directionalDampening: 0.275
+    directionalDampening: 0.35
     drivingFactor: 1
-    steeringFactor: 7
+    steeringFactor: 6
   - transform: {fileID: 422089550907774201}
     wheelVisual: {fileID: 8166388250625827031}
-    directionalDampening: 0.275
+    directionalDampening: 0.35
     drivingFactor: 1
-    steeringFactor: 7
+    steeringFactor: 6
   - transform: {fileID: 2470873284411068704}
     wheelVisual: {fileID: 2313699898289759998}
     directionalDampening: 0.28
@@ -11000,13 +11000,13 @@ MonoBehaviour:
     directionalDampening: 0.28
     drivingFactor: 0
     steeringFactor: 0
-  suspensionLenght: 0.5
+  suspensionLenght: 0.55
   suspensionForce: 70
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 65
-  targetSpeed: 65
+  maxSpeed: 32.5
+  targetSpeed: 32.5
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -11049,20 +11049,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  acceleration: 20
-  braking: 25
+  acceleration: 15
+  braking: 20
   decceleration: 8
-  steeringSpeed: 4
+  steeringSpeed: 3.5
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 60
   directionalDampMultiplier: 1
   dampeningMultiplier: 0.5
   steeringMultiplier: 1.7
   accelMultiplier: 1.4
-  angleMinToExitDrift: 0.1
+  angleMinToExitDrift: 0.175
   driftSparks:
   - {fileID: 2603052165275359096}
   - {fileID: 8470169649526814839}
+  forceBreak: 0
+  forceBreakTimer: 0
+  brakeMethodApplied: 0
   accelForce: 0
   brakeForce: 0
   driftBrake: 0
@@ -11071,23 +11074,25 @@ MonoBehaviour:
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 68f8e38cdcb558d43a07cde4b478f907, type: 3}
-  nitroSpeed: 85
+  nitroSpeed: 50
   smoke: {fileID: 8122604561749209318}
   smokeNitro: {fileID: 5123692597283315678}
   nitroMode: 0
   canNitro: 1
-  nitroTime: 2.0015504
-  nitroDuration: 2
-  nitroRegen: 0.15
+  nitroTime: 1.5
+  nitroDuration: 1.5
+  nitroRegen: 0.1
   jumpSmoke: {fileID: 0}
   straffColider: {fileID: 5670995835939285263}
   straffTime: 2
   straffDuration: 2
   animation: {fileID: 6205959775607353322}
+  isStraffing: 0
   dirCam: 13.808237
   cameraHolder: {fileID: 0}
   camDist: 0.8
   pickedItems: []
+  currentCarState: 0
 --- !u!54 &7223312086131934466
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11387,16 +11392,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2646441ad0e723e4286386040d8e36fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstAbility: {fileID: 0}
   car: {fileID: 0}
-  nitroAbilities:
-  - {fileID: 0}
-  driftAbilities:
-  - {fileID: 0}
+  abilities: []
   damageOnCollisionWithEnemy: 10
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  P_TestExplo: {fileID: 0}
 --- !u!111 &6205959775607353322
 Animation:
   m_ObjectHideFlags: 0
@@ -16717,7 +16719,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7588778844808998994, guid: 9e81619080eaf5847bb52e8fe0dabe61, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 7588778844808998994, guid: 9e81619080eaf5847bb52e8fe0dabe61, type: 3}
       propertyPath: m_LocalPosition.z
