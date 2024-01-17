@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,6 +41,11 @@ public class UIManager : MonoBehaviour
         public Image passiveAbilityIcon;
         public Image statAbilityIcon;
     }
+
+    [Header("Wave Informations")]
+    [SerializeField] private TextMeshProUGUI merchantText;
+    [SerializeField] private TextMeshProUGUI merchantText2;
+    
 
     private void Awake()
     {
@@ -92,5 +98,18 @@ public class UIManager : MonoBehaviour
     {
         abilitiesSlots[i].passiveAbilityIcon.gameObject.SetActive(true);
         abilitiesSlots[i].statAbilityIcon.gameObject.SetActive(true);
+    }
+    
+    public async void UpdateMerchantNotif(string text)
+    {
+        Debug.Log("MERCHANT " + text);
+        merchantText.gameObject.SetActive(true);
+        merchantText2.gameObject.SetActive(true);
+        merchantText.text = merchantText2.text = text;
+        await Task.Delay(3000);
+        merchantText.gameObject.SetActive(false);
+        merchantText2.gameObject.SetActive(false);
+        
+        
     }
 }
