@@ -271,6 +271,10 @@ PrefabInstance:
       propertyPath: nitroAbilities.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5670995835939285263, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 4663364008746936679}
     - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
       propertyPath: cameraHolder
       value: 
@@ -389,7 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 0}
-  currentPlayerLevel: 0
+  playerLevel: 0
   expCurve:
     serializedVersion: 2
     m_Curve:
