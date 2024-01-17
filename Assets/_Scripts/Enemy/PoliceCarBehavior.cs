@@ -1,8 +1,13 @@
+using System;
 using ManagerNameSpace;
 using UnityEngine;
 
 public class PoliceCarBehavior : CarBehaviour, IDamageable
 {
+	[SerializeField] private Key enemyKey;
+    [SerializeField] private int hp = 100;
+    [SerializeField] private AnimationCurve expToGiveBasedOnLevel;
+    
     [Header("POLICE CAR")]
     public Transform target;
     private Transform currentTarget;
@@ -30,10 +35,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public bool driveByCar;
     public ParticleSystem shootFx;
     public bool shooting;
-	
-	[SerializeField] private Key enemyKey;
-    [SerializeField] private int hp = 100;
-
+    
     [Header("Pickable")] 
     public GameObject socketPickableCop;
     public GameObject objectPickable;
@@ -44,9 +46,18 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     {
         target = CarController.instance.transform;
         currentTarget = target;
-        
+    }
+
+    private void OnEnable()
+    {
         OnPoliceCarDie += delegate { Pooler.instance.DestroyInstance(enemyKey, transform); };
-        OnPoliceCarDie += delegate { CarExperienceManager.Instance.GetExp(1); };
+        OnPoliceCarDie += delegate { CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel))); };
+    }
+
+    private void OnDisable()
+    {
+        OnPoliceCarDie -= delegate { Pooler.instance.DestroyInstance(enemyKey, transform); };
+        OnPoliceCarDie -= delegate { CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel))); };
     }
 
     private void Update()
@@ -74,7 +85,6 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         if(angleToTarget > 90 || angleToTarget < -90) driftBrake = true;
         
         OnMove();
-
     }
     
     private void DriveByUpdate()

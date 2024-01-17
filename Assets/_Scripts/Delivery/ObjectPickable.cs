@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class ObjectPickable : MonoBehaviour, IPickupable
 {
+    //public int expToGiveOnDeliver = 10;
+    public AnimationCurve expToGiveBasedOnLevel;
+    
     private bool isPickable = true;
     private float timeBeforePickable = 2f;
     private bool isCopHasPick = false;
@@ -81,7 +84,9 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         bCol.enabled = true;
         rb.isKinematic = false;
         meshRenderer.enabled = false;
-
+        
+        CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
+        
         gameObject.GetComponent<SphereCollider>().enabled = true;
         UIIndic.instance.EnableOrDisableDeliveryZone();
         Destroy(this.gameObject);

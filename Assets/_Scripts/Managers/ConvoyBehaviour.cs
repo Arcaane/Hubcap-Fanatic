@@ -8,6 +8,9 @@ using Random = UnityEngine.Random;
 
 public class ConvoyBehaviour : MonoBehaviour , IDamageable
 {
+    [SerializeField] private int hp = 500;
+    [SerializeField] private int tokenToGiveOnDestroy = 2;
+    
     [Header("POLICE CAR")]
     public Vector3 target;
     public int currentTarget = 0;
@@ -45,7 +48,6 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     public bool attackMode;
     public float oneBarZone,twoBarsZone,threeBarZone,fourBarZone;
     
-    [SerializeField] private int hp = 1000;
     
 
     public void Initialize()
@@ -223,7 +225,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 
     public void DestroyConvoy()
     {
-        CarExperienceManager.Instance.GetExp(10);
+        CarExperienceManager.Instance.AddToken(tokenToGiveOnDestroy);
         ConvoyManager.instance.waitingForConvoy = true;
         for (int i = 0; i < defenseCars.Length; i++)
         {

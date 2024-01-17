@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CarExperienceManager : MonoBehaviour
 {
@@ -7,7 +7,7 @@ public class CarExperienceManager : MonoBehaviour
     public static CarExperienceManager Instance => instance;
 
     [SerializeField] private UIManager uiManager;
-    [SerializeField] private int currentPlayerLevel;
+    [SerializeField] public int playerLevel;
     [SerializeField] private AnimationCurve expCurve;
     [SerializeField] private int expBeforeNextLevelAmount;
     [SerializeField] private int currentExperienceAmount;
@@ -30,7 +30,7 @@ public class CarExperienceManager : MonoBehaviour
 
     private void SetupNextLevelData()
     {
-        expBeforeNextLevelAmount += Mathf.FloorToInt(expCurve.Evaluate(currentPlayerLevel));
+        expBeforeNextLevelAmount += Mathf.FloorToInt(expCurve.Evaluate(playerLevel));
     }
 
     public void GetExp(int i)
@@ -53,8 +53,8 @@ public class CarExperienceManager : MonoBehaviour
     private void LevelUp()
     {
         AddToken(1);
-        currentPlayerLevel++;
-        uiManager.SetLevelPlayerText(currentPlayerLevel + 1);
+        playerLevel++;
+        uiManager.SetLevelPlayerText(playerLevel + 1);
         SetupNextLevelData();
     }
 
