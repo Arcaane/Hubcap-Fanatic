@@ -83,7 +83,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 15, y: 0.8, z: 4}
+  m_Size: {x: 15, y: 0.8, z: 5.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5670995835939285263
 MonoBehaviour:
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyCar:
   - {fileID: 0}
+  cam: {fileID: 0}
 --- !u!1 &127675829432006599
 GameObject:
   m_ObjectHideFlags: 0
@@ -11088,7 +11089,7 @@ MonoBehaviour:
   straffColider: {fileID: 5670995835939285263}
   straffTime: 2
   straffDuration: 2
-  animation: {fileID: 6205959775607353322}
+  shotgunParticles: {fileID: 9085789767532920518}
   isStraffing: 0
   dirCam: 13.808237
   cameraHolder: {fileID: 0}
