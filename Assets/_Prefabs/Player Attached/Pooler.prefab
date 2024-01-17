@@ -70,3 +70,8 @@ MonoBehaviour:
       prefab: {fileID: 6292837893808873305, guid: f714d9ecd6ffab74ebf6acaec0892f8f, type: 3}
       numberOfInstances: 10
       returnType: 0
+  - key: 7
+    pool:
+      prefab: {fileID: 4163792494641108330, guid: aea40a13db7fb7e4293ec97c47a4f7cf, type: 3}
+      numberOfInstances: 60
+      returnType: 0

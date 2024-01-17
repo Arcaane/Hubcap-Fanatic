@@ -8,6 +8,7 @@ namespace Abilities
     [CreateAssetMenu(menuName = "Ability", fileName = "New Ability")]
     public class AbilitiesSO : ScriptableObject
     {
+        public AbilityType type = AbilityType.ClassicAbilites;
         [Header("Informations")] public string abilityName;
         [TextArea(3, 3)] public string description;
         public Sprite abilitySprite;
@@ -302,4 +303,11 @@ public enum AbilitiesStats
     EffectDuration,
     EffectDelayMilliseconds,
     EffectRepeatDelay,
+}
+
+public enum AbilityType
+{
+    ClassicAbilites,
+    UpgrateStatsAbilites,
+    GoldGiver
 }

@@ -17,6 +17,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image waveDurationJauge;
     [SerializeField] private TextMeshProUGUI waveCountText;
 
+    [Header("Player vitals")] [SerializeField]
+    private Image lifeImage;
+    
+    [Header("Straff")]
     [SerializeField] private Transform straffJauge;
 
     [SerializeField] public ButtonsItems[] buttonsHandlers;
@@ -58,6 +62,10 @@ public class UIManager : MonoBehaviour
     {
         straffJauge.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, amount);
     }
-    
+
+    public void SetPlayerLifeJauge(float f)
+    {
+        lifeImage.fillAmount = f;
+    }
     
 }
