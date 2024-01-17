@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Transform straffJauge;
 
     [SerializeField] public ButtonsItems[] buttonsHandlers;
+
+    public Transform shootIcon;
     
 
     private void Awake()

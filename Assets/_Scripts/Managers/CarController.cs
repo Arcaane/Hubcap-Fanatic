@@ -34,6 +34,8 @@ public class CarController : CarBehaviour
     [SerializeField] private ParticleSystem shotgunParticles;
     public bool isStraffing;
 
+    public bool canStraff => straffTime >= straffDuration;
+
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
     public float camDist;
@@ -199,7 +201,7 @@ public class CarController : CarBehaviour
     
     public void XButton(InputAction.CallbackContext context)
     {
-        if (context.started && straffTime >= straffDuration)
+        if (context.started && canStraff)
         {
             if (straffColider.enemyCar.Count > 0)
             {
