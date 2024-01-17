@@ -82,7 +82,7 @@ public class TargetUI : MonoBehaviour
             case TargetType.DeliveryZone:
                 SetImage(targetImage, iconImages[1]);
                 break;
-            case TargetType.Merchant:
+            case TargetType.ShopZone:
                 SetImage(targetImage, iconImages[2]);
                 break;
             case TargetType.CampZone:
@@ -110,7 +110,7 @@ public enum TargetType
 {
     DropZone,
     DeliveryZone,
-    Merchant,
+    ShopZone,
     CampZone,
     Convoy
 }

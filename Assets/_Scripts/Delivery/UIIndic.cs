@@ -15,7 +15,6 @@ public class UIIndic : MonoBehaviour
     [SerializeField] private Rect rectAdjusted;
     [SerializeField] private Vector2 center;
     [SerializeField] private List<TargetUI> targetUIPrefab;
-    public List<TargetUI> TargetUIPrefab => targetUIPrefab;
     [SerializeField] private GameObject indic;
     [SerializeField] private float delayBeforeRemove = 5f;
     public float DelayBeforeRemove => delayBeforeRemove;
