@@ -8,6 +8,7 @@ public class MerchantBehavior : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Transform[] points;
+    public string[] pointNames;
     public float speed;
     public int index;
 
