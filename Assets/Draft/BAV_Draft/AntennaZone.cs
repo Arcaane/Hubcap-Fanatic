@@ -36,6 +36,7 @@ public class AntennaArea : MonoBehaviour
     [Header("Gizmos")]
     [SerializeField] private bool enabledGizmos;
     [SerializeField] private bool convoyIsInRange;
+    [SerializeField] private bool merchantIsInRange;
     
     [Header("Timer Value")]
     [SerializeField] private float timerCapturing;
@@ -46,7 +47,7 @@ public class AntennaArea : MonoBehaviour
     [SerializeField] private float fillAmountValue = 0f;
     private float currentSize = 0f;
     
-    private List<int> indexList = new List<int>();
+    [SerializeField] private List<int> indexList = new List<int>();
     
     private void Start()
     {
@@ -163,22 +164,7 @@ public class AntennaArea : MonoBehaviour
     private void AntennaDiscoverEffect()
     {
         CheckDistanceToConvoy(); //Convoy
-    }
-
-    private void CheckDistanceToConvoy()
-    {
-        if (ConvoyManager.instance != null && ConvoyManager.instance.currentConvoy != null && !convoyIsInRange)
-        {
-            Vector3 antennaPosition = transform.position;
-            Vector3 convoyPosition = ConvoyManager.instance.currentConvoy.transform.position;
-            float distance = Vector3.Distance(antennaPosition, convoyPosition);
-            if (distance < antennaEffectSize)
-            {
-                convoyIsInRange = true;
-                UIIndic.instance.AddIndic(ConvoyManager.instance.currentConvoy.gameObject, TargetType.Convoy, out int index);
-                indexList.Add(index);
-            }
-        }
+        CheckDistanceToMerchand(); //Convoy
     }
 
     private void ClearIndex()
@@ -186,14 +172,37 @@ public class AntennaArea : MonoBehaviour
         if (indexList.Count <= 0) return;
         for (int i = 0; i < indexList.Count; i++)
         {
+            Debug.LogError(indexList[i]);
             UIIndic.instance.RemoveIndic(indexList[i]);
             indexList.Clear();
         }
     }
 
+    private void CheckDistanceToTarget(Transform targetTransform, TargetType targetType, ref bool targetIsInRange, List<int> indexList)
+    {
+        if (targetTransform != null && !targetIsInRange)
+        {
+            Vector3 antennaPosition = transform.position;
+            Vector3 targetPosition = targetTransform.position;
+            float distance = Vector3.Distance(antennaPosition, targetPosition);
+
+            if (distance < antennaEffectSize)
+            {
+                targetIsInRange = true;
+                UIIndic.instance.AddIndic(targetTransform.gameObject, targetType, out int index);
+                indexList.Add(index);
+            }
+        }
+    }
+
+    private void CheckDistanceToConvoy()
+    {
+        CheckDistanceToTarget(ConvoyManager.instance?.currentConvoy?.transform, TargetType.Convoy, ref convoyIsInRange, indexList);
+    }
+
     private void CheckDistanceToMerchand()
     {
-        //TODO : Do the merchant
+        CheckDistanceToTarget(MerchantBehavior.instance?.gameObject?.transform, TargetType.Merchant, ref merchantIsInRange, indexList);
     }
 
     private void TurnOnAntenna()
@@ -207,7 +216,11 @@ public class AntennaArea : MonoBehaviour
         timeSinceCaptured += Time.deltaTime;
         if (timeSinceCaptured >= reactivateTimeDelay)
         {
-            TurnOnAntenna();
+            for (int i = indexList.Count; i > indexList.Count; i--)
+            {
+                UIIndic.instance.Obj[indexList[i]] = null;
+            }
+            indexList = null;
         }
     }
     
