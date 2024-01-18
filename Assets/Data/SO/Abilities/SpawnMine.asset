@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
-  m_Name: KillMotorAbility
+  m_Name: SpawnMine
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: KillMotorAbility
-  description: Kill the motor of Collisioned Enemys
-  abilitySprite: {fileID: 21300000, guid: 19bffb1dda6c1db4bbc657206045e88f, type: 3}
+  abilityName: Spawn Mine
+  description: 
+  abilitySprite: {fileID: 0}
   level: 0
-  trigger: 5
-  target: 0
-  when: 0
-  state: 0
-  effect: 3
+  trigger: 4
+  target: 1
+  when: 3
+  state: 5
+  effect: 4
   levelsAbilitiesModifiers: []
   effectDamage: 0
   effectSizeRadius: 0
-  effectDuration: 5
+  effectDuration: 0
   effectDelayMilliseconds: 0
-  effectRepeatDelay: 0
+  effectRepeatDelay: 1
   isCapacityCooldown: 0
   cooldownDuration: 0
   statsModifier: 0
@@ -35,4 +35,4 @@ MonoBehaviour:
   amount: []
   enemyLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0

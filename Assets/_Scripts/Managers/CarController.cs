@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using Abilities;
+using ManagerNameSpace;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
-    
+using Key = UnityEngine.InputSystem.Key;
+
 public class CarController : CarBehaviour
 {
     public static CarController instance;
@@ -33,8 +35,9 @@ public class CarController : CarBehaviour
     [SerializeField] private float straffTime;
     [SerializeField] private float straffDuration;
     [SerializeField] private ParticleSystem shotgunParticles;
-    [SerializeField] public int shotgunDamages = 100;
+    [SerializeField] public int shotgunDamages = 50;
     public bool isStraffing;
+    public bool isBomber;
 
 
     [Header("ROAD DETECTION")] 
@@ -78,8 +81,7 @@ public class CarController : CarBehaviour
             driftBrake = false;
             foreach (var t in driftSparks) t.Stop();
         }
-
-
+        
         if (nitroMode)
         {
             if (nitroTime > 0)
@@ -223,19 +225,25 @@ public class CarController : CarBehaviour
     
     public void XButton(InputAction.CallbackContext context)
     {
-        if (context.started && canStraff)
+        if (context.started && canStraff && !isBomber)
         {
             if (straffColider.enemyCar.Count > 0)
             {
                 ShotgunHit();
             }
+            
+            straffTime = 0;
+        }
+
+        if (context.started && isBomber && canStraff)
+        {
+            Pooler.instance.SpawnInstance(ManagerNameSpace.Key.OBJ_Mine , transform.position, Quaternion.identity);
             straffTime = 0;
         }
     }
 
     public void ShotgunHit()
     {
-        
         Vector3 direction = straffColider.enemyCar[0].position - transform.position;
         if (Vector3.Dot(direction,transform.right) > 0)
         {
@@ -247,11 +255,9 @@ public class CarController : CarBehaviour
         }
         shotgunParticles.transform.rotation = Quaternion.LookRotation(direction);
         shotgunParticles.Play();
-        straffColider.enemyDamageable[0].TakeDamage(100);
-        Debug.Log("STRAFFED");
+        straffColider.enemyDamageable[0].TakeDamage(shotgunDamages);
         
-        
-        
+        CarAbilitiesManager.instance.OnEnemyDamageTaken.Invoke(straffColider.enemyCar[0].gameObject);
     }
     
     public void BButton(InputAction.CallbackContext context)

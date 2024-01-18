@@ -160,6 +160,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             {
                 shootFx.transform.rotation = Quaternion.LookRotation(direction);
                 shooting = true;
+                CarHealthManager.instance.TakeDamage(carDamage);
                 shootFx.Play();
             }
 

@@ -11090,6 +11090,7 @@ MonoBehaviour:
   straffTime: 2
   straffDuration: 2
   shotgunParticles: {fileID: 9085789767532920518}
+  shotgunDamages: 50
   isStraffing: 0
   roadMask:
     serializedVersion: 2
@@ -11344,16 +11345,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstAbility: {fileID: 0}
   car: {fileID: 0}
-  abilities: []
+  passiveAbilities: []
+  statsAbilities: []
   slotAbilitiesAmount: 4
   goldAmountWonOnRun: 0
   damageOnCollisionWithEnemy: 10
+  baseSpeedOnRoad: 0
+  baseSpeedOnSand: 0
+  baseNitroSpeed: 0
+  baseNitroCooldown: 0
+  baseShotgunDamage: 0
+  baseCollisionDamage: 0
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
   passiveAbilityUnlockedIconBackgroundColor: {r: 0.9843137, g: 0.7372549, b: 0.30980393, a: 1}
   statAbilityUnlockedIconBackgroundColor: {r: 0.7254902, g: 0.9843137, b: 0.30980393, a: 1}
   abilitiesUnlockedIconBackgroundColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
+  testEffectsPrefab: {fileID: 0}
 --- !u!111 &6205959775607353322
 Animation:
   m_ObjectHideFlags: 0

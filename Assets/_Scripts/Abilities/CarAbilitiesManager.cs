@@ -73,8 +73,12 @@ namespace Abilities
             
             var a = collision.transform.transform.position - transform.position; a.Normalize();
             var b = transform.forward; b.Normalize();
-            
-            if (Vector3.Dot(b,  a) < -0.70f) collision.transform.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy);
+
+            if (Vector3.Dot(b, a) < -0.70f)
+            {
+                collision.transform.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy);
+                OnEnemyDamageTaken.Invoke(collision.gameObject);
+            }
         }
 
         public LayerMask enemyLayerMask;
@@ -163,6 +167,8 @@ namespace Abilities
             slotAbilitiesAmount++;
             UIManager.instance.UnlockAbilitySlot(passiveAbilities.Count);
         }
+
+        public GameObject testEffectsPrefab;
     }
 }
 
