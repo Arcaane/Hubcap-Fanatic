@@ -33,6 +33,14 @@ namespace Abilities
         
         public int slotAbilitiesAmount = 4;
         public int goldAmountWonOnRun;
+        [SerializeField] public int damageOnCollisionWithEnemy;
+        
+        [HideInInspector] public float baseSpeedOnRoad;
+        [HideInInspector] public float baseSpeedOnSand;
+        [HideInInspector] public float baseNitroSpeed;
+        [HideInInspector] public float baseNitroCooldown;
+        [HideInInspector] public float baseShotgunDamage;
+        [HideInInspector] public float baseCollisionDamage;
 
         private void Awake()
         {
@@ -43,11 +51,15 @@ namespace Abilities
         {
             car = CarController.instance;
             if(firstAbility) AddAbility(firstAbility);
+
+            baseSpeedOnRoad = car.maxSpeed;
+            baseSpeedOnSand = car.offRoadSpeed;
+            baseNitroSpeed = car.nitroSpeed;
+            baseNitroCooldown = car.nitroRegen;
+            baseShotgunDamage = car.shotgunDamages;
+            baseCollisionDamage = damageOnCollisionWithEnemy;
         }
 
-        //[Header("KIT")]
-        [SerializeField] public int damageOnCollisionWithEnemy;
-        
         public void Update()
         {
             OnUpdate.Invoke();
