@@ -2397,6 +2397,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1245074646503776237}
+  - component: {fileID: 2401331360332763257}
   m_Layer: 5
   m_Name: GameHUD
   m_TagString: Untagged
@@ -2429,6 +2430,18 @@ RectTransform:
   m_AnchoredPosition: {x: -19.40625, y: 17.25}
   m_SizeDelta: {x: 1761.1875, y: 956.5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &2401331360332763257
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4903114854334028665}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5314737274930620854
 GameObject:
   m_ObjectHideFlags: 0

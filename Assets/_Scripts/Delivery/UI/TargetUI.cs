@@ -21,31 +21,41 @@ public class TargetUI : MonoBehaviour
     [SerializeField] private float timer;
     public int indexDeliveryPoints = 0; 
     public GameObject objBinded;
+    private float _deliveryDuration;
     
     void Start()
     {
+        if (TargetType.DropZone == targetType)
+        {
+            _deliveryDuration = UIIndic.instance.Obj[indexDeliveryPoints].GetComponent<SpawnZoneDelivery>().DeliveryDuration;
+        }
         SetText(distanceText, distance);
         durationBeforeSpawnImage.fillAmount = 0;
     }
 
     void Update()
     {
+        if(objBinded == null) return;
         SetText(distanceText, distance);
         SwitchIcon();
+        if (ConvoyManager.instance.currentConvoy != null && TargetType.Convoy == targetType)
+        {
+            objBinded = ConvoyManager.instance.currentConvoy.gameObject;
+        }
         CalculateDistance();
     }
 
     void IncreaseFillAmount()
     {
-        if (timer <= 1) return;
+        if (durationBeforeSpawnImage.fillAmount >= 1) return;
         timer += Time.deltaTime;
-        durationBeforeSpawnImage.fillAmount = 1 - (timer / UIIndic.instance.Obj[indexDeliveryPoints].GetComponent<SpawnZoneDelivery>().DeliveryDuration);
+        durationBeforeSpawnImage.fillAmount = timer / _deliveryDuration;
     }
 
     void DecreaseFillAmount()
     {
         timer += Time.deltaTime;
-        durationBeforeSpawnImage.fillAmount = 1 - (timer / UIIndic.instance.Obj[indexDeliveryPoints].GetComponent<SpawnZoneDelivery>().DeliveryDuration);
+        durationBeforeSpawnImage.fillAmount = 1 - (timer / _deliveryDuration);
     }
     
     void SetText(TextMeshProUGUI tmpGUI, string text)
@@ -69,8 +79,7 @@ public class TargetUI : MonoBehaviour
             tmpGUI.text = adjustedNumber.ToString("0") + " " + unit;
         }
     }
-
-
+    
     void SwitchIcon()
     {
         switch (targetType)
@@ -82,7 +91,7 @@ public class TargetUI : MonoBehaviour
             case TargetType.DeliveryZone:
                 SetImage(targetImage, iconImages[1]);
                 break;
-            case TargetType.ShopZone:
+            case TargetType.Merchant:
                 SetImage(targetImage, iconImages[2]);
                 break;
             case TargetType.CampZone:
@@ -110,7 +119,7 @@ public enum TargetType
 {
     DropZone,
     DeliveryZone,
-    ShopZone,
+    Merchant,
     CampZone,
     Convoy
 }

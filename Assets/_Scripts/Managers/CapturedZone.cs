@@ -19,8 +19,11 @@ public class CapturedZone : MonoBehaviour
     
     [Header("Reward Type")]
     [SerializeField] private RewardType rewardType;
+    
 
+    
     private SphereCollider collider;
+    [Header("------------------ Debug Values ------------------")]
     [SerializeField] private float timer;
     [SerializeField] private float timeSinceCaptured = 0f;
     
