@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,6 +34,13 @@ public class SpawnZoneDelivery : MonoBehaviour
     [Header("Reward Type")] 
     [SerializeField] private GameObject packageToDeliver;
 
+
+    [Header("------------------ Effects ------------------")] 
+    [SerializeField] private Transform capturePart;
+    [SerializeField] private ParticleSystem effectOnCapture;
+    [SerializeField] private ParticleSystem effectOnActivation;
+    [SerializeField] private List<ParticleSystem> smokeFX;
+
     [Header("Renderer")] 
     [SerializeField] private Image debugImage;
     [SerializeField] private RectTransform rect;
@@ -44,10 +52,14 @@ public class SpawnZoneDelivery : MonoBehaviour
     [SerializeField] private float timer;
     [SerializeField] private float timeDeliveryIncrement = 0f;
     public int index;
+    
+    private Vector2 randomPosition2D;
+    private Vector3 randomPosition;
 
     private void Start()
     {
         SetupDeliveryZone();
+        SetupDurationForeachSmoke();
     }
 
     private void Update()
@@ -62,15 +74,33 @@ public class SpawnZoneDelivery : MonoBehaviour
             if (timeDeliveryIncrement >= timeBeforeLaunchingDelivery &&
                 currenSpawnState == SpawnDeliveryState.IsOrNotDelivered)
             {
+                randomPosition2D = Random.insideUnitCircle * currentSize;
+                randomPosition = new Vector3(randomPosition2D.x, 0f, randomPosition2D.y) + transform.position;
+
                 timer -= Time.deltaTime;
                 debugImage.fillAmount = 1 - (timer / deliveryDuration);
                 if (timer < 0)
                 {
-                    DeliveryZone();
+                    DeliveryZone(randomPosition);
                 }
             }
         }
     }
+
+    public void SetupDurationForeachSmoke()
+    {
+        foreach (ParticleSystem ps in smokeFX)
+        {
+            ps.Stop(); 
+
+            var main = ps.main;
+            main.duration = deliveryDuration - 1.0f;
+
+            ps.Play();
+            ps.gameObject.SetActive(true);
+        }
+    }
+
 
     public void SetupDeliveryZone()
     {
@@ -84,31 +114,30 @@ public class SpawnZoneDelivery : MonoBehaviour
         timeDeliveryIncrement = 0;
     }
 
-    private void DeliveryZone()
+    private void DeliveryZone(Vector3 randomPosition)
     {
         currenSpawnState = SpawnDeliveryState.Delivered;
-        GivePlayerReward();
+        GivePlayerReward(randomPosition);
     }
 
-    private void GivePlayerReward()
+    private void GivePlayerReward(Vector3 randomPosition)
     {
-         GivePlayerRessources(); 
+         GivePlayerRessources(randomPosition); 
     }
     
 
-    private void GivePlayerRessources()
+    private void GivePlayerRessources(Vector3 randomPosition)
     {
-        Vector2 randomPosition2D = Random.insideUnitCircle * currentSize;
-        Vector3 randomPosition = new Vector3(randomPosition2D.x, 0f, randomPosition2D.y) + transform.position;
         GameObject spawnedObject = Instantiate(packageToDeliver, randomPosition + new Vector3(0, 1.5f, 0), Quaternion.identity);
         spawnedObject.transform.parent = PickableManager.Instance.worldSocket;
         hasDelivered = true;
         DisableZone();
     }
+
     
     private void EnableZone()
     {
-        foreach (Transform child in transform)
+        foreach (Transform child in capturePart)
         {
             child.gameObject.SetActive(true);
         }
@@ -116,10 +145,14 @@ public class SpawnZoneDelivery : MonoBehaviour
 
     private void DisableZone()
     {
-        foreach (Transform child in transform)
+        foreach (Transform child in capturePart)
         {
             child.gameObject.SetActive(false);
         }
+
+        //Reset Vector
+        randomPosition2D = Vector2.zero; 
+        randomPosition = Vector3.zero; 
 
         StartCoroutine(DisableWithDelay());
     }
