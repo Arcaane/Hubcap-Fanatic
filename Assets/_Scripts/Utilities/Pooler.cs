@@ -134,7 +134,8 @@ namespace ManagerNameSpace
         OBJ_DefenseEnemy,
         OBJ_Spear,
         FX_MotorBreak,
-        OBJ_Mine
+        OBJ_Mine,
+        FX_Explosion
     }
 
     public enum ReturnType

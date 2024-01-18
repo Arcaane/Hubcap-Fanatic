@@ -32,8 +32,8 @@ public class CarController : CarBehaviour
 
     [Header("SHOTGUN")] 
     [SerializeField] private StraffColider straffColider;
-    [SerializeField] private float straffTime;
-    [SerializeField] private float straffDuration;
+    [SerializeField] private float[] shootTimes;
+    [SerializeField] private float shootDuration;
     [SerializeField] private ParticleSystem shotgunParticles;
     [SerializeField] public int shotgunDamages = 50;
     public bool isStraffing;
@@ -44,9 +44,6 @@ public class CarController : CarBehaviour
     [SerializeField] private LayerMask roadMask;
     [SerializeField] public float offRoadSpeed = 10;
     [SerializeField] public float offRoadDeccelerationFactor = 5;
-    
-    
-    public bool canStraff => straffTime >= straffDuration;
 
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
@@ -132,12 +129,25 @@ public class CarController : CarBehaviour
             }
             Debug.DrawRay(transform.position + Vector3.up*5,Vector3.down * 1000,Color.blue);
         }
-
-        if (straffTime < straffDuration)
+        
+        for (int i = 0; i < shootTimes.Length; i++)
         {
-            straffTime += Time.deltaTime;
-            //UIManager.instance.SetStraffJauge(straffTime / straffDuration);
+            if (shootTimes[i] < shootDuration)
+            {
+                shootTimes[i] += Time.deltaTime;
+                UIManager.instance.SetShotJauge(shootTimes[i] / shootDuration,i);
+            }
         }
+    }
+
+    public bool canShoot()
+    {
+        bool result = false;
+        for (int i = 0; i < shootTimes.Length; i++)
+        {
+            if (shootTimes[i] >= shootDuration) result = true;
+        }
+        return result;
     }
     
     void FixedUpdate()
@@ -229,20 +239,34 @@ public class CarController : CarBehaviour
     
     public void XButton(InputAction.CallbackContext context)
     {
-        if (context.started && canStraff && !isBomber)
+        if (context.started && canShoot() && !isBomber)
         {
             if (straffColider.enemyCar.Count > 0)
             {
                 ShotgunHit();
             }
-            
-            straffTime = 0;
+
+            for (int i = 0; i < shootTimes.Length; i++)
+            {
+                if (shootTimes[i] >= shootDuration)
+                {
+                    shootTimes[i] = 0;
+                    break;
+                }
+            }
         }
 
-        if (context.started && isBomber && canStraff)
+        if (context.started && isBomber && canShoot())
         {
             Pooler.instance.SpawnInstance(ManagerNameSpace.Key.OBJ_Mine , transform.position, Quaternion.identity);
-            straffTime = 0;
+            for (int i = 0; i < shootTimes.Length; i++)
+            {
+                if (shootTimes[i] >= shootDuration)
+                {
+                    shootTimes[i] = 0;
+                    break;
+                }
+            }
         }
     }
 

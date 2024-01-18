@@ -195,6 +195,30 @@ MonoBehaviour:
   braking: 12
   decceleration: 4
   steeringSpeed: 10
+  steeringBySpeedFactor:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2.5
+      inSlope: -0.13862671
+      outSlope: -0.13862671
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.14702915
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -3.1649325
+      outSlope: -3.1649325
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06468886
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
   directionalDampMultiplier: 1

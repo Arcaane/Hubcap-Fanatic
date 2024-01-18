@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] public Transform shootIcon,shopIcon;
 
     [SerializeField] private Image[] shotJauges;
+    [SerializeField] private Color usable, unusable;
 
     [SerializeField] public AbilitiesPair[] abilitiesSlots;
 
@@ -78,6 +79,27 @@ public class UIManager : MonoBehaviour
     public void SetNitroJauge(float amount)
     {
         nitroJauge.fillAmount = amount;
+        if (amount > 0.25f)
+        {
+            nitroJauge.color = usable;
+        }
+        else
+        {
+            nitroJauge.color = unusable;
+        }
+    }
+    
+    public void SetShotJauge(float amount,int shot)
+    {
+        shotJauges[shot].fillAmount = amount;
+        if (amount > 1)
+        {
+            shotJauges[shot].color = usable;
+        }
+        else
+        {
+            shotJauges[shot].color = unusable;
+        }
     }
 
     public void SetExperienceFillAmount(float amount)
@@ -206,11 +228,11 @@ public class UIManager : MonoBehaviour
                 }
                 else if (angle > 45 && angle < 135)
                 {
-                    RightChoice();
+                    LeftChoice();
                 }
                 else if (angle > -135 && angle < -45)
                 {
-                    LeftChoice();
+                    RightChoice();
                 }
                 else
                 {
