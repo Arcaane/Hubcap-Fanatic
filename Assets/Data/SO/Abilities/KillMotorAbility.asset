@@ -28,8 +28,8 @@ MonoBehaviour:
   effectDuration: 5
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
-  isCapacityCooldown: 0
-  cooldownDuration: 0
+  isCapacityCooldown: 1
+  cooldownDuration: 5
   statsModifier: 0
   howStatsModify: 0
   amount: []

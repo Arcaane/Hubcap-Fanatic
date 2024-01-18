@@ -33,7 +33,7 @@ public class CarController : CarBehaviour
     [Header("SHOTGUN")] 
     [SerializeField] private StraffColider straffColider;
     [SerializeField] private float straffTime;
-    [SerializeField] private float straffDuration;
+    [SerializeField] public float straffDuration = 2f;
     [SerializeField] private ParticleSystem shotgunParticles;
     [SerializeField] public int shotgunDamages = 50;
     public bool isStraffing;

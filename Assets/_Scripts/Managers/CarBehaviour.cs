@@ -37,10 +37,10 @@ public class CarBehaviour : MonoBehaviour
     [SerializeField] private float angleMinToExitDrift = 0.1f;
     [SerializeField] protected ParticleSystem[] driftSparks;
 
-    // EFFECTS APPLIED
+    [Header("Effects applied")] 
     public bool forceBreak;
     public float forceBreakTimer;
-    
+    public bool isScorch;
     
     
     public float speedFactor => rb.velocity.magnitude / targetSpeed;

@@ -144,21 +144,30 @@ namespace Abilities
                     break;
                 case When.Delayed: DelayEffect(targetObj,effectDelayMilliseconds);
                     break;
-                case When.OnTargetDie: OnTargetDieApplyEffect(targetObj);
+                case When.OnTargetDie: OnEnemyDieApplyEffect(targetObj);
                     break;
                 case When.EveryXSeconds: RepeatedEffect(targetObj);
                     break;
                 default: throw new ArgumentOutOfRangeException(nameof(when), when, null);
             }
         }
-
-        private void OnTargetDieApplyEffect(GameObject targetObj)
+        
+        private void OnEnemyDieApplyEffect(GameObject targetObj)
         {
             if (targetObj == null) return;
 
             PoliceCarBehavior enemy = targetObj.GetComponent<PoliceCarBehavior>();
-            enemy.OnPoliceCarDie -= ApplyEffect;
-            enemy.OnPoliceCarDie += ApplyEffect;
+            if (enemy)
+            {
+                enemy.OnPoliceCarDie -= ApplyEffect;
+                enemy.OnPoliceCarDie += ApplyEffect;
+            }
+
+            ConvoyBehaviour convoy = targetObj.GetComponent<ConvoyBehaviour>();
+            if (convoy)
+            {
+                Debug.Log("Add effect on convoy die");   
+            }
         }
 
         public void ApplyEffectOnTargetsInZone(Vector3 zonePos,float zoneRadius)
@@ -209,10 +218,15 @@ namespace Abilities
                 case Effect.Damage: EffectDamage(targetObj); break;
                 case Effect.ForceBreak: EffectForceBreak(targetObj); break;
                 case Effect.SpawnMine: EffectSpawnMine(targetObj); break;
+                case Effect.LifeSteal: EffectLifeSteal(targetObj); break;
+                case Effect.Scorch: EffectScorch(targetObj); break;
+                case Effect.Berserk: EffectBerserk(targetObj); break;
                 default: throw new ArgumentOutOfRangeException(nameof(effect), effect, null);
             }
+
+            SetEffectInCooldown();
         }
-        
+
         private async void DelayEffect(GameObject targetObj,int delayInMS)
         {
             await Task.Delay(delayInMS);
@@ -271,6 +285,40 @@ namespace Abilities
         private void EffectSpawnMine(GameObject targetObj)
         { 
             Pooler.instance.SpawnInstance(Key.OBJ_Mine, targetObj.transform.position, Quaternion.identity);
+        }
+
+        private void EffectLifeSteal(GameObject targetObj)
+        {
+            targetObj.GetComponent<IDamageable>().TakeDamage(effectDamage);
+            CarHealthManager.instance.TakeHeal(effectDamage);
+        }
+        
+        private async void EffectScorch(GameObject targetObj)
+        {
+            CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
+            if (carBehaviour.isScorch) return;
+            carBehaviour.isScorch = true;
+            
+            var a = Mathf.FloorToInt(effectDuration / ((float)effectDelayMilliseconds / 1000));
+            for (int i = 0; i < a; i++)
+            {
+                targetObj.GetComponent<IDamageable>()?.TakeDamage(effectDamage);
+                await Task.Delay(effectDelayMilliseconds);
+            }
+
+            if (carBehaviour == null) return;
+            carBehaviour.isScorch = false;
+        }
+
+        private async void EffectBerserk(GameObject targetObj)
+        {
+            CarController car = targetObj.GetComponent<CarController>();
+            if (!car) return;
+            var baseStraffDuration = car.straffDuration;
+            car.straffDuration = effectDamage;
+            await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
+            if (car) return;
+            car.straffDuration = baseStraffDuration;
         }
         
         #endregion
@@ -345,6 +393,15 @@ namespace Abilities
             }
         }
         #endregion
+
+        private async void SetEffectInCooldown()
+        {
+            Debug.Log("SetEffectInCooldown Called");
+            if (!isCapacityCooldown) return;
+            isInCooldown = true;
+            await Task.Delay(Mathf.FloorToInt(cooldownDuration * 1000));
+            isInCooldown = false;
+        }
     }
 }
 
@@ -393,7 +450,9 @@ public enum Effect
     Damage,
     ForceBreak,
     SpawnMine,
-    Undefined_5
+    LifeSteal,
+    Scorch,
+    Berserk
 }
 
 public enum AbilitiesStats
