@@ -36,6 +36,7 @@ public class AntennaArea : MonoBehaviour
     [Header("Gizmos")]
     [SerializeField] private bool enabledGizmos;
     [SerializeField] private bool convoyIsInRange;
+    [SerializeField] private bool merchantIsInRange;
     
     [Header("Timer Value")]
     [SerializeField] private float timerCapturing;
@@ -46,7 +47,7 @@ public class AntennaArea : MonoBehaviour
     [SerializeField] private float fillAmountValue = 0f;
     private float currentSize = 0f;
     
-    private List<int> indexList = new List<int>();
+    [SerializeField] private List<int> indexList = new List<int>();
     
     private void Start()
     {
@@ -61,12 +62,7 @@ public class AntennaArea : MonoBehaviour
         switch (currentAntennaState)
         {
              case AntennaState.IsInactive:
-                 timeSinceCaptured += Time.deltaTime;
-                 if (timeSinceCaptured >= reactivateTimeDelay)
-                 {
-                     EnableAntennaTowerChild();
-                     SetupAntennaValue();
-                 }
+                    DeactivatePowerAntenna();
                  break;
                 case AntennaState.IsBeingCaptured:
                     BeingCaptured();
@@ -155,45 +151,47 @@ public class AntennaArea : MonoBehaviour
         timerActivation += Time.deltaTime;
         if (timerActivation >= activationTowerDuration)
         {
-            TurnOffAntenna();
-            ClearIndex();
+            currentAntennaState = AntennaState.IsInactive;
+            timerActivation = 0;
         }
     }
 
     private void AntennaDiscoverEffect()
     {
         CheckDistanceToConvoy(); //Convoy
+        CheckDistanceToMerchand(); //Merchant  
     }
+    
 
-    private void CheckDistanceToConvoy()
+    private void CheckDistanceToTarget(Transform targetTransform, TargetType targetType, ref bool targetIsInRange, List<int> indexList)
     {
-        if (ConvoyManager.instance != null && ConvoyManager.instance.currentConvoy != null && !convoyIsInRange)
+        if (targetTransform != null && !targetIsInRange)
         {
             Vector3 antennaPosition = transform.position;
-            Vector3 convoyPosition = ConvoyManager.instance.currentConvoy.transform.position;
-            float distance = Vector3.Distance(antennaPosition, convoyPosition);
+            Vector3 targetPosition = targetTransform.position;
+            float distance = Vector3.Distance(antennaPosition, targetPosition);
+
             if (distance < antennaEffectSize)
             {
-                convoyIsInRange = true;
-                UIIndic.instance.AddIndic(ConvoyManager.instance.currentConvoy.gameObject, TargetType.Convoy, out int index);
-                indexList.Add(index);
+                targetIsInRange = true;
             }
         }
     }
 
-    private void ClearIndex()
+    private void CheckDistanceToConvoy()
     {
-        if (indexList.Count <= 0) return;
-        for (int i = 0; i < indexList.Count; i++)
+        if (ConvoyManager.instance?.currentConvoy != null)
         {
-            UIIndic.instance.RemoveIndic(indexList[i]);
-            indexList.Clear();
+            CheckDistanceToTarget(ConvoyManager.instance.currentConvoy.transform, TargetType.Convoy,
+                ref convoyIsInRange, indexList);
         }
+        if(convoyIsInRange) UIIndic.instance.EnableOrDisableSpecificUI(3, true);
     }
 
     private void CheckDistanceToMerchand()
     {
-        //TODO : Do the merchant
+        CheckDistanceToTarget(MerchantBehavior.instance?.gameObject?.transform, TargetType.Merchant, ref merchantIsInRange, indexList);
+        if(merchantIsInRange) UIIndic.instance.EnableOrDisableSpecificUI(4, true);
     }
 
     private void TurnOnAntenna()
@@ -202,8 +200,20 @@ public class AntennaArea : MonoBehaviour
         SetupAntennaValue();
     }
 
-    private void TurnOffAntenna()
+    
+    private void DeactivatePowerAntenna()
     {
+        if (convoyIsInRange)
+        {
+            UIIndic.instance.EnableOrDisableSpecificUI(3);
+            convoyIsInRange = false;
+        }
+        if (merchantIsInRange)
+        {
+            UIIndic.instance.EnableOrDisableSpecificUI(4);
+            merchantIsInRange = false;
+        }
+        
         timeSinceCaptured += Time.deltaTime;
         if (timeSinceCaptured >= reactivateTimeDelay)
         {
