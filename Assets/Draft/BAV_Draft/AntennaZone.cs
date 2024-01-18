@@ -180,7 +180,11 @@ public class AntennaArea : MonoBehaviour
 
     private void CheckDistanceToConvoy()
     {
-        CheckDistanceToTarget(ConvoyManager.instance?.currentConvoy?.transform, TargetType.Convoy, ref convoyIsInRange, indexList);
+        if (ConvoyManager.instance?.currentConvoy != null)
+        {
+            CheckDistanceToTarget(ConvoyManager.instance.currentConvoy.transform, TargetType.Convoy,
+                ref convoyIsInRange, indexList);
+        }
         if(convoyIsInRange) UIIndic.instance.EnableOrDisableSpecificUI(3, true);
     }
 
