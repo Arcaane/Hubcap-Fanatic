@@ -13,6 +13,7 @@ public class ConvoyManager : MonoBehaviour
     private float timer;
     public ConvoySpawnData[] convoys;
     public float mapSize = 730;
+    public ConvoySpawnPoint[] spawnPoints;
 
     private void Awake()
     {
@@ -48,26 +49,14 @@ public class ConvoyManager : MonoBehaviour
         GameObject obj = Instantiate(prefabs[Random.Range(0, prefabs.Count)]);
         currentConvoy = obj.transform.GetComponent<ConvoyBehaviour>();
 
-        int rng = Random.Range(0, 4);
+        int rng = Random.Range(0, spawnPoints.Length);
 
         Vector3 start;
-        
-        start = rng switch
-        {
-            0 => new Vector3(Random.Range(-mapSize, mapSize), 1.4f, -mapSize),
-            1 => new Vector3(730, 1.4f, Random.Range(-mapSize, mapSize)),
-            2 => new Vector3(Random.Range(-mapSize, mapSize), 1.4f, mapSize),
-            3 => new Vector3(-730, 1.4f, Random.Range(-mapSize, mapSize))
-        };
+
+        start = spawnPoints[rng].spawnPoint.position;
         currentConvoy.agent.Warp(start);
-        
-        currentConvoy.target = rng switch
-        {
-            0 => new Vector3(Random.Range(-mapSize, mapSize), 1.4f, mapSize),
-            1 => new Vector3(-730, 1.4f, Random.Range(-mapSize, mapSize)),
-            2 => new Vector3(Random.Range(-mapSize, mapSize), 1.4f, -mapSize),
-            3 => new Vector3(730, 1.4f, Random.Range(-mapSize, mapSize))
-        };
+
+        currentConvoy.target = spawnPoints[rng].possibleEndPoints[Random.Range(0, spawnPoints[rng].possibleEndPoints.Length)].position;
         
         currentConvoy.Initialize();
     }
@@ -78,4 +67,11 @@ public struct ConvoySpawnData
 {
     public GameObject convoyPrefab;
     public float minTime,maxTime;
+}
+
+[Serializable]
+public struct ConvoySpawnPoint
+{
+    public Transform spawnPoint;
+    public Transform[] possibleEndPoints;
 }
