@@ -150,6 +150,8 @@ namespace Abilities
                     break;
                 default: throw new ArgumentOutOfRangeException(nameof(when), when, null);
             }
+            
+            SetEffectInCooldown();
         }
         
         private void OnEnemyDieApplyEffect(GameObject targetObj)
@@ -223,8 +225,6 @@ namespace Abilities
                 case Effect.Berserk: EffectBerserk(targetObj); break;
                 default: throw new ArgumentOutOfRangeException(nameof(effect), effect, null);
             }
-
-            SetEffectInCooldown();
         }
 
         private async void DelayEffect(GameObject targetObj,int delayInMS)
