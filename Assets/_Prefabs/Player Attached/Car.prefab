@@ -11008,8 +11008,8 @@ MonoBehaviour:
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 35
-  targetSpeed: 35
+  maxSpeed: 40
+  targetSpeed: 40
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -11053,7 +11053,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   acceleration: 15
-  braking: 20
+  braking: 22.5
   decceleration: 8
   steeringSpeed: 3.5
   steeringBySpeedFactor:
@@ -11061,21 +11061,30 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 2.5
-      inSlope: -0.13862671
-      outSlope: -0.13862671
+      value: 4
+      inSlope: -1.2005359
+      outSlope: -1.2005359
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.14702915
+      outWeight: 0.3127783
+    - serializedVersion: 3
+      time: 0.6
+      value: 1
+      inSlope: -10.569469
+      outSlope: 0.0027208983
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.049547017
+      outWeight: 0.05117297
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: -3.1649325
-      outSlope: -3.1649325
-      tangentMode: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.06468886
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -11083,7 +11092,7 @@ MonoBehaviour:
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 60
   directionalDampMultiplier: 1
-  dampeningMultiplier: 0.4
+  dampeningMultiplier: 0.45
   steeringMultiplier: 1.7
   accelMultiplier: 1.4
   angleMinToExitDrift: 0.1
@@ -11092,6 +11101,7 @@ MonoBehaviour:
   - {fileID: 8470169649526814839}
   forceBreak: 0
   forceBreakTimer: 0
+  isScorch: 0
   brakeMethodApplied: 0
   accelForce: 0
   brakeForce: 0
@@ -11116,11 +11126,12 @@ MonoBehaviour:
   shotgunParticles: {fileID: 9085789767532920518}
   shotgunDamages: 100
   isStraffing: 0
+  isBomber: 0
   roadMask:
     serializedVersion: 2
     m_Bits: 4096
-  offRoadSpeed: 20
-  offRoadDeccelerationFactor: 1
+  offRoadSpeed: 22.5
+  offRoadDeccelerationFactor: 1.25
   dirCam: 13.808237
   cameraHolder: {fileID: 0}
   camDist: 0.8
@@ -11387,6 +11398,7 @@ MonoBehaviour:
   passiveAbilityUnlockedIconBackgroundColor: {r: 0.9843137, g: 0.7372549, b: 0.30980393, a: 1}
   statAbilityUnlockedIconBackgroundColor: {r: 0.7254902, g: 0.9843137, b: 0.30980393, a: 1}
   abilitiesUnlockedIconBackgroundColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
+  testEffectsPrefab: {fileID: 0}
 --- !u!111 &6205959775607353322
 Animation:
   m_ObjectHideFlags: 0
