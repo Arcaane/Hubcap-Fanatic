@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4483a83c92b81a04295a3c3c64145343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initSize: 29.2
+  initSize: 35
   antennaEffectSize: 1200
   currentAntennaState: 0
   isCapturing: 0
