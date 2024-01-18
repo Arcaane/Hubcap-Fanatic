@@ -10995,12 +10995,12 @@ MonoBehaviour:
     steeringFactor: 6
   - transform: {fileID: 2470873284411068704}
     wheelVisual: {fileID: 2313699898289759998}
-    directionalDampening: 0.28
+    directionalDampening: 0.3
     drivingFactor: 0
     steeringFactor: 0
   - transform: {fileID: 5956411217378894201}
     wheelVisual: {fileID: 4757760250436602413}
-    directionalDampening: 0.28
+    directionalDampening: 0.3
     drivingFactor: 0
     steeringFactor: 0
   suspensionLenght: 0.55
@@ -11008,8 +11008,8 @@ MonoBehaviour:
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 32.5
-  targetSpeed: 32.5
+  maxSpeed: 35
+  targetSpeed: 35
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -11062,7 +11062,7 @@ MonoBehaviour:
   dampeningMultiplier: 0.5
   steeringMultiplier: 1.7
   accelMultiplier: 1.4
-  angleMinToExitDrift: 0.175
+  angleMinToExitDrift: 0.1
   driftSparks:
   - {fileID: 2603052165275359096}
   - {fileID: 8470169649526814839}
@@ -11094,7 +11094,7 @@ MonoBehaviour:
   roadMask:
     serializedVersion: 2
     m_Bits: 4096
-  offRoadSpeed: 10
+  offRoadSpeed: 20
   dirCam: 13.808237
   cameraHolder: {fileID: 0}
   camDist: 0.8

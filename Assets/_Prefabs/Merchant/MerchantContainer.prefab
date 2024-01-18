@@ -1164,6 +1164,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed923c301713c854786e841f340be0eb, type: 2}
   - {fileID: 11400000, guid: e41e918da8551c64dbb0f6980310634f, type: 2}
   - {fileID: 11400000, guid: b7904b4aba9346d4eb7303a888e8fa96, type: 2}
+  - {fileID: 11400000, guid: b3b7961169513fe4db6c0004bfb56e72, type: 2}
+  - {fileID: 11400000, guid: 6f89221a39e9c5d4092baf890a8c6a75, type: 2}
+  - {fileID: 11400000, guid: 00f14b3c8a29b234eb49a321bf713b64, type: 2}
+  - {fileID: 11400000, guid: f989307a89b8c70478316c71ca60bede, type: 2}
+  - {fileID: 11400000, guid: 030639b56538b8d48883ac66ef826dbb, type: 2}
+  - {fileID: 11400000, guid: 8769a688dfc8db84f90b45bbcb4cc1f4, type: 2}
   purchasableAbilities: []
   gold: {fileID: 0}
   buttonsItemsArray:

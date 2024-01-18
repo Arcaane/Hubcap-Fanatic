@@ -8,8 +8,11 @@ namespace Abilities
     [CreateAssetMenu(menuName = "Ability", fileName = "New Ability")]
     public class AbilitiesSO : ScriptableObject
     {
+        [Header("ABILITY TYPE")]
         public AbilityType type = AbilityType.ClassicAbilites;
-        [Header("Informations")] public string abilityName;
+        
+        [Header("Informations")] 
+        public string abilityName;
         [TextArea(3, 3)] public string description;
         public Sprite abilitySprite;
         public int level = 0;
@@ -25,11 +28,20 @@ namespace Abilities
         public AbilitiesModifiers[] levelsAbilitiesModifiers;
         
         // Stats
+        [Header("Classic Abilities")]
         public int effectDamage;
         public int effectSizeRadius;
         public float effectDuration;
         public int effectDelayMilliseconds;
         public float effectRepeatDelay;
+        public bool isCapacityCooldown;
+        public float cooldownDuration;
+
+        [Header("Stats Abilities")] 
+        public StatsModifier statsModifier; 
+        public HowStatsModify howStatsModify;
+        public float amount;
+        
         
         // Target Objects
         private GameObject returnedTargetObject;
@@ -40,25 +52,38 @@ namespace Abilities
         private float effectRepeatTimer;
         private CarController player;
         private CarAbilitiesManager carAbilities;
+        private bool isInCooldown;
         
-        [Space(5)] [Header("Layer Masks")]
+        [Space(5)]
+        [Header("Layer Masks")]
         public LayerMask enemyLayerMask;
         
         public void Initialize()
         {
             player = CarController.instance;
             carAbilities = CarAbilitiesManager.instance;
-            
-            switch (trigger)
+
+            if (type == AbilityType.ClassicAbilites)
             {
-                case AbilityTrigger.OnEnemyCollision:  carAbilities.OnEnemyCollision += Activate ; break;
-                case AbilityTrigger.OnWallCollision: carAbilities.OnWallCollision += Activate ; break;
-                case AbilityTrigger.OnEnterState: carAbilities.OnStateEnter += Activate ; break;
-                case AbilityTrigger.OnExitState: carAbilities.OnStateExit += Activate ; break;
-                case AbilityTrigger.OnUpdateState: carAbilities.OnUpdate += Activate; break;
-                case AbilityTrigger.OnEnemyDamageDealt: carAbilities.OnEnemyDamageTaken += Activate ; break;
-                case AbilityTrigger.OnPlayerDamageDealt: carAbilities.OnPlayerDamageTaken += Activate ; break;
-                default: throw new ArgumentOutOfRangeException();
+                switch (trigger)
+                {
+                    case AbilityTrigger.OnEnemyCollision:  carAbilities.OnEnemyCollision += Activate ; break;
+                    case AbilityTrigger.OnWallCollision: carAbilities.OnWallCollision += Activate ; break;
+                    case AbilityTrigger.OnEnterState: carAbilities.OnStateEnter += Activate ; break;
+                    case AbilityTrigger.OnExitState: carAbilities.OnStateExit += Activate ; break;
+                    case AbilityTrigger.OnUpdateState: carAbilities.OnUpdate += Activate; break;
+                    case AbilityTrigger.OnEnemyDamageDealt: carAbilities.OnEnemyDamageTaken += Activate ; break;
+                    case AbilityTrigger.OnPlayerDamageDealt: carAbilities.OnPlayerDamageTaken += Activate ; break;
+                    default: throw new ArgumentOutOfRangeException();
+                }
+            }
+            else if (type == AbilityType.UpgrateStatsAbilites)
+            {
+                LevelUpStatsAbility();
+            }
+            else if (type == AbilityType.GoldGiver)
+            {
+                carAbilities.goldAmountWonOnRun += (int)amount;
             }
         }
         
@@ -94,7 +119,12 @@ namespace Abilities
             }
 
             Debug.Log($"State: {state} Passed!");
-            
+
+            if (isInCooldown)
+            {
+                Debug.Log("Is in cooldown");
+                return;
+            }
             
             switch (target)
             {
@@ -117,14 +147,20 @@ namespace Abilities
                     break;
                 case When.Delayed: DelayEffect(targetObj,effectDelayMilliseconds);
                     break;
-                case When.OnTargetDie: Debug.LogError("ON TARGET DIE PAS FAIT");
+                case When.OnTargetDie: OnTargetDieApplyEffect(targetObj);
                     break;
                 case When.EveryXSeconds: RepeatedEffect(targetObj);
                     break;
                 default: throw new ArgumentOutOfRangeException(nameof(when), when, null);
             }
         }
-        
+
+        private void OnTargetDieApplyEffect(GameObject targetObj)
+        {
+            targetObj.GetComponent<PoliceCarBehavior>().OnPoliceCarDie -= ApplyEffect;
+            targetObj.GetComponent<PoliceCarBehavior>().OnPoliceCarDie += ApplyEffect;
+        }
+
         public void ApplyEffectOnTargetsInZone(Vector3 zonePos,float zoneRadius)
         {
             cols = Physics.OverlapSphere(zonePos, zoneRadius, enemyLayerMask);
@@ -225,7 +261,7 @@ namespace Abilities
 
         #region Stats
 
-        public void LevelUpStats()
+        public void LevelUpPassiveAbility()
         {
             Debug.Log(levelsAbilitiesModifiers[level]);
             if (levelsAbilitiesModifiers[level] == null || level > 3) return;
@@ -241,6 +277,57 @@ namespace Abilities
                     case AbilitiesStats.EffectRepeatDelay: effectRepeatDelay += levelsAbilitiesModifiers[level].Modifiers[i].newValue; break;
                     default: throw new ArgumentOutOfRangeException();
                 }
+            }
+        }
+
+        public void LevelUpStatsAbility()
+        {
+            switch (statsModifier)
+            {
+                case StatsModifier.SpeedOnRoad: switch (howStatsModify)
+                    {
+                        case HowStatsModify.Subtract: CarController.instance.maxSpeed -= amount; break;
+                        case HowStatsModify.Add: CarController.instance.maxSpeed += amount; break;
+                        case HowStatsModify.Multiply: CarController.instance.maxSpeed *= amount; break;
+                    } break;
+                case StatsModifier.SpeedOnSand: switch (howStatsModify) {
+                        case HowStatsModify.Subtract: player.offRoadSpeed -= amount; break;
+                        case HowStatsModify.Add: player.offRoadSpeed += amount; break;
+                        case HowStatsModify.Multiply: player.offRoadSpeed *= amount; break;
+                    } break;
+                case StatsModifier.NitroSpeed: switch (howStatsModify)
+                    {
+                        case HowStatsModify.Subtract: player.nitroSpeed -= amount; break;
+                        case HowStatsModify.Add: player.nitroSpeed += amount; break;
+                        case HowStatsModify.Multiply: player.nitroSpeed *= amount; break;
+                        default: throw new ArgumentOutOfRangeException();
+                    } break;
+                case StatsModifier.NitroCooldown: switch (howStatsModify)
+                    {
+                        case HowStatsModify.Subtract: player.nitroRegen *= amount; break;
+                        case HowStatsModify.Add: player.nitroRegen *= amount; break;
+                        case HowStatsModify.Multiply: player.nitroRegen *= amount; break;
+                        default: throw new ArgumentOutOfRangeException();
+                    } break;
+                case StatsModifier.ShotgunDamage: switch (howStatsModify)
+                    {
+                        case HowStatsModify.Subtract: player.shotgunDamages -= Mathf.FloorToInt(amount); break;
+                        case HowStatsModify.Add: player.shotgunDamages += Mathf.FloorToInt(amount); break;
+                        case HowStatsModify.Multiply: player.shotgunDamages = Mathf.FloorToInt(player.shotgunDamages * amount); break;
+                        default: throw new ArgumentOutOfRangeException();
+                    } break;
+                case StatsModifier.CollisionDamage: switch (howStatsModify)
+                    {
+                        case HowStatsModify.Subtract: carAbilities.damageOnCollisionWithEnemy -= (int)amount;
+                            break;
+                        case HowStatsModify.Add: carAbilities.damageOnCollisionWithEnemy += (int)amount;
+                            break;
+                        case HowStatsModify.Multiply: carAbilities.damageOnCollisionWithEnemy = Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy * amount);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    } break;
+                default: throw new ArgumentOutOfRangeException();
             }
         }
         #endregion
@@ -309,4 +396,21 @@ public enum AbilityType
     ClassicAbilites,
     UpgrateStatsAbilites,
     GoldGiver
+}
+
+public enum StatsModifier
+{
+    SpeedOnRoad,
+    SpeedOnSand,
+    NitroSpeed,
+    NitroCooldown,
+    ShotgunDamage,
+    CollisionDamage
+}
+
+public enum HowStatsModify
+{
+    Subtract,
+    Add,
+    Multiply
 }
