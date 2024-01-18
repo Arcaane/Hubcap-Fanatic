@@ -118,6 +118,10 @@ public class CarController : CarBehaviour
             else
             {
                 targetSpeed = offRoadSpeed;
+                if (speedFactor > 1)
+                {
+                    rb.velocity = Vector3.Lerp(rb.velocity,Vector3.ClampMagnitude(rb.velocity, targetSpeed),Time.deltaTime*5); 
+                }
             }
             Debug.DrawRay(transform.position + Vector3.up*5,Vector3.down * 1000,Color.blue);
         }
