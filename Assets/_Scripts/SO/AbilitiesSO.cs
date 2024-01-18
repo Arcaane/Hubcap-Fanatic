@@ -315,11 +315,11 @@ namespace Abilities
         {
             CarController car = targetObj.GetComponent<CarController>();
             if (!car) return;
-            var baseStraffDuration = car.straffDuration;
-            car.straffDuration = effectDamage;
+            var baseStraffDuration = car.shootDuration;
+            car.shootDuration = effectDamage;
             await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
             if (car) return;
-            car.straffDuration = baseStraffDuration;
+            car.shootDuration = baseStraffDuration;
         }
         
         private async void EffectShield(GameObject targetObj)

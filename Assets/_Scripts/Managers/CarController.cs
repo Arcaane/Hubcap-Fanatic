@@ -33,7 +33,7 @@ public class CarController : CarBehaviour
     [Header("SHOTGUN")] 
     [SerializeField] private StraffColider straffColider;
     [SerializeField] private float[] shootTimes;
-    [SerializeField] private float shootDuration;
+    [SerializeField] public float shootDuration;
     [SerializeField] private ParticleSystem shotgunParticles;
     [SerializeField] public int shotgunDamages = 50;
     public bool isStraffing;
@@ -49,10 +49,6 @@ public class CarController : CarBehaviour
     [Header("Effects")] 
 	[SerializeField] public GameObject shield; 
     
-   
-    public bool canStraff => straffTime >= straffDuration;
-
-
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
     public float camDist;

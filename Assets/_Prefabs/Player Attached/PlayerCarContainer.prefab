@@ -264,6 +264,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3798896081380664901, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
+      propertyPath: testEffectsPrefab
+      value: 
+      objectReference: {fileID: 6335372874567478365, guid: 079d0ebca68e2ed4f899b88eda8a316d, type: 3}
+    - target: {fileID: 3798896081380664901, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
       propertyPath: driftAbilities.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -327,7 +331,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6205959775607353322, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
