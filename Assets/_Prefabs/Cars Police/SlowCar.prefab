@@ -330,6 +330,30 @@ MonoBehaviour:
   braking: 12
   decceleration: 4
   steeringSpeed: 6.5
+  steeringBySpeedFactor:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2.5
+      inSlope: -0.13862671
+      outSlope: -0.13862671
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.14702915
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -3.1649325
+      outSlope: -3.1649325
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06468886
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
   directionalDampMultiplier: 1
@@ -338,11 +362,26 @@ MonoBehaviour:
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
   driftSparks: []
+  forceBreak: 0
+  forceBreakTimer: 0
+  brakeMethodApplied: 0
   accelForce: 1
   brakeForce: 0
   driftBrake: 0
   rotationValue: 0
+  enemyKey: 5
+  hp: 100
+  carDamage: 0
+  expToGiveBasedOnLevel:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   target: {fileID: 0}
+  mat: []
+  randomOffset: {x: 0, y: 0}
+  maxRngOffset: {x: 0, y: 0}
   speedRetained: 0.7
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
@@ -357,9 +396,8 @@ MonoBehaviour:
   driveByCar: 0
   shootFx: {fileID: 0}
   shooting: 0
-  enemyKey: 5
-  hp: 100
-  pickable: {fileID: 0}
+  socketPickableCop: {fileID: 0}
+  objectPickable: {fileID: 0}
 --- !u!54 &1973940955210623876
 Rigidbody:
   m_ObjectHideFlags: 0

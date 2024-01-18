@@ -5984,6 +5984,7 @@ MonoBehaviour:
   indic: {fileID: 7084530948796678026, guid: 096e8f44c7295df4bb9dd403ebe73571, type: 3}
   delayBeforeRemove: 5
   uiParent: {fileID: 6685780920725395675}
+  currentIndex: 0
 --- !u!1 &3021648269072319424
 GameObject:
   m_ObjectHideFlags: 0
@@ -11189,6 +11190,8 @@ MonoBehaviour:
   shotJauges:
   - {fileID: 1985162337927193607}
   - {fileID: 3264563379174094859}
+  usable: {r: 0, g: 0, b: 0, a: 0}
+  unusable: {r: 0.9843137, g: 0.46666667, b: 0.30980393, a: 1}
   abilitiesSlots:
   - passiveAbilityIcon: {fileID: 2904809249411736601}
     statAbilityIcon: {fileID: 3305473646992444436}

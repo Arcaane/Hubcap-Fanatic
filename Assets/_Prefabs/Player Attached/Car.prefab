@@ -10085,124 +10085,6 @@ Transform:
   - {fileID: 6319557992963425093}
   m_Father: {fileID: 546980376411241463}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2684861839116325981
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1799809592715286327}
-  - component: {fileID: 6669249915396947334}
-  - component: {fileID: 3751743694876867993}
-  - component: {fileID: 9131009891725507203}
-  - component: {fileID: 674906225432213058}
-  m_Layer: 20
-  m_Name: Shield
-  m_TagString: Wall
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1799809592715286327
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2684861839116325981}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 1901270512298757076}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6669249915396947334
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2684861839116325981}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &3751743694876867993
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2684861839116325981}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 36a4e057563d9d142a8c46a08e4d65fb, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &9131009891725507203
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2684861839116325981}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &674906225432213058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2684861839116325981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2035cc340536fdf4d992d500dfad44c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3348843367107109327
 GameObject:
   m_ObjectHideFlags: 0
@@ -11058,7 +10940,7 @@ GameObject:
   - component: {fileID: 1092070526955468118}
   - component: {fileID: 3798896081380664901}
   - component: {fileID: 6205959775607353322}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Car
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -11085,7 +10967,6 @@ Transform:
   - {fileID: 5956411217378894201}
   - {fileID: 4612998039749914833}
   - {fileID: 2917269542285333993}
-  - {fileID: 1799809592715286327}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6496687812959214544
@@ -11127,8 +11008,8 @@ MonoBehaviour:
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 35
-  targetSpeed: 35
+  maxSpeed: 40
+  targetSpeed: 40
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -11172,7 +11053,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   acceleration: 15
-  braking: 20
+  braking: 22.5
   decceleration: 8
   steeringSpeed: 3.5
   steeringBySpeedFactor:
@@ -11180,21 +11061,30 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 2.5
-      inSlope: -0.13862671
-      outSlope: -0.13862671
+      value: 4
+      inSlope: -1.2005359
+      outSlope: -1.2005359
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.14702915
+      outWeight: 0.3127783
+    - serializedVersion: 3
+      time: 0.6
+      value: 1
+      inSlope: -10.569469
+      outSlope: 0.0027208983
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.049547017
+      outWeight: 0.05117297
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: -3.1649325
-      outSlope: -3.1649325
-      tangentMode: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.06468886
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -11202,7 +11092,7 @@ MonoBehaviour:
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 60
   directionalDampMultiplier: 1
-  dampeningMultiplier: 0.4
+  dampeningMultiplier: 0.45
   steeringMultiplier: 1.7
   accelMultiplier: 1.4
   angleMinToExitDrift: 0.1
@@ -11231,18 +11121,19 @@ MonoBehaviour:
   nitroRegen: 0.1
   jumpSmoke: {fileID: 0}
   straffColider: {fileID: 5670995835939285263}
-  straffTime: 2
-  straffDuration: 2
+  shootTimes:
+  - 2
+  - 2
+  shootDuration: 2
   shotgunParticles: {fileID: 9085789767532920518}
-  shotgunDamages: 100
+  shotgunDamages: 50
   isStraffing: 0
   isBomber: 0
   roadMask:
     serializedVersion: 2
     m_Bits: 4096
-  offRoadSpeed: 20
-  offRoadDeccelerationFactor: 1
-  shield: {fileID: 2684861839116325981}
+  offRoadSpeed: 22.5
+  offRoadDeccelerationFactor: 1.25
   dirCam: 13.808237
   cameraHolder: {fileID: 0}
   camDist: 0.8

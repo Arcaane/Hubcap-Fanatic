@@ -24,7 +24,7 @@ public class StraffColider : MonoBehaviour
             }
         }
 
-        if (enemyCar.Count > 0 && CarController.instance.canStraff)
+        if (enemyCar.Count > 0 && CarController.instance.canShoot())
         {
             UIManager.instance.shootIcon.position = cam.WorldToScreenPoint(enemyCar[0].position);
             UIManager.instance.shootIcon.localScale = Vector3.Lerp(UIManager.instance.shootIcon.localScale,Vector3.one, Time.deltaTime*5);
