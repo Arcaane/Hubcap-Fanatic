@@ -40,6 +40,8 @@ public class CarController : CarBehaviour
     [Header("ROAD DETECTION")] 
     [SerializeField] private LayerMask roadMask;
     [SerializeField] public float offRoadSpeed = 10;
+    [SerializeField] public float offRoadDeccelerationFactor = 5;
+    
     
     public bool canStraff => straffTime >= straffDuration;
 
@@ -65,6 +67,8 @@ public class CarController : CarBehaviour
     
     private void Update()
     {
+        Debug.Log(globalSpeedFactor);
+        
         base.Update();
         
         rotationValue = stickValue.x;
@@ -121,7 +125,7 @@ public class CarController : CarBehaviour
                 targetSpeed = offRoadSpeed;
                 if (speedFactor > 1)
                 {
-                    rb.velocity = Vector3.Lerp(rb.velocity,Vector3.ClampMagnitude(rb.velocity, targetSpeed),Time.deltaTime*5); 
+                    rb.velocity = Vector3.Lerp(rb.velocity,Vector3.ClampMagnitude(rb.velocity, targetSpeed),Time.deltaTime*offRoadDeccelerationFactor); 
                 }
             }
             Debug.DrawRay(transform.position + Vector3.up*5,Vector3.down * 1000,Color.blue);

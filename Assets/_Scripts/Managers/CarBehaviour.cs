@@ -23,6 +23,7 @@ public class CarBehaviour : MonoBehaviour
     [SerializeField] private float braking = 12f;
     [SerializeField] private float decceleration = 4f;
     [SerializeField] private float steeringSpeed = 50f;
+    [SerializeField] private AnimationCurve steeringBySpeedFactor;
     
     [Header("PHYSICVALUES")]
     [SerializeField] private Vector3 localCenterOfMass;
@@ -44,6 +45,7 @@ public class CarBehaviour : MonoBehaviour
     
     
     public float speedFactor => rb.velocity.magnitude / targetSpeed;
+    public float globalSpeedFactor => rb.velocity.magnitude / maxSpeed;
     
     
     private bool driftEngaged;
@@ -80,9 +82,10 @@ public class CarBehaviour : MonoBehaviour
             if (wheels[i].steeringFactor > 0)
             {
                 wheels[i].wheelVisual.localRotation = wheels[i].transform.localRotation = 
-                    Quaternion.Lerp(wheels[i].transform.localRotation,Quaternion.Euler(0,rotationValue * wheels[i].steeringFactor * (driftBrake ? steeringMultiplier : 1),0),Time.deltaTime * steeringSpeed);
+                    Quaternion.Lerp(wheels[i].transform.localRotation,Quaternion.Euler(0,rotationValue * wheels[i].steeringFactor * steeringBySpeedFactor.Evaluate(globalSpeedFactor) * (driftBrake ? steeringMultiplier : 1),0),Time.deltaTime * steeringSpeed);
             }
         }
+        
         
         driftValue = 1- Mathf.Abs(Vector3.Dot(new Vector3(rb.velocity.normalized.x,0,rb.velocity.normalized.z), transform.forward));
 
