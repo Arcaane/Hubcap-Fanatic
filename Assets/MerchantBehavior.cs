@@ -14,6 +14,8 @@ public class MerchantBehavior : MonoBehaviour
 
     public static MerchantBehavior instance;
 
+    public TestShop shop;
+
     private void Awake()
     {
         instance = this;

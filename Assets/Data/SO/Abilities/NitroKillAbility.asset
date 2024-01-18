@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
   m_Name: NitroKillAbility
   m_EditorClassIdentifier: 
+  type: 0
   abilityName: NitroKill
   description: When colliding with an enemy while in nitro, deal some damage to him
   abilitySprite: {fileID: 21300000, guid: 3a474898122d82c48bcadf0e5e1d64b9, type: 3}
-  level: 0
+  level: -1
   trigger: 0
   target: 0
   when: 0
@@ -27,6 +28,11 @@ MonoBehaviour:
   effectDuration: 0
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
+  isCapacityCooldown: 0
+  cooldownDuration: 0
+  statsModifier: 0
+  howStatsModify: 0
+  amount: 0
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128

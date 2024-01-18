@@ -1147,6 +1147,7 @@ MonoBehaviour:
   - RUBIKA
   speed: 0
   index: 0
+  shop: {fileID: 3234838172666085627}
 --- !u!114 &3234838172666085627
 MonoBehaviour:
   m_ObjectHideFlags: 0

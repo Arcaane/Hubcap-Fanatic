@@ -96,7 +96,8 @@ namespace Abilities
                 }
                 else
                 {
-                    passiveAbilities.Add(abilitySo);   
+                    passiveAbilities.Add(abilitySo);
+                    abilitySo.level = 0;
                     abilitySo.Initialize();
                     AddPassiveAbilityIconOnSlot(abilitySo.abilitySprite);
                 }
@@ -116,6 +117,7 @@ namespace Abilities
                 }
                 else
                 {
+                    abilitySo.level = 0;
                     statsAbilities.Add(abilitySo);   
                     abilitySo.Initialize();
                     AddStatAbilityIconOnSlot(abilitySo.abilitySprite);
