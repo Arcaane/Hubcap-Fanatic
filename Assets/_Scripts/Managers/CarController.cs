@@ -18,12 +18,12 @@ public class CarController : CarBehaviour
     [SerializeField] private GameObject fxBounce;
 
     [Header("NITRO")] 
-    [SerializeField] private float nitroSpeed = 50;
+    [SerializeField] public float nitroSpeed = 50;
     [SerializeField] private ParticleSystem smoke, smokeNitro;
     [SerializeField] public bool nitroMode, canNitro;
     [SerializeField] private float nitroTime;
     [SerializeField] private float nitroDuration;
-    [SerializeField] private float nitroRegen;
+    [SerializeField] public float nitroRegen;
     
     [Header("JUMP")] 
     [SerializeField] private ParticleSystem jumpSmoke;
@@ -33,12 +33,13 @@ public class CarController : CarBehaviour
     [SerializeField] private float straffTime;
     [SerializeField] private float straffDuration;
     [SerializeField] private ParticleSystem shotgunParticles;
+    [SerializeField] public int shotgunDamages = 100;
     public bool isStraffing;
 
 
     [Header("ROAD DETECTION")] 
     [SerializeField] private LayerMask roadMask;
-    [SerializeField] private float offRoadSpeed = 10;
+    [SerializeField] public float offRoadSpeed = 10;
     
     public bool canStraff => straffTime >= straffDuration;
 

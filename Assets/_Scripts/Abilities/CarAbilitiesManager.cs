@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public delegate void DefaultDelegate();
-public delegate void TransformDelegate(Transform tr);
+public delegate void GameObjectDelgate(GameObject tr);
 public delegate void ObjectDelegate(GameObject obj);
 public delegate void CollisionDelegate(Collision col);
 
@@ -27,7 +28,8 @@ namespace Abilities
         public DefaultDelegate OnPlayerDamageTaken = delegate {  };
         public DefaultDelegate OnUpdate = delegate {  };
 
-        public List<AbilitiesSO> abilities;
+        public List<AbilitiesSO> passiveAbilities;
+        public List<AbilitiesSO> statsAbilities;
         
         public int slotAbilitiesAmount = 4;
         public int goldAmountWonOnRun;
@@ -71,14 +73,14 @@ namespace Abilities
         {
             if (abilitySo.type == AbilityType.ClassicAbilites)
             {
-                if (abilities.Contains(abilitySo))
+                if (passiveAbilities.Contains(abilitySo))
                 {
                     abilitySo.level++;
-                    abilitySo.LevelUpStats();
+                    abilitySo.LevelUpPassiveAbility();
                 }
                 else
                 {
-                    abilities.Add(abilitySo);   
+                    passiveAbilities.Add(abilitySo);   
                     abilitySo.Initialize();
                     AddPassiveAbilityIconOnSlot(abilitySo.abilitySprite);
                 }
@@ -87,6 +89,21 @@ namespace Abilities
             if (abilitySo.type == AbilityType.GoldGiver)
             {
                 goldAmountWonOnRun += 50;
+            }
+
+            if (abilitySo.type == AbilityType.UpgrateStatsAbilites)
+            {
+                if (statsAbilities.Contains(abilitySo))
+                {
+                    abilitySo.level++;
+                    abilitySo.LevelUpStatsAbility();
+                }
+                else
+                {
+                    statsAbilities.Add(abilitySo);   
+                    abilitySo.Initialize();
+                    AddStatAbilityIconOnSlot(abilitySo.abilitySprite);
+                }
             }
         }
 
@@ -99,7 +116,7 @@ namespace Abilities
             GUI.Label(new Rect(50, 590, 500, 150), "Current Speed: " + car.rb.velocity.magnitude);
         }
 
-        public bool IsPlayerFullAbilities() => abilities.Count == slotAbilitiesAmount;
+        public bool IsPlayerFullAbilities() => passiveAbilities.Count == slotAbilitiesAmount;
 
         [Space] 
         [SerializeField] private Color passiveAbilityUnlockedIconBackgroundColor;
@@ -108,31 +125,31 @@ namespace Abilities
         
         public void AddPassiveAbilityIconOnSlot(Sprite sprite)
         {
-            UIManager.instance.abilitiesSlots[abilities.Count-1].passiveAbilityIcon.sprite = sprite;
-            UIManager.instance.abilitiesSlots[abilities.Count-1].passiveAbilityIcon.gameObject.SetActive(true);
+            UIManager.instance.abilitiesSlots[passiveAbilities.Count-1].passiveAbilityIcon.sprite = sprite;
+            UIManager.instance.abilitiesSlots[passiveAbilities.Count-1].passiveAbilityIcon.gameObject.SetActive(true);
             
             // Parent transparence -> 255
-            UIManager.instance.abilitiesSlots[abilities.Count - 1].passiveAbilityIcon.transform.parent.GetComponent<Image>().color = passiveAbilityUnlockedIconBackgroundColor;
+            UIManager.instance.abilitiesSlots[passiveAbilities.Count-1].passiveAbilityIcon.transform.parent.GetComponent<Image>().color = passiveAbilityUnlockedIconBackgroundColor;
             // Parent.parent transparence -> 255
-            UIManager.instance.abilitiesSlots[abilities.Count - 1].passiveAbilityIcon.transform.parent.parent.GetComponent<Image>().color = abilitiesUnlockedIconBackgroundColor;
+            UIManager.instance.abilitiesSlots[passiveAbilities.Count-1].passiveAbilityIcon.transform.parent.parent.GetComponent<Image>().color = abilitiesUnlockedIconBackgroundColor;
         }
         
         public void AddStatAbilityIconOnSlot(Sprite sprite)
         {
-            UIManager.instance.abilitiesSlots[abilities.Count-1].statAbilityIcon.sprite = sprite;
-            UIManager.instance.abilitiesSlots[abilities.Count-1].statAbilityIcon.gameObject.SetActive(true);
+            UIManager.instance.abilitiesSlots[statsAbilities.Count-1].statAbilityIcon.sprite = sprite;
+            UIManager.instance.abilitiesSlots[statsAbilities.Count-1].statAbilityIcon.gameObject.SetActive(true);
             
             // Parent transparence -> 255
-            UIManager.instance.abilitiesSlots[abilities.Count - 1].passiveAbilityIcon.transform.parent.GetComponent<Image>().color = statAbilityUnlockedIconBackgroundColor;
+            UIManager.instance.abilitiesSlots[statsAbilities.Count-1].statAbilityIcon.transform.parent.GetComponent<Image>().color = statAbilityUnlockedIconBackgroundColor;
             // Parent.parent transparence -> 255
-            UIManager.instance.abilitiesSlots[abilities.Count - 1].passiveAbilityIcon.transform.parent.parent.GetComponent<Image>().color = abilitiesUnlockedIconBackgroundColor;
+            UIManager.instance.abilitiesSlots[statsAbilities.Count-1].statAbilityIcon.transform.parent.parent.GetComponent<Image>().color = abilitiesUnlockedIconBackgroundColor;
         }
         
         [ContextMenu("UnlockAbilitySlot")]
         public void UnlockAbilitySlot()
         {
             slotAbilitiesAmount++;
-            UIManager.instance.UnlockAbilitySlot(abilities.Count);
+            UIManager.instance.UnlockAbilitySlot(passiveAbilities.Count);
         }
     }
 }

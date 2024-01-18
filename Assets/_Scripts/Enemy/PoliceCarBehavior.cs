@@ -50,7 +50,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     [Header("Pickable")] public GameObject socketPickableCop;
     public GameObject objectPickable;
 
-    public TransformDelegate OnPoliceCarDie;
+    public GameObjectDelgate OnPoliceCarDie;
 
     void Start()
     {
@@ -368,7 +368,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         DropItem();
         hp -= damages;
         ActiveDamageFB();
-        if (hp < 1) OnPoliceCarDie.Invoke(transform);
+        if (hp < 1) OnPoliceCarDie.Invoke(gameObject);
     }
 
     public bool IsDamageable() => gameObject.activeSelf == true && hp > 0;
