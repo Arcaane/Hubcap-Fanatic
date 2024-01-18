@@ -48,6 +48,13 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         // TODO - Reduce timeScale
     }
 
+    public void TakeHeal(int i)
+    {
+        lifePoints += i;
+        UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
+        UIManager.instance.SetLifePlayerText(lifePoints);
+    }
+
     private async void ActiveDamageFB()
     {
         foreach (var t in mat)

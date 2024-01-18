@@ -48,10 +48,6 @@ public class Delivery : MonoBehaviour
             //DeliveryResourcesManager.Instance.SpawnRandomObject();
             ResetLifeTime();
         }
-        else
-        {
-            Debug.Log("No delivery to do.");
-        }
     }
     
     private bool TryGetFirstPickableObject(out GameObject firstPickableObject)
