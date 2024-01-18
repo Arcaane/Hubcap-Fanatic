@@ -104,7 +104,6 @@ public class UIManager : MonoBehaviour
     
     public void SetPlayerLifeJauge(float f)
     {
-        Debug.Log(f);
         lifeImage.fillAmount = f;
     }
 
