@@ -38,6 +38,10 @@ public class TargetUI : MonoBehaviour
         if(objBinded == null) return;
         SetText(distanceText, distance);
         SwitchIcon();
+        if (ConvoyManager.instance.currentConvoy != null && TargetType.Convoy == targetType)
+        {
+            objBinded = ConvoyManager.instance.currentConvoy.gameObject;
+        }
         CalculateDistance();
     }
 
@@ -75,8 +79,7 @@ public class TargetUI : MonoBehaviour
             tmpGUI.text = adjustedNumber.ToString("0") + " " + unit;
         }
     }
-
-
+    
     void SwitchIcon()
     {
         switch (targetType)

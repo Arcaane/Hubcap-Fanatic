@@ -62,12 +62,7 @@ public class AntennaArea : MonoBehaviour
         switch (currentAntennaState)
         {
              case AntennaState.IsInactive:
-                 timeSinceCaptured += Time.deltaTime;
-                 if (timeSinceCaptured >= reactivateTimeDelay)
-                 {
-                     EnableAntennaTowerChild();
-                     SetupAntennaValue();
-                 }
+                    DeactivatePowerAntenna();
                  break;
                 case AntennaState.IsBeingCaptured:
                     BeingCaptured();
@@ -156,27 +151,17 @@ public class AntennaArea : MonoBehaviour
         timerActivation += Time.deltaTime;
         if (timerActivation >= activationTowerDuration)
         {
-            TurnOffAntenna();
-            ClearIndex();
+            currentAntennaState = AntennaState.IsInactive;
+            timerActivation = 0;
         }
     }
 
     private void AntennaDiscoverEffect()
     {
         CheckDistanceToConvoy(); //Convoy
-        CheckDistanceToMerchand(); //Convoy
+        CheckDistanceToMerchand(); //Merchant  
     }
-
-    private void ClearIndex()
-    {
-        if (indexList.Count <= 0) return;
-        for (int i = 0; i < indexList.Count; i++)
-        {
-            Debug.LogError(indexList[i]);
-            UIIndic.instance.RemoveIndic(indexList[i]);
-            indexList.Clear();
-        }
-    }
+    
 
     private void CheckDistanceToTarget(Transform targetTransform, TargetType targetType, ref bool targetIsInRange, List<int> indexList)
     {
@@ -189,8 +174,6 @@ public class AntennaArea : MonoBehaviour
             if (distance < antennaEffectSize)
             {
                 targetIsInRange = true;
-                UIIndic.instance.AddIndic(targetTransform.gameObject, targetType, out int index);
-                indexList.Add(index);
             }
         }
     }
@@ -198,11 +181,13 @@ public class AntennaArea : MonoBehaviour
     private void CheckDistanceToConvoy()
     {
         CheckDistanceToTarget(ConvoyManager.instance?.currentConvoy?.transform, TargetType.Convoy, ref convoyIsInRange, indexList);
+        if(convoyIsInRange) UIIndic.instance.EnableOrDisableSpecificUI(3, true);
     }
 
     private void CheckDistanceToMerchand()
     {
         CheckDistanceToTarget(MerchantBehavior.instance?.gameObject?.transform, TargetType.Merchant, ref merchantIsInRange, indexList);
+        if(merchantIsInRange) UIIndic.instance.EnableOrDisableSpecificUI(4, true);
     }
 
     private void TurnOnAntenna()
@@ -211,16 +196,24 @@ public class AntennaArea : MonoBehaviour
         SetupAntennaValue();
     }
 
-    private void TurnOffAntenna()
+    
+    private void DeactivatePowerAntenna()
     {
+        if (convoyIsInRange)
+        {
+            UIIndic.instance.EnableOrDisableSpecificUI(3);
+            convoyIsInRange = false;
+        }
+        if (merchantIsInRange)
+        {
+            UIIndic.instance.EnableOrDisableSpecificUI(4);
+            merchantIsInRange = false;
+        }
+        
         timeSinceCaptured += Time.deltaTime;
         if (timeSinceCaptured >= reactivateTimeDelay)
         {
-            for (int i = indexList.Count; i > indexList.Count; i--)
-            {
-                UIIndic.instance.Obj[indexList[i]] = null;
-            }
-            indexList = null;
+            TurnOnAntenna();
         }
     }
     
