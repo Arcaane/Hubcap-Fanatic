@@ -10985,14 +10985,14 @@ MonoBehaviour:
   wheels:
   - transform: {fileID: 4980589173374672119}
     wheelVisual: {fileID: 8313525766690617819}
-    directionalDampening: 0.35
+    directionalDampening: 0.325
     drivingFactor: 1
-    steeringFactor: 6
+    steeringFactor: 5.2
   - transform: {fileID: 422089550907774201}
     wheelVisual: {fileID: 8166388250625827031}
-    directionalDampening: 0.35
+    directionalDampening: 0.325
     drivingFactor: 1
-    steeringFactor: 6
+    steeringFactor: 5.2
   - transform: {fileID: 2470873284411068704}
     wheelVisual: {fileID: 2313699898289759998}
     directionalDampening: 0.3
@@ -11059,7 +11059,7 @@ MonoBehaviour:
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 60
   directionalDampMultiplier: 1
-  dampeningMultiplier: 0.5
+  dampeningMultiplier: 0.4
   steeringMultiplier: 1.7
   accelMultiplier: 1.4
   angleMinToExitDrift: 0.1
@@ -11082,14 +11082,15 @@ MonoBehaviour:
   smokeNitro: {fileID: 5123692597283315678}
   nitroMode: 0
   canNitro: 1
-  nitroTime: 1.5
-  nitroDuration: 1.5
+  nitroTime: 2
+  nitroDuration: 2
   nitroRegen: 0.1
   jumpSmoke: {fileID: 0}
   straffColider: {fileID: 5670995835939285263}
   straffTime: 2
   straffDuration: 2
   shotgunParticles: {fileID: 9085789767532920518}
+  shotgunDamages: 100
   isStraffing: 0
   roadMask:
     serializedVersion: 2
@@ -11344,10 +11345,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstAbility: {fileID: 0}
   car: {fileID: 0}
-  abilities: []
+  passiveAbilities: []
+  statsAbilities: []
   slotAbilitiesAmount: 4
   goldAmountWonOnRun: 0
   damageOnCollisionWithEnemy: 10
+  baseSpeedOnRoad: 0
+  baseSpeedOnSand: 0
+  baseNitroSpeed: 0
+  baseNitroCooldown: 0
+  baseShotgunDamage: 0
+  baseCollisionDamage: 0
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128

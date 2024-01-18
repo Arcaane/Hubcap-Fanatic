@@ -7,7 +7,7 @@ using UnityEditor;
 
 
 [ExecuteAlways]
-[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
 public class ProceduralRoad : MonoBehaviour
 {
     [System.Serializable]
@@ -153,6 +153,11 @@ void CreateRoadMesh()
         meshFilter.mesh = roadMesh;
     }
 
+    [ContextMenu("Assign mesh to collider")]
+    void AssignMeshToCollider() {
+        GetComponent<MeshCollider>().sharedMesh = GetComponent<MeshFilter>().sharedMesh;
+    }
+    
     
     [ContextMenu("Clear Curve")]
     void ClearCurve()

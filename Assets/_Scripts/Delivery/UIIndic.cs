@@ -21,6 +21,8 @@ public class UIIndic : MonoBehaviour
     public Transform uiParent;
     public static UIIndic instance;
 
+    public int currentIndex = 0;
+
     private void Awake()
     {
         instance = this;
@@ -29,9 +31,7 @@ public class UIIndic : MonoBehaviour
     private void Start()
     {
         //Setup Rect    
-        rectAdjusted = new Rect(Vector2.zero,cam.pixelRect.size - new Vector2(80,80));
-        rectAdjusted.center = cam.pixelRect.center;
-        center = cam.WorldToScreenPoint(camCenter.position);
+        SetupRect();
 
         for (int i = 0; i < DeliveryRessourcesManager.Instance.deliveryPoints.Count; i++)
         {
@@ -39,7 +39,16 @@ public class UIIndic : MonoBehaviour
         }
         
         //Setup 
-        CreateIndicForDeliveryZone(DeliveryRessourcesManager.Instance.deliveryPoints.Count);
+        CreateIndicsAtStart(DeliveryRessourcesManager.Instance.deliveryPoints.Count);
+        CreateIndicForConvoy();
+        CreateIndicForMerchant();
+    }
+    
+    void SetupRect()
+    {
+        rectAdjusted = new Rect(Vector2.zero,cam.pixelRect.size - new Vector2(80,80));
+        rectAdjusted.center = cam.pixelRect.center;
+        center = cam.WorldToScreenPoint(camCenter.position);
     }
 
     public void Update()
@@ -62,18 +71,40 @@ public class UIIndic : MonoBehaviour
     {
         targetUIPrefab.Add(Instantiate(indic, Vector3.zero, quaternion.identity,uiParent).GetComponent<TargetUI>());
     }
-
-    void CreateIndicForDeliveryZone(int count)
+    
+    void CreateIndicsAtStart(int count, TargetType targetType = TargetType.DeliveryZone)
     {
         for (int i = 0; i < count; i++)
         {
             TargetUI deliveryZoneUI = Instantiate(indic, Vector3.zero, quaternion.identity, uiParent).GetComponent<TargetUI>();
-            deliveryZoneUI.targetType = TargetType.DeliveryZone;
+            deliveryZoneUI.targetType = targetType;
             deliveryZoneUI.objBinded = obj[i];
             deliveryZoneUI.indexDeliveryPoints = i;
             targetUIPrefab.Add(deliveryZoneUI);
         }
         EnableOrDisableDeliveryZone();
+    }
+    
+    void CreateIndicForConvoy()
+    {
+        TargetUI convoyUI = Instantiate(indic, Vector3.zero, quaternion.identity, uiParent).GetComponent<TargetUI>();
+        convoyUI.targetType = TargetType.Convoy;
+        convoyUI.objBinded = ConvoyManager.instance.gameObject;
+        convoyUI.indexDeliveryPoints = 0;
+        targetUIPrefab.Add(convoyUI);
+        obj.Add(convoyUI.objBinded);
+        EnableOrDisableSpecificUI(3);
+    }
+    
+    void CreateIndicForMerchant()
+    {
+        TargetUI merchantUI = Instantiate(indic, Vector3.zero, quaternion.identity, uiParent).GetComponent<TargetUI>();
+        merchantUI.targetType = TargetType.Merchant;
+        merchantUI.objBinded = MerchantBehavior.instance.gameObject;
+        merchantUI.indexDeliveryPoints = 0;
+        targetUIPrefab.Add(merchantUI);
+        obj.Add(merchantUI.objBinded);
+        EnableOrDisableSpecificUI(4);
     }
 
 
@@ -96,6 +127,11 @@ public class UIIndic : MonoBehaviour
         }
     }
 
+    public void EnableOrDisableSpecificUI(int index, bool enable = false)
+    {
+        targetUIPrefab[index].gameObject.SetActive(enable);
+    }
+    
 
     public void EnableOrDisableDeliveryZone(bool enable = false)
     {

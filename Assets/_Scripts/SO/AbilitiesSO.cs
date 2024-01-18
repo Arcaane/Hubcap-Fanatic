@@ -40,8 +40,7 @@ namespace Abilities
         [Header("Stats Abilities")] 
         public StatsModifier statsModifier; 
         public HowStatsModify howStatsModify;
-        public float amount;
-        
+        public float[] amount;
         
         // Target Objects
         private GameObject returnedTargetObject;
@@ -83,7 +82,7 @@ namespace Abilities
             }
             else if (type == AbilityType.GoldGiver)
             {
-                carAbilities.goldAmountWonOnRun += (int)amount;
+                carAbilities.goldAmountWonOnRun += (int)amount[0];
             }
         }
         
@@ -256,6 +255,16 @@ namespace Abilities
             carBehaviour.forceBreak = true;
             carBehaviour.forceBreakTimer = effectDuration;
         }
+
+        private void EffectExplosion(GameObject targetObj)
+        {
+            var cols = Physics.OverlapSphere(targetObj.transform.position, effectSizeRadius, enemyLayerMask);
+            for (int i = 0; i < cols.Length; i++)
+            {
+                cols[i].GetComponent<IDamageable>()?.TakeDamage(effectDamage);
+            }
+        }
+        
         #endregion
 
 
@@ -286,44 +295,41 @@ namespace Abilities
             {
                 case StatsModifier.SpeedOnRoad: switch (howStatsModify)
                     {
-                        case HowStatsModify.Subtract: CarController.instance.maxSpeed -= amount; break;
-                        case HowStatsModify.Add: CarController.instance.maxSpeed += amount; break;
-                        case HowStatsModify.Multiply: CarController.instance.maxSpeed *= amount; break;
+                        case HowStatsModify.Subtract: CarController.instance.maxSpeed = carAbilities.baseSpeedOnRoad - amount[level]; break;
+                        case HowStatsModify.Add: CarController.instance.maxSpeed = carAbilities.baseSpeedOnRoad + amount[level];; break;
+                        case HowStatsModify.Multiply: CarController.instance.maxSpeed = carAbilities.baseSpeedOnRoad * amount[level];; break;
                     } break;
                 case StatsModifier.SpeedOnSand: switch (howStatsModify) {
-                        case HowStatsModify.Subtract: player.offRoadSpeed -= amount; break;
-                        case HowStatsModify.Add: player.offRoadSpeed += amount; break;
-                        case HowStatsModify.Multiply: player.offRoadSpeed *= amount; break;
+                        case HowStatsModify.Subtract: player.offRoadSpeed = carAbilities.baseSpeedOnSand - amount[level]; break;
+                        case HowStatsModify.Add: player.offRoadSpeed = carAbilities.baseSpeedOnSand + amount[level]; break;
+                        case HowStatsModify.Multiply: player.offRoadSpeed = carAbilities.baseSpeedOnSand * amount[level]; break;
                     } break;
                 case StatsModifier.NitroSpeed: switch (howStatsModify)
                     {
-                        case HowStatsModify.Subtract: player.nitroSpeed -= amount; break;
-                        case HowStatsModify.Add: player.nitroSpeed += amount; break;
-                        case HowStatsModify.Multiply: player.nitroSpeed *= amount; break;
+                        case HowStatsModify.Subtract: player.nitroSpeed = carAbilities.baseNitroSpeed + amount[level]; break;
+                        case HowStatsModify.Add: player.nitroSpeed = carAbilities.baseNitroSpeed - amount[level]; break;
+                        case HowStatsModify.Multiply: player.nitroSpeed = carAbilities.baseNitroSpeed * amount[level]; break;
                         default: throw new ArgumentOutOfRangeException();
                     } break;
                 case StatsModifier.NitroCooldown: switch (howStatsModify)
                     {
-                        case HowStatsModify.Subtract: player.nitroRegen *= amount; break;
-                        case HowStatsModify.Add: player.nitroRegen *= amount; break;
-                        case HowStatsModify.Multiply: player.nitroRegen *= amount; break;
+                        case HowStatsModify.Subtract: player.nitroRegen = carAbilities.baseNitroCooldown + amount[level]; break;
+                        case HowStatsModify.Add: player.nitroRegen = carAbilities.baseNitroCooldown - amount[level]; break;
+                        case HowStatsModify.Multiply: player.nitroRegen = carAbilities.baseNitroCooldown * amount[level]; break;
                         default: throw new ArgumentOutOfRangeException();
                     } break;
                 case StatsModifier.ShotgunDamage: switch (howStatsModify)
                     {
-                        case HowStatsModify.Subtract: player.shotgunDamages -= Mathf.FloorToInt(amount); break;
-                        case HowStatsModify.Add: player.shotgunDamages += Mathf.FloorToInt(amount); break;
-                        case HowStatsModify.Multiply: player.shotgunDamages = Mathf.FloorToInt(player.shotgunDamages * amount); break;
+                        case HowStatsModify.Subtract: player.shotgunDamages = Mathf.FloorToInt(carAbilities.baseShotgunDamage + amount[level]); break;
+                        case HowStatsModify.Add: player.shotgunDamages = Mathf.FloorToInt(carAbilities.baseShotgunDamage - amount[level]); break;
+                        case HowStatsModify.Multiply: player.shotgunDamages = Mathf.FloorToInt(carAbilities.baseShotgunDamage * amount[level]); break;
                         default: throw new ArgumentOutOfRangeException();
                     } break;
                 case StatsModifier.CollisionDamage: switch (howStatsModify)
                     {
-                        case HowStatsModify.Subtract: carAbilities.damageOnCollisionWithEnemy -= (int)amount;
-                            break;
-                        case HowStatsModify.Add: carAbilities.damageOnCollisionWithEnemy += (int)amount;
-                            break;
-                        case HowStatsModify.Multiply: carAbilities.damageOnCollisionWithEnemy = Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy * amount);
-                            break;
+                        case HowStatsModify.Subtract: carAbilities.damageOnCollisionWithEnemy = Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy + amount[level]); break;
+                        case HowStatsModify.Add: carAbilities.damageOnCollisionWithEnemy = Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy - amount[level]); break;
+                        case HowStatsModify.Multiply: carAbilities.damageOnCollisionWithEnemy = Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy * amount[level]); break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     } break;
