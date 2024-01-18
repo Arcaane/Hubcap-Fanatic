@@ -91,7 +91,7 @@ public class TestShop : MonoBehaviour
             buttonsItemsArray[i].powerUpDescription.text = purchasableAbilities[index].description;
             buttonsItemsArray[i].powerUpSprite.sprite = purchasableAbilities[index].abilitySprite;
             buttonsItemsArray[i].powerUpButton.onClick.RemoveAllListeners();
-            buttonsItemsArray[i].isNew.SetActive(!CarAbilitiesManager.instance.abilities.Contains(purchasableAbilities[index]));
+            buttonsItemsArray[i].isNew.SetActive(!CarAbilitiesManager.instance.passiveAbilities.Contains(purchasableAbilities[index]) || !CarAbilitiesManager.instance.statsAbilities.Contains(purchasableAbilities[index]));
             buttonsItemsArray[i].powerUpButton.onClick.AddListener(ExitShop);
         
             // Sinon
@@ -99,7 +99,16 @@ public class TestShop : MonoBehaviour
             {
                 CarAbilitiesManager.instance.AddAbility(purchasableAbilities[index]);
                 CarExperienceManager.Instance.levelUpTokensAvailable--;
-                if (CarAbilitiesManager.instance.abilities.Find(so => purchasableAbilities[index]).level == 2) purchasableAbilities.Remove(purchasableAbilities[index]);
+
+                if (purchasableAbilities[index].type == AbilityType.ClassicAbilites)
+                {
+                    if (CarAbilitiesManager.instance.passiveAbilities.Find(so => purchasableAbilities[index]).level == 2) purchasableAbilities.Remove(purchasableAbilities[index]);
+                }
+
+                if (purchasableAbilities[index].type == AbilityType.UpgrateStatsAbilites)
+                {
+                    if (CarAbilitiesManager.instance.statsAbilities.Find(so => purchasableAbilities[index])) purchasableAbilities.Remove(purchasableAbilities[index]);
+                }
             });
         }
         else

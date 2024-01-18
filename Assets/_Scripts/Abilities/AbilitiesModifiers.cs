@@ -15,5 +15,4 @@ namespace Abilities
     {
         [field:SerializeField] public ActiveModifier[] Modifiers { get; private set; }
     }
-    
 }
