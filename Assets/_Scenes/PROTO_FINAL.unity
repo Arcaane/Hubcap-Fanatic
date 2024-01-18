@@ -85129,6 +85129,10 @@ PrefabInstance:
       value: 0.58431375
       objectReference: {fileID: 0}
     - target: {fileID: 3522990401953886266, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: firstAbility
+      value: 
+      objectReference: {fileID: 11400000, guid: 549464251bdc96e40b7b5aa653ee00ce, type: 2}
+    - target: {fileID: 3522990401953886266, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: driftAbilities.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -85475,6 +85479,10 @@ PrefabInstance:
     - target: {fileID: 5371376407056613592, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
       value: 0.58431375
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806225345550224815, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
+      propertyPath: shotgunDamages
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 7525522573800427913, guid: 9e722fe93dc4ab649bcb0c8e85408e50, type: 3}
       propertyPath: levelUpTokensAvailable

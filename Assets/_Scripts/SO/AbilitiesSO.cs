@@ -223,6 +223,7 @@ namespace Abilities
                 case Effect.LifeSteal: EffectLifeSteal(targetObj); break;
                 case Effect.Scorch: EffectScorch(targetObj); break;
                 case Effect.Berserk: EffectBerserk(targetObj); break;
+                case Effect.Shield: EffectShield(targetObj); break;
                 default: throw new ArgumentOutOfRangeException(nameof(effect), effect, null);
             }
         }
@@ -319,6 +320,16 @@ namespace Abilities
             await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
             if (car) return;
             car.straffDuration = baseStraffDuration;
+        }
+        
+        private async void EffectShield(GameObject targetObj)
+        {
+            CarController car = targetObj.GetComponent<CarController>();
+            if (!car) return;
+            car.shield.SetActive(true);
+            await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
+            if (!car) return;
+            car.shield.SetActive(false);
         }
         
         #endregion
@@ -452,7 +463,8 @@ public enum Effect
     SpawnMine,
     LifeSteal,
     Scorch,
-    Berserk
+    Berserk,
+    Shield
 }
 
 public enum AbilitiesStats

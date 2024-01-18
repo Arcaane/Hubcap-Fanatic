@@ -44,6 +44,8 @@ public class CarController : CarBehaviour
     [SerializeField] private LayerMask roadMask;
     [SerializeField] public float offRoadSpeed = 10;
     [SerializeField] public float offRoadDeccelerationFactor = 5;
+
+    [Header("Effects")] [SerializeField] public GameObject shield; 
     
     
     public bool canStraff => straffTime >= straffDuration;
