@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -31,7 +32,7 @@ public class UIManager : MonoBehaviour
     
     [SerializeField] public ButtonsItems[] buttonsHandlers;
 
-    [SerializeField] public Transform shootIcon;
+    [SerializeField] public Transform shootIcon,shopIcon;
 
     [SerializeField] private Image[] shotJauges;
 
@@ -44,9 +45,23 @@ public class UIManager : MonoBehaviour
         public Image statAbilityIcon;
     }
 
-    [Header("Wave Informations")]
+    [Header("Merchant")]
     [SerializeField] private TextMeshProUGUI merchantText;
     [SerializeField] private TextMeshProUGUI merchantText2;
+    
+    [Header("ShopUI")]
+    [SerializeField] public ShopOption[] shopOptions;
+    [SerializeField] private CanvasGroup hudGroup,shopGroup;
+    [SerializeField] private AnimationCurve[] optionsCurves;
+    [SerializeField] private bool shopOpen,shopTransition;
+    [SerializeField] private int shopOptionSelected = 0;
+    [SerializeField] private TextMeshProUGUI shoptokenText;
+    [SerializeField] private TextMeshProUGUI shoptokenText2;
+    [SerializeField] private Image exitSign;
+
+    private bool stickUsed;
+    private Vector2 stickValue;
+    
     
 
     private void Awake()
@@ -101,8 +116,7 @@ public class UIManager : MonoBehaviour
 
     public void SetTokenText(int i)
     {
-        tokenText.text = i.ToString();
-        tokenText2.text = i.ToString();
+        shoptokenText.text = shoptokenText2.text = tokenText2.text = tokenText.text = i.ToString();
     }
 
     public void UnlockAbilitySlot(int i)
@@ -119,5 +133,181 @@ public class UIManager : MonoBehaviour
         await Task.Delay(3000);
         merchantText.gameObject.SetActive(false);
         merchantText2.gameObject.SetActive(false);
+    }
+
+    public async void OpenShopScreen()
+    {
+        if (shopTransition || shopOpen) return;
+        shopTransition = true;
+        Time.timeScale = 0;
+        float i = 0;
+        while (i < 1)
+        {
+            i += Time.unscaledDeltaTime;
+            hudGroup.alpha = 1 - i;
+            shopGroup.alpha = i;
+            for (int j = 0; j < 3; j++)
+            {
+                shopOptions[j].transform.localScale = optionsCurves[j].Evaluate(i) * Vector3.one;
+            }
+            await Task.Yield();
+        }
+        hudGroup.alpha = 0;
+        shopGroup.alpha = 1;
+        for (int j = 0; j < 3; j++)
+        {
+            shopOptions[j].transform.localScale = Vector3.one;
+        }
+        shopTransition = false;
+        shopOpen = true;
+    }
+    
+    public async void CloseShopScreen()
+    {
+        if (shopTransition || !shopOpen) return;
+        shopTransition = true;
+        float i = 0;
+        while (i < 1)
+        {
+            i += Time.unscaledDeltaTime;
+            hudGroup.alpha = i;
+            shopGroup.alpha = 1 - i;
+            for (int j = 0; j < 3; j++)
+            {
+                shopOptions[j].transform.localScale = optionsCurves[j].Evaluate(1 - i) * Vector3.one;
+            }
+            await Task.Yield();
+        }
+        hudGroup.alpha = 1;
+        shopGroup.alpha = 0;
+        for (int j = 0; j < 3; j++)
+        {
+            shopOptions[j].transform.localScale = Vector3.zero;
+        }
+        shopTransition = false;
+        shopOpen = false;
+        Time.timeScale = 1;
+    }
+
+    #region Inputs
+
+    public void LStick(InputAction.CallbackContext context)
+    {
+
+        if (context.performed)
+        {
+            stickValue = context.ReadValue<Vector2>();
+            if (!stickUsed)
+            {
+                stickUsed = true;
+                float angle = Vector2.SignedAngle(Vector2.up, stickValue);
+                if (angle > -45 && angle < 45)
+                {
+                    UpChoice();
+                }
+                else if (angle > 45 && angle < 135)
+                {
+                    RightChoice();
+                }
+                else if (angle > -135 && angle < -45)
+                {
+                    LeftChoice();
+                }
+                else
+                {
+                   DownChoice();
+                }
+            } 
+            
+        }
+        else
+        {
+            stickValue = Vector2.zero;
+            stickUsed = false;
+        }
+    }
+
+
+    void LeftChoice()
+    {
+        if (!shopOpen) return;
+        if (shopOptionSelected >= 0)
+        {
+            shopOptionSelected -= 1;
+            if (shopOptionSelected < 0) shopOptionSelected = 2;
+        }
+    }
+    
+    void RightChoice()
+    {
+        if (!shopOpen) return;
+        if (shopOptionSelected >= 0)
+        {
+            shopOptionSelected += 1;
+            if (shopOptionSelected > 2) shopOptionSelected = 0;
+        }
+    }
+    
+    void DownChoice()
+    {
+        if (!shopOpen) return;
+        if (shopOptionSelected >= 0)
+        {
+            shopOptionSelected = -1;
+        }
+    }
+    
+    void UpChoice()
+    {
+        if (!shopOpen) return;
+        if (shopOptionSelected < 0)
+        {
+            shopOptionSelected = 0;
+        }
+    }
+
+    #endregion
+
+
+    private void Update()
+    {
+        if (!shopOpen) return;
+
+        for (int i = 0; i < 3; i++)
+        {
+            if(shopOptionSelected == i) shopOptions[i].transform.localScale = Vector3.Lerp(shopOptions[i].transform.localScale,Vector3.one * 1.2f,Time.unscaledDeltaTime * 5);
+            else shopOptions[i].transform.localScale = Vector3.Lerp(shopOptions[i].transform.localScale,Vector3.one * 0.8f,Time.unscaledDeltaTime * 5);
+
+        }
+        
+        if(shopOptionSelected == -1) exitSign.transform.localScale = Vector3.Lerp(exitSign.transform.localScale,Vector3.one * 1.2f,Time.unscaledDeltaTime * 5);
+        else  exitSign.transform.localScale = Vector3.Lerp(exitSign.transform.localScale,Vector3.one * 0.8f,Time.unscaledDeltaTime * 5);
+    }
+    
+    
+    public void AButton(InputAction.CallbackContext context)
+    {
+        if (!shopOpen) return;
+        
+        if (context.started)
+        {
+            if (shopOptionSelected >= 0)
+            {
+                if(CarExperienceManager.Instance.levelUpTokensAvailable > 0) shopOptions[shopOptionSelected].Buy();
+            }
+            else CloseShopScreen();
+        }
+        
+    }
+    
+    public void HonkShop(InputAction.CallbackContext context)
+    {
+        if (shopOpen || shopTransition) return;
+        
+        if (context.started && MerchantBehavior.instance.shop.playerInRange)
+        {
+            MerchantBehavior.instance.shop.StartShopUI();
+        }
+        
     }
 }

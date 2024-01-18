@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityName: Buckshot
   description: Deal +200% damages with the shotgun
   abilitySprite: {fileID: 21300000, guid: 2a4dfd175a1caec40ba7fc45f5cd3047, type: 3}
-  level: 0
+  level: -1
   trigger: 0
   target: 0
   when: 0

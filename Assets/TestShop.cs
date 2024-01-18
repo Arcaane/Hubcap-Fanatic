@@ -1,193 +1,122 @@
+using System;
 using System.Collections.Generic;
 using Abilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public class TestShop : MonoBehaviour
 {
     [SerializeField] private List<AbilitiesSO> allAbilities;
     [SerializeField] private List<AbilitiesSO> purchasableAbilities;
     [SerializeField] private AbilitiesSO gold;
-    
-    [SerializeField] private ButtonsItems[] buttonsItemsArray = new ButtonsItems[3];
-    private bool isShopActive;
 
+    [SerializeField] private ShopOption[] buttonsItemsArray = new ShopOption[3];
+
+    [SerializeField] private Camera cam;
+
+    public bool playerInRange;
+    
     private void Start()
     {
-        UIManager.instance.shopScreen.SetActive(false);
         for (int i = 0; i < 3; i++)
         {
-            buttonsItemsArray[i] = UIManager.instance.buttonsHandlers[i];
+            buttonsItemsArray[i] = UIManager.instance.shopOptions[i];
         }
-        
-        isShopActive = false;
 
-        for (int i = 0; i < allAbilities.Count; i++) purchasableAbilities.Add(allAbilities[i]);
+
+        for (int i = 0; i < allAbilities.Count; i++) allAbilities[i].level = -1;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (CarExperienceManager.Instance.levelUpTokensAvailable > 0)
-            {
-                StartShopUI();
-            }
-            else
-            {
-                Debug.Log("Pas de thunes igo");
-            }
+            playerInRange = true;
+            
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = false;
+           
         }
     }
 
-    private void StartShopUI()
+    private void Update()
     {
-        Time.timeScale = 0;
-        UIManager.instance.shopScreen.SetActive(true);
-        isShopActive = true;
-        EventSystem.current.SetSelectedGameObject(buttonsItemsArray[0].gameObject);
+        if (playerInRange)
+        {
+            UIManager.instance.shopIcon.position = cam.WorldToScreenPoint(transform.position);
+            UIManager.instance.shopIcon.localScale = Vector3.Lerp(UIManager.instance.shopIcon.localScale,Vector3.one, Time.deltaTime*7);
+        }
+        else
+        {
+            UIManager.instance.shopIcon.localScale = Vector3.Lerp(UIManager.instance.shopIcon.localScale,Vector3.zero, Time.deltaTime*7);
+        }
+        
+    }
+
+    public void StartShopUI()
+    {
+        UIManager.instance.OpenShopScreen();
+        
         SetupItemsInShop();
     }
 
-    private void SetupItemsInShop()
+    public void SetupItemsInShop()
     {
-        for (int i = 0; i < buttonsItemsArray.Length; i++) buttonsItemsArray[i].gameObject.SetActive(false);
+        purchasableAbilities.Clear();
 
-        if (purchasableAbilities.Count == 0)
-        {
-            SetupGoldInShop();
-        }
+        bool noPassivePlace = CarAbilitiesManager.instance.passiveAbilities.Count >=
+                             CarAbilitiesManager.instance.slotAbilitiesAmount;
+        bool noBoostPlace = CarAbilitiesManager.instance.statsAbilities.Count >=
+                           CarAbilitiesManager.instance.slotAbilitiesAmount;
         
-        if (purchasableAbilities.Count == 1)
+        for (int i = 0; i < allAbilities.Count; i++)
         {
-            SetupButton(0);
-        }
-        else
-        {
-            firstItemIndex = secondItemIndex = thirdItemIndex = -1;
-            GetRandomsNumbers();
+            if (allAbilities[i].level >= 3) continue;
 
-            if (firstItemIndex > -1) SetupButton(0);
-            if (secondItemIndex > -1) SetupButton(1);
-            if (thirdItemIndex > -1) SetupButton(2);
+            if (allAbilities[i].level == -1 && allAbilities[i].type == AbilityType.ClassicAbilites && noPassivePlace) continue;
+            
+            if (allAbilities[i].level == -1 && allAbilities[i].type == AbilityType.UpgrateStatsAbilites && noBoostPlace) continue;
+            
+            purchasableAbilities.Add(allAbilities[i]);
         }
-    }
 
-    private void SetupButton(int i)
-    {
-        if (!CarAbilitiesManager.instance.IsPlayerFullAbilities())
-        {
-            buttonsItemsArray[i].gameObject.SetActive(true);
+        int availableAbilities = Mathf.Clamp(purchasableAbilities.Count, 0, 3);
+
+        purchasableAbilities = ShuffleList(purchasableAbilities);
         
-            var index = i switch
-            {
-                0 => firstItemIndex,
-                1 => secondItemIndex,
-                2 => thirdItemIndex,
-                _ => 0
-            };
-
-            buttonsItemsArray[i].powerUpTitle.text = purchasableAbilities[index].abilityName;
-            buttonsItemsArray[i].powerUpDescription.text = purchasableAbilities[index].description;
-            buttonsItemsArray[i].powerUpSprite.sprite = purchasableAbilities[index].abilitySprite;
-            buttonsItemsArray[i].powerUpButton.onClick.RemoveAllListeners();
-            buttonsItemsArray[i].isNew.SetActive(!CarAbilitiesManager.instance.passiveAbilities.Contains(purchasableAbilities[index]) || !CarAbilitiesManager.instance.statsAbilities.Contains(purchasableAbilities[index]));
-            buttonsItemsArray[i].powerUpButton.onClick.AddListener(ExitShop);
-        
-            // Sinon
-            buttonsItemsArray[i].powerUpButton.onClick.AddListener(() =>
-            {
-                CarAbilitiesManager.instance.AddAbility(purchasableAbilities[index]);
-                CarExperienceManager.Instance.levelUpTokensAvailable--;
-
-                if (purchasableAbilities[index].type == AbilityType.ClassicAbilites)
-                {
-                    if (CarAbilitiesManager.instance.passiveAbilities.Find(so => purchasableAbilities[index]).level == 2) purchasableAbilities.Remove(purchasableAbilities[index]);
-                }
-
-                if (purchasableAbilities[index].type == AbilityType.UpgrateStatsAbilites)
-                {
-                    if (CarAbilitiesManager.instance.statsAbilities.Find(so => purchasableAbilities[index])) purchasableAbilities.Remove(purchasableAbilities[index]);
-                }
-            });
-        }
-        else
+        for (int i = 0; i < 3; i++)
         {
-            SetupGoldInShop();
-        }
-    }
-    
-    private int firstItemIndex, secondItemIndex, thirdItemIndex;
-    private int[] GetRandomsNumbers()
-    {
-        int count = purchasableAbilities.Count;
-        if (count > 2) // Tout va bien 
-        {
-            firstItemIndex = Random.Range(0, count);
-            secondItemIndex = Random.Range(0, count);
-            thirdItemIndex = Random.Range(0, count);
-
-            if (firstItemIndex != secondItemIndex && secondItemIndex != thirdItemIndex && firstItemIndex != thirdItemIndex)
+            if (i < availableAbilities)
             {
-                int[] a = new int[] { firstItemIndex, secondItemIndex, thirdItemIndex };
-                return a;
+                buttonsItemsArray[i].SetOption(purchasableAbilities[i]);
             }
             else
             {
-                GetRandomsNumbers();
+                buttonsItemsArray[i].SetOption(gold);
             }
         }
-        else if(count == 2)
-        {
-            firstItemIndex = Random.Range(0, count);
-            secondItemIndex = Random.Range(0, count);
-
-            if (firstItemIndex != secondItemIndex)
-            {
-                int[] a = { firstItemIndex, secondItemIndex };
-                return a;
-            }
-            else
-            {
-                GetRandomsNumbers();
-            }
-        }
-        else if (count == 1)
-        {
-            int[] a = { 0 };
-            return a;
-        }
-        else
-        {
-            ExitShop();
-        }
-
-        return null;
     }
     
-    private void ExitShop()
-    {
-        Time.timeScale = 1;
-        UIManager.instance.shopScreen.SetActive(false);
-        isShopActive = false;
-    }
+   
 
-    public void SetupGoldInShop()
+
+    public static List<T> ShuffleList<T>(List<T> list)
     {
-        for (int i = 0; i < buttonsItemsArray.Length; i++)
+        List<T> rngList = new List<T>(0);
+        int x = list.Count;
+        for (int i = 0; i < x; i++)
         {
-            buttonsItemsArray[i].gameObject.SetActive(true);
-            buttonsItemsArray[i].powerUpTitle.text = gold.abilityName;
-            buttonsItemsArray[i].powerUpDescription.text = gold.description;
-            buttonsItemsArray[i].powerUpSprite.sprite = gold.abilitySprite;
-            buttonsItemsArray[i].powerUpButton.onClick.RemoveAllListeners();
-            buttonsItemsArray[i].isNew.SetActive(false);
-            buttonsItemsArray[i].powerUpButton.onClick.AddListener(ExitShop);
-
-            buttonsItemsArray[i].powerUpButton.onClick.AddListener(() =>
-            {
-                CarAbilitiesManager.instance.goldAmountWonOnRun += gold.effectDamage;
-            });
+            int rng = Random.Range(0, list.Count);
+            rngList.Add(list[rng]);
+            list.RemoveAt(rng);
         }
+        return rngList;
     }
 }
