@@ -116,9 +116,7 @@ namespace Abilities
                 case State.Nitro: if(!player.nitroMode) return; break;
                 default: throw new ArgumentOutOfRangeException(); break;
             }
-
-            Debug.Log($"State: {state} Passed!");
-
+            
             if (isInCooldown)
             {
                 Debug.Log("Is in cooldown");
@@ -156,8 +154,11 @@ namespace Abilities
 
         private void OnTargetDieApplyEffect(GameObject targetObj)
         {
-            targetObj.GetComponent<PoliceCarBehavior>().OnPoliceCarDie -= ApplyEffect;
-            targetObj.GetComponent<PoliceCarBehavior>().OnPoliceCarDie += ApplyEffect;
+            if (targetObj == null) return;
+
+            PoliceCarBehavior enemy = targetObj.GetComponent<PoliceCarBehavior>();
+            enemy.OnPoliceCarDie -= ApplyEffect;
+            enemy.OnPoliceCarDie += ApplyEffect;
         }
 
         public void ApplyEffectOnTargetsInZone(Vector3 zonePos,float zoneRadius)
@@ -203,16 +204,12 @@ namespace Abilities
         {
             switch (effect)
             {
-                case Effect.Explosion: Debug.LogError("PAS ENCORE D'EXPLOSION");
-                    break;
-                case Effect.Spear: EffectSpear(targetObj);
-                    break;
-                case Effect.Damage: EffectDamage(targetObj);
-                    break;
-                case Effect.ForceBreak: EffectForceBreak(targetObj);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(effect), effect, null);
+                case Effect.Explosion: EffectExplosion(targetObj); break;
+                case Effect.Spear: EffectSpear(targetObj); break;
+                case Effect.Damage: EffectDamage(targetObj); break;
+                case Effect.ForceBreak: EffectForceBreak(targetObj); break;
+                case Effect.SpawnMine: EffectSpawnMine(targetObj); break;
+                default: throw new ArgumentOutOfRangeException(nameof(effect), effect, null);
             }
         }
         
@@ -254,15 +251,26 @@ namespace Abilities
             CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
             carBehaviour.forceBreak = true;
             carBehaviour.forceBreakTimer = effectDuration;
+            GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_MotorBreak, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity).gameObject;
+            go.transform.SetParent(targetObj.transform);
+            go.SetActive(true);
         }
 
         private void EffectExplosion(GameObject targetObj)
         {
+            var a = Instantiate(carAbilities.testEffectsPrefab, targetObj.transform.position, Quaternion.identity);
+            a.transform.localScale = new Vector3(effectSizeRadius, effectSizeRadius,effectSizeRadius);
+            
             var cols = Physics.OverlapSphere(targetObj.transform.position, effectSizeRadius, enemyLayerMask);
             for (int i = 0; i < cols.Length; i++)
             {
                 cols[i].GetComponent<IDamageable>()?.TakeDamage(effectDamage);
             }
+        }
+
+        private void EffectSpawnMine(GameObject targetObj)
+        { 
+            Pooler.instance.SpawnInstance(Key.OBJ_Mine, targetObj.transform.position, Quaternion.identity);
         }
         
         #endregion
@@ -384,7 +392,7 @@ public enum Effect
     Spear,
     Damage,
     ForceBreak,
-    Undefined_4,
+    SpawnMine,
     Undefined_5
 }
 

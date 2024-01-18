@@ -32,7 +32,10 @@ MonoBehaviour:
   cooldownDuration: 0
   statsModifier: 0
   howStatsModify: 2
-  amount: 1.1
+  amount:
+  - 1.1
+  - 1.2
+  - 1.3
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0

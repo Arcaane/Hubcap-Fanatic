@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityName: Bull bar
   description: Deal +200% damages on car collision
   abilitySprite: {fileID: 21300000, guid: 62140a8686430604c8d8e5ab073a9244, type: 3}
-  level: -1
+  level: 3
   trigger: 0
   target: 0
   when: 0
@@ -32,7 +32,10 @@ MonoBehaviour:
   cooldownDuration: 0
   statsModifier: 5
   howStatsModify: 2
-  amount: 2
+  amount:
+  - 1.25
+  - 1.5
+  - 2
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128

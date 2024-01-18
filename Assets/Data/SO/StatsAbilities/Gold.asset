@@ -32,7 +32,8 @@ MonoBehaviour:
   cooldownDuration: 0
   statsModifier: 0
   howStatsModify: 0
-  amount: 30
+  amount:
+  - 35
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0

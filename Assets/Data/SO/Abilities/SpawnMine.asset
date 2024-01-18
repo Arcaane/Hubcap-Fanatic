@@ -10,32 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
-  m_Name: NitroCooldownReduce
+  m_Name: SpawnMine
   m_EditorClassIdentifier: 
-  type: 1
-  abilityName: Rapid recovery
-  description: Nitro recovers 25% faster
-  abilitySprite: {fileID: 21300000, guid: 738687a8a8954d249b5b8051ca8fb846, type: 3}
-  level: -1
-  trigger: 0
-  target: 0
-  when: 0
-  state: 0
-  effect: 0
+  type: 0
+  abilityName: Spawn Mine
+  description: 
+  abilitySprite: {fileID: 0}
+  level: 0
+  trigger: 4
+  target: 1
+  when: 3
+  state: 5
+  effect: 4
   levelsAbilitiesModifiers: []
   effectDamage: 0
   effectSizeRadius: 0
   effectDuration: 0
   effectDelayMilliseconds: 0
-  effectRepeatDelay: 0
+  effectRepeatDelay: 1
   isCapacityCooldown: 0
   cooldownDuration: 0
-  statsModifier: 3
-  howStatsModify: 2
-  amount:
-  - 0.75
-  - 0.5
-  - 0.25
+  statsModifier: 0
+  howStatsModify: 0
+  amount: []
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0

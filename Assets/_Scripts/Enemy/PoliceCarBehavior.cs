@@ -119,6 +119,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         OnMove();
     }
 
+    private float shootingTimer;
     private void DriveByUpdate()
     {
         float rot = 0;
@@ -160,6 +161,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             {
                 shootFx.transform.rotation = Quaternion.LookRotation(direction);
                 shooting = true;
+                
                 shootFx.Play();
             }
 
@@ -172,6 +174,16 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             if (shooting)
                 shootFx.transform.rotation = Quaternion.Lerp(shootFx.transform.rotation,
                     Quaternion.LookRotation(direction), Time.deltaTime * 5);
+
+            if (shooting)
+            {
+                shootingTimer += Time.deltaTime;
+                if (shootingTimer > 0.35f)
+                {
+                    CarHealthManager.instance.TakeDamage(carDamage);
+                    shootingTimer = 0f;
+                }
+            }
         }
         else
         {

@@ -389,7 +389,7 @@ MonoBehaviour:
   rotationValue: 0
   enemyKey: 4
   hp: 100
-  carDamage: 5
+  carDamage: 2
   expToGiveBasedOnLevel:
     serializedVersion: 2
     m_Curve:
