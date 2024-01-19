@@ -1643,6 +1643,7 @@ MonoBehaviour:
   abilityColor: {r: 0.9843137, g: 0.7372549, b: 0.30980393, a: 1}
   boostColor: {r: 0.7254902, g: 0.9843137, b: 0.30980393, a: 1}
   goldColor: {r: 1, g: 1, b: 1, a: 1}
+  unavailableColor: {r: 0, g: 0, b: 0, a: 0}
   shopAbility: {fileID: 0}
 --- !u!1 &3217529554079782321
 GameObject:
@@ -1862,6 +1863,7 @@ MonoBehaviour:
   abilityColor: {r: 0.9843137, g: 0.7372549, b: 0.30980393, a: 1}
   boostColor: {r: 0.7254902, g: 0.9843137, b: 0.30980393, a: 1}
   goldColor: {r: 1, g: 1, b: 1, a: 1}
+  unavailableColor: {r: 0, g: 0, b: 0, a: 0}
   shopAbility: {fileID: 0}
 --- !u!1 &3834675093529925220
 GameObject:
@@ -3914,6 +3916,7 @@ MonoBehaviour:
   abilityColor: {r: 0.9843137, g: 0.7372549, b: 0.30980393, a: 1}
   boostColor: {r: 0.7254902, g: 0.9843137, b: 0.30980393, a: 1}
   goldColor: {r: 1, g: 1, b: 1, a: 1}
+  unavailableColor: {r: 0, g: 0, b: 0, a: 0}
   shopAbility: {fileID: 0}
 --- !u!1 &9131908950743728888
 GameObject:

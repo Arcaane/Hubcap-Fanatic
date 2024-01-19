@@ -320,15 +320,4 @@ public class UIManager : MonoBehaviour
         }
         
     }
-    
-    public void HonkShop(InputAction.CallbackContext context)
-    {
-        if (shopOpen || shopTransition) return;
-        
-        if (context.started && MerchantBehavior.instance.shop.playerInRange)
-        {
-            MerchantBehavior.instance.shop.StartShopUI();
-        }
-        
-    }
 }

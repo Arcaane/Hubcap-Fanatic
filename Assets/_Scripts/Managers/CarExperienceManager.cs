@@ -14,6 +14,7 @@ public class CarExperienceManager : MonoBehaviour
     [SerializeField] private int expBeforeNextLevelAmount;
     [SerializeField] private int currentExperienceAmount;
     [SerializeField] public int levelUpTokensAvailable;
+    [SerializeField] public TestShop shop = null;
     
     private void Awake()
     {
@@ -57,6 +58,7 @@ public class CarExperienceManager : MonoBehaviour
     private void LevelUp()
     {
         AddToken(1);
+        shop.StartShopUI();
         playerLevel++;
         uiManager.SetLevelPlayerText(playerLevel + 1);
         SetupNextLevelData();

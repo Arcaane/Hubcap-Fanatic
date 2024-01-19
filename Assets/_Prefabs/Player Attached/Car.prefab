@@ -10085,6 +10085,61 @@ Transform:
   - {fileID: 6319557992963425093}
   m_Father: {fileID: 546980376411241463}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3272880463854214024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7143842061866858366}
+  - component: {fileID: 2076398841918162295}
+  m_Layer: 0
+  m_Name: Shop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7143842061866858366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3272880463854214024}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1901270512298757076}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2076398841918162295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3272880463854214024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32b3d55941ff1c48bc8f86dec211573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allAbilities:
+  - {fileID: 11400000, guid: c592d66f795c0954b8ea0e381916e083, type: 2}
+  - {fileID: 11400000, guid: ed923c301713c854786e841f340be0eb, type: 2}
+  - {fileID: 11400000, guid: e41e918da8551c64dbb0f6980310634f, type: 2}
+  - {fileID: 11400000, guid: b7904b4aba9346d4eb7303a888e8fa96, type: 2}
+  purchasableAbilities: []
+  gold: {fileID: 11400000, guid: 3ba221946b914bd41a5e2a16d5aa088e, type: 2}
+  buttonsItemsArray:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &3348843367107109327
 GameObject:
   m_ObjectHideFlags: 0
@@ -10969,6 +11024,7 @@ Transform:
   - {fileID: 2917269542285333993}
   - {fileID: 280829580700629146}
   - {fileID: 6336603828781584598}
+  - {fileID: 7143842061866858366}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6496687812959214544
@@ -10989,12 +11045,12 @@ MonoBehaviour:
     wheelVisual: {fileID: 8313525766690617819}
     directionalDampening: 0.325
     drivingFactor: 1
-    steeringFactor: 5.5
+    steeringFactor: 6.25
   - transform: {fileID: 422089550907774201}
     wheelVisual: {fileID: 8166388250625827031}
     directionalDampening: 0.325
     drivingFactor: 1
-    steeringFactor: 5.5
+    steeringFactor: 6.25
   - transform: {fileID: 2470873284411068704}
     wheelVisual: {fileID: 2313699898289759998}
     directionalDampening: 0.3
@@ -11132,6 +11188,9 @@ MonoBehaviour:
   shotgunDamages: 12
   isStraffing: 0
   isBomber: 0
+  gotVayneUpgrade: 0
+  shotBeforeCritAmount: 0
+  vaynePassiveMultiplier: 0
   roadMask:
     serializedVersion: 2
     m_Bits: 4096
@@ -11313,19 +11372,7 @@ MonoBehaviour:
     m_ActionId: 672bcaa1-6729-4d70-b086-9e12b1d3023b
     m_ActionName: Inputs/LBButton[/XInputControllerWindows/leftShoulder]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6496687812959214544}
-        m_TargetAssemblyTypeName: CarController, Assembly-CSharp
-        m_MethodName: BButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 6cea8f1b-09a1-42db-be10-5f02056fedad
     m_ActionName: Inputs/BButton[/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
@@ -11375,7 +11422,7 @@ MonoBehaviour:
   feedbackDurationInMS: 300
   spawnManager: {fileID: 0}
   volume: {fileID: 0}
-  vt: {fileID: 0}
+  moveOnDeath: []
   diePS: {fileID: 6336603828781584600}
   explosionPS: {fileID: 0}
 --- !u!114 &3798896081380664901
@@ -11403,6 +11450,7 @@ MonoBehaviour:
   baseNitroCooldown: 0
   baseShotgunDamage: 0
   baseCollisionDamage: 0
+  baseCritDamage: 0
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
