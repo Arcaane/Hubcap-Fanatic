@@ -206,7 +206,7 @@ Transform:
   m_GameObject: {fileID: 932604927756978874}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.69, y: 3, z: -20.04}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1.0687499, y: 0.86249995, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -406,6 +406,8 @@ MonoBehaviour:
   driftSparks: []
   forceBreak: 0
   forceBreakTimer: 0
+  isScorch: 0
+  isAimEffect: 0
   brakeMethodApplied: 0
   accelForce: 1
   brakeForce: 0
@@ -442,6 +444,7 @@ MonoBehaviour:
   mat: []
   randomOffset: {x: 0, y: 0}
   maxRngOffset: {x: 2, y: 0.2}
+  currentTarget: {fileID: 0}
   speedRetained: 0.7
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
