@@ -1,31 +1,20 @@
-using TMPro;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Delivery : MonoBehaviour
 {
     [SerializeField] private float lifeTime = 50.0f;
     [SerializeField] private float cooldownDelivery = 4.0f;
-    private bool canBeDelivered = true;
+    private bool canBeDelivered = false;
     private int deliveryCount = 0;
-    
-    [SerializeField] private TextMeshPro deliveryCountText;
+
+    public MeshRenderer boxMesh;
+    public Material[] transpMat;
+    public Material[] solidMat;
+    public ParticleSystem[] ps;
     
     private float currentTime;
-
-    private void Start()
-    {
-        canBeDelivered = true;
-    }
-
-    private void Update()
-    {
-        currentTime += Time.deltaTime;
-        if (currentTime >= cooldownDelivery)
-        {
-            currentTime = cooldownDelivery;
-            canBeDelivered = true;
-        }
-    }
     
     private void OnTriggerEnter(Collider other)
     {
@@ -37,6 +26,7 @@ public class Delivery : MonoBehaviour
             if (pickupableComponent != null)
             {
                 pickupableComponent.OnDelivered();
+                OnDeliver();
             }
             else
             {
@@ -44,7 +34,6 @@ public class Delivery : MonoBehaviour
             }
 
             PickableManager.Instance.RemovePickableObject(0);
-            //DeliveryResourcesManager.Instance.SpawnRandomObject();
             ResetLifeTime();
         }
     }
@@ -65,5 +54,27 @@ public class Delivery : MonoBehaviour
     {
         canBeDelivered = false;
         currentTime = 0.0f;
+    }
+
+    public void CanDeliver()
+    {
+        canBeDelivered = true;
+        var materials = boxMesh.materials;
+        materials[0] = transpMat[0];
+        materials[1] = transpMat[1];
+        boxMesh.enabled = true;
+        gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+    }
+
+    public async void OnDeliver()
+    {
+        boxMesh.enabled = true;
+        for (int i = 0; i < ps.Length; i++) ps[i].Play();
+        canBeDelivered = false;
+        var materials = boxMesh.materials;
+        materials[0] = solidMat[0];
+        materials[1] = solidMat[1];
+        await Task.Delay(1500);
+        boxMesh.enabled = false;
     }
 }

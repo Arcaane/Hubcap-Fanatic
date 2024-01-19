@@ -270,20 +270,22 @@ namespace Abilities
             CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
             carBehaviour.forceBreak = true;
             carBehaviour.forceBreakTimer = effectDuration;
-            GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_MotorBreak, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity).gameObject;
+            GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_MotorBreak, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, effectDuration).gameObject;
             go.transform.SetParent(targetObj.transform);
             go.SetActive(true);
         }
 
         private void EffectExplosion(GameObject targetObj)
         {
-            var a = Instantiate(carAbilities.testEffectsPrefab, targetObj.transform.position, Quaternion.identity);
-            a.transform.localScale = new Vector3(effectSizeRadius, effectSizeRadius,effectSizeRadius);
+            var position = targetObj.transform.position;
             
-            var cols = Physics.OverlapSphere(targetObj.transform.position, effectSizeRadius, enemyLayerMask);
-            for (int i = 0; i < cols.Length; i++)
+            GameObject gameObject = Pooler.instance.SpawnTemporaryInstance(Key.FX_Explosion, position, Quaternion.identity, 5).gameObject;
+            gameObject.transform.localScale = new Vector3(effectSizeRadius, effectSizeRadius,effectSizeRadius);
+            
+            var cols = Physics.OverlapSphere(position, effectSizeRadius, enemyLayerMask);
+            foreach (var t in cols)
             {
-                cols[i].GetComponent<IDamageable>()?.TakeDamage(effectDamage);
+                t.GetComponent<IDamageable>()?.TakeDamage(effectDamage);
             }
         }
 

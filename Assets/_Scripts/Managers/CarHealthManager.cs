@@ -1,13 +1,10 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 using DG.Tweening;
-using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
 
 public class CarHealthManager : MonoBehaviour, IDamageable
@@ -70,6 +67,9 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         isDead = true;
         CarController.instance.forceBreak = true;
         CarController.instance.forceBreakTimer = 15;
+        CarController.instance.targetSpeed = 0;
+        CarController.instance.maxSpeed = 0;
+        CarController.instance.rb.mass = 100;
         
         spawnManager.dontSpawn = true;
         PoliceCarManager.Instance.CallOnPlayerDeath();
@@ -78,6 +78,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         StartCoroutine(LoadScene());
         await Task.Delay(2500);
         explosionPS.Play();
+        
         await Task.Delay(2300);
         // Ecran noir
         moveOnDeath[0].DOFillAmount(1, 0.35f);

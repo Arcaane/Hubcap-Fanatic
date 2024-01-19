@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -15,7 +14,8 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     [SerializeField] private BoxCollider bCol;
     [SerializeField] private SphereCollider sCol;
     [SerializeField] private MeshRenderer meshRenderer;
-    [SerializeField] private Rigidbody rb;
+    [SerializeField] public Rigidbody rb;
+    [SerializeField] private ParticleSystem ps;
 
     public void Start()
     {
@@ -23,10 +23,14 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         bCol.enabled = true;
         rb.isKinematic = false;
         carWhoPickObjet = null;
+        isPickable = true;
     }
 
+    public bool isPickable;
     private void OnTriggerEnter(Collider other)
     {
+        if (!isPickable) return;
+        
         if (other.gameObject.CompareTag("Player"))
         {
             isCopHasPick = false;
@@ -58,6 +62,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         bCol.enabled = false;
         rb.isKinematic = true;
         transform.localPosition = Vector3.zero;
+        isPickable = false;
     }
     
     public void OnDrop()
@@ -75,16 +80,25 @@ public class ObjectPickable : MonoBehaviour, IPickupable
             PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick);
         }
         carWhoPickObjet = null;
+        
         UIIndic.instance.EnableOrDisableDeliveryZone();
+        foreach (var t in DeliveryRessourcesManager.Instance.deliveryPoints)
+        {
+            t.GetComponent<Delivery>().CanDeliver();
+        }
+        
         StartCoroutine(EnablePickupAfterDelay(timeBeforePickable));
     }
 
     IEnumerator EnablePickupAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        isPickable = false;
         sCol.enabled = true;
         bCol.enabled = true;
         rb.isKinematic = false;
+        ps.Play();
+        yield return new WaitForSeconds(delay);
+        isPickable = true;
     }
 
     public void OnDelivered()
@@ -98,6 +112,6 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         
         gameObject.GetComponent<SphereCollider>().enabled = true;
         UIIndic.instance.EnableOrDisableDeliveryZone();
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

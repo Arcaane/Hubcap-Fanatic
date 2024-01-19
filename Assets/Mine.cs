@@ -12,9 +12,8 @@ public class Mine : MonoBehaviour
     {
         if (!other.CompareTag("Enemy")) return;
         
-        GameObject a = Instantiate(CarAbilitiesManager.instance.testEffectsPrefab, transform.position, Quaternion.identity).gameObject;
-        a.transform.localScale = new Vector3(explosionRadius, explosionRadius, explosionRadius);
-        Destroy(a, 3f);
+        GameObject b = Pooler.instance.SpawnTemporaryInstance(Key.FX_Explosion, transform.position, Quaternion.identity, 5).gameObject;
+        b.transform.localScale = new Vector3(explosionRadius, explosionRadius, explosionRadius);
         
         var cols = Physics.OverlapSphere(transform.position, explosionRadius, enemyMask);
         for (int i = 0; i < cols.Length; i++) cols[i].GetComponent<IDamageable>()?.TakeDamage(damages);

@@ -349,11 +349,12 @@ public class CarController : CarBehaviour
         {
             for (int i = 0; i < pickedItems.Count; i++)
             {
-                pickedItems[i].GetComponent<ObjectPickable>().OnDrop();
+                ObjectPickable obj = pickedItems[i].GetComponent<ObjectPickable>();
+                obj.OnDrop();
+                obj.rb.AddForce(other.contacts[0].normal.normalized * 100);
             }
             
             pickedItems.Clear();
-            //PickableManager.Instance.RemoveAllPickables();
         }
     }
     

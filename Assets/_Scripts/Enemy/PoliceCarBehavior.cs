@@ -313,8 +313,12 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy") ||
             other.gameObject.CompareTag("Player"))
         {
-            DropItem();
 
+            if (!other.gameObject.CompareTag("Wall"))
+            {
+                DropItem(other);
+            }
+            
             if (other.transform.CompareTag("Player"))
             {
                 var a = other.transform.transform.position - transform.position;
@@ -374,7 +378,6 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     public void TakeDamage(int damages)
     {
-        DropItem();
         hp -= damages;
         ActiveDamageFB();
         
@@ -386,11 +389,12 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     public bool IsDamageable() => gameObject.activeSelf == true && hp > 0;
 
-    private void DropItem()
+    private void DropItem(Collision collision)
     {
         if (objectPickable != null)
         {
             objectPickable.GetComponent<ObjectPickable>().OnDrop();
+            objectPickable.GetComponent<ObjectPickable>().rb.AddForce(collision.contacts[0].normal.normalized * 100);
             objectPickable = null;
         }
     }

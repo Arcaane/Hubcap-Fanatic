@@ -170,8 +170,6 @@ namespace Abilities
             slotAbilitiesAmount++;
             UIManager.instance.UnlockAbilitySlot(passiveAbilities.Count);
         }
-
-        public GameObject testEffectsPrefab;
     }
 }
 
