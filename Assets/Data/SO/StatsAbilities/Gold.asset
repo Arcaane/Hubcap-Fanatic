@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Gold
   m_EditorClassIdentifier: 
   type: 2
-  abilityName: Gold coin
+  abilityName: Gold coins
   description: Earn 30 gold coins
   abilitySprite: {fileID: 21300000, guid: 3f9509d504b741245b0db092b9236e4d, type: 3}
   level: -1
@@ -22,7 +22,9 @@ MonoBehaviour:
   when: 0
   state: 0
   effect: 0
-  levelsAbilitiesModifiers: []
+  modifiersLevel1: []
+  modifiersLevel2: []
+  modifiersLevel3: []
   effectDamage: 0
   effectSizeRadius: 0
   effectDuration: 0
