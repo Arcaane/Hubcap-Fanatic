@@ -197,7 +197,9 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         {
             defenseCars[i].convoyBehaviour = null;
         }
-        Destroy(gameObject);
+        UIIndic.instance.Obj[3] = ConvoyManager.instance.gameObject;
+        
+        Destroy(gameObject,1f);
     }
 }
 [Serializable]
