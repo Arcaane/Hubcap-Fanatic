@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ObjectPickable : MonoBehaviour, IPickupable
 {
     //public int expToGiveOnDeliver = 10;
     public AnimationCurve expToGiveBasedOnLevel;
     
-    private bool isPickable = true;
     private float timeBeforePickable = 2f;
     private bool isCopHasPick = false;
     public GameObject carWhoPickObjet;
@@ -15,7 +16,15 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     [SerializeField] private SphereCollider sCol;
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private Rigidbody rb;
-    
+
+    public void Start()
+    {
+        sCol.enabled = true;
+        bCol.enabled = true;
+        rb.isKinematic = false;
+        carWhoPickObjet = null;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

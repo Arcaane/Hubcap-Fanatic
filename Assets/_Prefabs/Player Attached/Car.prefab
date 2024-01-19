@@ -10989,12 +10989,12 @@ MonoBehaviour:
     wheelVisual: {fileID: 8313525766690617819}
     directionalDampening: 0.325
     drivingFactor: 1
-    steeringFactor: 5.2
+    steeringFactor: 5.5
   - transform: {fileID: 422089550907774201}
     wheelVisual: {fileID: 8166388250625827031}
     directionalDampening: 0.325
     drivingFactor: 1
-    steeringFactor: 5.2
+    steeringFactor: 5.5
   - transform: {fileID: 2470873284411068704}
     wheelVisual: {fileID: 2313699898289759998}
     directionalDampening: 0.3
@@ -11136,11 +11136,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   offRoadSpeed: 22.5
-  offRoadDeccelerationFactor: 0.3
+  offRoadDeccelerationFactor: 0.55
   shield: {fileID: 7808446511201898702}
   dirCam: 13.808237
   cameraHolder: {fileID: 0}
-  camDist: 0.8
+  camDist: 1
   pickedItems: []
   currentCarState: 0
 --- !u!54 &7223312086131934466

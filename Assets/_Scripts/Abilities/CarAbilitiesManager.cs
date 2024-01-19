@@ -41,6 +41,7 @@ namespace Abilities
         [HideInInspector] public float baseNitroCooldown;
         [HideInInspector] public float baseShotgunDamage;
         [HideInInspector] public float baseCollisionDamage;
+        [HideInInspector] public float baseCritDamage = 0;
 
         private void Awake()
         {

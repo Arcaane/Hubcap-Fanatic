@@ -377,7 +377,6 @@ namespace Abilities
 
         public void LevelUpPassiveAbility()
         {
-            
             if (level > 3) return;
 
             ActiveModifier[] modifiers = level switch
@@ -408,46 +407,72 @@ namespace Abilities
         {
             switch (statsModifier)
             {
-                case StatsModifier.SpeedOnRoad: switch (howStatsModify)
+                case StatsModifier.SpeedOnRoad:
+                    player.maxSpeed = howStatsModify switch
                     {
-                        case HowStatsModify.Subtract: CarController.instance.maxSpeed = carAbilities.baseSpeedOnRoad - amount[level]; break;
-                        case HowStatsModify.Add: CarController.instance.maxSpeed = carAbilities.baseSpeedOnRoad + amount[level];; break;
-                        case HowStatsModify.Multiply: CarController.instance.maxSpeed = carAbilities.baseSpeedOnRoad * amount[level];; break;
-                    } break;
-                case StatsModifier.SpeedOnSand: switch (howStatsModify) {
-                        case HowStatsModify.Subtract: player.offRoadSpeed = carAbilities.baseSpeedOnSand - amount[level]; break;
-                        case HowStatsModify.Add: player.offRoadSpeed = carAbilities.baseSpeedOnSand + amount[level]; break;
-                        case HowStatsModify.Multiply: player.offRoadSpeed = carAbilities.baseSpeedOnSand * amount[level]; break;
-                    } break;
-                case StatsModifier.NitroSpeed: switch (howStatsModify)
+                        HowStatsModify.Subtract => carAbilities.baseSpeedOnRoad - amount[level],
+                        HowStatsModify.Add => carAbilities.baseSpeedOnRoad + amount[level],
+                        HowStatsModify.Multiply => carAbilities.baseSpeedOnRoad * amount[level],
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    break;
+                case StatsModifier.SpeedOnSand:
+                    player.offRoadSpeed = howStatsModify switch
                     {
-                        case HowStatsModify.Subtract: player.nitroSpeed = carAbilities.baseNitroSpeed + amount[level]; break;
-                        case HowStatsModify.Add: player.nitroSpeed = carAbilities.baseNitroSpeed - amount[level]; break;
-                        case HowStatsModify.Multiply: player.nitroSpeed = carAbilities.baseNitroSpeed * amount[level]; break;
-                        default: throw new ArgumentOutOfRangeException();
-                    } break;
-                case StatsModifier.NitroCooldown: switch (howStatsModify)
+                        HowStatsModify.Subtract => carAbilities.baseSpeedOnSand - amount[level],
+                        HowStatsModify.Add => carAbilities.baseSpeedOnSand + amount[level],
+                        HowStatsModify.Multiply => carAbilities.baseSpeedOnSand * amount[level],
+                        _ => player.offRoadSpeed
+                    };
+                    break;
+                case StatsModifier.NitroSpeed: player.nitroSpeed = howStatsModify switch
                     {
-                        case HowStatsModify.Subtract: player.nitroRegen = carAbilities.baseNitroCooldown + amount[level]; break;
-                        case HowStatsModify.Add: player.nitroRegen = carAbilities.baseNitroCooldown - amount[level]; break;
-                        case HowStatsModify.Multiply: player.nitroRegen = carAbilities.baseNitroCooldown * amount[level]; break;
-                        default: throw new ArgumentOutOfRangeException();
-                    } break;
-                case StatsModifier.ShotgunDamage: switch (howStatsModify)
+                        HowStatsModify.Subtract => carAbilities.baseNitroSpeed - amount[level],
+                        HowStatsModify.Add => carAbilities.baseNitroSpeed + amount[level],
+                        HowStatsModify.Multiply => carAbilities.baseNitroSpeed * amount[level],
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    break;
+                case StatsModifier.NitroCooldown:
+                    player.nitroRegen = howStatsModify switch
                     {
-                        case HowStatsModify.Subtract: player.shotgunDamages = Mathf.FloorToInt(carAbilities.baseShotgunDamage + amount[level]); break;
-                        case HowStatsModify.Add: player.shotgunDamages = Mathf.FloorToInt(carAbilities.baseShotgunDamage - amount[level]); break;
-                        case HowStatsModify.Multiply: player.shotgunDamages = Mathf.FloorToInt(carAbilities.baseShotgunDamage * amount[level]); break;
-                        default: throw new ArgumentOutOfRangeException();
-                    } break;
-                case StatsModifier.CollisionDamage: switch (howStatsModify)
+                        HowStatsModify.Subtract => carAbilities.baseNitroCooldown - amount[level],
+                        HowStatsModify.Add => carAbilities.baseNitroCooldown + amount[level],
+                        HowStatsModify.Multiply => carAbilities.baseNitroCooldown * amount[level],
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    break;
+                case StatsModifier.ShotgunDamage:
+                    player.shotgunDamages = howStatsModify switch
                     {
-                        case HowStatsModify.Subtract: carAbilities.damageOnCollisionWithEnemy = Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy + amount[level]); break;
-                        case HowStatsModify.Add: carAbilities.damageOnCollisionWithEnemy = Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy - amount[level]); break;
-                        case HowStatsModify.Multiply: carAbilities.damageOnCollisionWithEnemy = Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy * amount[level]); break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    } break;
+                        HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseShotgunDamage - amount[level]),
+                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseShotgunDamage + amount[level]),
+                        HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseShotgunDamage * amount[level]),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    break;
+                case StatsModifier.CollisionDamage:
+                    carAbilities.damageOnCollisionWithEnemy = howStatsModify switch
+                    {
+                        HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy - amount[level]),
+                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy + amount[level]),
+                        HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy * amount[level]),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    break;
+                case StatsModifier.CriticalHit :
+                {
+                    player.vaynePassiveMultiplier = howStatsModify switch
+                    {
+                        HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseCritDamage - amount[level]),
+                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseCritDamage + amount[level]),
+                        HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseCritDamage * amount[level]),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    player.gotVayneUpgrade = true;
+                    player.shotBeforeCritAmount = 2;
+                    break;
+                }
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -539,7 +564,8 @@ public enum StatsModifier
     NitroSpeed,
     NitroCooldown,
     ShotgunDamage,
-    CollisionDamage
+    CollisionDamage,
+    CriticalHit
 }
 
 public enum HowStatsModify
