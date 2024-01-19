@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-[System.Serializable]
-public class DeliveryObject
+[Serializable]
+public struct DeliveryObject
 {
     public GameObject prefab;
     public Vector2 X_DeliveryDuration__Y_TimeBeforeSpawn;
@@ -38,7 +38,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
 
     private void Start()
     {
-        Random.InitState(randomSeed);
+        //Random.InitState(randomSeed);
         foreach (var deliveryObject in deliveryObjects)
         {
             StartCoroutine(SpawnDeliveryTimeline(deliveryObject));
@@ -48,12 +48,13 @@ public class DeliveryRessourcesManager : MonoBehaviour
     private IEnumerator SpawnDeliveryTimeline(DeliveryObject deliveryObject)
     {
         yield return new WaitForSeconds(deliveryObject.X_DeliveryDuration__Y_TimeBeforeSpawn.y);
-        SpawnDeliveryPrefab(deliveryObject.prefab, deliveryObject.X_DeliveryDuration__Y_TimeBeforeSpawn.x, deliveryObject.X_DeliveryDuration__Y_TimeBeforeSpawn.y);
+        SpawnDeliveryPrefab(deliveryObject.prefab, deliveryObject.X_DeliveryDuration__Y_TimeBeforeSpawn.x);
     }
     
-    private void SpawnDeliveryPrefab(GameObject prefab, float deliveryDuration, float timeBeforeSpawn)
+    private void SpawnDeliveryPrefab(GameObject prefab, float deliveryDuration)
     {
-        Transform randomSpawnPoint = GetRandomSpawnPoint();
+        Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+        
         GameObject deliveryZone = Instantiate(prefab, randomSpawnPoint.position, Quaternion.identity);
         SpawnZoneDelivery spawnZoneDelivery = deliveryZone.GetComponent<SpawnZoneDelivery>();
 
@@ -86,10 +87,12 @@ public class DeliveryRessourcesManager : MonoBehaviour
     Transform GetRandomSpawnPoint()
     {
         int randomIndex;
-        do
+        
+        randomIndex = Random.Range(0, spawnPoints.Count);
+        while (randomIndex == previousSpawnIndex)
         {
             randomIndex = Random.Range(0, spawnPoints.Count);
-        } while (randomIndex == previousSpawnIndex);
+        }
 
         return spawnPoints[randomIndex];
     }
