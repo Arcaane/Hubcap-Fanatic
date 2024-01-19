@@ -11057,36 +11057,36 @@ MonoBehaviour:
   acceleration: 15
   braking: 22.5
   decceleration: 8
-  steeringSpeed: 3.5
+  steeringSpeed: 3.8
   steeringBySpeedFactor:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 4
-      inSlope: -1.2005359
-      outSlope: -1.2005359
+      value: 2
+      inSlope: 0.22143285
+      outSlope: 0.22143285
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.3127783
+      outWeight: 0.2730812
     - serializedVersion: 3
-      time: 0.6
+      time: 0.8
       value: 1
-      inSlope: -10.569469
-      outSlope: 0.0027208983
+      inSlope: -3.253471
+      outSlope: 0
       tangentMode: 1
       weightedMode: 0
-      inWeight: 0.049547017
-      outWeight: 0.05117297
+      inWeight: 0.04112281
+      outWeight: 0.3645872
     - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.14530814
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -11110,9 +11110,9 @@ MonoBehaviour:
   brakeForce: 0
   driftBrake: 0
   rotationValue: 0
-  speedRetained: 0.7
-  maxSpeedRetained: 0.8
-  minAngleToBounce: 0.3
+  speedRetained: 0.3
+  maxSpeedRetained: 0.4
+  minAngleToBounce: 0.2
   fxBounce: {fileID: 7327552505560720248, guid: 68f8e38cdcb558d43a07cde4b478f907, type: 3}
   nitroSpeed: 50
   smoke: {fileID: 8122604561749209318}
@@ -11127,16 +11127,16 @@ MonoBehaviour:
   shootTimes:
   - 2
   - 2
-  shootDuration: 2
+  shootDuration: 4
   shotgunParticles: {fileID: 9085789767532920518}
-  shotgunDamages: 50
+  shotgunDamages: 12
   isStraffing: 0
   isBomber: 0
   roadMask:
     serializedVersion: 2
     m_Bits: 4096
   offRoadSpeed: 22.5
-  offRoadDeccelerationFactor: 1.25
+  offRoadDeccelerationFactor: 0.3
   shield: {fileID: 7808446511201898702}
   dirCam: 13.808237
   cameraHolder: {fileID: 0}
@@ -11373,7 +11373,11 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 93a8e967aa48bf3409c20880789d2477, type: 2}
   - {fileID: 2100000, guid: d523c1fe905a4dc429adf2c6b9d1791a, type: 2}
   feedbackDurationInMS: 300
+  spawnManager: {fileID: 0}
+  volume: {fileID: 0}
+  vt: {fileID: 0}
   diePS: {fileID: 6336603828781584600}
+  explosionPS: {fileID: 0}
 --- !u!114 &3798896081380664901
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -292,22 +292,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4336229909369011418}
     - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
-      propertyPath: speedRetained
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
-      propertyPath: shotgunDamages
-      value: 34
-      objectReference: {fileID: 0}
-    - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
-      propertyPath: maxSpeedRetained
-      value: 0.95
-      objectReference: {fileID: 0}
-    - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
-      propertyPath: minAngleToBounce
-      value: 0.225
-      objectReference: {fileID: 0}
-    - target: {fileID: 6496687812959214544, guid: 481ad61f1400d424b81336d3f2768597, type: 3}
       propertyPath: wheels.Array.data[0].transform
       value: 
       objectReference: {fileID: 6854686330891098397}
@@ -438,6 +422,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  xpPerLevel: 
   expBeforeNextLevelAmount: 0
   currentExperienceAmount: 0
   levelUpTokensAvailable: 5

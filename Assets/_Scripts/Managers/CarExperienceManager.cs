@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,6 +10,7 @@ public class CarExperienceManager : MonoBehaviour
     [SerializeField] private UIManager uiManager;
     [SerializeField] public int playerLevel;
     [SerializeField] private AnimationCurve expCurve;
+    [SerializeField] private List<int> xpPerLevel = new();
     [SerializeField] private int expBeforeNextLevelAmount;
     [SerializeField] private int currentExperienceAmount;
     [SerializeField] public int levelUpTokensAvailable;
@@ -31,7 +33,8 @@ public class CarExperienceManager : MonoBehaviour
 
     private void SetupNextLevelData()
     {
-        expBeforeNextLevelAmount += Mathf.FloorToInt(expCurve.Evaluate(playerLevel));
+        //expBeforeNextLevelAmount += Mathf.FloorToInt(expCurve.Evaluate(playerLevel));
+        expBeforeNextLevelAmount += Mathf.FloorToInt(xpPerLevel[Mathf.Clamp(playerLevel, 0, xpPerLevel.Count - 1)]);
     }
 
     public void GetExp(int i)
