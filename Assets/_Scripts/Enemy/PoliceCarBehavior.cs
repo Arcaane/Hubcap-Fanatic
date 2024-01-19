@@ -68,21 +68,12 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     private void OnEnable()
     {
         OnPoliceCarDie += delegate { Pooler.instance.DestroyInstance(enemyKey, transform); };
-        OnPoliceCarDie += delegate
-        {
-            CarExperienceManager.Instance.GetExp(
-                Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
-        };
+        
     }
 
     private void OnDisable()
     {
         OnPoliceCarDie -= delegate { Pooler.instance.DestroyInstance(enemyKey, transform); };
-        OnPoliceCarDie -= delegate
-        {
-            CarExperienceManager.Instance.GetExp(
-                Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
-        };
         policeCars.Remove(this);
     }
     
@@ -372,14 +363,18 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         // Gizmos.DrawWireSphere(transform.position,repulsiveRadius);
     }
 
+    private bool isDead = false;
     public void TakeDamage(int damages)
     {
         DropItem();
         hp -= damages;
         ActiveDamageFB();
         
-        if (hp > 1) return;
+        if (hp > 1 && !isDead) return;
         
+        Debug.Log("Ennemi Tué");
+        CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
+        isDead = true;
         OnPoliceCarDie.Invoke(gameObject);
         if (isAimEffect) CarAbilitiesManager.instance.goldAmountWonOnRun += Random.Range(1, 4);
     }

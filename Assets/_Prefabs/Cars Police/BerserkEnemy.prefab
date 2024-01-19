@@ -191,10 +191,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  acceleration: 12
-  braking: 12
-  decceleration: 4
-  steeringSpeed: 10
+  acceleration: 24
+  braking: 4
+  decceleration: 8
+  steeringSpeed: 40
   steeringBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -229,13 +229,15 @@ MonoBehaviour:
   driftSparks: []
   forceBreak: 0
   forceBreakTimer: 0
+  isScorch: 0
+  isAimEffect: 0
   brakeMethodApplied: 0
   accelForce: 1
   brakeForce: 0
   driftBrake: 0
   rotationValue: 0
   enemyKey: 3
-  hp: 100
+  hp: 16
   carDamage: 5
   expToGiveBasedOnLevel:
     serializedVersion: 2
@@ -265,8 +267,9 @@ MonoBehaviour:
   mat: []
   randomOffset: {x: 0, y: 0}
   maxRngOffset: {x: 2, y: 2}
-  speedRetained: 0.7
-  maxSpeedRetained: 0.8
+  currentTarget: {fileID: 0}
+  speedRetained: 0.5
+  maxSpeedRetained: 0.6
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 81be785b9e16bd347bca31257d5c5595, type: 3}
   convoyBehaviour: {fileID: 0}

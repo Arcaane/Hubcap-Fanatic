@@ -46,29 +46,85 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontSpawn: 0
   waves:
-  - waveName: 1
-    waveDuration: 30
-    enemyGroupsList:
-    - entityKey: 3
-      enemyCountInWave: 2
-      enemySpawnRate: 0
-    - entityKey: 4
-      enemyCountInWave: 3
-      enemySpawnRate: 0
-    enemySpawnedCount: 0
-  - waveName: 2
+  - waveName: Wave 1
     waveDuration: 60
     enemyGroupsList:
-    - entityKey: 3
-      enemyCountInWave: 3
-      enemySpawnRate: 0
-    - entityKey: 4
-      enemyCountInWave: 4
-      enemySpawnRate: 0
-    enemySpawnedCount: 0
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 8, y: 8}
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 1, y: 1}
+      - entityKey: 0
+        enemyCount: {x: 0, y: 2}
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 2
+    waveDuration: 60
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 0, y: 0}
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 0, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 3}
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 3
+    waveDuration: 60
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 0, y: 0}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 2, y: 3}
+      - entityKey: 0
+        enemyCount: {x: 1, y: 2}
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 4
+    waveDuration: 60
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 3}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 3, y: 3}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 3}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 3}
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 5
+    waveDuration: 60
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 3}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 3}
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+    enemyGroupsSpawnRate: 0
   currentWaveCount: 0
   intervalBetweenWaves: 15
   carTransform: {fileID: 0}
+  positions: []
   groundMask:
     serializedVersion: 2
     m_Bits: 8
@@ -78,5 +134,8 @@ MonoBehaviour:
   addAngleToRectange: -45
   spawningPointPerSideCount: 30
   spawingTimer: 0
-  counter: 0
-  enemiesSpawningTimer: []
+  waveSpawnTimer: 0
+  enemiesSpawningTimer: 0
+  spawnBurstInsideWave: 0
+  spawnBurstCounter: 0
+  camholder: {fileID: 0}

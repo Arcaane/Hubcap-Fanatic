@@ -309,14 +309,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfPointsPerSide: 38
   distanceBetweenPoints: 38
-  randomSeed: 0
+  randomSeed: 14972
   deliveryObjects:
   - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
-    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 400, y: 0}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 15, y: 0}
   - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
-    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 5, y: 5}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 15, y: 10}
   - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
-    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 10, y: 10}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 15, y: 50}
+  - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 15, y: 50}
+  - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 15, y: 50}
+  - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 15, y: 80}
+  - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 15, y: 85}
+  - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 15, y: 90}
+  - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 15, y: 130}
+  - prefab: {fileID: 4295979787388649527, guid: 1d64ec7d5c5467f4d889d8cd4b2a5d61, type: 3}
+    X_DeliveryDuration__Y_TimeBeforeSpawn: {x: 15, y: 130}
   deliveryPoints:
   - {fileID: 2384896032003239869}
   - {fileID: 7126968455767558121}
