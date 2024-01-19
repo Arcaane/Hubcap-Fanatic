@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -8,11 +7,14 @@ using Random = UnityEngine.Random;
 
 public class SpawnZoneDelivery : MonoBehaviour
 {
-    [Header("Setup Zone Size Values")]  
-    [SerializeField] private float initSize = 40;
+    [Header("Setup Zone Size Values")] [SerializeField]
+    private float initSize = 40;
+
     [SerializeField] private float currentSize = 40;
-    [Header("Zone State")]
-    [SerializeField] public SpawnDeliveryState currenSpawnState = SpawnDeliveryState.IsOrNotDelivered;
+
+    [Header("Zone State")] [SerializeField]
+    public SpawnDeliveryState currenSpawnState = SpawnDeliveryState.IsOrNotDelivered;
+
     [SerializeField] private bool hasDelivered = false;
 
     public bool HasDelivered
@@ -31,59 +33,51 @@ public class SpawnZoneDelivery : MonoBehaviour
     [SerializeField] private float timeBeforeLaunchingDelivery = 5f;
 
 
-    [Header("Reward Type")] 
-    [SerializeField] private GameObject packageToDeliver;
+    [Header("Reward Type")] [SerializeField]
+    private GameObject packageToDeliver;
 
 
-    [Header("------------------ Effects ------------------")] 
-    [SerializeField] private Transform capturePart;
+    [Header("------------------ Effects ------------------")] [SerializeField]
+    private Transform capturePart;
+
     [SerializeField] private ParticleSystem effectOnCapture;
     [SerializeField] private ParticleSystem effectOnActivation;
     [SerializeField] private List<ParticleSystem> smokeFX;
 
-    [Header("Renderer")] 
-    [SerializeField] private Image debugImage;
+    [Header("Renderer")] [SerializeField] private Image debugImage;
     [SerializeField] private RectTransform rect;
     [SerializeField] private Transform plane;
-    
+
     private SphereCollider collider;
 
-    [Header("---------- Debug Editor Values ----------")] 
-    [SerializeField] private float timer;
-    [SerializeField] private float timeDeliveryIncrement = 0f;
+    [Header("---------- Debug Editor Values ----------")] [SerializeField]
+    private float timer;
+
+    //[SerializeField] private float timeDeliveryIncrement = 0f;
     public int index;
-    
+
     private Vector2 randomPosition2D;
     private Vector3 randomPosition;
 
     private void Start()
     {
+        timer = 0;
         SetupDeliveryZone();
         SetupDurationForeachSmoke();
+        
+        randomPosition2D = Random.insideUnitCircle * currentSize;
+        randomPosition = new Vector3(randomPosition2D.x, 0f, randomPosition2D.y) + transform.position;
     }
 
     private void Update()
     {
-        if (currenSpawnState == SpawnDeliveryState.Delivered)
+        if (currenSpawnState == SpawnDeliveryState.Delivered) return;
+        
+        timer -= Time.deltaTime;
+        debugImage.fillAmount = 1 - (timer / deliveryDuration);
+        if (timer < 0)
         {
-            timeDeliveryIncrement = 0;
-        }
-        else
-        {
-            timeDeliveryIncrement += Time.deltaTime;
-            if (timeDeliveryIncrement >= timeBeforeLaunchingDelivery &&
-                currenSpawnState == SpawnDeliveryState.IsOrNotDelivered)
-            {
-                randomPosition2D = Random.insideUnitCircle * currentSize;
-                randomPosition = new Vector3(randomPosition2D.x, 0f, randomPosition2D.y) + transform.position;
-
-                timer -= Time.deltaTime;
-                debugImage.fillAmount = 1 - (timer / deliveryDuration);
-                if (timer < 0)
-                {
-                    DeliveryZone(randomPosition);
-                }
-            }
+            DeliveryZone(randomPosition);
         }
     }
 
@@ -91,7 +85,7 @@ public class SpawnZoneDelivery : MonoBehaviour
     {
         foreach (ParticleSystem ps in smokeFX)
         {
-            ps.Stop(); 
+            ps.Stop();
 
             var main = ps.main;
             main.duration = deliveryDuration - 1.0f;
@@ -109,23 +103,14 @@ public class SpawnZoneDelivery : MonoBehaviour
 
         rect.sizeDelta = new Vector2(currentSize * 2, currentSize * 2);
         plane.localScale = new Vector3(currentSize / 4.25f, currentSize / 4.25f, currentSize / 4.25f);
-
-        //Reset timer 
-        timeDeliveryIncrement = 0;
     }
 
     private void DeliveryZone(Vector3 randomPosition)
     {
         currenSpawnState = SpawnDeliveryState.Delivered;
-        GivePlayerReward(randomPosition);
-    }
-
-    private void GivePlayerReward(Vector3 randomPosition)
-    {
-         GivePlayerRessources(randomPosition); 
+        GivePlayerRessources(randomPosition);
     }
     
-
     private void GivePlayerRessources(Vector3 randomPosition)
     {
         GameObject spawnedObject = Instantiate(packageToDeliver, randomPosition + new Vector3(0, 1.5f, 0), Quaternion.identity);
@@ -135,7 +120,7 @@ public class SpawnZoneDelivery : MonoBehaviour
         DisableZone();
     }
 
-    
+
     private void EnableZone()
     {
         foreach (Transform child in capturePart)
@@ -152,8 +137,8 @@ public class SpawnZoneDelivery : MonoBehaviour
         }
 
         //Reset Vector
-        randomPosition2D = Vector2.zero; 
-        randomPosition = Vector3.zero; 
+        randomPosition2D = Vector2.zero;
+        randomPosition = Vector3.zero;
 
         StartCoroutine(DisableWithDelay());
     }
@@ -173,7 +158,7 @@ public class SpawnZoneDelivery : MonoBehaviour
         Gizmos.DrawSphere(transform.position, currentSize);
         */
 #if UNITY_EDITOR
-        Handles.color = Color.red;
+        Handles.color = Color.blue;
         Handles.DrawWireDisc(transform.position, Vector3.up, currentSize);
 #endif
     }
