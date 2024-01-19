@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Abilities;
 using ManagerNameSpace;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -20,7 +21,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     public Vector2 randomOffset;
     public Vector2 maxRngOffset;
-    private Transform currentTarget;
+    public Transform currentTarget;
 
     [Header("WALLBOUNCE")] [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")] [SerializeField]
     private float speedRetained = 0.7f;
@@ -82,13 +83,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             CarExperienceManager.Instance.GetExp(
                 Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
         };
-    }
-
-    private void OnDestroy()
-    {
         policeCars.Remove(this);
     }
-
+    
     private void Update()
     {
         base.Update();
@@ -380,7 +377,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         DropItem();
         hp -= damages;
         ActiveDamageFB();
-        if (hp < 1) OnPoliceCarDie.Invoke(gameObject);
+        
+        if (hp > 1) return;
+        
+        OnPoliceCarDie.Invoke(gameObject);
+        if (isAimEffect) CarAbilitiesManager.instance.goldAmountWonOnRun += Random.Range(1, 4);
     }
 
     public bool IsDamageable() => gameObject.activeSelf == true && hp > 0;
@@ -393,8 +394,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             objectPickable = null;
         }
     }
-
-
+    
     private MeshRenderer meshR;
     private async void ActiveDamageFB()
     {

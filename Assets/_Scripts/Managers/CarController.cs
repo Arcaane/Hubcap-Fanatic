@@ -71,7 +71,6 @@ public class CarController : CarBehaviour
     
     private void Update()
     {
-
         base.Update();
         
         rotationValue = stickValue.x;
