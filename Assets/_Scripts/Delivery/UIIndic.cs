@@ -57,18 +57,26 @@ public class UIIndic : MonoBehaviour
     public void Update()
     {
         int count = obj.Count;
-        for (int i = count - 1; i >= 0; i--)
+        for (int i = 0; i < count; i++)
         {
             if (i < obj.Count && (obj[i] == null || obj[i].activeSelf == false))
             {
-                RemoveIndic(i);
+                if (i >= 4)
+                {
+                    RemoveIndic(i);
+                }
+                else
+                {
+                    UpdateIndic(i);
+                }
             }
-            else if (i < obj.Count) 
+            else if (i < obj.Count)
             {
                 UpdateIndic(i);
             }
         }
     }
+
 
     void CreateImages()
     {
@@ -92,7 +100,7 @@ public class UIIndic : MonoBehaviour
     {
         TargetUI convoyUI = Instantiate(indic, Vector3.zero, quaternion.identity, uiParent).GetComponent<TargetUI>();
         convoyUI.targetType = TargetType.Convoy;
-        convoyUI.objBinded = ConvoyManager.instance.gameObject;
+        convoyUI.objBinded = ConvoyManager.instance.currentConvoy != null ? ConvoyManager.instance.currentConvoy.gameObject : ConvoyManager.instance.gameObject;
         convoyUI.indexDeliveryPoints = 0;
         targetUIPrefab.Add(convoyUI);
         obj.Add(convoyUI.objBinded);

@@ -45,7 +45,7 @@ public class ConvoyManager : MonoBehaviour
                 prefabs.Add(convoys[i].convoyPrefab);
             }
         }
-
+        
         GameObject obj = Instantiate(prefabs[Random.Range(0, prefabs.Count)]);
         currentConvoy = obj.transform.GetComponent<ConvoyBehaviour>();
 
@@ -59,6 +59,10 @@ public class ConvoyManager : MonoBehaviour
         currentConvoy.target = spawnPoints[rng].possibleEndPoints[Random.Range(0, spawnPoints[rng].possibleEndPoints.Length)].position;
         
         currentConvoy.Initialize();
+        if (UIIndic.instance.Obj.Count > 3)
+        {
+            UIIndic.instance.Obj[3] = obj;
+        }
     }
 }
 
