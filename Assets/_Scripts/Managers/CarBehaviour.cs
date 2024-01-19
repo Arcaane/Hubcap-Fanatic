@@ -42,6 +42,7 @@ public class CarBehaviour : MonoBehaviour
     public bool forceBreak;
     public float forceBreakTimer;
     public bool isScorch;
+    public bool isAimEffect;
     
     
     public float speedFactor => rb.velocity.magnitude / targetSpeed;

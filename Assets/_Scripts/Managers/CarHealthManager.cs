@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class CarHealthManager : MonoBehaviour, IDamageable
 {
@@ -10,6 +12,10 @@ public class CarHealthManager : MonoBehaviour, IDamageable
 
     [SerializeField] private Material[] mat;
     [SerializeField] private int feedbackDurationInMS = 300;
+
+    [SerializeField] private WaveManager spawnManager;
+    [SerializeField] private Volume volume;
+    [SerializeField] private Vignette vt;
     
     private void Start()
     {
@@ -17,6 +23,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         lifePoints = maxLifePoints;
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
         UIManager.instance.SetLifePlayerText(lifePoints);
+        volume.profile.TryGet(out vt);
     }
 
     [ContextMenu("DamagePlayerTestUI")]
@@ -31,21 +38,42 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         if (!IsDamageable()) return;
 
         lifePoints -= damages;
+        ActiveDamageFB();
+        
+        ColorParameter colorParameter = new ColorParameter(Color.Lerp(Color.red, Color.white, (float)lifePoints / maxLifePoints), false);
+        vt.color.SetValue(colorParameter);
+
+        if (lifePoints < 1)
+        {
+            Death();
+            lifePoints = 0;
+        }
         
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
         UIManager.instance.SetLifePlayerText(lifePoints);
-        ActiveDamageFB();
-        
-        if (lifePoints < 1) Death();
     }
 
-    public bool IsDamageable() => gameObject.activeSelf;
+    private bool isDead;
+    public bool IsDamageable() => !isDead;
 
-    public void Death()
+    [SerializeField] private ParticleSystem diePS;
+    [SerializeField] private ParticleSystem explosionPS;
+    private async void Death()
     {
-        // TODO : DEFINIR LA FONCTION DE MORT DU JOUEUR
-        // TODO - Explosion 
-        // TODO - Reduce timeScale
+        
+        isDead = true;
+        CarController.instance.forceBreak = true;
+        spawnManager.dontSpawn = true;
+        PoliceCarManager.Instance.CallOnPlayerDeath();
+        diePS.gameObject.SetActive(true);
+        diePS.Play();
+        await Task.Delay(2500);
+        explosionPS.Play();
+        await Task.Delay(2300);
+        // Ecran noir
+        
+        // Switch scene
+        
     }
 
     public void TakeHeal(int i)

@@ -218,7 +218,6 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     public void TakeDamage(int damages)
     {
         if (!IsDamageable()) return;
-        
         hp -= damages;
         if (hp < 1) DestroyConvoy();
     }
