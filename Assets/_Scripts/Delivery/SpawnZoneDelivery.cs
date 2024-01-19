@@ -131,6 +131,7 @@ public class SpawnZoneDelivery : MonoBehaviour
         GameObject spawnedObject = Instantiate(packageToDeliver, randomPosition + new Vector3(0, 1.5f, 0), Quaternion.identity);
         spawnedObject.transform.parent = PickableManager.Instance.worldSocket;
         hasDelivered = true;
+        Debug.Log("Colis has been dropped!");
         DisableZone();
     }
 
