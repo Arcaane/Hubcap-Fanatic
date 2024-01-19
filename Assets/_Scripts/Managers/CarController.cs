@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using Abilities;
 using ManagerNameSpace;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Key = UnityEngine.InputSystem.Key;
 
 public class CarController : CarBehaviour
 {
@@ -37,8 +35,12 @@ public class CarController : CarBehaviour
     [SerializeField] private ParticleSystem shotgunParticles;
     [SerializeField] public int shotgunDamages = 50;
     public bool isStraffing;
+    
     public bool isBomber;
-
+    public bool gotVayneUpgrade;
+    public int shotBeforeCritAmount;
+    public float vaynePassiveMultiplier;
+    private int currentShotBeforeCount = 2;
 
     [Header("ROAD DETECTION")] 
     [SerializeField] private LayerMask roadMask;
@@ -261,6 +263,7 @@ public class CarController : CarBehaviour
         if (context.started && isBomber && canShoot())
         {
             Pooler.instance.SpawnInstance(ManagerNameSpace.Key.OBJ_Mine , transform.position, Quaternion.identity);
+            
             for (int i = 0; i < shootTimes.Length; i++)
             {
                 if (shootTimes[i] >= shootDuration)
@@ -272,6 +275,7 @@ public class CarController : CarBehaviour
         }
     }
 
+    
     public void ShotgunHit()
     {
         Vector3 direction = straffColider.enemyCar[0].position - transform.position;
@@ -285,7 +289,19 @@ public class CarController : CarBehaviour
         }
         shotgunParticles.transform.rotation = Quaternion.LookRotation(direction);
         shotgunParticles.Play();
-        straffColider.enemyDamageable[0].TakeDamage(shotgunDamages);
+
+        
+        currentShotBeforeCount--;
+        if (gotVayneUpgrade && currentShotBeforeCount == 0)
+        {
+            straffColider.enemyDamageable[0].TakeDamage(Mathf.FloorToInt(shotgunDamages * vaynePassiveMultiplier));
+            Debug.Log(shotgunDamages * vaynePassiveMultiplier + " Damage dealt with special attack");
+            currentShotBeforeCount = shotBeforeCritAmount;
+        }
+        else
+        {
+            straffColider.enemyDamageable[0].TakeDamage(Mathf.FloorToInt(shotgunDamages));
+        }
         
         CarAbilitiesManager.instance.OnEnemyDamageTaken.Invoke(straffColider.enemyCar[0].gameObject);
     }

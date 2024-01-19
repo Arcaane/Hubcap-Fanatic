@@ -25,8 +25,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
     private Vignette vt;
 
     [SerializeField] private Image[] moveOnDeath;
-
-
+    
     private void Awake()
     {
         instance = this;
