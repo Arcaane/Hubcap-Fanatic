@@ -9,12 +9,12 @@ public class TargetUI : MonoBehaviour
     [Header("Target Type")]
     [SerializeField] public TargetType targetType;
     [SerializeField] private List<Sprite> iconImages;
+    [SerializeField] private Color[] iconColors;
     
     [Header("UI Elements")]
-    public Image targetImage;
+    public Image[] targetImage;
     public Image durationBeforeSpawnImage;
-    public Image backgroundImage;
-    public TextMeshProUGUI distanceText;
+    public TextMeshProUGUI[] distanceText;
     
     [Header("Debug")]
     private float distance = 0f;
@@ -29,14 +29,14 @@ public class TargetUI : MonoBehaviour
         {
             _deliveryDuration = UIIndic.instance.Obj[indexDeliveryPoints].GetComponent<SpawnZoneDelivery>().DeliveryDuration;
         }
-        SetText(distanceText, distance);
+        SetText(Mathf.RoundToInt(distance).ToString());
         durationBeforeSpawnImage.fillAmount = 0;
     }
 
     void Update()
     {
         if(objBinded == null) return;
-        SetText(distanceText, distance);
+        SetText(Mathf.RoundToInt(distance).ToString());
         SwitchIcon();
         if (ConvoyManager.instance.currentConvoy != null && TargetType.Convoy == targetType)
         {
@@ -49,7 +49,7 @@ public class TargetUI : MonoBehaviour
     {
         if (durationBeforeSpawnImage.fillAmount >= 1) return;
         timer += Time.deltaTime;
-        durationBeforeSpawnImage.fillAmount = timer / _deliveryDuration;
+        durationBeforeSpawnImage.fillAmount = 1 - timer / _deliveryDuration;
     }
 
     void DecreaseFillAmount()
@@ -58,9 +58,9 @@ public class TargetUI : MonoBehaviour
         durationBeforeSpawnImage.fillAmount = 1 - (timer / _deliveryDuration);
     }
     
-    void SetText(TextMeshProUGUI tmpGUI, string text)
+    void SetText(string text)
     {
-        tmpGUI.text = text + "m";
+        distanceText[0].text = distanceText[1].text = text + "M";
     }
     
     void SetText(TextMeshProUGUI tmpGUI, float number)
@@ -85,27 +85,32 @@ public class TargetUI : MonoBehaviour
         switch (targetType)
         {
             case TargetType.DropZone:
-                SetImage(targetImage, iconImages[0]);
+                SetImage( iconImages[0],iconColors[0]);
                 IncreaseFillAmount();
                 break;
             case TargetType.DeliveryZone:
-                SetImage(targetImage, iconImages[1]);
+                SetImage( iconImages[1],iconColors[1]);
+                durationBeforeSpawnImage.fillAmount = 1;
                 break;
             case TargetType.Merchant:
-                SetImage(targetImage, iconImages[2]);
+                SetImage( iconImages[2],iconColors[2]);
+                durationBeforeSpawnImage.fillAmount = 1;
                 break;
             case TargetType.CampZone:
-                SetImage(targetImage, iconImages[3]);
+                SetImage( iconImages[3],iconColors[3]);
+                durationBeforeSpawnImage.fillAmount = 1;
                 break;            
             case TargetType.Convoy:
-                SetImage(targetImage, iconImages[4]);
+                SetImage( iconImages[4],iconColors[4]);
+                durationBeforeSpawnImage.fillAmount = 1;
                 break;
         }
     }
     
-    void SetImage(Image image, Sprite sprite)
+    void SetImage(Sprite sprite,Color color)
     {
-        image.sprite = sprite;
+        targetImage[0].sprite = targetImage[1].sprite = durationBeforeSpawnImage.sprite = sprite;
+        durationBeforeSpawnImage.color = color;
     }
 
     void CalculateDistance()
