@@ -290,14 +290,7 @@ public class CarController : CarBehaviour
         CarAbilitiesManager.instance.OnEnemyDamageTaken.Invoke(straffColider.enemyCar[0].gameObject);
     }
     
-    public void BButton(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            jumpSmoke.Play();
-            rb.AddForce(Vector3.up * 300);
-        }
-	}
+    
 
     #endregion
     

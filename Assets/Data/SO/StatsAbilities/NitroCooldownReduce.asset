@@ -22,7 +22,9 @@ MonoBehaviour:
   when: 0
   state: 0
   effect: 0
-  levelsAbilitiesModifiers: []
+  modifiersLevel1: []
+  modifiersLevel2: []
+  modifiersLevel3: []
   effectDamage: 0
   effectSizeRadius: 0
   effectDuration: 0
@@ -36,6 +38,7 @@ MonoBehaviour:
   - 0.75
   - 0.5
   - 0.25
+  - 0.1
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0

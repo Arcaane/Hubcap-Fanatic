@@ -25,7 +25,9 @@ namespace Abilities
         public Effect effect;
 
         [Space(5)] [Header("Abilities Level Modifiers")]
-        public AbilitiesModifiers[] levelsAbilitiesModifiers;
+        public ActiveModifier[] modifiersLevel1;
+        public ActiveModifier[] modifiersLevel2;
+        public ActiveModifier[] modifiersLevel3;
         
         // Stats
         [Header("Classic Abilities")]
@@ -375,18 +377,28 @@ namespace Abilities
 
         public void LevelUpPassiveAbility()
         {
-            Debug.Log(levelsAbilitiesModifiers[level]);
-            if (levelsAbilitiesModifiers[level] == null || level > 3) return;
             
-            for (int i = 0; i < levelsAbilitiesModifiers[level].Modifiers.Length; i++)
+            if (level > 3) return;
+
+            ActiveModifier[] modifiers = level switch
             {
-                switch (levelsAbilitiesModifiers[level].Modifiers[i].stat)
+                1 => modifiersLevel1,
+                2 => modifiersLevel2,
+                3 => modifiersLevel3,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            if (modifiers == null) return;
+            
+            for (int i = 0; i < modifiers.Length; i++)
+            {
+                switch (modifiers[i].stat)
                 {
-                    case AbilitiesStats.EffectDamage: effectDamage += (int)levelsAbilitiesModifiers[level].Modifiers[i].newValue; break;
-                    case AbilitiesStats.EffectSizeRadius: effectSizeRadius += (int)levelsAbilitiesModifiers[level].Modifiers[i].newValue;  break;
-                    case AbilitiesStats.EffectDuration: effectDuration += levelsAbilitiesModifiers[level].Modifiers[i].newValue; break;
-                    case AbilitiesStats.EffectDelayMilliseconds: effectDelayMilliseconds += (int)levelsAbilitiesModifiers[level].Modifiers[i].newValue; break;
-                    case AbilitiesStats.EffectRepeatDelay: effectRepeatDelay += levelsAbilitiesModifiers[level].Modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectDamage: effectDamage += (int)modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectSizeRadius: effectSizeRadius += (int)modifiers[i].newValue;  break;
+                    case AbilitiesStats.EffectDuration: effectDuration += modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectDelayMilliseconds: effectDelayMilliseconds += (int)modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectRepeatDelay: effectRepeatDelay += modifiers[i].newValue; break;
                     default: throw new ArgumentOutOfRangeException();
                 }
             }
@@ -535,4 +547,10 @@ public enum HowStatsModify
     Subtract,
     Add,
     Multiply
+}
+[Serializable]
+public struct ActiveModifier
+{
+    public AbilitiesStats stat;
+    public float newValue;
 }

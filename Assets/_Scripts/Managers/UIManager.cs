@@ -222,15 +222,15 @@ public class UIManager : MonoBehaviour
             {
                 stickUsed = true;
                 float angle = Vector2.SignedAngle(Vector2.up, stickValue);
-                if (angle > -45 && angle < 45)
+                if (angle > -30 && angle < 30)
                 {
                     UpChoice();
                 }
-                else if (angle > 45 && angle < 135)
+                else if (angle > 30 && angle < 150)
                 {
                     LeftChoice();
                 }
-                else if (angle > -135 && angle < -45)
+                else if (angle > -150 && angle < -30)
                 {
                     RightChoice();
                 }
