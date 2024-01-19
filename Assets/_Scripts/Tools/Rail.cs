@@ -11,27 +11,9 @@ public class Rail : MonoBehaviour
     [SerializeField] private  float nbPoints;
     [SerializeField] private  float distBetweenNodes;
     private List<Vector3> pointsOnCurve =new List<Vector3>(0);
-    private List<Vector3> distancedNodes = new List<Vector3>(0);
+    public List<Vector3> distancedNodes = new List<Vector3>(0);
     [SerializeField] private bool loop;
     [SerializeField] private List<Transform> forms;
-
-    [Header("Rail")] 
-    [SerializeField] private Vector2[] railVertices;
-    public MeshFilter meshFilter;
-    public int nbRails;
-    public float space;
-
-    [Header("Plank")] 
-    public GameObject plank;
-    public Transform plankParent;
-    public List<GameObject> planks;
-
-    [Header("Wagon")] 
-    public Transform wagon;
-    public int previous;
-    public int next;
-    public float index;
-    public float speed;
 
     [Header("Tool")] 
     [SerializeField] private bool generateRail;
@@ -42,32 +24,15 @@ public class Rail : MonoBehaviour
     public bool modeForm;
     private bool form;
     [SerializeField] private GameObject formPoint;
+    [SerializeField] private float gizmoSize = 0.1f;
 
 
     private void Start()
     {
         DrawRailPoints();
         CreateDistancedNodes();
-        meshFilter.mesh = GenerateRail();
-        GeneratePlank();
     }
-
-    private void Update()
-    {
-        if (index < 1)
-        {
-            index +=( Time.deltaTime * speed )/ distBetweenNodes;
-        }
-        else
-        {
-            previous = next;
-            next = (next + 1) % distancedNodes.Count;
-            index = 0;
-        }
-        wagon.position = Vector3.Lerp(distancedNodes[previous], distancedNodes[next], index)+Vector3.up*1.2f;
-        wagon.rotation = Quaternion.Lerp(wagon.rotation,Quaternion.LookRotation(distancedNodes[next] - distancedNodes[previous]),Time.deltaTime*5);
-        
-    }
+    
 
     private void OnDrawGizmos()
     {
@@ -75,19 +40,10 @@ public class Rail : MonoBehaviour
         CreateDistancedNodes();
         foreach (Vector3 pos in distancedNodes)
         {
-            Gizmos.DrawSphere(pos,0.1f);
+            Gizmos.DrawSphere(pos,gizmoSize);
         }
 
-        if (generateRail)
-        {
-            meshFilter.mesh = GenerateRail();
-            generateRail = false;
-        }
-        if (generatePlank)
-        {
-            GeneratePlank();
-            generatePlank = false;
-        }
+        
         if (addNewPoint)
         {
             AddNewPoint();
@@ -174,107 +130,7 @@ public class Rail : MonoBehaviour
         railPoints.RemoveAt(railPoints.Count - 1);
     }
 
-    void GeneratePlank()
-    {
-        foreach (GameObject obj in planks)
-        { 
-            DestroyImmediate(obj);
-        }
-        planks.Clear();
-        
-        for (int i = 0; i < distancedNodes.Count; i++)
-        {
-            Vector3 xAxis;
-            if (i != distancedNodes.Count - 1)
-            {
-                xAxis = Quaternion.Euler(0, 90, 0) * (distancedNodes[i + 1] - distancedNodes[i]);
-            }
-            else if (!loop)
-            {
-                xAxis = Quaternion.Euler(0, 90, 0) * (distancedNodes[i] - distancedNodes[i-1]);
-            }
-            else
-            {
-                xAxis = Quaternion.Euler(0, 90, 0) * (distancedNodes[0] - distancedNodes[i]);
-            }
-            planks.Add(Instantiate(plank, distancedNodes[i], Quaternion.LookRotation(xAxis), plankParent));
-        }
-    }
-
-    Mesh GenerateRail()
-    {
-        Mesh mesh = new Mesh();
-
-        List<Vector3> vertices = new List<Vector3>(0);
-        List<int> triangles = new List<int>(0);
-        int nbPt = 0;
-
-        for (int x = 0; x < nbRails; x++)
-        {
-            for (int i = 0; i < distancedNodes.Count; i++)
-            {
-                Vector3 yAxis = Vector3.up;
-                Vector3 xAxis;
-                if (i != distancedNodes.Count - 1)
-                {
-                    xAxis = Quaternion.Euler(0, 90, 0) * (distancedNodes[i + 1] - distancedNodes[i]);
-                }
-                else if (!loop)
-                {
-                    xAxis = Quaternion.Euler(0, 90, 0) * (distancedNodes[i] - distancedNodes[i-1]);
-                }
-                else
-                {
-                    xAxis = Quaternion.Euler(0, 90, 0) * (distancedNodes[0] - distancedNodes[i]);
-                }
-
-                xAxis = xAxis.normalized;
-
-                for (int j = 0; j < railVertices.Length; j++)
-                {
-                    Vector3 pos = distancedNodes[i] + (xAxis * railVertices[j].x) + (-xAxis * (space * (nbRails-1 )/ 2) + xAxis * x * (space)) + yAxis * railVertices[j].y;
-                    pos = transform.InverseTransformPoint(pos);
-                    vertices.Add(pos);
-                }
-            }
-
-            for (int i = 0; i < distancedNodes.Count-1; i++)
-            {
-                for (int j = 0; j < railVertices.Length; j++)
-                {
-                    int a = nbPt + (i * railVertices.Length) + j;
-                    int b = nbPt + (i * railVertices.Length) + (j+1) % railVertices.Length;
-                    int c = nbPt + ((i+1) * railVertices.Length) + j;
-                    int d = nbPt + ((i+1) * railVertices.Length) + (j+1) % railVertices.Length;
-                    triangles.AddRange(GetTrianglesForQuad(a,b,c,d));
-                }
-            }
-
-            if (loop)
-            {
-                for (int j = 0; j < railVertices.Length; j++)
-                {
-                    int a = nbPt + (distancedNodes.Count-1) * railVertices.Length + j;
-                    int b = nbPt + (distancedNodes.Count-1) * railVertices.Length + (j+1)%railVertices.Length;
-                    int c = nbPt + j;
-                    int d = nbPt + (j+1)%railVertices.Length; 
-                    triangles.AddRange(GetTrianglesForQuad(a,b,c,d));
-                }
-            }
-
-            nbPt = vertices.Count;
-        }
-
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
-        mesh.RecalculateNormals();
-        for (int i = 0; i < mesh.vertexCount; i++)
-        {
-            
-            Debug.DrawRay(transform.position + mesh.vertices[i],mesh.normals[i],Color.green,10);
-        }
-        return mesh;
-    }
+    
 
     int[] GetTrianglesForQuad(int a,int b,int c,int d)
     {

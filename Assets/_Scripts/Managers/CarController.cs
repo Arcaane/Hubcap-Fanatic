@@ -71,8 +71,7 @@ public class CarController : CarBehaviour
     
     private void Update()
     {
-        Debug.Log(globalSpeedFactor);
-        
+
         base.Update();
         
         rotationValue = stickValue.x;
