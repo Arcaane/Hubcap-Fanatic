@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Abilities;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
 public class TestShop : MonoBehaviour
@@ -12,10 +10,6 @@ public class TestShop : MonoBehaviour
     [SerializeField] private AbilitiesSO gold;
 
     [SerializeField] private ShopOption[] buttonsItemsArray = new ShopOption[3];
-
-    [SerializeField] private Camera cam;
-
-    public bool playerInRange;
     
     private void Start()
     {
@@ -23,47 +17,13 @@ public class TestShop : MonoBehaviour
         {
             buttonsItemsArray[i] = UIManager.instance.shopOptions[i];
         }
-
-
+        
         for (int i = 0; i < allAbilities.Count; i++) allAbilities[i].level = -1;
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = true;
-            
-        }
-    }
     
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = false;
-           
-        }
-    }
-
-    private void Update()
-    {
-        if (playerInRange)
-        {
-            UIManager.instance.shopIcon.position = cam.WorldToScreenPoint(transform.position);
-            UIManager.instance.shopIcon.localScale = Vector3.Lerp(UIManager.instance.shopIcon.localScale,Vector3.one, Time.deltaTime*7);
-        }
-        else
-        {
-            UIManager.instance.shopIcon.localScale = Vector3.Lerp(UIManager.instance.shopIcon.localScale,Vector3.zero, Time.deltaTime*7);
-        }
-        
-    }
-
     public void StartShopUI()
     {
         UIManager.instance.OpenShopScreen();
-        
         SetupItemsInShop();
     }
 
@@ -103,9 +63,6 @@ public class TestShop : MonoBehaviour
             }
         }
     }
-    
-   
-
 
     public static List<T> ShuffleList<T>(List<T> list)
     {
