@@ -56,18 +56,32 @@ public class DeliveryRessourcesManager : MonoBehaviour
         Transform randomSpawnPoint = GetRandomSpawnPoint();
         GameObject deliveryZone = Instantiate(prefab, randomSpawnPoint.position, Quaternion.identity);
         SpawnZoneDelivery spawnZoneDelivery = deliveryZone.GetComponent<SpawnZoneDelivery>();
-        UIIndic.instance.AddIndic(deliveryZone, TargetType.DropZone, out int index);
-        spawnZoneDelivery.index = index;
-        //Debug.Log($"{spawnZoneDelivery.gameObject.name} - Delivery Duration: {deliveryDuration} - Time Before Spawn: {timeBeforeSpawn}");
+
         if (spawnZoneDelivery != null)
         {
+            UIIndic.instance.AddIndic(deliveryZone, TargetType.DropZone, out int index);
+            spawnZoneDelivery.index = index;
+            
+            int objectIndex = deliveryObjects.FindIndex(obj => obj.prefab == prefab);
+
+            if (objectIndex != -1)
+            {
+                objectIndex++;
+                deliveryZone.name = $"{prefab.name}_Index_{objectIndex}";
+            }
+            else
+            {
+                Debug.LogError("Prefab not found in the deliveryObjects list.");
+            }
+
             spawnZoneDelivery.DeliveryDuration = deliveryDuration;
         }
         else
         {
-            Debug.LogError("Le prefab ne contient pas le script SpawnZoneDelivery.");
+            Debug.LogError("The prefab does not contain the SpawnZoneDelivery script.");
         }
     }
+
     
     Transform GetRandomSpawnPoint()
     {
@@ -79,6 +93,61 @@ public class DeliveryRessourcesManager : MonoBehaviour
 
         return spawnPoints[randomIndex];
     }
+    
+    [ContextMenu("Delivery Zone -> Add 10 Random Delivery Objects")]
+    void Add10RandomDeliveryZone()
+    {
+        AddRandomDeliveryObjects(10); 
+    }
+    
+    [ContextMenu("Delivery Zone -> Add 100 Random Delivery Objects")]
+    void Add100RandomDeliveryZone()
+    {
+        AddRandomDeliveryObjects(100); 
+    }
+
+    void AddRandomDeliveryObjects(int numberOfObjects)
+    {
+        GameObject deliveryZonePrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Prefabs/Player Attached/Event_SpawnDeliveryZone.prefab");
+        if (deliveryZonePrefab == null)
+        {
+            Debug.LogError("Prefab not found. Make sure the path is correct.");
+            return;
+        }
+
+        for (int i = 0; i < numberOfObjects; i++)
+        {
+            DeliveryObject randomDeliveryObject = new DeliveryObject
+            {
+                prefab = deliveryZonePrefab,
+                X_DeliveryDuration__Y_TimeBeforeSpawn = new Vector2(Random.Range(1.0f, 5.0f), Random.Range(0.0f, 30.0f))
+            };
+
+            deliveryObjects.Add(randomDeliveryObject);
+        }
+
+        Debug.Log($"Added {numberOfObjects} random Delivery Objects.");
+    }
+
+
+    [ContextMenu("Delivery Zone -> Clear Delivery Objects")]
+    void ClearDeliveryZone()
+    {
+        deliveryObjects.Clear();
+        Debug.Log("Delivery objects cleared.");
+    }
+    
+    [ContextMenu("Clear Delivery Objects")]
+    void ClearDeliveryObjects()
+    {
+        foreach (var deliveryPoint in deliveryPoints)
+        {
+            DestroyImmediate(deliveryPoint);
+        }
+        deliveryPoints.Clear();
+        Debug.Log("Delivery objects cleared.");
+    }
+    
     
     [ContextMenu("Create Square Spawn Points")]
     void CreateSquareSpawnPoints()
