@@ -10,6 +10,7 @@ public class UIIndic : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private Transform camCenter;
+    [SerializeField] private RectTransform rectTransform;
     [SerializeField] private List<GameObject> obj;
     public List<GameObject> Obj => obj;
     [SerializeField] private Rect rectAdjusted;
@@ -20,6 +21,8 @@ public class UIIndic : MonoBehaviour
     public float DelayBeforeRemove => delayBeforeRemove;
     public Transform uiParent;
     public static UIIndic instance;
+
+    public Vector2 offset;
 
     public int currentIndex = 0;
 
@@ -46,7 +49,7 @@ public class UIIndic : MonoBehaviour
     
     void SetupRect()
     {
-        rectAdjusted = new Rect(Vector2.zero,cam.pixelRect.size - new Vector2(80,80));
+        rectAdjusted = rectTransform.rect;
         rectAdjusted.center = cam.pixelRect.center;
         center = cam.WorldToScreenPoint(camCenter.position);
     }
