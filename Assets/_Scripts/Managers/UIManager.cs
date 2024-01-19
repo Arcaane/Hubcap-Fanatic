@@ -151,7 +151,7 @@ public class UIManager : MonoBehaviour
         merchantText.gameObject.SetActive(true);
         merchantText2.gameObject.SetActive(true);
         merchantText.text = merchantText2.text = text;
-        await Task.Delay(3000);
+        await Task.Delay(5000);
         merchantText.gameObject.SetActive(false);
         merchantText2.gameObject.SetActive(false);
     }

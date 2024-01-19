@@ -194,8 +194,8 @@ MonoBehaviour:
   antennaEffectSize: 1200
   currentAntennaState: 0
   isCapturing: 0
-  captureDuration: 4
-  timeBeforeDecreasing: 1
+  captureDuration: 3.5
+  timeBeforeDecreasing: 3
   activationTowerDuration: 25
   reactivateTimeDelay: 100
   debugImage: {fileID: 1272888013316565391}
