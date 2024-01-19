@@ -12,15 +12,17 @@ public class ConvoyManager : MonoBehaviour
     public float timeBetweenConvoys;
     private float timer;
     public ConvoySpawnData[] convoys;
-    public float mapSize = 730;
-    public ConvoySpawnPoint[] spawnPoints;
+    public Rail rails;
+
+
+
 
     private void Awake()
     {
         instance = this;
         timer = timeBetweenConvoys;
     }
-
+    
     private void Update()
     {
         if (waitingForConvoy)
@@ -45,20 +47,15 @@ public class ConvoyManager : MonoBehaviour
                 prefabs.Add(convoys[i].convoyPrefab);
             }
         }
-
+        
         GameObject obj = Instantiate(prefabs[Random.Range(0, prefabs.Count)]);
         currentConvoy = obj.transform.GetComponent<ConvoyBehaviour>();
-
-        int rng = Random.Range(0, spawnPoints.Length);
-
-        Vector3 start;
-
-        start = spawnPoints[rng].spawnPoint.position;
-        currentConvoy.agent.Warp(start);
-
-        currentConvoy.target = spawnPoints[rng].possibleEndPoints[Random.Range(0, spawnPoints[rng].possibleEndPoints.Length)].position;
-        
+        currentConvoy.distancedNodes = rails.distancedNodes;
         currentConvoy.Initialize();
+        if (UIIndic.instance.Obj.Count > 3)
+        {
+            UIIndic.instance.Obj[3] = obj;
+        }
     }
 }
 
@@ -67,11 +64,4 @@ public struct ConvoySpawnData
 {
     public GameObject convoyPrefab;
     public float minTime,maxTime;
-}
-
-[Serializable]
-public struct ConvoySpawnPoint
-{
-    public Transform spawnPoint;
-    public Transform[] possibleEndPoints;
 }

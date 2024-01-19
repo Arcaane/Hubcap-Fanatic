@@ -52,6 +52,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public GameObject objectPickable;
 
     public GameObjectDelgate OnPoliceCarDie;
+    public MeshRenderer meshR;
+    public MeshRenderer[] metalParts;
+    public Material metal;
 
     void Start()
     {
@@ -62,27 +65,28 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         randomOffset = new Vector2(Random.Range(-maxRngOffset.x, maxRngOffset.x),
             Random.Range(-maxRngOffset.y, maxRngOffset.y));
 
-        meshR = GetComponent<MeshRenderer>();
+        mat = new Material[meshR.materials.Length];
+        for (int i = 0; i < mat.Length; i++)
+        {
+            mat[i] = new Material(meshR.materials[i]);
+        }
+        meshR.materials = mat;
+        metal = new Material(metal);
+        for (int i = 0; i < metalParts.Length; i++)
+        {
+            metalParts[i].material = metal;
+        }
     }
 
     private void OnEnable()
     {
         OnPoliceCarDie += delegate { Pooler.instance.DestroyInstance(enemyKey, transform); };
-        OnPoliceCarDie += delegate
-        {
-            CarExperienceManager.Instance.GetExp(
-                Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
-        };
+        
     }
 
     private void OnDisable()
     {
         OnPoliceCarDie -= delegate { Pooler.instance.DestroyInstance(enemyKey, transform); };
-        OnPoliceCarDie -= delegate
-        {
-            CarExperienceManager.Instance.GetExp(
-                Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
-        };
         policeCars.Remove(this);
     }
     
@@ -376,13 +380,17 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         // Gizmos.DrawWireSphere(transform.position,repulsiveRadius);
     }
 
+    private bool isDead = false;
     public void TakeDamage(int damages)
     {
         hp -= damages;
         ActiveDamageFB();
         
-        if (hp > 1) return;
+        if (hp > 1 && !isDead) return;
         
+        Debug.Log("Ennemi Tué");
+        CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
+        isDead = true;
         OnPoliceCarDie.Invoke(gameObject);
         if (isAimEffect) CarAbilitiesManager.instance.goldAmountWonOnRun += Random.Range(1, 4);
     }
@@ -399,16 +407,21 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         }
     }
     
-    private MeshRenderer meshR;
+   
     private async void ActiveDamageFB()
     {
-        meshR.material.SetFloat("_UseDamage", 1);
+        foreach (var t in mat)
+        {
+            t.SetFloat("_UseDamage", 1);
+        }
+        metal.SetFloat("_UseDamage", 1);
 
         await Task.Delay(300);
 
-        if (IsDamageable())
+        foreach (var t in mat)
         {
-            meshR.material.SetFloat("_UseDamage", 0);
+            t.SetFloat("_UseDamage", 0);
         }
+        metal.SetFloat("_UseDamage", 0);
     }
 }

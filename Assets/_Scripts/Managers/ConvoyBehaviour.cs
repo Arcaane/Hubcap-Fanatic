@@ -12,17 +12,9 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     [SerializeField] private int hp = 500;
     [SerializeField] private int tokenToGiveOnDestroy = 2;
     [SerializeField] private int slotUnlockOnDestroy = 1;
-    
-    [Header("POLICE CAR")]
-    public Vector3 target;
-    public int currentTarget = 0;
-    public float t;
-    public float targetDetectionRange = 3;
-    public float speed, normalSpeed,attackModeSpeed;
 
     public Transform player;
-    public NavMeshAgent agent;
-    
+
     [Header("CONVOY")]
     
     
@@ -48,12 +40,22 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     public bool showRadiusGizmos;
 
     public bool attackMode;
-    public float oneBarZone,twoBarsZone,threeBarZone,fourBarZone;
-    
-    
+
+    [Header("FollowPath")]
+    public int previous,next;
+    public float speed,targetSpeed,index;
+    public List<Vector3> distancedNodes;
+    public float completion;
+    public float upVector = 1.2f;
 
     public void Initialize()
     {
+        previous = Random.Range(0, distancedNodes.Count);
+        next = (previous + 1) % distancedNodes.Count;
+        transform.position = Vector3.Lerp(distancedNodes[previous], distancedNodes[next], index)+Vector3.up*upVector;
+        transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(distancedNodes[next] - distancedNodes[previous]),Time.deltaTime*5);
+
+        
         defenseCars = new PoliceCarBehavior[defensePoints.Length];
         
         for (int i = 0; i < defensePoints.Length; i++)
@@ -66,28 +68,37 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
             defenseCars[i].defensePoint = defensePoints[i].point;
         }
         player = CarController.instance.transform;
-        agent.SetDestination(target);
+    
+    }
+    
+    void FixedUpdate()
+    {
+        completion += Time.fixedDeltaTime * speed;
+        if (completion >= 1)
+        {
+            completion--;
+        }
 
+        speed = Mathf.Lerp(speed, targetSpeed, Time.fixedDeltaTime * 2);
+        
+        index = Mathf.Lerp(0, distancedNodes.Count, completion);
+        previous = Mathf.FloorToInt(index);
+        next = Mathf.CeilToInt(index)%distancedNodes.Count;
+        index -= previous;
+        
+        transform.position = Vector3.Lerp(distancedNodes[previous], distancedNodes[next], index)+Vector3.up*upVector;
+        transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(distancedNodes[next] - distancedNodes[previous]),Time.deltaTime*5);
     }
     
     private void Update()
     {
-        if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(target.x, target.z)) <
-            5)
-        {
-            ConvoyManager.instance.waitingForConvoy = true;
-            for (int i = 0; i < defenseCars.Length; i++)
-            {
-                Destroy(defenseCars[i].gameObject);
-            }
-            Destroy(gameObject);
-        }
+        
         
         
         if (attackMode) AttackMode();
         else
         {
-            agent.speed = Mathf.Lerp(agent.speed, normalSpeed, Time.deltaTime * 5);
+            
             
             if (Vector3.SqrMagnitude(transform.position - player.position) < playerDetectionRadius * playerDetectionRadius)
             {
@@ -105,64 +116,14 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         }
 
 
-        SetRadar();
-    }
-
-
-    void SetRadar()
-    {
-        float dist = Vector3.SqrMagnitude(transform.position - player.position);
-        float power;
-        if (dist > oneBarZone * oneBarZone)
-        {
-            power = 0;
-        }
-        else if (dist > twoBarsZone * twoBarsZone)
-        {
-            power = 1;
-        }
-        else if (dist > threeBarZone * threeBarZone)
-        {
-            power = 2;
-        }
-        else if (dist > fourBarZone * fourBarZone)
-        {
-            power = 3;
-        }
-        else 
-        {
-            power = 4;
-        }
-
-        float dot = Vector2.Dot((new Vector2(transform.position.x,transform.position.z) - new Vector2(player.position.x,player.position.z)).normalized, new Vector2(player.forward.x,player.forward.z).normalized);
-        float dotpower;
-        if (dot < 0)
-        {
-            dotpower = 0;
-        }
-        else if (dot < 0.5f)
-        {
-            dotpower = 1;
-        }
-        else if (dot < 0.75f)
-        {
-            dotpower = 2;
-        }
-        else if (dot < 0.9f)
-        {
-            dotpower = 3;
-        }
-        else
-        {
-            dotpower = 4;
-        }
         
-        UIManager.instance.radar.SetActivation(Mathf.RoundToInt(power * 0.6f + dotpower * 0.4f));
     }
+
+
+    
 
     void AttackMode()
     {
-        agent.speed = Mathf.Lerp(agent.speed, attackModeSpeed, Time.deltaTime * 5);
 
         if (attackTimer > 0)
         {
@@ -236,7 +197,9 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         {
             defenseCars[i].convoyBehaviour = null;
         }
-        Destroy(gameObject);
+        UIIndic.instance.Obj[3] = ConvoyManager.instance.gameObject;
+        
+        Destroy(gameObject,1f);
     }
 }
 [Serializable]

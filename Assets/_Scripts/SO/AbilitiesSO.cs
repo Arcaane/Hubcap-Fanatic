@@ -268,6 +268,7 @@ namespace Abilities
         private void EffectForceBreak(GameObject targetObj)
         {
             CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
+            if (carBehaviour == null) return;
             carBehaviour.forceBreak = true;
             carBehaviour.forceBreakTimer = effectDuration;
             GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_MotorBreak, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, effectDuration).gameObject;
@@ -303,7 +304,7 @@ namespace Abilities
         private async void EffectScorch(GameObject targetObj)
         {
             CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
-            if (carBehaviour.isScorch) return;
+            if (carBehaviour == null || carBehaviour.isScorch) return;
             carBehaviour.isScorch = true;
             
             var a = Mathf.FloorToInt(effectDuration / ((float)effectDelayMilliseconds / 1000));

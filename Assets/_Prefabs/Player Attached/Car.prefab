@@ -11423,6 +11423,7 @@ MonoBehaviour:
   spawnManager: {fileID: 0}
   volume: {fileID: 0}
   moveOnDeath: []
+  renderer: {fileID: 1294189407177526008}
   diePS: {fileID: 6336603828781584600}
   explosionPS: {fileID: 0}
 --- !u!114 &3798896081380664901

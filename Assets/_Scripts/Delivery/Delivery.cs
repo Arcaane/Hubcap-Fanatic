@@ -13,49 +13,19 @@ public class Delivery : MonoBehaviour
     public Material[] transpMat;
     public Material[] solidMat;
     public ParticleSystem[] ps;
+
     
     private float currentTime;
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && TryGetFirstPickableObject(out GameObject firstPickableObject))
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("Delivery done!");
-            
-            IPickupable pickupableComponent = firstPickableObject.GetComponent<IPickupable>();
-            if (pickupableComponent != null)
-            {
-                pickupableComponent.OnDelivered();
-                OnDeliver();
-            }
-            else
-            {
-                Debug.LogError("The first socketPickableCop object does not have IPickupable component.");
-            }
-
-            PickableManager.Instance.RemovePickableObject(0);
-            ResetLifeTime();
+			CarController.instance.pickedItems[0].gameObject.GetComponent<ObjectPickable>().OnDelivered();
+			OnDeliver();
         }
     }
     
-    private bool TryGetFirstPickableObject(out GameObject firstPickableObject)
-    {
-        firstPickableObject = null;
-
-        if (PickableManager.Instance != null && PickableManager.Instance.car.pickedItems != null && PickableManager.Instance.car.pickedItems.Count > 0)
-        {
-            firstPickableObject = PickableManager.Instance.car.pickedItems[0];
-        }
-
-        return firstPickableObject != null;
-    }
-    
-    private void ResetLifeTime()
-    {
-        canBeDelivered = false;
-        currentTime = 0.0f;
-    }
-
     public void CanDeliver()
     {
         canBeDelivered = true;
@@ -76,5 +46,8 @@ public class Delivery : MonoBehaviour
         materials[1] = solidMat[1];
         await Task.Delay(1500);
         boxMesh.enabled = false;
+    }
+           
+      
     }
 }

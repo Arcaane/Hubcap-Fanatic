@@ -49,7 +49,7 @@ public class TargetUI : MonoBehaviour
     {
         if (durationBeforeSpawnImage.fillAmount >= 1) return;
         timer += Time.deltaTime;
-        durationBeforeSpawnImage.fillAmount = 1 - timer / _deliveryDuration;
+        durationBeforeSpawnImage.fillAmount = timer / _deliveryDuration;
     }
 
     void DecreaseFillAmount()
