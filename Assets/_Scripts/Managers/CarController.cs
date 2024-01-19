@@ -347,11 +347,11 @@ public class CarController : CarBehaviour
         
         if (other.gameObject.CompareTag("Enemy") && pickedItems.Count > 0)
         {
-            for (int i = 0; i < pickedItems.Count; i++)
+            foreach (var pickedObject in pickedItems)
             {
-                pickedItems[i].GetComponent<ObjectPickable>().OnDrop();
+                pickedObject.GetComponent<ObjectPickable>().OnDrop();
             }
-            
+
             pickedItems.Clear();
             //PickableManager.Instance.RemoveAllPickables();
         }

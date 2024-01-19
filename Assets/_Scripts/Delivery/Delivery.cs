@@ -29,7 +29,10 @@ public class Delivery : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            CarController.instance.pickedItems[0].gameObject.GetComponent<ObjectPickable>().OnDelivered();
+            foreach (var picked in CarController.instance.pickedItems)
+            {
+                picked.gameObject.GetComponent<ObjectPickable>().OnDelivered();
+            }
         }
     }
 }
