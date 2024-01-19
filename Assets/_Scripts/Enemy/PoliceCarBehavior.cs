@@ -51,7 +51,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     [Header("Pickable")] public GameObject socketPickableCop;
     public GameObject objectPickable;
 
-    public GameObjectDelgate OnPoliceCarDie;
+    public GameObjectDelgate OnPoliceCarDie = delegate {  };
 
     void Start()
     {
@@ -65,15 +65,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         meshR = GetComponent<MeshRenderer>();
     }
 
-    private void OnEnable()
-    {
-        OnPoliceCarDie += delegate { Pooler.instance.DestroyInstance(enemyKey, transform); };
-        
-    }
+    
 
     private void OnDisable()
     {
-        OnPoliceCarDie -= delegate { Pooler.instance.DestroyInstance(enemyKey, transform); };
+        
         policeCars.Remove(this);
     }
     
@@ -376,6 +372,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
         isDead = true;
         OnPoliceCarDie.Invoke(gameObject);
+        Pooler.instance.DestroyInstance(enemyKey, transform);
         if (isAimEffect) CarAbilitiesManager.instance.goldAmountWonOnRun += Random.Range(1, 4);
     }
 

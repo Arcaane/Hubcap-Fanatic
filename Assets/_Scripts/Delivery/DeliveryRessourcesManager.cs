@@ -23,7 +23,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
     public int randomSeed;
     
     [Header("Timeline Spawn Options")]
-    [SerializeField] private List<DeliveryObject> deliveryObjects; 
+    [SerializeField] private List<DeliveryObject> deliveryObjects;
     public List<GameObject> deliveryPoints;
     
     //Setup Spawn Points

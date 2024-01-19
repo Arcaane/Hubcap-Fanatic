@@ -65,6 +65,7 @@ namespace ManagerNameSpace
 
             if (obj != null)
             {
+                Debug.Log("ENQUEUE");
                 pools[key].queue.Enqueue(obj);
                 obj.transform.parent = transform;
                 obj.gameObject.SetActive(false);
