@@ -52,6 +52,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public GameObject objectPickable;
 
     public GameObjectDelgate OnPoliceCarDie;
+    public MeshRenderer meshR;
+    public MeshRenderer[] metalParts;
+    public Material metal;
 
     void Start()
     {
@@ -62,7 +65,17 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         randomOffset = new Vector2(Random.Range(-maxRngOffset.x, maxRngOffset.x),
             Random.Range(-maxRngOffset.y, maxRngOffset.y));
 
-        meshR = GetComponent<MeshRenderer>();
+        mat = new Material[meshR.materials.Length];
+        for (int i = 0; i < mat.Length; i++)
+        {
+            mat[i] = new Material(meshR.materials[i]);
+        }
+        meshR.materials = mat;
+        metal = new Material(metal);
+        for (int i = 0; i < metalParts.Length; i++)
+        {
+            metalParts[i].material = metal;
+        }
     }
 
     private void OnEnable()
@@ -395,16 +408,21 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         }
     }
     
-    private MeshRenderer meshR;
+   
     private async void ActiveDamageFB()
     {
-        meshR.material.SetFloat("_UseDamage", 1);
+        foreach (var t in mat)
+        {
+            t.SetFloat("_UseDamage", 1);
+        }
+        metal.SetFloat("_UseDamage", 1);
 
         await Task.Delay(300);
 
-        if (IsDamageable())
+        foreach (var t in mat)
         {
-            meshR.material.SetFloat("_UseDamage", 0);
+            t.SetFloat("_UseDamage", 0);
         }
+        metal.SetFloat("_UseDamage", 0);
     }
 }

@@ -1639,32 +1639,24 @@ MonoBehaviour:
   hp: 500
   tokenToGiveOnDestroy: 2
   slotUnlockOnDestroy: 1
-  target: {x: 0, y: 0, z: 0}
-  currentTarget: 0
-  t: 0
-  targetDetectionRange: 3
-  speed: 15
-  normalSpeed: 15
-  attackModeSpeed: 20
   player: {fileID: 0}
-  agent: {fileID: 847616063808152063}
   detectionTimer: 3
   detectionDelay: 3
   defenseCars: []
   defensePoints:
-  - defenseCar: {fileID: 932604927756978874, guid: 54be28ab23677464ea5236473f40b36a, type: 3}
+  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
     point: {fileID: 2936625324320698738}
-  - defenseCar: {fileID: 932604927756978874, guid: 54be28ab23677464ea5236473f40b36a, type: 3}
+  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
     point: {fileID: 3892599549650523947}
-  - defenseCar: {fileID: 932604927756978874, guid: 54be28ab23677464ea5236473f40b36a, type: 3}
+  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
     point: {fileID: 1495550045599275385}
-  - defenseCar: {fileID: 932604927756978874, guid: 54be28ab23677464ea5236473f40b36a, type: 3}
+  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
     point: {fileID: 3875005127554149280}
-  - defenseCar: {fileID: 932604927756978874, guid: 54be28ab23677464ea5236473f40b36a, type: 3}
+  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
     point: {fileID: 2476109045281294556}
-  - defenseCar: {fileID: 932604927756978874, guid: 54be28ab23677464ea5236473f40b36a, type: 3}
+  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
     point: {fileID: 4659575605619930720}
-  - defenseCar: {fileID: 932604927756978874, guid: 54be28ab23677464ea5236473f40b36a, type: 3}
+  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
     point: {fileID: 6765755733789992326}
   attackTimer: 1
   timeBetweenAttack: 1
@@ -1677,10 +1669,14 @@ MonoBehaviour:
   defenseAttractiveRadius: 5
   showRadiusGizmos: 1
   attackMode: 0
-  oneBarZone: 500
-  twoBarsZone: 200
-  threeBarZone: 80
-  fourBarZone: 0
+  previous: 0
+  next: 0
+  speed: 0.01
+  targetSpeed: 0.01
+  index: 0
+  distancedNodes: []
+  completion: 0
+  upVector: 1.2
 --- !u!65 &6506958064349121607
 BoxCollider:
   m_ObjectHideFlags: 0

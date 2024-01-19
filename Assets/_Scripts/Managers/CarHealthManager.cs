@@ -25,6 +25,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
     private Vignette vt;
 
     [SerializeField] private Image[] moveOnDeath;
+    [SerializeField] private MeshRenderer renderer;
     
     private void Awake()
     {
@@ -33,11 +34,20 @@ public class CarHealthManager : MonoBehaviour, IDamageable
 
     private void Start()
     {
+        mat = new Material[renderer.materials.Length];
+        for (int i = 0; i < mat.Length; i++)
+        {
+            mat[i] = new Material(renderer.materials[i]);
+        }
+        renderer.materials = mat;
+        
         moveOnDeath[0].fillAmount = moveOnDeath[1].fillAmount = 0;
         lifePoints = maxLifePoints;
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
         UIManager.instance.SetLifePlayerText(lifePoints);
         volume.profile.TryGet(out vt);
+        
+        
     }
     
     public void TakeDamage(int damages)

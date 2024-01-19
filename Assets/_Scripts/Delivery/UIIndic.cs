@@ -43,8 +43,8 @@ public class UIIndic : MonoBehaviour
         
         //Setup 
         CreateIndicsAtStart(DeliveryRessourcesManager.Instance.deliveryPoints.Count);
-        CreateIndicForConvoy();
-        CreateIndicForMerchant();
+        //CreateIndicForConvoy();
+        //CreateIndicForMerchant();
     }
     
     void SetupRect()
@@ -99,7 +99,7 @@ public class UIIndic : MonoBehaviour
         EnableOrDisableSpecificUI(3);
     }
     
-    void CreateIndicForMerchant()
+    /*void CreateIndicForMerchant()
     {
         TargetUI merchantUI = Instantiate(indic, Vector3.zero, quaternion.identity, uiParent).GetComponent<TargetUI>();
         merchantUI.targetType = TargetType.Merchant;
@@ -108,7 +108,7 @@ public class UIIndic : MonoBehaviour
         targetUIPrefab.Add(merchantUI);
         obj.Add(merchantUI.objBinded);
         EnableOrDisableSpecificUI(4);
-    }
+    }*/
 
 
     public void UpdateIndic(int indexObj)
