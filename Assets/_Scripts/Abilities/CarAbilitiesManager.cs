@@ -106,6 +106,7 @@ namespace Abilities
                 else
                 {
                     passiveAbilities.Add(abilitySo);
+                    abilitySo.index = passiveAbilities.Count - 1;
                     abilitySo.level = 0;
                     abilitySo.Initialize();
                     AddPassiveAbilityIconOnSlot(abilitySo.abilitySprite);
@@ -177,6 +178,23 @@ namespace Abilities
         {
             slotAbilitiesAmount++;
             UIManager.instance.UnlockAbilitySlot(slotAbilitiesAmount-1);
+        }
+
+        public void LaunchCo(float timer, int index)
+        {
+            StartCoroutine(DecreaseTimer(timer, index));
+        }
+        
+        IEnumerator DecreaseTimer(float timer, int index)
+        {
+            var a = timer;
+            
+            while (a > 0)
+            {
+                a -= Time.deltaTime;
+                UIManager.instance.abilitiesSlots[index].cdText.text = a.ToString(timer < 1 ? "F" : "G1");
+                yield return null;
+            }
         }
     }
 }
