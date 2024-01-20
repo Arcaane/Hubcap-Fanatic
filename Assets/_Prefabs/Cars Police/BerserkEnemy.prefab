@@ -85,8 +85,8 @@ MonoBehaviour:
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 45
-  targetSpeed: 45
+  maxSpeed: 50
+  targetSpeed: 50
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -138,7 +138,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  acceleration: 16
+  acceleration: 18
   braking: 12
   decceleration: 4
   steeringSpeed: 50
@@ -217,20 +217,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.83836484
-      outSlope: 0.83836484
+      inSlope: 2.5691822
+      outSlope: 2.5691822
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.046511628
+      outWeight: 0.0379437
     - serializedVersion: 3
       time: 15
-      value: 5
-      inSlope: 1.0032037
-      outSlope: 1.0032037
+      value: 20
+      inSlope: 0.08156279
+      outSlope: 0.08156279
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.051407624
+      inWeight: 0.07711137
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
