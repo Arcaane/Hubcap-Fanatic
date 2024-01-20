@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -13,10 +14,14 @@ public class Delivery : MonoBehaviour
     public Material[] transpMat;
     public Material[] solidMat;
     public ParticleSystem[] ps;
-
     
     private float currentTime;
-    
+
+    private void Update()
+    {
+        if (CarController.instance.pickedItems.Count <= 0) return;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -24,7 +29,6 @@ public class Delivery : MonoBehaviour
             if (CarController.instance.pickedItems.Count <= 0) return;
             for (int i = CarController.instance.pickedItems.Count - 1; i >= 0; i--)
             {
-                Debug.Log("Delivered");
                 CarController.instance.pickedItems[i].gameObject.GetComponent<ObjectPickable>().OnDelivered();
                 OnDeliver();
             }
@@ -39,6 +43,13 @@ public class Delivery : MonoBehaviour
         materials[1] = transpMat[1];
         boxMesh.enabled = true;
         gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+    }
+
+    public void CantDeliver()
+    {
+        canBeDelivered = false;
+        boxMesh.enabled = false;
+        gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
     }
 
     public async void OnDeliver()

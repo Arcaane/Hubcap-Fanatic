@@ -76,6 +76,11 @@ public class ObjectPickable : MonoBehaviour, IPickupable
                 Debug.Log(transform.localPosition);
             }
         }
+        
+        foreach (var t in DeliveryRessourcesManager.Instance.deliveryPoints)
+        {
+            t.GetComponent<Delivery>().CanDeliver();
+        }
     }
 
 
@@ -99,7 +104,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         UIIndic.instance.EnableOrDisableDeliveryZone();
         foreach (var t in DeliveryRessourcesManager.Instance.deliveryPoints)
         {
-            t.GetComponent<Delivery>().CanDeliver();
+            t.GetComponent<Delivery>().CantDeliver();
         }
         
         StartCoroutine(EnablePickupAfterDelay(timeBeforePickable));
