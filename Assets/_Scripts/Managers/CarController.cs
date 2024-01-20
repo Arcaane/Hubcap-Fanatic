@@ -364,13 +364,13 @@ public class CarController : CarBehaviour
         
         if (other.gameObject.CompareTag("Enemy") && pickedItems.Count > 0)
         {
-            foreach (var pickedObject in pickedItems)
+            for (int i = 0; i < pickedItems.Count; i++)
             {
                 ObjectPickable obj = pickedItems[i].GetComponent<ObjectPickable>();
                 obj.OnDrop();
                 obj.rb.AddForce(other.contacts[0].normal.normalized * 100);
             }
-
+            
             pickedItems.Clear();
         }
     }
