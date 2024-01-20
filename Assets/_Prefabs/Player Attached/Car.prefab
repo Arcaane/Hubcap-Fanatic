@@ -10130,10 +10130,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allAbilities:
+  - {fileID: 11400000, guid: 09f770bb2ce84644c971985e4117b83e, type: 2}
+  - {fileID: 11400000, guid: 11018a9cd1b0a164a941158c5f04938c, type: 2}
+  - {fileID: 11400000, guid: af80973e2c1cef840bcc5935ecce618f, type: 2}
+  - {fileID: 11400000, guid: b7ff5fef7b9075640b7de7a6483cce59, type: 2}
+  - {fileID: 11400000, guid: b3b9984747ca30d41b1e8245caac859c, type: 2}
   - {fileID: 11400000, guid: c592d66f795c0954b8ea0e381916e083, type: 2}
+  - {fileID: 11400000, guid: b82e35735b00c13478d60b17d2ce1521, type: 2}
+  - {fileID: 11400000, guid: bfd66ec75f4f97b48a0f602a8b3a0a3d, type: 2}
   - {fileID: 11400000, guid: ed923c301713c854786e841f340be0eb, type: 2}
+  - {fileID: 11400000, guid: 549464251bdc96e40b7b5aa653ee00ce, type: 2}
+  - {fileID: 11400000, guid: 038984764d0f187458e99458d4f0071f, type: 2}
   - {fileID: 11400000, guid: e41e918da8551c64dbb0f6980310634f, type: 2}
-  - {fileID: 11400000, guid: b7904b4aba9346d4eb7303a888e8fa96, type: 2}
+  - {fileID: 11400000, guid: 98a7ce7b6b8b4a94590a8d882426978c, type: 2}
+  - {fileID: 11400000, guid: 77e75d9cc6d486b46ae04f1bc0f13e9a, type: 2}
+  - {fileID: 11400000, guid: b3b7961169513fe4db6c0004bfb56e72, type: 2}
+  - {fileID: 11400000, guid: 6f89221a39e9c5d4092baf890a8c6a75, type: 2}
+  - {fileID: 11400000, guid: 00f14b3c8a29b234eb49a321bf713b64, type: 2}
+  - {fileID: 11400000, guid: 030639b56538b8d48883ac66ef826dbb, type: 2}
+  - {fileID: 11400000, guid: 8769a688dfc8db84f90b45bbcb4cc1f4, type: 2}
   purchasableAbilities: []
   gold: {fileID: 11400000, guid: 3ba221946b914bd41a5e2a16d5aa088e, type: 2}
   buttonsItemsArray:
@@ -11185,7 +11200,7 @@ MonoBehaviour:
   - 2
   shootDuration: 4
   shotgunParticles: {fileID: 9085789767532920518}
-  shotgunDamages: 12
+  shotgunDamages: 24
   isStraffing: 0
   isBomber: 0
   gotVayneUpgrade: 0
@@ -11422,7 +11437,9 @@ MonoBehaviour:
   feedbackDurationInMS: 300
   spawnManager: {fileID: 0}
   volume: {fileID: 0}
-  moveOnDeath: []
+  moveOnDeath:
+  - {fileID: 0}
+  - {fileID: 0}
   renderer: {fileID: 1294189407177526008}
   diePS: {fileID: 6336603828781584600}
   explosionPS: {fileID: 0}
@@ -11444,7 +11461,7 @@ MonoBehaviour:
   statsAbilities: []
   slotAbilitiesAmount: 4
   goldAmountWonOnRun: 0
-  damageOnCollisionWithEnemy: 10
+  damageOnCollisionWithEnemy: 5
   baseSpeedOnRoad: 0
   baseSpeedOnSand: 0
   baseNitroSpeed: 0
@@ -11458,7 +11475,6 @@ MonoBehaviour:
   passiveAbilityUnlockedIconBackgroundColor: {r: 0.9843137, g: 0.7372549, b: 0.30980393, a: 1}
   statAbilityUnlockedIconBackgroundColor: {r: 0.7254902, g: 0.9843137, b: 0.30980393, a: 1}
   abilitiesUnlockedIconBackgroundColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
-  testEffectsPrefab: {fileID: 0}
 --- !u!111 &6205959775607353322
 Animation:
   m_ObjectHideFlags: 0

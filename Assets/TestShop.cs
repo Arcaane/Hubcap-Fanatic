@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Abilities;
 using UnityEngine;
@@ -10,7 +11,13 @@ public class TestShop : MonoBehaviour
     [SerializeField] private AbilitiesSO gold;
 
     [SerializeField] private ShopOption[] buttonsItemsArray = new ShopOption[3];
-    
+    public static TestShop instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
         for (int i = 0; i < 3; i++)

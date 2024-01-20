@@ -12,6 +12,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     [SerializeField] private int hp = 100;
     [SerializeField] private int carDamage;
+    [SerializeField] private float shootCooldown;
     [SerializeField] private AnimationCurve expToGiveBasedOnLevel;
     [Space(4)] public static List<PoliceCarBehavior> policeCars = new List<PoliceCarBehavior>();
 
@@ -175,7 +176,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             if (shooting)
             {
                 shootingTimer += Time.deltaTime;
-                if (shootingTimer > 0.35f)
+                if (shootingTimer > shootCooldown)
                 {
                     CarHealthManager.instance.TakeDamage(carDamage);
                     shootingTimer = 0f;
