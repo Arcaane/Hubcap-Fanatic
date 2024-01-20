@@ -278,8 +278,6 @@ public class UIManager : MonoBehaviour
             else shopOptions[i].transform.localScale = Vector3.Lerp(shopOptions[i].transform.localScale,Vector3.one * 0.8f,Time.unscaledDeltaTime * 5);
 
         }
-        
-       
     }
     
     
