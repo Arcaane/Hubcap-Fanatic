@@ -62,22 +62,22 @@ MonoBehaviour:
   wheels:
   - transform: {fileID: 7454830179261844549}
     wheelVisual: {fileID: 1539200196470249039}
-    directionalDampening: 0.35
+    directionalDampening: 0.4
     drivingFactor: 1
-    steeringFactor: 6
+    steeringFactor: 2
   - transform: {fileID: 5073810283892561598}
     wheelVisual: {fileID: 1165013154634133339}
-    directionalDampening: 0.35
+    directionalDampening: 0.4
     drivingFactor: 1
-    steeringFactor: 6
+    steeringFactor: 2
   - transform: {fileID: 8646544916397886637}
     wheelVisual: {fileID: 3249657652077432151}
-    directionalDampening: 0.33
+    directionalDampening: 0.37
     drivingFactor: 0
     steeringFactor: 0
   - transform: {fileID: 7593282624722998709}
     wheelVisual: {fileID: 1482724961286078091}
-    directionalDampening: 0.33
+    directionalDampening: 0.37
     drivingFactor: 0
     steeringFactor: 0
   suspensionLenght: 0.5
@@ -141,7 +141,7 @@ MonoBehaviour:
   acceleration: 18
   braking: 12
   decceleration: 4
-  steeringSpeed: 50
+  steeringSpeed: 40
   steeringBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -169,7 +169,7 @@ MonoBehaviour:
   localCenterOfMass: {x: 0, y: -0.5, z: 0}
   maxRotation: 50
   directionalDampMultiplier: 1
-  dampeningMultiplier: 0.25
+  dampeningMultiplier: 0.75
   steeringMultiplier: 0.95
   accelMultiplier: 1.5
   angleMinToExitDrift: 0.1
@@ -288,6 +288,7 @@ MonoBehaviour:
   randomOffset: {x: 0, y: 0}
   maxRngOffset: {x: 2, y: 2}
   currentTarget: {fileID: 0}
+  angleToCollisionDamage: 0.4
   speedRetained: 0.5
   maxSpeedRetained: 0.6
   minAngleToBounce: 0.3
@@ -316,7 +317,10 @@ MonoBehaviour:
   - {fileID: 3096191764323547722}
   metal: {fileID: 2100000, guid: d523c1fe905a4dc429adf2c6b9d1791a, type: 2}
   runToPlayer: 0
-  distanceToPlayer: 15
+  overshootValue: 3
+  randomOvershoot: 1.5
+  driveByPhaseOvershoot: 1
+  distanceToPlayer: 7
 --- !u!54 &5105550976351317835
 Rigidbody:
   m_ObjectHideFlags: 0
