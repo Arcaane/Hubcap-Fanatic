@@ -12,6 +12,7 @@ public class CarExperienceManager : MonoBehaviour
     [SerializeField] private AnimationCurve expCurve;
     [SerializeField] private List<int> xpPerLevel = new();
     [SerializeField] private int expBeforeNextLevelAmount;
+    [SerializeField] private int healToAddWhenLvlUp = 10;
     [SerializeField] private int currentExperienceAmount;
     [SerializeField] public int levelUpTokensAvailable;
     [SerializeField] public TestShop shop = null;
@@ -58,6 +59,7 @@ public class CarExperienceManager : MonoBehaviour
     private void LevelUp()
     {
         AddToken(1);
+        CarHealthManager.instance.TakeHeal(healToAddWhenLvlUp);
         shop.StartShopUI();
         playerLevel++;
         uiManager.SetLevelPlayerText(playerLevel + 1);

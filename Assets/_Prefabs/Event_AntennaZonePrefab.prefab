@@ -873,10 +873,10 @@ MonoBehaviour:
   antennaEffectSize: 1200
   currentAntennaState: 0
   isCapturing: 0
-  captureDuration: 3.5
+  captureDuration: 3
   timeBeforeDecreasing: 3
-  activationTowerDuration: 25
-  reactivateTimeDelay: 100
+  activationTowerDuration: 30
+  reactivateTimeDelay: 60
   debugImage: {fileID: 0}
   plane: {fileID: 0}
   parentFodder: {fileID: 0}
@@ -891,7 +891,7 @@ MonoBehaviour:
   indexList: 
   sCol: {fileID: 3502084301848071670}
   fillAmountMeshRenderer: {fileID: 8830949643475793788}
-  healToGive: 10
+  healToGive: 30
   zoneDebug: {fileID: 3926095623783399022}
 --- !u!135 &3502084301848071670
 SphereCollider:
