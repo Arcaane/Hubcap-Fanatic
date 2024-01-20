@@ -259,7 +259,9 @@ namespace Abilities
         {
             var carPos = player.transform.position;
             Vector3 relativePos = carPos - targetObj.transform.position;
-            Pooler.instance.SpawnInstance(Key.OBJ_Spear, carPos, Quaternion.LookRotation(-relativePos));
+            relativePos = new Vector3(relativePos.x, 0, relativePos.z).normalized;
+            Transform obj = Pooler.instance.SpawnInstance(Key.OBJ_Spear, carPos, Quaternion.LookRotation(-relativePos)) as Transform;
+            obj.GetComponent<SpearObject>().damages = effectDamage;
         }
     
         private void EffectDamage(GameObject targetObj)

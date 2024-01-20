@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 0
   abilityName: Life Steal
   description: 'When player stop abruptly, steal life points from enemy around him. '
-  abilitySprite: {fileID: 0}
+  abilitySprite: {fileID: 21300000, guid: 69a1f5c41c9eadd46a1249eb7e1c2e07, type: 3}
   level: -1
   trigger: 6
   target: 3

@@ -36,6 +36,12 @@ public class TestShop : MonoBehaviour
 
     public void SetupItemsInShop()
     {
+        if (CarExperienceManager.Instance.levelUpTokensAvailable <= 0)
+        {
+            UIManager.instance.CloseShopScreen();
+            return;
+        }
+        
         purchasableAbilities.Clear();
 
         bool noPassivePlace = CarAbilitiesManager.instance.passiveAbilities.Count >=

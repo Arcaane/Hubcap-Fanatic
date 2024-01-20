@@ -67,6 +67,5 @@ public class CarExperienceManager : MonoBehaviour
     public void AddToken(int i)
     {
         levelUpTokensAvailable += i;
-        uiManager.SetTokenText(levelUpTokensAvailable);
     }
 }

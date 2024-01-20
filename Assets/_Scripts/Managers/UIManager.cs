@@ -73,7 +73,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         SetExperienceFillAmount(0);
-        SetTokenText(CarExperienceManager.Instance.levelUpTokensAvailable);
+        
     }
 
     public void SetNitroJauge(float amount)
@@ -135,9 +135,9 @@ public class UIManager : MonoBehaviour
         lifeText2.text = $"LIFE : {i.ToString()}";
     }
 
-    public void SetTokenText(int i)
+    public void SetGoldText(int i)
     {
-        shoptokenText.text = shoptokenText2.text = tokenText2.text = tokenText.text = i.ToString();
+        tokenText2.text = tokenText.text = i.ToString();
     }
 
     public void UnlockAbilitySlot(int i)
@@ -279,8 +279,7 @@ public class UIManager : MonoBehaviour
 
         }
         
-        if(shopOptionSelected == -1) exitSign.transform.localScale = Vector3.Lerp(exitSign.transform.localScale,Vector3.one * 1.2f,Time.unscaledDeltaTime * 5);
-        else  exitSign.transform.localScale = Vector3.Lerp(exitSign.transform.localScale,Vector3.one * 0.8f,Time.unscaledDeltaTime * 5);
+       
     }
     
     
