@@ -328,9 +328,11 @@ namespace Abilities
         {
             if (!player) return;
             player.shootDuration = effectDamage;
+            UIManager.instance.ActivateShotgunFlamme();
             Debug.Log("Shoot duration: " + player.shootDuration);
             await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
             if (!player) return;
+            UIManager.instance.DeactivateShotgunFlamme();
             player.shootDuration = carAbilities.baseShotgunDuration;
             Debug.Log("Shoot duration: " + player.shootDuration);
         }
