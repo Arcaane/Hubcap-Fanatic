@@ -20,9 +20,11 @@ MonoBehaviour:
   trigger: 0
   target: 0
   when: 0
-  state: 5
+  state: 0
   effect: 2
-  levelsAbilitiesModifiers: []
+  modifiersLevel1: []
+  modifiersLevel2: []
+  modifiersLevel3: []
   effectDamage: 100
   effectSizeRadius: 0
   effectDuration: 0
@@ -32,7 +34,7 @@ MonoBehaviour:
   cooldownDuration: 0
   statsModifier: 0
   howStatsModify: 0
-  amount: 0
+  amount: []
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128

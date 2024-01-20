@@ -10,24 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
-  m_Name: SpawnMine
+  m_Name: New Ability
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: Spawn Mine
+  abilityName: 
   description: 
   abilitySprite: {fileID: 0}
   level: 0
-  trigger: 4
-  target: 1
-  when: 3
-  state: 5
-  effect: 4
-  levelsAbilitiesModifiers: []
-  effectDamage: 0
+  trigger: 1
+  target: 0
+  when: 2
+  state: 0
+  effect: 5
+  modifiersLevel1:
+  - stat: 0
+    newValue: 2
+  modifiersLevel2:
+  - stat: 0
+    newValue: 3
+  modifiersLevel3:
+  - stat: 0
+    newValue: 4
+  effectDamage: 1
   effectSizeRadius: 0
   effectDuration: 0
   effectDelayMilliseconds: 0
-  effectRepeatDelay: 1
+  effectRepeatDelay: 0
   isCapacityCooldown: 0
   cooldownDuration: 0
   statsModifier: 0

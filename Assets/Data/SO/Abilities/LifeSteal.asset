@@ -17,10 +17,10 @@ MonoBehaviour:
   description: 'When player stop abruptly, steal life points from enemy around him. '
   abilitySprite: {fileID: 0}
   level: -1
-  trigger: 2
+  trigger: 6
   target: 3
   when: 0
-  state: 4
+  state: 0
   effect: 5
   modifiersLevel1:
   - stat: 1
