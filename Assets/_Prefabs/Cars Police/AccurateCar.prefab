@@ -1521,6 +1521,8 @@ MonoBehaviour:
   driftSparks: []
   forceBreak: 0
   forceBreakTimer: 0
+  isScorch: 0
+  isAimEffect: 0
   brakeMethodApplied: 0
   accelForce: 1
   brakeForce: 0
@@ -1529,6 +1531,25 @@ MonoBehaviour:
   enemyKey: 4
   hp: 100
   carDamage: 0
+  shootCooldown: 0
+  hpToAddPerWave:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damageToAddPerWave:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speedToAddPerWave:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   expToGiveBasedOnLevel:
     serializedVersion: 2
     m_Curve: []
@@ -1539,6 +1560,7 @@ MonoBehaviour:
   mat: []
   randomOffset: {x: 0, y: 0}
   maxRngOffset: {x: 0, y: 0}
+  currentTarget: {fileID: 0}
   speedRetained: 0.7
   maxSpeedRetained: 0.8
   minAngleToBounce: 0.3
@@ -1555,6 +1577,9 @@ MonoBehaviour:
   shooting: 0
   socketPickableCop: {fileID: 0}
   objectPickable: {fileID: 0}
+  meshR: {fileID: 0}
+  metalParts: []
+  metal: {fileID: 0}
 --- !u!54 &3793538279527310480
 Rigidbody:
   m_ObjectHideFlags: 0
