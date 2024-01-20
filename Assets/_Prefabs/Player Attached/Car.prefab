@@ -11185,7 +11185,7 @@ MonoBehaviour:
   maxSpeedRetained: 0.4
   minAngleToBounce: 0.2
   fxBounce: {fileID: 7327552505560720248, guid: 68f8e38cdcb558d43a07cde4b478f907, type: 3}
-  nitroSpeed: 50
+  nitroSpeed: 56
   smoke: {fileID: 8122604561749209318}
   smokeNitro: {fileID: 5123692597283315678}
   nitroMode: 0
@@ -16446,7 +16446,7 @@ GameObject:
   - component: {fileID: 2207836482269603123}
   - component: {fileID: 8439650403983232653}
   - component: {fileID: 5382162771173056808}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}

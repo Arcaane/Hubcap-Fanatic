@@ -16,6 +16,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     [SerializeField] private float shootCooldown;
     [SerializeField] private AnimationCurve hpToAddPerWave;
     [SerializeField] private AnimationCurve damageToAddPerWave;
+    [SerializeField] private AnimationCurve speedToAddPerWave;
     [SerializeField] private AnimationCurve expToGiveBasedOnLevel;
     [Space(4)] public static List<PoliceCarBehavior> policeCars = new List<PoliceCarBehavior>();
 
@@ -89,6 +90,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         
         hp += (int)hpToAddPerWave.Evaluate(currentWave);
         carDamage += (int)damageToAddPerWave.Evaluate(currentWave);
+        maxSpeed += (int)speedToAddPerWave.Evaluate(currentWave);
     }
 
     private void OnDisable()
