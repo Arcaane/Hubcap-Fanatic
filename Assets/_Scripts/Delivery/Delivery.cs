@@ -19,7 +19,14 @@ public class Delivery : MonoBehaviour
 
     private void Update()
     {
-        if (CarController.instance.pickedItems.Count <= 0) return;
+        if (CarController.instance.pickedItems.Count <= 0)
+        {
+            CantDeliver();
+        }
+        else
+        {
+            CanDeliver();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
