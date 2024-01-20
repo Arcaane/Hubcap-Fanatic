@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abilities;
@@ -13,6 +14,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     [SerializeField] private int hp = 100;
     [SerializeField] private int carDamage;
     [SerializeField] private float shootCooldown;
+    [SerializeField] private AnimationCurve hpToAddPerWave;
+    [SerializeField] private AnimationCurve damageToAddPerWave;
+    [SerializeField] private AnimationCurve speedToAddPerWave;
     [SerializeField] private AnimationCurve expToGiveBasedOnLevel;
     [Space(4)] public static List<PoliceCarBehavior> policeCars = new List<PoliceCarBehavior>();
 
@@ -79,7 +83,15 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         }
     }
 
-    
+    private void OnEnable()
+    {
+        Debug.Log("Increment Level");
+        float currentWave = WaveManager.instance.currentWaveCount;
+        
+        hp += (int)hpToAddPerWave.Evaluate(currentWave);
+        carDamage += (int)damageToAddPerWave.Evaluate(currentWave);
+        maxSpeed += (int)speedToAddPerWave.Evaluate(currentWave);
+    }
 
     private void OnDisable()
     {

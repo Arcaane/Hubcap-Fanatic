@@ -22,10 +22,16 @@ MonoBehaviour:
   when: 0
   state: 0
   effect: 2
-  modifiersLevel1: []
-  modifiersLevel2: []
-  modifiersLevel3: []
-  effectDamage: 100
+  modifiersLevel1:
+  - stat: 0
+    newValue: 30
+  modifiersLevel2:
+  - stat: 0
+    newValue: 40
+  modifiersLevel3:
+  - stat: 0
+    newValue: 50
+  effectDamage: 20
   effectSizeRadius: 0
   effectDuration: 0
   effectDelayMilliseconds: 0

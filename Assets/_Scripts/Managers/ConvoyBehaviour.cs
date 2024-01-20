@@ -92,13 +92,9 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     
     private void Update()
     {
-        
-        
-        
         if (attackMode) AttackMode();
         else
         {
-            
             
             if (Vector3.SqrMagnitude(transform.position - player.position) < playerDetectionRadius * playerDetectionRadius)
             {
@@ -114,9 +110,6 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
                 detectionDelay = Mathf.Clamp(detectionDelay + Time.deltaTime, 0, detectionTimer);
             }
         }
-
-
-        
     }
 
 
@@ -178,6 +171,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 
     public void TakeDamage(int damages)
     {
+        Debug.Log("CONVOIS DAMAGED");
         if (!IsDamageable()) return;
         hp -= damages;
         if (hp < 1) DestroyConvoy();
@@ -187,19 +181,23 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 
     public void DestroyConvoy()
     {
-        CarExperienceManager.Instance.AddToken(tokenToGiveOnDestroy);
-        
+        Debug.Log("CONVOI DESTROYED");
+
         for (int i = 0; i < slotUnlockOnDestroy; i++)
             CarAbilitiesManager.instance.UnlockAbilitySlot();
         
-        ConvoyManager.instance.waitingForConvoy = true;
         for (int i = 0; i < defenseCars.Length; i++)
         {
             defenseCars[i].convoyBehaviour = null;
         }
         UIIndic.instance.Obj[3] = ConvoyManager.instance.gameObject;
-        
-        Destroy(gameObject,1f);
+
+        Destroy(gameObject);
+        if (tokenToGiveOnDestroy > 0)
+        {
+            CarExperienceManager.Instance.AddToken(tokenToGiveOnDestroy);
+            CarExperienceManager.Instance.shop.StartShopUI();   
+        }
     }
 }
 [Serializable]

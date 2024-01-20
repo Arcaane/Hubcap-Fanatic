@@ -222,22 +222,16 @@ public class UIManager : MonoBehaviour
             {
                 stickUsed = true;
                 float angle = Vector2.SignedAngle(Vector2.up, stickValue);
-                if (angle > -30 && angle < 30)
-                {
-                    UpChoice();
-                }
-                else if (angle > 30 && angle < 150)
+                
+                if (angle > 0)
                 {
                     LeftChoice();
                 }
-                else if (angle > -150 && angle < -30)
+                else 
                 {
                     RightChoice();
                 }
-                else
-                {
-                   DownChoice();
-                }
+                
             } 
             
         }
@@ -269,23 +263,7 @@ public class UIManager : MonoBehaviour
         }
     }
     
-    void DownChoice()
-    {
-        if (!shopOpen) return;
-        if (shopOptionSelected >= 0)
-        {
-            shopOptionSelected = -1;
-        }
-    }
-    
-    void UpChoice()
-    {
-        if (!shopOpen) return;
-        if (shopOptionSelected < 0)
-        {
-            shopOptionSelected = 0;
-        }
-    }
+   
 
     #endregion
 

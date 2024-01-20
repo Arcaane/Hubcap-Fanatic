@@ -65,9 +65,20 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         sCol.enabled = false;
         bCol.enabled = false;
         rb.isKinematic = true;
-        transform.localPosition = Vector3.zero;
         isPickable = false;
+        transform.localPosition = Vector3.zero;
+
+        if (CarController.instance.pickedItems.Count > 0)
+        {
+            for (int i = 0; i < CarController.instance.pickedItems.Count; i++)
+            {
+                transform.localPosition += Vector3.up * i * 2.0f;
+                Debug.Log(transform.localPosition);
+            }
+        }
     }
+
+
     
     public void OnDrop()
     {

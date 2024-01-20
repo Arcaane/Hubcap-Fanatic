@@ -21,8 +21,13 @@ public class Delivery : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-			CarController.instance.pickedItems[0].gameObject.GetComponent<ObjectPickable>().OnDelivered();
-			OnDeliver();
+            if (CarController.instance.pickedItems.Count <= 0) return;
+            for (int i = CarController.instance.pickedItems.Count - 1; i >= 0; i--)
+            {
+                Debug.Log("Delivered");
+                CarController.instance.pickedItems[i].gameObject.GetComponent<ObjectPickable>().OnDelivered();
+                OnDeliver();
+            }
         }
     }
     
@@ -38,15 +43,13 @@ public class Delivery : MonoBehaviour
 
     public async void OnDeliver()
     {
-        boxMesh.enabled = true;
+        if (boxMesh != null) boxMesh.enabled = true;
         for (int i = 0; i < ps.Length; i++) ps[i].Play();
         canBeDelivered = false;
         var materials = boxMesh.materials;
         materials[0] = solidMat[0];
         materials[1] = solidMat[1];
         await Task.Delay(1500);
-        boxMesh.enabled = false;
+        if (boxMesh != null) boxMesh.enabled = false;
     }
-           
-      
 }
