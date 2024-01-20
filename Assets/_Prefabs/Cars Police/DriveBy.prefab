@@ -134,8 +134,8 @@ MonoBehaviour:
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 50
-  targetSpeed: 50
+  maxSpeed: 45
+  targetSpeed: 45
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -249,33 +249,6 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 7.2298393
-      value: 45.53778
-      inSlope: 5.7866497
-      outSlope: 5.7866497
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 8.524333
-      value: 57.869614
-      inSlope: 10.718529
-      outSlope: 10.718529
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 9.930232
-      value: 74.48202
-      inSlope: 10.261432
-      outSlope: 10.261432
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 15
       value: 150
       inSlope: 0
@@ -293,21 +266,45 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.5153589
-      outSlope: 0.5153589
+      inSlope: 1.0467039
+      outSlope: 1.0467039
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.06119951
+      outWeight: 0.06609547
+    - serializedVersion: 3
+      time: 15
+      value: 10
+      inSlope: -0.042117625
+      outSlope: -0.042117625
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.074663416
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speedToAddPerWave:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 1.2666667
+      outSlope: 1.2666667
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 15
       value: 20
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      inSlope: 5.305922
+      outSlope: 5.305922
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.028151767
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

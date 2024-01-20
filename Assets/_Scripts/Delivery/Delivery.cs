@@ -42,14 +42,14 @@ public class Delivery : MonoBehaviour
 
     public async void OnDeliver()
     {
-        boxMesh.enabled = true;
+        if (boxMesh != null) boxMesh.enabled = true;
         for (int i = 0; i < ps.Length; i++) ps[i].Play();
         canBeDelivered = false;
         var materials = boxMesh.materials;
         materials[0] = solidMat[0];
         materials[1] = solidMat[1];
         await Task.Delay(1500);
-        boxMesh.enabled = false;
+        if (boxMesh != null) boxMesh.enabled = false;
     }
            
       
