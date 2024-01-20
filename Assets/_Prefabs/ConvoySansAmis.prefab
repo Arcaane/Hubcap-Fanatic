@@ -1586,7 +1586,7 @@ GameObject:
   - component: {fileID: 8709838797028573665}
   - component: {fileID: 6506958064349121607}
   m_Layer: 7
-  m_Name: Convoy
+  m_Name: ConvoySansAmis
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1635,28 +1635,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ede18a90c58244d930582acf2be230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 500
+  hp: 10
   tokenToGiveOnDestroy: 2
   slotUnlockOnDestroy: 1
   player: {fileID: 0}
   detectionTimer: 3
   detectionDelay: 3
   defenseCars: []
-  defensePoints:
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
-    point: {fileID: 2936625324320698738}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
-    point: {fileID: 3892599549650523947}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
-    point: {fileID: 1495550045599275385}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
-    point: {fileID: 3875005127554149280}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
-    point: {fileID: 2476109045281294556}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
-    point: {fileID: 4659575605619930720}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
-    point: {fileID: 6765755733789992326}
+  defensePoints: []
   attackTimer: 1
   timeBetweenAttack: 1
   repulsiveRadius: 4

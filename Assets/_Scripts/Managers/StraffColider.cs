@@ -18,6 +18,12 @@ public class StraffColider : MonoBehaviour
     {
         for (int i = 0; i < enemyCar.Count; i++)
         {
+            if (!enemyCar[i])
+            {
+                enemyCar.RemoveAt(i);
+                break;
+            }
+            
             if (!enemyCar[i].gameObject.activeSelf)
             {
                 RemoveObjectCar(enemyCar[i]);

@@ -14,6 +14,7 @@ public class WaveManager : MonoBehaviour
         public string waveName;
         public float waveDuration;
         public List<EnemyGroups> enemyGroupsList;
+        public bool spawnConvoy;
 
         [HideInInspector] public float enemyGroupsSpawnRate = 0;
     }
@@ -49,6 +50,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private int spawningPointPerSideCount = 7;
     private UIManager uiManager;
 
+    public static WaveManager instance;
+    
     public float spawingTimer;
     public float waveSpawnTimer;
     public float enemiesSpawningTimer = 0f;
@@ -56,6 +59,15 @@ public class WaveManager : MonoBehaviour
     public int spawnBurstCounter;
 
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
         uiManager = UIManager.instance;
@@ -72,6 +84,7 @@ public class WaveManager : MonoBehaviour
         enemiesSpawningTimer = waves[currentWaveCount].waveDuration / spawnBurstInsideWave;
         spawnBurstCounter = 0;
         waveSpawnTimer = 100;
+        if(waves[currentWaveCount].spawnConvoy) ConvoyManager.instance.SpawnConvoy();
     }
 
     void Update()
