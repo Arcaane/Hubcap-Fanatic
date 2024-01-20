@@ -48,6 +48,7 @@ namespace Abilities
         [HideInInspector] public float baseShotgunDamage;
         [HideInInspector] public float baseCollisionDamage;
         [HideInInspector] public float baseCritDamage = 0;
+        [HideInInspector] public float baseShotgunDuration = 0;
 
         private void Awake()
         {
@@ -65,6 +66,7 @@ namespace Abilities
             baseNitroCooldown = car.nitroRegen;
             baseShotgunDamage = car.shotgunDamages;
             baseCollisionDamage = damageOnCollisionWithEnemy;
+            baseShotgunDuration = car.shootDuration;
         }
 
         public void Update()

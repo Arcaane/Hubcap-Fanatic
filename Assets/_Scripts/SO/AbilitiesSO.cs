@@ -323,13 +323,13 @@ namespace Abilities
 
         private async void EffectBerserk(GameObject targetObj)
         {
-            CarController car = targetObj.GetComponent<CarController>();
-            if (!car) return;
-            var baseStraffDuration = car.shootDuration;
-            car.shootDuration = effectDamage;
+            if (!player) return;
+            player.shootDuration = effectDamage;
+            Debug.Log("Shoot duration: " + player.shootDuration);
             await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
-            if (car) return;
-            car.shootDuration = baseStraffDuration;
+            if (!player) return;
+            player.shootDuration = carAbilities.baseShotgunDuration;
+            Debug.Log("Shoot duration: " + player.shootDuration);
         }
         
         private async void EffectShield(GameObject targetObj)
