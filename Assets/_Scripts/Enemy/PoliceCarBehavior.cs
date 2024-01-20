@@ -63,7 +63,8 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     [Header("BERSERK CAR")] 
     public bool runToPlayer;
-
+    public float overshootValue = 12;
+    public float driveByPhaseOvershoot = 8;
     public float distanceToPlayer;
 
     void Start()
@@ -126,7 +127,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
                 target = CarController.instance.transform;
             }
 
-            Vector3 targetPos = currentTarget.position + currentTarget.forward * 12 * CarController.instance.globalSpeedFactor;
+            Vector3 targetPos = currentTarget.position + currentTarget.forward * overshootValue * CarController.instance.globalSpeedFactor;
 
             float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
                 new Vector2(targetPos.x, targetPos.z) -
@@ -151,7 +152,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             int nb = 2;
 
             Vector3 targetPos = currentTarget.position + currentTarget.right * distanceToPlayer + 
-                                currentTarget.forward * 8;
+                                currentTarget.forward * driveByPhaseOvershoot;
             float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
                 new Vector2(targetPos.x, targetPos.z) -
                 new Vector2(transform.position.x, transform.position.z));
