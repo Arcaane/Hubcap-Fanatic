@@ -34,7 +34,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] public Transform shootIcon,shopIcon;
 
+    [Header("Shotgun part")]
     [SerializeField] private Image[] shotJauges;
+    [SerializeField] private RectTransform[] shotGunIconsFlammes;
     [SerializeField] private Color usable, unusable;
 
     [SerializeField] public AbilitiesPair[] abilitiesSlots;
@@ -74,6 +76,22 @@ public class UIManager : MonoBehaviour
     {
         SetExperienceFillAmount(0);
         
+    }
+    
+    public void ActivateShotgunFlamme()
+    {
+        foreach (RectTransform SF in shotGunIconsFlammes)
+        {
+            SF.gameObject.SetActive(true);
+        }
+    }
+    
+    public void DeactivateShotgunFlamme()
+    {
+        foreach (RectTransform SF in shotGunIconsFlammes)
+        {
+            SF.gameObject.SetActive(false);
+        }
     }
 
     public void SetNitroJauge(float amount)
