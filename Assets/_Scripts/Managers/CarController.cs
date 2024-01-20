@@ -246,8 +246,8 @@ public class CarController : CarBehaviour
     {
         if (context.started)
         {
-            if (Time.timeScale > 0.5f) Time.timeScale = 0;
-            else Time.timeScale = 1;
+            if (Time.timeScale > 0.5f) UIManager.instance.OnOpenPause();
+            else UIManager.instance.OnClosePause();
         }
     }
     

@@ -40,6 +40,12 @@ namespace Abilities
         public float effectRepeatDelay;
         public bool isCapacityCooldown;
         public float cooldownDuration;
+        
+        private int _effectDamage;
+        private int _effectSizeRadius;
+        private float _effectDuration;
+        private int _effectDelayMilliseconds;
+        private float _effectRepeatDelay;
 
         [Header("Stats Abilities")] 
         public StatsModifier statsModifier; 
@@ -66,7 +72,14 @@ namespace Abilities
             player = CarController.instance;
             carAbilities = CarAbilitiesManager.instance;
             isInCooldown = false;
-            
+
+            _effectDamage = effectDamage;
+            _effectSizeRadius = effectSizeRadius;
+            _effectDuration = effectDuration;
+            _effectDelayMilliseconds = effectDelayMilliseconds;
+            _effectRepeatDelay = effectRepeatDelay;
+
+
             if (type == AbilityType.ClassicAbilites)
             {
                 switch (trigger)
@@ -135,9 +148,9 @@ namespace Abilities
             {
                 case TargetAbility.HitEnemy: ApplyEffectOnTarget(returnedTargetObject); break;
                 case TargetAbility.Player: ApplyEffectOnTarget(player.gameObject); break;
-                case TargetAbility.ZoneAroundHitEnemy: ApplyEffectOnTargetsInZone(returnedTargetObject.transform.position,effectSizeRadius); break;
-                case TargetAbility.ZoneAroundPlayer: ApplyEffectOnTargetsInZone(player.transform.position, effectSizeRadius); break;
-                case TargetAbility.ClosestEnemyToPlayer: ApplyEffectOnClosestTarget(player.transform.position, effectSizeRadius); break;
+                case TargetAbility.ZoneAroundHitEnemy: ApplyEffectOnTargetsInZone(returnedTargetObject.transform.position,_effectSizeRadius); break;
+                case TargetAbility.ZoneAroundPlayer: ApplyEffectOnTargetsInZone(player.transform.position, _effectSizeRadius); break;
+                case TargetAbility.ClosestEnemyToPlayer: ApplyEffectOnClosestTarget(player.transform.position, _effectSizeRadius); break;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -150,7 +163,7 @@ namespace Abilities
             {
                 case When.Immediate: ApplyEffect(targetObj);
                     break;
-                case When.Delayed: DelayEffect(targetObj,effectDelayMilliseconds);
+                case When.Delayed: DelayEffect(targetObj,_effectDelayMilliseconds);
                     break;
                 case When.OnTargetDie: OnEnemyDieApplyEffect(targetObj);
                     break;
@@ -248,7 +261,7 @@ namespace Abilities
             if (effectRepeatTimer > 0) effectRepeatTimer -= Time.deltaTime;
             else
             {
-                effectRepeatTimer = effectRepeatDelay;
+                effectRepeatTimer = _effectRepeatDelay;
                 ApplyEffect(targetObj);
             }
         }
@@ -263,13 +276,13 @@ namespace Abilities
             Vector3 relativePos = carPos - targetObj.transform.position;
             relativePos = new Vector3(relativePos.x, 0, relativePos.z).normalized;
             Transform obj = Pooler.instance.SpawnInstance(Key.OBJ_Spear, carPos, Quaternion.LookRotation(-relativePos)) as Transform;
-            obj.GetComponent<SpearObject>().damages = effectDamage;
+            obj.GetComponent<SpearObject>().damages = _effectDamage;
         }
     
         private void EffectDamage(GameObject targetObj)
         {
             IDamageable damageable = targetObj.GetComponent<IDamageable>();
-            damageable.TakeDamage(effectDamage);
+            damageable.TakeDamage(_effectDamage);
         }
     
         private void EffectForceBreak(GameObject targetObj)
@@ -277,7 +290,7 @@ namespace Abilities
             CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
             if (carBehaviour == null) return;
             carBehaviour.forceBreak = true;
-            carBehaviour.forceBreakTimer = effectDuration;
+            carBehaviour.forceBreakTimer = _effectDuration;
             GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_MotorBreak, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, effectDuration).gameObject;
             go.transform.SetParent(targetObj.transform);
             go.SetActive(true);
@@ -288,26 +301,26 @@ namespace Abilities
             var position = targetObj.transform.position;
             
             GameObject gameObject = Pooler.instance.SpawnTemporaryInstance(Key.FX_Explosion, position, Quaternion.identity, 5).gameObject;
-            gameObject.transform.localScale = new Vector3(effectSizeRadius, effectSizeRadius,effectSizeRadius);
+            gameObject.transform.localScale = new Vector3(_effectSizeRadius, _effectSizeRadius,_effectSizeRadius);
             
-            var cols = Physics.OverlapSphere(position, effectSizeRadius, enemyLayerMask);
+            var cols = Physics.OverlapSphere(position, _effectSizeRadius, enemyLayerMask);
             foreach (var t in cols)
             {
-                t.GetComponent<IDamageable>()?.TakeDamage(effectDamage);
+                t.GetComponent<IDamageable>()?.TakeDamage(_effectDamage);
             }
         }
 
         private void EffectSpawnMine(GameObject targetObj)
         {
             Mine mine = Pooler.instance.SpawnInstance(Key.OBJ_Mine, targetObj.transform.position, Quaternion.identity).GetComponent<Mine>();
-            mine.damages = effectDamage;
-            mine.explosionRadius = effectSizeRadius;
+            mine.damages = _effectDamage;
+            mine.explosionRadius = _effectSizeRadius;
         }
 
         private void EffectLifeSteal(GameObject targetObj)
         {
-            targetObj.GetComponent<IDamageable>().TakeDamage(effectDamage);
-            CarHealthManager.instance.TakeHeal(effectDamage);
+            targetObj.GetComponent<IDamageable>().TakeDamage(_effectDamage);
+            CarHealthManager.instance.TakeHeal(_effectDamage);
         }
         
         private async void EffectScorch(GameObject targetObj)
@@ -316,11 +329,11 @@ namespace Abilities
             if (carBehaviour == null || carBehaviour.isScorch) return;
             carBehaviour.isScorch = true;
             
-            var a = Mathf.FloorToInt(effectDuration / ((float)effectDelayMilliseconds / 1000));
+            var a = Mathf.FloorToInt(_effectDuration / ((float)_effectDelayMilliseconds / 1000));
             for (int i = 0; i < a; i++)
             {
-                targetObj.GetComponent<IDamageable>()?.TakeDamage(effectDamage);
-                await Task.Delay(effectDelayMilliseconds);
+                targetObj.GetComponent<IDamageable>()?.TakeDamage(_effectDamage);
+                await Task.Delay(_effectDelayMilliseconds);
             }
 
             if (carBehaviour == null) return;
@@ -330,10 +343,10 @@ namespace Abilities
         private async void EffectBerserk(GameObject targetObj)
         {
             if (!player) return;
-            player.shootDuration = effectDamage;
+            player.shootDuration = _effectDamage;
             UIManager.instance.ActivateShotgunFlamme();
             Debug.Log("Shoot duration: " + player.shootDuration);
-            await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
+            await Task.Delay(Mathf.FloorToInt(_effectDuration * 1000));
             if (!player) return;
             UIManager.instance.DeactivateShotgunFlamme();
             player.shootDuration = carAbilities.baseShotgunDuration;
@@ -345,7 +358,7 @@ namespace Abilities
             CarController car = targetObj.GetComponent<CarController>();
             if (!car) return;
             car.shield.SetActive(true);
-            await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
+            await Task.Delay(Mathf.FloorToInt(_effectDuration * 1000));
             if (!car) return;
             car.shield.SetActive(false);
         }
@@ -355,7 +368,7 @@ namespace Abilities
             var a = obj.GetComponent<CarBehaviour>();
             if (!a) return;
             a.isAimEffect = true;
-            await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
+            await Task.Delay(Mathf.FloorToInt(_effectDuration * 1000));
             if (!a) return;
             a.isAimEffect = false;
         }
@@ -382,11 +395,11 @@ namespace Abilities
             {
                 switch (modifiers[i].stat)
                 {
-                    case AbilitiesStats.EffectDamage: effectDamage += (int)modifiers[i].newValue; break;
-                    case AbilitiesStats.EffectSizeRadius: effectSizeRadius += (int)modifiers[i].newValue;  break;
-                    case AbilitiesStats.EffectDuration: effectDuration += modifiers[i].newValue; break;
-                    case AbilitiesStats.EffectDelayMilliseconds: effectDelayMilliseconds += (int)modifiers[i].newValue; break;
-                    case AbilitiesStats.EffectRepeatDelay: effectRepeatDelay += modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectDamage: _effectDamage += (int)modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectSizeRadius: _effectSizeRadius += (int)modifiers[i].newValue;  break;
+                    case AbilitiesStats.EffectDuration: _effectDuration += modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectDelayMilliseconds: _effectDelayMilliseconds += (int)modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectRepeatDelay: _effectRepeatDelay += modifiers[i].newValue; break;
                     default: throw new ArgumentOutOfRangeException();
                 }
             }

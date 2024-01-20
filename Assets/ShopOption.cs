@@ -20,7 +20,7 @@ public class ShopOption : MonoBehaviour
     {
         title.text = ability.abilityName.ToUpper();
         shopAbility = ability;
-        levelTxt[0].text = levelTxt[1].text = ability.level == -1 ? "NEW" : "LEVEL " + (ability.level + 1);
+        levelTxt[0].text = levelTxt[1].text = ability.level == -1 ? "NEW" : "LEVEL " + (ability.level + 2);
         description[0].text = description[1].text = ability.description;
         logo[0].sprite = logo[1].sprite = ability.abilitySprite;
         levelTxt[0].color = tag.color = ability.type switch
@@ -38,6 +38,23 @@ public class ShopOption : MonoBehaviour
         {
             description[0].color = logo[1].color = Color.white;
         }
+    }
+    
+    public void SetPauseOption(AbilitiesSO ability)
+    {
+        gameObject.SetActive(true);
+        title.text = ability.abilityName.ToUpper();
+        shopAbility = ability;
+        levelTxt[0].text = levelTxt[1].text = "LEVEL " + (ability.level + 1);
+        description[0].text = description[1].text = ability.description;
+        logo[0].sprite = logo[1].sprite = ability.abilitySprite;
+        levelTxt[0].color = tag.color = ability.type switch
+        {
+            AbilityType.ClassicAbilites => abilityColor,
+            AbilityType.UpgrateStatsAbilites => boostColor,
+            AbilityType.GoldGiver => goldColor,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     public void Buy()

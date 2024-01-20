@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Abilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -77,6 +78,9 @@ public class UIManager : MonoBehaviour
     private Vector2 stickValue;
     public bool pause;
     public GameObject abilityCorner;
+    public GameObject pauseMenu;
+    public ShopOption[] abilitiesPause,statsPause;
+    
 
 
     private void Awake()
@@ -249,12 +253,32 @@ public class UIManager : MonoBehaviour
     
     public void OnOpenPause()
     {
-        if (shopTransition || shopOpen) return;
+        if (shopTransition || shopOpen || pause) return;
         pause = true;
         Time.timeScale = 0;
         hudGroup.alpha = 0;
-        shopGroup.alpha = 1;
         abilityCorner.SetActive(false);
+        pauseMenu.SetActive(true);
+
+        for (int i = 0; i < CarAbilitiesManager.instance.passiveAbilities.Count; i++)
+        {
+            abilitiesPause[i].SetPauseOption(CarAbilitiesManager.instance.passiveAbilities[i]);
+        }
+        
+        for (int i = 0; i < CarAbilitiesManager.instance.statsAbilities.Count; i++)
+        {
+            statsPause[i].SetPauseOption(CarAbilitiesManager.instance.statsAbilities[i]);
+        }
+    }
+
+    public void OnClosePause()
+    {
+        if (!pause) return;
+        pause = false;
+        Time.timeScale = 1;
+        hudGroup.alpha = 1;
+        abilityCorner.SetActive(true);
+        pauseMenu.SetActive(false);
     }
     
     #region Inputs
