@@ -134,8 +134,8 @@ MonoBehaviour:
   suspensionDampening: 3
   anchoring: 5
   wheelMass: 0.1
-  maxSpeed: 52
-  targetSpeed: 52
+  maxSpeed: 50
+  targetSpeed: 50
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -235,7 +235,82 @@ MonoBehaviour:
   enemyKey: 4
   hp: 20
   carDamage: 1
-  shootCooldown: 0.8
+  shootCooldown: 0.6
+  hpToAddPerWave:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 7.2298393
+      value: 45.53778
+      inSlope: 5.7866497
+      outSlope: 5.7866497
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 8.524333
+      value: 57.869614
+      inSlope: 10.718529
+      outSlope: 10.718529
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 9.930232
+      value: 74.48202
+      inSlope: 10.261432
+      outSlope: 10.261432
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 15
+      value: 150
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damageToAddPerWave:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.5153589
+      outSlope: 0.5153589
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.06119951
+    - serializedVersion: 3
+      time: 15
+      value: 20
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   expToGiveBasedOnLevel:
     serializedVersion: 2
     m_Curve:

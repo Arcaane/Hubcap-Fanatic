@@ -50,6 +50,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private int spawningPointPerSideCount = 7;
     private UIManager uiManager;
 
+    public static WaveManager instance;
+    
     public float spawingTimer;
     public float waveSpawnTimer;
     public float enemiesSpawningTimer = 0f;
@@ -57,6 +59,15 @@ public class WaveManager : MonoBehaviour
     public int spawnBurstCounter;
 
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
         uiManager = UIManager.instance;
