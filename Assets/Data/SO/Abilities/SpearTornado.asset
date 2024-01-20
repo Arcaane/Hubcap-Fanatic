@@ -18,11 +18,11 @@ MonoBehaviour:
 
 '
   abilitySprite: {fileID: 0}
-  level: 0
-  trigger: 2
+  level: -1
+  trigger: 6
   target: 3
   when: 0
-  state: 4
+  state: 0
   effect: 1
   modifiersLevel1:
   - stat: 0
