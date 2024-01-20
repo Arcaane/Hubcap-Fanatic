@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: GainSpeed
   m_EditorClassIdentifier: 
   type: 1
-  abilityName: 
-  description: 
+  abilityName: Gain Road Speed
+  description: Add speed on road
   abilitySprite: {fileID: 0}
   level: 0
   trigger: 0
@@ -42,3 +42,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: -1
