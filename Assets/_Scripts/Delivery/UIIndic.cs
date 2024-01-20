@@ -61,7 +61,7 @@ public class UIIndic : MonoBehaviour
         {
             if (i < obj.Count && (obj[i] == null || obj[i].activeSelf == false))
             {
-                if (i >= 4)
+                if (i >= 3)
                 {
                     RemoveIndic(i);
                 }
