@@ -53,7 +53,7 @@ namespace Abilities
         private float effectRepeatTimer;
         private CarController player;
         private CarAbilitiesManager carAbilities;
-        private bool isInCooldown;
+        private bool isInCooldown = false;
         
         [Space(5)]
         [Header("Layer Masks")]
@@ -63,7 +63,8 @@ namespace Abilities
         {
             player = CarController.instance;
             carAbilities = CarAbilitiesManager.instance;
-
+            isInCooldown = false;
+            
             if (type == AbilityType.ClassicAbilites)
             {
                 switch (trigger)

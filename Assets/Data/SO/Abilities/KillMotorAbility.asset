@@ -15,14 +15,16 @@ MonoBehaviour:
   type: 0
   abilityName: KillMotorAbility
   description: Kill the motor of Collisioned Enemys
-  abilitySprite: {fileID: 21300000, guid: 19bffb1dda6c1db4bbc657206045e88f, type: 3}
-  level: 0
+  abilitySprite: {fileID: 21300000, guid: b971cc36676efdf4589f613860f4a52e, type: 3}
+  level: -1
   trigger: 5
   target: 0
   when: 0
   state: 0
   effect: 3
-  levelsAbilitiesModifiers: []
+  modifiersLevel1: []
+  modifiersLevel2: []
+  modifiersLevel3: []
   effectDamage: 0
   effectSizeRadius: 0
   effectDuration: 5

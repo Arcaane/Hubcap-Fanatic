@@ -63,22 +63,8 @@ MonoBehaviour:
         enemyCount: {x: 1, y: 1}
     - enemyInSpawnBurst:
       - entityKey: 4
-        enemyCount: {x: 1, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
         enemyCount: {x: 1, y: 1}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   - waveName: Wave 2
     waveDuration: 55
@@ -91,6 +77,9 @@ MonoBehaviour:
         enemyCount: {x: 0, y: 1}
     - enemyInSpawnBurst:
       - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
         enemyCount: {x: 2, y: 2}
     - enemyInSpawnBurst:
       - entityKey: 4
@@ -98,39 +87,27 @@ MonoBehaviour:
     - enemyInSpawnBurst:
       - entityKey: 4
         enemyCount: {x: 1, y: 1}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 1, y: 1}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 1, y: 1}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 1, y: 1}
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   - waveName: Wave 3
     waveDuration: 55
     enemyGroupsList:
     - enemyInSpawnBurst:
       - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 1, y: 2}
+      - entityKey: 0
+        enemyCount: {x: 1, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
         enemyCount: {x: 1, y: 1}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 0
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 0
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
     - enemyInSpawnBurst:
       - entityKey: 4
         enemyCount: {x: 1, y: 3}
@@ -140,251 +117,109 @@ MonoBehaviour:
       - entityKey: 4
         enemyCount: {x: 1, y: 1}
       - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
         enemyCount: {x: 1, y: 1}
-    - enemyInSpawnBurst:
       - entityKey: 4
         enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 3, y: 3}
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   - waveName: Wave 4
     waveDuration: 55
     enemyGroupsList:
     - enemyInSpawnBurst:
       - entityKey: 4
-        enemyCount: {x: 1, y: 3}
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
       - entityKey: 4
         enemyCount: {x: 2, y: 2}
     - enemyInSpawnBurst:
       - entityKey: 4
-        enemyCount: {x: 3, y: 3}
+        enemyCount: {x: 1, y: 1}
     - enemyInSpawnBurst:
       - entityKey: 4
-        enemyCount: {x: 1, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
+        enemyCount: {x: 1, y: 1}
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   - waveName: Wave 5
     waveDuration: 55
     enemyGroupsList:
     - enemyInSpawnBurst:
       - entityKey: 4
-        enemyCount: {x: 2, y: 2}
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
       - entityKey: 4
         enemyCount: {x: 2, y: 2}
     - enemyInSpawnBurst:
       - entityKey: 4
-        enemyCount: {x: 2, y: 3}
+        enemyCount: {x: 1, y: 1}
     - enemyInSpawnBurst:
       - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+        enemyCount: {x: 1, y: 1}
+    spawnConvoy: 1
     enemyGroupsSpawnRate: 0
   - waveName: Wave 6
     waveDuration: 55
-    enemyGroupsList:
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+    enemyGroupsList: []
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   - waveName: Wave 7
     waveDuration: 55
-    enemyGroupsList:
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+    enemyGroupsList: []
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   - waveName: Wave 8
     waveDuration: 55
-    enemyGroupsList:
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+    enemyGroupsList: []
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   - waveName: Wave 9
     waveDuration: 55
-    enemyGroupsList:
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+    enemyGroupsList: []
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   - waveName: Wave 10
     waveDuration: 55
-    enemyGroupsList:
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+    enemyGroupsList: []
+    spawnConvoy: 1
     enemyGroupsSpawnRate: 0
   - waveName: Wave 11
     waveDuration: 55
-    enemyGroupsList:
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+    enemyGroupsList: []
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   - waveName: Wave 12
     waveDuration: 55
-    enemyGroupsList:
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+    enemyGroupsList: []
+    spawnConvoy: 1
     enemyGroupsSpawnRate: 0
   - waveName: Wave 13
     waveDuration: 55
-    enemyGroupsList:
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+    enemyGroupsList: []
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   - waveName: Wave 14
     waveDuration: 55
-    enemyGroupsList:
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+    enemyGroupsList: []
+    spawnConvoy: 1
     enemyGroupsSpawnRate: 0
   - waveName: Wave 15
     waveDuration: 55
-    enemyGroupsList:
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-      - entityKey: 4
-        enemyCount: {x: 2, y: 2}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-    - enemyInSpawnBurst:
-      - entityKey: 4
-        enemyCount: {x: 2, y: 3}
-      - entityKey: 4
-        enemyCount: {x: 1, y: 2}
+    enemyGroupsList: []
+    spawnConvoy: 0
     enemyGroupsSpawnRate: 0
   currentWaveCount: 0
   intervalBetweenWaves: 5

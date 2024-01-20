@@ -97,6 +97,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
         return spawnPoints[randomIndex];
     }
     
+#if UNITY_EDITOR
     [ContextMenu("Delivery Zone -> Add 10 Random Delivery Objects")]
     void Add10RandomDeliveryZone()
     {
@@ -106,9 +107,10 @@ public class DeliveryRessourcesManager : MonoBehaviour
     [ContextMenu("Delivery Zone -> Add 100 Random Delivery Objects")]
     void Add100RandomDeliveryZone()
     {
+
         AddRandomDeliveryObjects(100); 
     }
-
+    
     void AddRandomDeliveryObjects(int numberOfObjects)
     {
         GameObject deliveryZonePrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Prefabs/Player Attached/Event_SpawnDeliveryZone.prefab");
@@ -131,8 +133,8 @@ public class DeliveryRessourcesManager : MonoBehaviour
 
         Debug.Log($"Added {numberOfObjects} random Delivery Objects.");
     }
-
-
+    #endif
+    
     [ContextMenu("Delivery Zone -> Clear Delivery Objects")]
     void ClearDeliveryZone()
     {
