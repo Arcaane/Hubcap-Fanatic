@@ -81,6 +81,7 @@ namespace Abilities
             baseArmorPercent = CarHealthManager.instance.armorInPercent;
             baseHitBeforeDeliverDrop = car.CollsionBeforeDropDeliver;
             baseSpeedRetainedOnBounce = car.speedRetained;
+            goldAmountWonOnRun = 0;
         }
 
         public void Update()
@@ -129,7 +130,8 @@ namespace Abilities
 
             if (abilitySo.type == AbilityType.GoldGiver)
             {
-                goldAmountWonOnRun += 50;
+                goldAmountWonOnRun += abilitySo.effectDamage;
+                UIManager.instance.SetGoldText(goldAmountWonOnRun);
             }
 
             if (abilitySo.type == AbilityType.UpgrateStatsAbilites)

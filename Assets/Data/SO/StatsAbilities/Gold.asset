@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 2
   abilityName: Gold
   description: Gain 50 golds.
-  abilitySprite: {fileID: 0}
+  abilitySprite: {fileID: 21300000, guid: 3f9509d504b741245b0db092b9236e4d, type: 3}
   level: 0
   trigger: 0
   target: 0
@@ -38,3 +38,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: -1
