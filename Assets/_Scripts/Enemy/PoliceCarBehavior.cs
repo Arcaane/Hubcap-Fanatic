@@ -27,6 +27,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public Vector2 randomOffset;
     public Vector2 maxRngOffset;
     public Transform currentTarget;
+    public float angleToCollisionDamage = 0.90f;
 
     [Header("WALLBOUNCE")] [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")] [SerializeField]
     private float speedRetained = 0.7f;
@@ -64,8 +65,10 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     [Header("BERSERK CAR")] 
     public bool runToPlayer;
     public float overshootValue = 12;
+    public float randomOvershoot = 2;
     public float driveByPhaseOvershoot = 8;
     public float distanceToPlayer;
+    private float saveOvershoot;
 
     void Start()
     {
@@ -90,6 +93,8 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         {
             metalParts[i].material = metal;
         }
+
+        saveOvershoot = overshootValue;
     }
 
     private void OnEnable()
@@ -104,7 +109,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     private void OnDisable()
     {
-        
+        overshootValue = saveOvershoot;
         policeCars.Remove(this);
     }
     
@@ -139,9 +144,10 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             
             Debug.DrawLine(transform.position,targetPos,Color.cyan);
             
-            if (Vector3.Dot(targetPos - transform.position, currentTarget.right * distanceToPlayer) < 0 || Vector3.Dot((currentTarget.position - transform.position).normalized, -currentTarget.forward) < 0)
+            if (Vector3.Dot((currentTarget.position - transform.position).normalized, -currentTarget.forward) < 0)
             {
                 runToPlayer = false;
+                overshootValue = saveOvershoot;
                 distanceToPlayer *= -1;
             }
         }
@@ -165,6 +171,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             if (Vector3.Dot((targetPos - transform.position).normalized, currentTarget.forward) < 0)
             {
                 runToPlayer = true;
+                RandomOvershoot();
             }
             
             for (int i = 0; i < policeCars.Count; i++)
@@ -397,7 +404,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
                 var b = transform.forward;
                 b.Normalize();
 
-                if (Vector3.Dot(a, b) > 0.90f) // EnemyCollision
+                if (Vector3.Dot(a, b) > angleToCollisionDamage) // EnemyCollision
                 {
                     CarHealthManager.instance.TakeDamage(carDamage);
                 }
@@ -474,6 +481,12 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             objectPickable.GetComponent<ObjectPickable>().rb.AddForce(collision.contacts[0].normal.normalized * 100);
             objectPickable = null;
         }
+    }
+
+    private void RandomOvershoot()
+    {
+        float rand = Random.Range(-randomOvershoot, randomOvershoot);
+        overshootValue += rand;
     }
     
    
