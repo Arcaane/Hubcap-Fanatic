@@ -230,7 +230,6 @@ namespace Abilities
                 case Effect.Scorch: EffectScorch(targetObj); break;
                 case Effect.Berserk: EffectBerserk(targetObj); break;
                 case Effect.Shield: EffectShield(targetObj); break;
-                case Effect.Information: EffectInformation(targetObj); break;
                 case Effect.Target: EffectTarget(targetObj); break;
                 default: throw new ArgumentOutOfRangeException(nameof(effect), effect, null);
             }
@@ -347,30 +346,6 @@ namespace Abilities
             await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
             if (!car) return;
             car.shield.SetActive(false);
-        }
-
-        private async void EffectInformation(GameObject targetObj)
-        {
-            var uiTargets = UIIndic.instance.targetUIPrefab;
-            for (int i = 0; i < uiTargets.Count; i++)
-            {
-                if (uiTargets[i].targetType == TargetType.Convoy)
-                    UIIndic.instance.EnableOrDisableSpecificUI(i, true);
-                
-                if (uiTargets[i].targetType == TargetType.Merchant)
-                    UIIndic.instance.EnableOrDisableSpecificUI(i, true);
-            }
-
-            await Task.Delay(Mathf.FloorToInt(effectDuration * 1000));
-            
-            for (int i = 0; i < uiTargets.Count; i++)
-            {
-                if (uiTargets[i].targetType == TargetType.Convoy && uiTargets[i].gameObject.activeSelf)
-                    UIIndic.instance.EnableOrDisableSpecificUI(i);
-                
-                if (uiTargets[i].targetType == TargetType.Merchant && uiTargets[i].gameObject.activeSelf)
-                    UIIndic.instance.EnableOrDisableSpecificUI(i);
-            }
         }
 
         private async void EffectTarget(GameObject obj)

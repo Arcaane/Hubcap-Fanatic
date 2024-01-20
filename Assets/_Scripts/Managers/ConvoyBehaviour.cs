@@ -190,7 +190,6 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         {
             defenseCars[i].convoyBehaviour = null;
         }
-        UIIndic.instance.Obj[3] = ConvoyManager.instance.gameObject;
 
         Destroy(gameObject);
         if (tokenToGiveOnDestroy > 0)

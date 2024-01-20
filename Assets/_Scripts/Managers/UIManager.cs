@@ -64,8 +64,9 @@ public class UIManager : MonoBehaviour
 
     private bool stickUsed;
     private Vector2 stickValue;
-    
-    
+    public bool pause;
+    public GameObject abilityCorner;
+
 
     private void Awake()
     {
@@ -228,6 +229,17 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    
+    public void OnOpenPause()
+    {
+        if (shopTransition || shopOpen) return;
+        pause = true;
+        Time.timeScale = 0;
+        hudGroup.alpha = 0;
+        shopGroup.alpha = 1;
+        abilityCorner.SetActive(false);
+    }
+    
     #region Inputs
 
     public void LStick(InputAction.CallbackContext context)
@@ -236,16 +248,16 @@ public class UIManager : MonoBehaviour
         if (context.performed)
         {
             stickValue = context.ReadValue<Vector2>();
-            if (!stickUsed)
+            if (!stickUsed && stickValue.magnitude > 0.5f)
             {
                 stickUsed = true;
                 float angle = Vector2.SignedAngle(Vector2.up, stickValue);
                 
-                if (angle > 0)
+                if (angle > 30 && angle < 150)
                 {
                     LeftChoice();
                 }
-                else 
+                else if (angle < -30 && angle > -150)
                 {
                     RightChoice();
                 }

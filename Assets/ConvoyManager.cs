@@ -24,12 +24,10 @@ public class ConvoyManager : MonoBehaviour
 
     public void SpawnConvoy()
     {
-        
-        
         if (currentConvoy != null) return;
 
-
         GameObject obj = Instantiate(convoysPrefabs[convoyPower]);
+        UIIndic.instance.CreateIndicForConvoy(obj);
         currentConvoy = obj.transform.GetComponent<ConvoyBehaviour>();
         currentConvoy.distancedNodes = rails.distancedNodes;
         currentConvoy.Initialize();
