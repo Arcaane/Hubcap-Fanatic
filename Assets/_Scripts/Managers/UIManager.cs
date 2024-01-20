@@ -42,10 +42,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] public AbilitiesPair[] abilitiesSlots;
 
     [Serializable]
-    public struct AbilitiesPair
+    public class AbilitiesPair
     {
         public Image passiveAbilityIcon;
+        public Image abilityCooldownSlider;
+        public TextMeshProUGUI cdText;
         public Image statAbilityIcon;
+    }
+    
+    public void SetAbilityCdInUI()
+    {
+        for (int i = 0; i < abilitiesSlots.Length; i++)
+        {
+            abilitiesSlots[i].abilityCooldownSlider = abilitiesSlots[i].passiveAbilityIcon.gameObject.transform.parent.GetChild(1).GetComponent<Image>();
+            abilitiesSlots[i].cdText = abilitiesSlots[i].passiveAbilityIcon.gameObject.transform.parent.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        }
     }
 
     [Header("Merchant")]
@@ -65,8 +76,6 @@ public class UIManager : MonoBehaviour
     private bool stickUsed;
     private Vector2 stickValue;
     
-    
-
     private void Awake()
     {
         instance = this;
@@ -75,7 +84,13 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         SetExperienceFillAmount(0);
+
+        SetAbilityCdInUI();
         
+        for (int i = 0; i < abilitiesSlots.Length; i++)
+        {
+            abilitiesSlots[i].abilityCooldownSlider.gameObject.SetActive(false);
+        }
     }
     
     public void ActivateShotgunFlamme()

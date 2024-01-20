@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Threading.Tasks;
+using DG.Tweening;
 using ManagerNameSpace;
 using UnityEngine;
 
@@ -490,12 +492,21 @@ namespace Abilities
         }
         #endregion
 
-        private async void SetEffectInCooldown()
+        public int index = -1;
+        private void SetEffectInCooldown()
         {
             if (!isCapacityCooldown) return;
             isInCooldown = true;
-            await Task.Delay(Mathf.FloorToInt(cooldownDuration * 1000));
-            isInCooldown = false;
+            carAbilities.LaunchCo(cooldownDuration, index);
+            UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.gameObject.SetActive(true);
+            UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.fillAmount = 1;
+            UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.DOFillAmount(0, cooldownDuration).OnComplete(
+                delegate
+                {
+                    Debug.Log("Finish Cooldown");
+                    isInCooldown = false;
+                    UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.gameObject.SetActive(false);
+                });
         }
     }
 }
