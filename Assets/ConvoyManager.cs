@@ -8,11 +8,9 @@ public class ConvoyManager : MonoBehaviour
 {
     public ConvoyBehaviour currentConvoy;
     public static ConvoyManager instance;
-    public bool waitingForConvoy;
-    public float timeBetweenConvoys;
-    private float timer;
-    public ConvoySpawnData[] convoys;
+    public GameObject[] convoysPrefabs;
     public Rail rails;
+    public int convoyPower = 0;
 
 
 
@@ -20,35 +18,18 @@ public class ConvoyManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        timer = timeBetweenConvoys;
     }
     
-    private void Update()
-    {
-        if (waitingForConvoy)
-        {
-            if (timer > 0) timer -= Time.deltaTime;
-            else
-            {
-                timer = timeBetweenConvoys;
-                SpawnConvoy();
-            }
-        }
-    }
+    
 
-    private void SpawnConvoy()
+    public void SpawnConvoy()
     {
-        waitingForConvoy = false;
-        List<GameObject> prefabs = new List<GameObject>();
-        for (int i = 0; i < convoys.Length; i++)
-        {
-            if (Time.time > convoys[i].minTime && Time.time < convoys[i].maxTime)
-            {
-                prefabs.Add(convoys[i].convoyPrefab);
-            }
-        }
         
-        GameObject obj = Instantiate(prefabs[Random.Range(0, prefabs.Count)]);
+        
+        if (currentConvoy != null) return;
+
+
+        GameObject obj = Instantiate(convoysPrefabs[convoyPower]);
         currentConvoy = obj.transform.GetComponent<ConvoyBehaviour>();
         currentConvoy.distancedNodes = rails.distancedNodes;
         currentConvoy.Initialize();
@@ -56,12 +37,8 @@ public class ConvoyManager : MonoBehaviour
         {
             UIIndic.instance.Obj[3] = obj;
         }
+
+        convoyPower++;
     }
 }
 
-[Serializable]
-public struct ConvoySpawnData
-{
-    public GameObject convoyPrefab;
-    public float minTime,maxTime;
-}

@@ -14,6 +14,7 @@ public class WaveManager : MonoBehaviour
         public string waveName;
         public float waveDuration;
         public List<EnemyGroups> enemyGroupsList;
+        public bool spawnConvoy;
 
         [HideInInspector] public float enemyGroupsSpawnRate = 0;
     }
@@ -72,6 +73,7 @@ public class WaveManager : MonoBehaviour
         enemiesSpawningTimer = waves[currentWaveCount].waveDuration / spawnBurstInsideWave;
         spawnBurstCounter = 0;
         waveSpawnTimer = 100;
+        if(waves[currentWaveCount].spawnConvoy) ConvoyManager.instance.SpawnConvoy();
     }
 
     void Update()

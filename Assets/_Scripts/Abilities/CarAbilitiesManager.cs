@@ -174,7 +174,7 @@ namespace Abilities
         public void UnlockAbilitySlot()
         {
             slotAbilitiesAmount++;
-            UIManager.instance.UnlockAbilitySlot(passiveAbilities.Count);
+            UIManager.instance.UnlockAbilitySlot(slotAbilitiesAmount-1);
         }
     }
 }
