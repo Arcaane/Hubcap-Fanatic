@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
+  m_Name: Lifesteal Bullet
+  m_EditorClassIdentifier: 
+  type: 0
+  abilityName: Lifesteal Bullet
+  description: 'When shotgun enemy, life ++
+
+'
+  abilitySprite: {fileID: 0}
+  level: 0
+  trigger: 1
+  target: 0
+  when: 0
+  state: 0
+  effect: 5
+  modifiersLevel1:
+  - stat: 0
+    newValue: 3
+  modifiersLevel2:
+  - stat: 0
+    newValue: 4
+  modifiersLevel3:
+  - stat: 0
+    newValue: 5
+  effectDamage: 2
+  effectSizeRadius: 0
+  effectDuration: 0
+  effectDelayMilliseconds: 0
+  effectRepeatDelay: 0
+  isCapacityCooldown: 0
+  cooldownDuration: 0
+  statsModifier: 0
+  howStatsModify: 0
+  amount: []
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 0

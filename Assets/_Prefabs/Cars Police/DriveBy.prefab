@@ -250,7 +250,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 15
-      value: 150
+      value: 80
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -266,20 +266,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1.0467039
-      outSlope: 1.0467039
+      inSlope: 0.83836484
+      outSlope: 0.83836484
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.06609547
+      outWeight: 0.046511628
     - serializedVersion: 3
       time: 15
-      value: 10
-      inSlope: -0.042117625
-      outSlope: -0.042117625
+      value: 5
+      inSlope: 1.0032037
+      outSlope: 1.0032037
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.074663416
+      inWeight: 0.051407624
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -290,20 +290,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 1.2666667
-      outSlope: 1.2666667
+      inSlope: 0.93333334
+      outSlope: 0.93333334
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 15
-      value: 20
-      inSlope: 5.305922
-      outSlope: 5.305922
+      value: 15
+      inSlope: 2.5458267
+      outSlope: 2.5458267
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.028151767
+      inWeight: 0.04039167
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -337,8 +337,8 @@ MonoBehaviour:
   randomOffset: {x: 0, y: 0}
   maxRngOffset: {x: 2, y: 0.2}
   currentTarget: {fileID: 0}
-  speedRetained: 0.7
-  maxSpeedRetained: 0.8
+  speedRetained: 0.5
+  maxSpeedRetained: 0.6
   minAngleToBounce: 0.3
   fxBounce: {fileID: 7327552505560720248, guid: 81be785b9e16bd347bca31257d5c5595, type: 3}
   convoyBehaviour: {fileID: 0}

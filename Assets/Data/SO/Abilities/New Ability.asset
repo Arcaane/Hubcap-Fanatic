@@ -13,28 +13,28 @@ MonoBehaviour:
   m_Name: New Ability
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: 
-  description: 
+  abilityName: PewPew
+  description: Small gun when drift
   abilitySprite: {fileID: 0}
   level: 0
-  trigger: 1
-  target: 0
-  when: 2
-  state: 0
-  effect: 5
+  trigger: 7
+  target: 4
+  when: 3
+  state: 2
+  effect: 2
   modifiersLevel1:
-  - stat: 0
-    newValue: 2
+  - stat: 3
+    newValue: 800
   modifiersLevel2:
-  - stat: 0
-    newValue: 3
+  - stat: 3
+    newValue: 600
   modifiersLevel3:
-  - stat: 0
-    newValue: 4
-  effectDamage: 1
+  - stat: 3
+    newValue: 300
+  effectDamage: 2
   effectSizeRadius: 0
   effectDuration: 0
-  effectDelayMilliseconds: 0
+  effectDelayMilliseconds: 1000
   effectRepeatDelay: 0
   isCapacityCooldown: 0
   cooldownDuration: 0
