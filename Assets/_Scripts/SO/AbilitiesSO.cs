@@ -294,8 +294,10 @@ namespace Abilities
         }
 
         private void EffectSpawnMine(GameObject targetObj)
-        { 
-            Pooler.instance.SpawnInstance(Key.OBJ_Mine, targetObj.transform.position, Quaternion.identity);
+        {
+            Mine mine = Pooler.instance.SpawnInstance(Key.OBJ_Mine, targetObj.transform.position, Quaternion.identity).GetComponent<Mine>();
+            mine.damages = effectDamage;
+            mine.explosionRadius = effectSizeRadius;
         }
 
         private void EffectLifeSteal(GameObject targetObj)
@@ -377,8 +379,7 @@ namespace Abilities
         }
         
         #endregion
-
-
+        
         #region Stats
 
         public void LevelUpPassiveAbility()
