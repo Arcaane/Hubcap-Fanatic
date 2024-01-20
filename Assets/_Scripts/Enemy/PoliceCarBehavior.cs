@@ -61,6 +61,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public MeshRenderer[] metalParts;
     public Material metal;
 
+    [Header("BERSERK CAR")] 
+    public bool runToPlayer;
+
+    public float distanceToPlayer;
+
     void Start()
     {
         if (policeCars == null) policeCars = new List<PoliceCarBehavior>();
@@ -71,6 +76,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             Random.Range(-maxRngOffset.y, maxRngOffset.y));
 
         mat = new Material[meshR.materials.Length];
+
+        if (Random.value > 0.5f) distanceToPlayer *= -1;
+        
         for (int i = 0; i < mat.Length; i++)
         {
             mat[i] = new Material(meshR.materials[i]);
@@ -110,21 +118,69 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     private void SoloUpdate()
     {
-        if (target == null)
+
+        if (runToPlayer)
         {
-            target = CarController.instance.transform;
+            if (target == null)
+            {
+                target = CarController.instance.transform;
+            }
+
+            Vector3 targetPos = currentTarget.position + currentTarget.forward * 12 * CarController.instance.globalSpeedFactor;
+
+            float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
+                new Vector2(targetPos.x, targetPos.z) -
+                new Vector2(transform.position.x, transform.position.z));
+
+            rotationValue = -Mathf.Clamp(angleToTarget / 10, -1, 1);
+
+            if (angleToTarget > 90 || angleToTarget < -90) driftBrake = true;
+            
+            Debug.DrawLine(transform.position,targetPos,Color.cyan);
+            
+            if (Vector3.Dot(targetPos - transform.position, currentTarget.right * distanceToPlayer) < 0 || Vector3.Dot((currentTarget.position - transform.position).normalized, -currentTarget.forward) < 0)
+            {
+                runToPlayer = false;
+                distanceToPlayer *= -1;
+            }
         }
+        else
+        {
+            float rot = 0;
+            float result;
+            int nb = 2;
 
-        Vector3 targetPos = currentTarget.position + currentTarget.right * randomOffset.x +
-                            currentTarget.forward * randomOffset.y;
+            Vector3 targetPos = currentTarget.position + currentTarget.right * distanceToPlayer + 
+                                currentTarget.forward * 8;
+            float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
+                new Vector2(targetPos.x, targetPos.z) -
+                new Vector2(transform.position.x, transform.position.z));
+            rot = -Mathf.Clamp(angleToTarget / 10, -1, 1) * 2;
 
-        float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
-            new Vector2(targetPos.x, targetPos.z) -
-            new Vector2(transform.position.x, transform.position.z));
+            if (angleToTarget > 90 || angleToTarget < -90) driftBrake = true;
 
-        rotationValue = -Mathf.Clamp(angleToTarget / 10, -1, 1);
-
-        if (angleToTarget > 90 || angleToTarget < -90) driftBrake = true;
+            Debug.DrawLine(transform.position,targetPos,Color.magenta);
+            
+            if (Vector3.Dot((targetPos - transform.position).normalized, currentTarget.forward) < 0)
+            {
+                runToPlayer = true;
+            }
+            
+            for (int i = 0; i < policeCars.Count; i++)
+            {
+                if (policeCars[i] == this || !policeCars[i].gameObject.activeSelf) continue;
+                result = GetRotationValueToObject(policeCars[i].transform, attractiveRadius, alignementRadius,
+                    repulsiveRadius);
+                if (result > -10)
+                {
+                    rot += result;
+                    nb++;
+                }
+            }
+            
+            rotationValue = rot / nb;
+        }
+        
 
         OnMove();
     }
@@ -213,6 +269,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     private void ConvoyUpdate()
     {
         if (!attackMode) BoidUpdate();
+        else if (driveByCar) DriveByUpdate();
         else SoloUpdate();
     }
 

@@ -360,6 +360,8 @@ MonoBehaviour:
   - {fileID: 2550291466579533631}
   - {fileID: 3452489392718952539}
   metal: {fileID: 2100000, guid: d523c1fe905a4dc429adf2c6b9d1791a, type: 2}
+  runToPlayer: 0
+  distanceToPlayer: 15
 --- !u!1 &84067897451098012
 GameObject:
   m_ObjectHideFlags: 0
