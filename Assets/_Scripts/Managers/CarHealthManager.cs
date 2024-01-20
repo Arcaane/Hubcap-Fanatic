@@ -67,6 +67,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
             lifePoints = 0;
         }
         
+        UIManager.instance.UITakeDamage();
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
         UIManager.instance.SetLifePlayerText(lifePoints);
     }
