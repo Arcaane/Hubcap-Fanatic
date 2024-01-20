@@ -48,6 +48,8 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     public float completion;
     public float upVector = 1.2f;
 
+    public bool isDead;
+
     public void Initialize()
     {
         previous = Random.Range(0, distancedNodes.Count);
@@ -172,6 +174,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     public void TakeDamage(int damages)
     {
         Debug.Log("CONVOIS DAMAGED");
+        if(isDead) return;
         if (!IsDamageable()) return;
         hp -= damages;
         if (hp < 1) DestroyConvoy();
@@ -182,7 +185,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     public void DestroyConvoy()
     {
         Debug.Log("CONVOI DESTROYED");
-
+        isDead = true;
         for (int i = 0; i < slotUnlockOnDestroy; i++)
             CarAbilitiesManager.instance.UnlockAbilitySlot();
         
