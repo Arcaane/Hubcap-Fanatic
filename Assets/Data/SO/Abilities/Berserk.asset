@@ -10,26 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
-  m_Name: SpawnMine
+  m_Name: Berserk
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: Spawn Mine
-  description: 
+  abilityName: Berserk
+  description: When the player kills an enemy, trigger a berserk state.
   abilitySprite: {fileID: 0}
-  level: 0
-  trigger: 4
+  level: -1
+  trigger: 10
   target: 1
-  when: 3
-  state: 5
-  effect: 4
-  levelsAbilitiesModifiers: []
-  effectDamage: 0
+  when: 0
+  state: 0
+  effect: 7
+  modifiersLevel1:
+  - stat: 2
+    newValue: 4
+  modifiersLevel2:
+  - stat: 2
+    newValue: 5
+  modifiersLevel3:
+  - stat: 2
+    newValue: 6
+  effectDamage: 1
   effectSizeRadius: 0
-  effectDuration: 0
+  effectDuration: 3
   effectDelayMilliseconds: 0
-  effectRepeatDelay: 1
-  isCapacityCooldown: 0
-  cooldownDuration: 0
+  effectRepeatDelay: 0
+  isCapacityCooldown: 1
+  cooldownDuration: 10
   statsModifier: 0
   howStatsModify: 0
   amount: []

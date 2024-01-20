@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class AntennaArea : MonoBehaviour
@@ -27,7 +25,7 @@ public class AntennaArea : MonoBehaviour
     
     [Header("---------- Current Renderer Part ----------")]
     [SerializeField] private Image debugImage;
-    [SerializeField] private RectTransform rect;
+    //[SerializeField] private RectTransform rect;
     [SerializeField] private Transform plane;
     [SerializeField] private Transform parentFodder;
 
@@ -43,18 +41,19 @@ public class AntennaArea : MonoBehaviour
     [SerializeField] private float timerLeaving;
     [SerializeField] private float timerActivation;
     [SerializeField] private float timeSinceCaptured = 0f;
+    
     [Header("Fill Amount")]
     [SerializeField] private float fillAmountValue = 0f;
     private float currentSize = 0f;
     
     [SerializeField] private List<int> indexList = new List<int>();
     
+    [SerializeField] private SphereCollider sCol;
+    [SerializeField] private MeshRenderer fillAmountMeshRenderer;
+    
     private void Start()
     {
-        //Get Collider
-        collider = GetComponent<SphereCollider>();
-        GetComponent<Collider>().isTrigger = true;
-        SetupAntennaValue();    
+        SetupAntennaValue();
     }
 
     private void Update()
@@ -94,15 +93,6 @@ public class AntennaArea : MonoBehaviour
         {
             debugImage.fillAmount = fillAmountValue;
         }
-
-        if (rect != null)
-        {
-            rect.sizeDelta = new Vector2(currentSize * 2, currentSize * 2);
-        }
-        if (plane != null)
-        {
-            plane.localScale = new Vector3(currentSize / 4.25f, currentSize / 4.25f, currentSize / 4.25f);
-        }
     }
     
     private void BeingCaptured()
@@ -110,7 +100,7 @@ public class AntennaArea : MonoBehaviour
         timerLeaving = 0;
         timerCapturing -= Time.deltaTime;
         fillAmountValue = 1 - (timerCapturing / captureDuration);
-        debugImage.fillAmount = fillAmountValue;
+        //fillAmountMeshRenderer.material.SetFloat("");
         if (timerCapturing < 0)
         {
             currentAntennaState = AntennaState.AntennaIsActivated;

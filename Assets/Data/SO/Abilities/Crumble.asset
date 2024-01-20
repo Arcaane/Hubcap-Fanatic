@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
+  m_Name: Crumble
+  m_EditorClassIdentifier: 
+  type: 0
+  abilityName: Crumble
+  description: When colliding with a wall in nitro, deal damage to enemies around
+    you.
+  abilitySprite: {fileID: 0}
+  level: -1
+  trigger: 3
+  target: 3
+  when: 0
+  state: 3
+  effect: 2
+  modifiersLevel1:
+  - stat: 0
+    newValue: 6
+  modifiersLevel2:
+  - stat: 0
+    newValue: 7
+  modifiersLevel3:
+  - stat: 0
+    newValue: 10
+  effectDamage: 5
+  effectSizeRadius: 10
+  effectDuration: 0
+  effectDelayMilliseconds: 0
+  effectRepeatDelay: 0
+  isCapacityCooldown: 0
+  cooldownDuration: 0
+  statsModifier: 0
+  howStatsModify: 0
+  amount: []
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 0

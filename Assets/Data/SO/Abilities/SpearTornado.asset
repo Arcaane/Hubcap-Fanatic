@@ -10,26 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
-  m_Name: Information
+  m_Name: SpearTornado
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: OP
-  description: A
+  abilityName: Spear tornado
+  description: 'When pilling, shoots spears around all enemies
+
+'
   abilitySprite: {fileID: 0}
-  level: 0
-  trigger: 2
-  target: 1
+  level: -1
+  trigger: 6
+  target: 3
   when: 0
-  state: 2
-  effect: 9
-  levelsAbilitiesModifiers: []
-  effectDamage: 0
-  effectSizeRadius: 0
-  effectDuration: 6
+  state: 0
+  effect: 1
+  modifiersLevel1:
+  - stat: 0
+    newValue: 6
+  modifiersLevel2:
+  - stat: 0
+    newValue: 7
+  modifiersLevel3:
+  - stat: 0
+    newValue: 10
+  effectDamage: 5
+  effectSizeRadius: 20
+  effectDuration: 0
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
   isCapacityCooldown: 1
-  cooldownDuration: 15
+  cooldownDuration: 5
   statsModifier: 0
   howStatsModify: 0
   amount: []
