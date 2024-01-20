@@ -21,8 +21,12 @@ public class Delivery : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-			CarController.instance.pickedItems[0].gameObject.GetComponent<ObjectPickable>().OnDelivered();
-			OnDeliver();
+            if (CarController.instance.pickedItems.Count <= 0) return;
+            for (int i = 0; i < CarController.instance.pickedItems.Count; i++)
+            {
+                CarController.instance.pickedItems[i].gameObject.GetComponent<ObjectPickable>().OnDelivered();
+                OnDeliver();
+            }
         }
     }
     
