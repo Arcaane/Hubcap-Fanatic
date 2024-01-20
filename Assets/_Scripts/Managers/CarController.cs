@@ -334,7 +334,7 @@ public class CarController : CarBehaviour
     private int currentCollsionBeforeDropDeliver;
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Wall"))
         {
             //Debug.Log(other.relativeVelocity.magnitude);
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
@@ -357,10 +357,7 @@ public class CarController : CarBehaviour
                 Destroy(Instantiate(fxBounce, other.contacts[0].point, Quaternion.LookRotation(other.contacts[0].normal)),2);
             }
 
-            if (other.gameObject.CompareTag("Wall"))
-            {
-                CarAbilitiesManager.instance.OnWallCollision.Invoke(other);
-            }
+            CarAbilitiesManager.instance.OnWallCollision.Invoke(other);
             
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }

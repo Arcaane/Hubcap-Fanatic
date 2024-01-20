@@ -95,16 +95,15 @@ public class UIIndic : MonoBehaviour
         }
         EnableOrDisableDeliveryZone();
     }
-    
-    void CreateIndicForConvoy()
+
+    public void CreateIndicForConvoy(GameObject convoy)
     {
         TargetUI convoyUI = Instantiate(indic, Vector3.zero, quaternion.identity, uiParent).GetComponent<TargetUI>();
         convoyUI.targetType = TargetType.Convoy;
-        convoyUI.objBinded = ConvoyManager.instance.currentConvoy != null ? ConvoyManager.instance.currentConvoy.gameObject : ConvoyManager.instance.gameObject;
+        convoyUI.objBinded = convoy;
         convoyUI.indexDeliveryPoints = 0;
         targetUIPrefab.Add(convoyUI);
         obj.Add(convoyUI.objBinded);
-        EnableOrDisableSpecificUI(3);
     }
     
     /*void CreateIndicForMerchant()
@@ -138,10 +137,7 @@ public class UIIndic : MonoBehaviour
         }
     }
 
-    public void EnableOrDisableSpecificUI(int index, bool enable = false)
-    {
-        targetUIPrefab[index].gameObject.SetActive(enable);
-    }
+    
     
 
     public void EnableOrDisableDeliveryZone(bool enable = false)
