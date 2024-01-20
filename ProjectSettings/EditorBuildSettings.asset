@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Scenes/AurelTestScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/PROTO_WE_Start.unity
     guid: 77e523c74ca1a7b42a1c9a915908f302
   - enabled: 1
