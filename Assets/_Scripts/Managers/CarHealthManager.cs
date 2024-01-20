@@ -100,6 +100,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
     public void TakeHeal(int i)
     {
         lifePoints += i;
+        if (lifePoints > maxLifePoints) lifePoints = maxLifePoints;
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
         UIManager.instance.SetLifePlayerText(lifePoints);
     }

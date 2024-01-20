@@ -50,6 +50,8 @@ public class AntennaArea : MonoBehaviour
     
     [SerializeField] private SphereCollider sCol;
     [SerializeField] private MeshRenderer fillAmountMeshRenderer;
+    [SerializeField] private int healToGive;
+    [SerializeField] private GameObject zoneDebug;
     
     private void Start()
     {
@@ -60,18 +62,10 @@ public class AntennaArea : MonoBehaviour
     {
         switch (currentAntennaState)
         {
-             case AntennaState.IsInactive:
-                    DeactivatePowerAntenna();
-                 break;
-                case AntennaState.IsBeingCaptured:
-                    BeingCaptured();
-                 break;
-                case AntennaState.IsBeingLeaved:
-                    BeingLeaved();
-                 break;
-                case AntennaState.AntennaIsActivated:
-                    AntennaCaptured();
-                 break;
+             case AntennaState.IsInactive: DeactivatePowerAntenna(); break;
+             case AntennaState.IsBeingCaptured: BeingCaptured(); break; 
+             case AntennaState.IsBeingLeaved: BeingLeaved(); break;
+             case AntennaState.AntennaIsActivated: AntennaCaptured(); break;
         }
     }
     private void SetupAntennaValue()
@@ -83,6 +77,7 @@ public class AntennaArea : MonoBehaviour
         fillAmountValue = 0;
         timeSinceCaptured = 0f;
         isCapturing = false;
+        fillAmountMeshRenderer.materials[0].SetColor("_fillColor", new Color(0, 147, 255));
 
         //Set Size For the Rendering Part
         if (collider != null)
@@ -100,7 +95,7 @@ public class AntennaArea : MonoBehaviour
         timerLeaving = 0;
         timerCapturing -= Time.deltaTime;
         fillAmountValue = 1 - (timerCapturing / captureDuration);
-        //fillAmountMeshRenderer.material.SetFloat("");
+        fillAmountMeshRenderer.materials[0].SetFloat("_time", fillAmountValue);
         if (timerCapturing < 0)
         {
             currentAntennaState = AntennaState.AntennaIsActivated;
@@ -120,8 +115,8 @@ public class AntennaArea : MonoBehaviour
                 timerCapturing = captureDuration;
                 fillAmountValue = 0;
             }
-
-            debugImage.fillAmount = fillAmountValue;
+            
+            fillAmountMeshRenderer.materials[0].SetFloat("_time", fillAmountValue);
             timerLeaving = timeBeforeDecreasing;
             if (fillAmountValue < 0) fillAmountValue = 0;
         }
@@ -130,106 +125,38 @@ public class AntennaArea : MonoBehaviour
     private void AntennaCaptured()
     {
         currentAntennaState =  AntennaState.AntennaIsActivated;
-        AntennaDiscoverMap();
-    }
-
-    private void AntennaDiscoverMap()
-    {
-        DisableAntennaTowerChild();
-        AntennaDiscoverEffect();
+        CarHealthManager.instance.TakeHeal(healToGive);
+        Debug.Log("Heal Player: " + healToGive);
+        sCol.enabled = false;
+        zoneDebug.SetActive(false);
         
-        timerActivation += Time.deltaTime;
-        if (timerActivation >= activationTowerDuration)
-        {
-            currentAntennaState = AntennaState.IsInactive;
-            timerActivation = 0;
-        }
-    }
-
-    private void AntennaDiscoverEffect()
-    {
-        CheckDistanceToConvoy(); //Convoy
-        CheckDistanceToMerchand(); //Merchant  
+        currentAntennaState = AntennaState.IsInactive;
     }
     
-
-    private void CheckDistanceToTarget(Transform targetTransform, TargetType targetType, ref bool targetIsInRange, List<int> indexList)
-    {
-        if (targetTransform != null && !targetIsInRange)
-        {
-            Vector3 antennaPosition = transform.position;
-            Vector3 targetPosition = targetTransform.position;
-            float distance = Vector3.Distance(antennaPosition, targetPosition);
-
-            if (distance < antennaEffectSize)
-            {
-                targetIsInRange = true;
-            }
-        }
-    }
-
-    private void CheckDistanceToConvoy()
-    {
-        if (ConvoyManager.instance?.currentConvoy != null)
-        {
-            CheckDistanceToTarget(ConvoyManager.instance.currentConvoy.transform, TargetType.Convoy,
-                ref convoyIsInRange, indexList);
-        }
-        if(convoyIsInRange) UIIndic.instance.EnableOrDisableSpecificUI(3, true);
-    }
-
-    private void CheckDistanceToMerchand()
-    {
-        CheckDistanceToTarget(MerchantBehavior.instance?.gameObject?.transform, TargetType.Merchant, ref merchantIsInRange, indexList);
-        if(merchantIsInRange) UIIndic.instance.EnableOrDisableSpecificUI(4, true);
-    }
-
     private void TurnOnAntenna()
     {
         EnableAntennaTowerChild();
         SetupAntennaValue();
     }
-
     
     private void DeactivatePowerAntenna()
     {
-        if (convoyIsInRange)
-        {
-            UIIndic.instance.EnableOrDisableSpecificUI(3);
-            convoyIsInRange = false;
-        }
-        if (merchantIsInRange)
-        {
-            UIIndic.instance.EnableOrDisableSpecificUI(4);
-            merchantIsInRange = false;
-        }
-        
         timeSinceCaptured += Time.deltaTime;
+        fillAmountMeshRenderer.materials[0].SetColor("_fillColor", Color.Lerp(Color.red, Color.green, timeSinceCaptured / reactivateTimeDelay));
+        fillAmountMeshRenderer.materials[0].SetFloat("_time", 1 - (timeSinceCaptured / reactivateTimeDelay));
         if (timeSinceCaptured >= reactivateTimeDelay)
         {
             TurnOnAntenna();
         }
     }
     
-    
     private void EnableAntennaTowerChild()
     {
-        gameObject.GetComponent<SphereCollider>().enabled = true;
-        foreach (Transform child in parentFodder)
-        {
-            child.gameObject.SetActive(true);
-        }
+        sCol.enabled = true;
+        zoneDebug.gameObject.SetActive(true);
+        // Antenne réactivée
     }
-
-    private void DisableAntennaTowerChild()
-    {
-        gameObject.GetComponent<SphereCollider>().enabled = false;
-        foreach (Transform child in parentFodder)
-        {
-            child.gameObject.SetActive(false);
-        }
-    }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
