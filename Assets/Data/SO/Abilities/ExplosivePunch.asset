@@ -21,7 +21,7 @@ MonoBehaviour:
   target: 0
   when: 0
   state: 0
-  effect: 4
+  effect: 0
   modifiersLevel1: []
   modifiersLevel2: []
   modifiersLevel3: []
@@ -38,3 +38,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: -1
