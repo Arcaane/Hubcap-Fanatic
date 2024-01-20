@@ -40,6 +40,7 @@ namespace Abilities
         public int slotAbilitiesAmount = 4;
         public int goldAmountWonOnRun;
         [SerializeField] public int damageOnCollisionWithEnemy;
+        [SerializeField] public float overallAbilitiesCooldown = 0;
         
         [HideInInspector] public float baseSpeedOnRoad;
         [HideInInspector] public float baseSpeedOnSand;
@@ -49,6 +50,13 @@ namespace Abilities
         [HideInInspector] public float baseCollisionDamage;
         [HideInInspector] public float baseCritDamage = 0;
         [HideInInspector] public float baseShotgunDuration = 0;
+        [HideInInspector] public float baseMaxHealth = 0;
+        [HideInInspector] public float baseArmorPercent = 0;
+        [HideInInspector] public float baseAttackCooldown = 0;
+        [HideInInspector] public float baseOverallAbilitiesCooldown = 0;
+        [HideInInspector] public float baseHitBeforeDeliverDrop = 0;
+        [HideInInspector] public float baseSpeedRetainedOnBounce = 0;
+        
 
         private void Awake()
         {
@@ -67,6 +75,12 @@ namespace Abilities
             baseShotgunDamage = car.shotgunDamages;
             baseCollisionDamage = damageOnCollisionWithEnemy;
             baseShotgunDuration = car.shootDuration;
+            baseMaxHealth = CarHealthManager.instance.maxLifePoints;
+            baseAttackCooldown = car.shootDuration;
+            baseOverallAbilitiesCooldown = 0;
+            baseArmorPercent = CarHealthManager.instance.armorInPercent;
+            baseHitBeforeDeliverDrop = car.CollsionBeforeDropDeliver;
+            baseSpeedRetainedOnBounce = car.speedRetained;
         }
 
         public void Update()
