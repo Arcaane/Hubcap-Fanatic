@@ -24,14 +24,14 @@ MonoBehaviour:
   effect: 5
   modifiersLevel1:
   - stat: 1
-    newValue: 12
+    newValue: 15
   modifiersLevel2:
   - stat: 1
-    newValue: 15
+    newValue: 20
   modifiersLevel3:
   - stat: 0
-    newValue: 5
-  effectDamage: 3
+    newValue: 10
+  effectDamage: 5
   effectSizeRadius: 10
   effectDuration: 0
   effectDelayMilliseconds: 0

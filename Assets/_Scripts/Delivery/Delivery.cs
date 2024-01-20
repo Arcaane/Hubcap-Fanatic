@@ -22,8 +22,9 @@ public class Delivery : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             if (CarController.instance.pickedItems.Count <= 0) return;
-            for (int i = 0; i < CarController.instance.pickedItems.Count; i++)
+            for (int i = CarController.instance.pickedItems.Count - 1; i >= 0; i--)
             {
+                Debug.Log("Delivered");
                 CarController.instance.pickedItems[i].gameObject.GetComponent<ObjectPickable>().OnDelivered();
                 OnDeliver();
             }
@@ -51,6 +52,4 @@ public class Delivery : MonoBehaviour
         await Task.Delay(1500);
         boxMesh.enabled = false;
     }
-           
-      
 }
