@@ -72,6 +72,8 @@ public class CarController : CarBehaviour
         {
             instance = this;
         }
+        
+        currentCollsionBeforeDropDeliver = CollsionBeforeDropDeliver;
     }
     
     private void Update()
@@ -326,8 +328,10 @@ public class CarController : CarBehaviour
     
 
     #endregion
-    
-    
+
+
+    public int CollsionBeforeDropDeliver = 3;
+    private int currentCollsionBeforeDropDeliver;
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Wall"))
@@ -361,6 +365,10 @@ public class CarController : CarBehaviour
         
         if (other.gameObject.CompareTag("Enemy") && pickedItems.Count > 0)
         {
+            currentCollsionBeforeDropDeliver--;
+
+            if (currentCollsionBeforeDropDeliver > 0) return;
+            
             for (int i = 0; i < pickedItems.Count; i++)
             {
                 ObjectPickable obj = pickedItems[i].GetComponent<ObjectPickable>();
@@ -369,6 +377,7 @@ public class CarController : CarBehaviour
             }
             
             pickedItems.Clear();
+            currentCollsionBeforeDropDeliver = CollsionBeforeDropDeliver;
         }
     }
     
