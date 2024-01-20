@@ -45,6 +45,6 @@ public class ShopOption : MonoBehaviour
         CarAbilitiesManager.instance.AddAbility(shopAbility);
         CarExperienceManager.Instance.levelUpTokensAvailable--;
         UIManager.instance.SetTokenText(CarExperienceManager.Instance.levelUpTokensAvailable);
-        MerchantBehavior.instance.shop.SetupItemsInShop();
+        TestShop.instance.SetupItemsInShop();
     }
 }
