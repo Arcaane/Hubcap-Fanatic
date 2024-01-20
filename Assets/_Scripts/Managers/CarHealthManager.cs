@@ -11,8 +11,9 @@ public class CarHealthManager : MonoBehaviour, IDamageable
 {
     public static CarHealthManager instance;
 
-    [SerializeField] private int maxLifePoints = 100;
+    [SerializeField] public int maxLifePoints = 100;
     [SerializeField] private int lifePoints = 100;
+    [SerializeField] public float armorInPercent;
 
     [SerializeField] private Material[] mat;
     [SerializeField] private int feedbackDurationInMS = 300;
@@ -43,15 +44,14 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
         UIManager.instance.SetLifePlayerText(lifePoints);
         volume.profile.TryGet(out vt);
-        
-        
     }
     
     public void TakeDamage(int damages)
     {
         if (!IsDamageable()) return;
 
-        lifePoints -= damages;
+        var a = Mathf.FloorToInt(damages - (damages *  armorInPercent/100)); 
+        lifePoints -= a;
         ActiveDamageFB();
         
         ColorParameter colorParameter = new ColorParameter(Color.Lerp(Color.red, Color.black, (float)lifePoints / maxLifePoints), false);
@@ -97,7 +97,6 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         moveOnDeath[0].DOFillAmount(1, 0.35f);
         moveOnDeath[1].DOFillAmount(1, 0.35f).OnComplete(() => asyncOperation.allowSceneActivation = true);
         // Switch scene
-        
     }
 
     public void TakeHeal(int i)

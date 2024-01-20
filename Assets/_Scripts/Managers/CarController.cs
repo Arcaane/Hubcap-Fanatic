@@ -10,7 +10,7 @@ public class CarController : CarBehaviour
     
     [Header("WALLBOUNCE")]
     [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")]
-    [SerializeField] private float speedRetained = 0.7f;
+    [SerializeField] public float speedRetained = 0.7f;
     [Tooltip("Le pourcentage de vitesse Max gardée lors d'un wallBounce")]
     [SerializeField] private float maxSpeedRetained = 0.8f;
     [Tooltip("L'angle Minimum ( 1 = 90° ) pour WallBounce")]

@@ -475,6 +475,66 @@ namespace Abilities
                     player.shotBeforeCritAmount = 2;
                     break;
                 }
+                case StatsModifier.Armor:
+                {
+                    CarHealthManager.instance.armorInPercent = howStatsModify switch
+                    {
+                        HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseArmorPercent - amount[level]),
+                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseArmorPercent + amount[level]),
+                        HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseArmorPercent * amount[level]),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                } break;
+                case StatsModifier.MaxHealth:
+                {
+                    CarHealthManager.instance.maxLifePoints = howStatsModify switch
+                    {
+                        HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseMaxHealth - amount[level]),
+                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseMaxHealth + amount[level]),
+                        HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseMaxHealth * amount[level]),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                } break;
+                case StatsModifier.HitBeforeDeliverDrop:
+                {
+                    player.CollsionBeforeDropDeliver = howStatsModify switch
+                    {
+                        HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseHitBeforeDeliverDrop - amount[level]),
+                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseHitBeforeDeliverDrop + amount[level]),
+                        HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseHitBeforeDeliverDrop * amount[level]),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                } break;
+                case StatsModifier.OverallAbilitiesCooldown:
+                {
+                    carAbilities.overallAbilitiesCooldown = howStatsModify switch
+                    {
+                        HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseOverallAbilitiesCooldown - amount[level]),
+                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseOverallAbilitiesCooldown + amount[level]),
+                        HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseOverallAbilitiesCooldown * amount[level]),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                } break;
+                case StatsModifier.AttackSpeCooldown:
+                {
+                    player.shootDuration = howStatsModify switch
+                    {
+                        HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseAttackCooldown - amount[level]),
+                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseAttackCooldown + amount[level]),
+                        HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseAttackCooldown * amount[level]),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                } break;
+                case StatsModifier.BouncePowerOnDrop:
+                {
+                    player.speedRetained = howStatsModify switch
+                    {
+                        HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseSpeedRetainedOnBounce - amount[level]),
+                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseSpeedRetainedOnBounce + amount[level]),
+                        HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseSpeedRetainedOnBounce * amount[level]),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                } break;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -485,10 +545,10 @@ namespace Abilities
         {
             if (!isCapacityCooldown) return;
             isInCooldown = true;
-            carAbilities.LaunchCo(cooldownDuration, index);
+            carAbilities.LaunchCo(cooldownDuration * (1 - carAbilities.overallAbilitiesCooldown/100), index);
             UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.gameObject.SetActive(true);
             UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.fillAmount = 1;
-            UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.DOFillAmount(0, cooldownDuration).OnComplete(
+            UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.DOFillAmount(0, cooldownDuration * (1 - carAbilities.overallAbilitiesCooldown/100)).OnComplete(
                 delegate
                 {
                     Debug.Log("Finish Cooldown");
@@ -579,7 +639,13 @@ public enum StatsModifier
     NitroCooldown,
     ShotgunDamage,
     CollisionDamage,
-    CriticalHit
+    CriticalHit,
+    MaxHealth,
+    AttackSpeCooldown,
+    OverallAbilitiesCooldown,
+    Armor,
+    HitBeforeDeliverDrop,
+    BouncePowerOnDrop
 }
 
 public enum HowStatsModify
