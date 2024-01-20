@@ -70,11 +70,16 @@ namespace Abilities
                 {
                     case AbilityTrigger.OnEnemyCollision:  carAbilities.OnEnemyCollision += Activate ; break;
                     case AbilityTrigger.OnWallCollision: carAbilities.OnWallCollision += Activate ; break;
-                    case AbilityTrigger.OnEnterState: carAbilities.OnStateEnter += Activate ; break;
-                    case AbilityTrigger.OnExitState: carAbilities.OnStateExit += Activate ; break;
                     case AbilityTrigger.OnUpdateState: carAbilities.OnUpdate += Activate; break;
                     case AbilityTrigger.OnEnemyDamageDealt: carAbilities.OnEnemyDamageTaken += Activate ; break;
                     case AbilityTrigger.OnPlayerDamageDealt: carAbilities.OnPlayerDamageTaken += Activate ; break;
+                    case AbilityTrigger.OnPill: carAbilities.OnPill += Activate ; break;
+                    case AbilityTrigger.OnBeginDrift: carAbilities.OnBeginDrift += Activate ; break;
+                    case AbilityTrigger.OnBeginNitro: carAbilities.OnBeginNitro += Activate ; break;
+                    case AbilityTrigger.OnEnemyHitWithShotgun: carAbilities.OnEnemyHitWithShotgun += Activate ; break;
+                    case AbilityTrigger.OnShotGunUsed: carAbilities.OnShotgunUsed += Activate ; break;
+                    case AbilityTrigger.OnEnemyKilled: carAbilities.OnEnemyKilled += Activate ; break;
+                    case AbilityTrigger.OnShotGunUsedWithoutTarget: carAbilities.OnShotgunUsedWithoutTarget += Activate ; break;
                     default: throw new ArgumentOutOfRangeException();
                 }
             }
@@ -113,8 +118,6 @@ namespace Abilities
                 case State.All: break;
                 case State.Default: if(!player.isDefault); return;
                 case State.Drift: if (!player.driftBrake) return; break;
-                case State.Straff: if(!player.isStraffing) return; break;
-                case State.Pill: if(!player.brakeMethodApplied) return; break;
                 case State.Nitro: if(!player.nitroMode) return; break;
                 default: throw new ArgumentOutOfRangeException(); break;
             }
@@ -494,12 +497,17 @@ namespace Abilities
 public enum AbilityTrigger
 {
     OnEnemyCollision,
+    OnEnemyHitWithShotgun,
+    OnShotGunUsed,
     OnWallCollision,
-    OnEnterState,
-    OnExitState,
+    OnBeginNitro,
+    OnBeginDrift,
+    OnPill,
     OnUpdateState,
     OnEnemyDamageDealt,
-    OnPlayerDamageDealt
+    OnPlayerDamageDealt,
+    OnEnemyKilled,
+    OnShotGunUsedWithoutTarget
 }
 
 public enum TargetAbility
@@ -524,8 +532,6 @@ public enum State
     All,
     Default,
     Drift,
-    Straff,
-    Pill,
     Nitro
 }
 

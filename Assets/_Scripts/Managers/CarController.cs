@@ -55,6 +55,9 @@ public class CarController : CarBehaviour
     public Transform cameraHolder;
     public float camDist;
 
+    public float pillValue;
+    public bool overSpeedPill;
+
     public List<GameObject> pickedItems = new();
 
     public State currentCarState;
@@ -142,6 +145,13 @@ public class CarController : CarBehaviour
                 UIManager.instance.SetShotJauge(shootTimes[i] / shootDuration,i);
             }
         }
+
+        if (overSpeedPill && speedFactor < pillValue)
+        {
+            overSpeedPill = false;
+            CarAbilitiesManager.instance.OnPill.Invoke();
+        }
+        if(!overSpeedPill && speedFactor > pillValue)overSpeedPill = true;
     }
 
     public bool canShoot()
@@ -184,9 +194,10 @@ public class CarController : CarBehaviour
         if (context.performed)
         {
             brakeForce = context.ReadValue<float>();
-            if (stickValue.x > 0.6f || stickValue.x < -0.6f)
+            if (!driftBrake && (stickValue.x > 0.6f || stickValue.x < -0.6f))
             {
                 driftBrake = true;
+                CarAbilitiesManager.instance.OnBeginDrift.Invoke();
                 foreach (var t in driftSparks) t.Play();
             }
         }
@@ -213,7 +224,7 @@ public class CarController : CarBehaviour
         if (context.started && canNitro)
         {
             nitroMode = true;
-            CarAbilitiesManager.instance.OnStateEnter.Invoke();
+            CarAbilitiesManager.instance.OnBeginNitro.Invoke();
             canNitro = false;
             smoke.Stop();
             smokeNitro.Play();
@@ -226,7 +237,6 @@ public class CarController : CarBehaviour
             smoke.Play();
             smokeNitro.Stop();
             targetSpeed = maxSpeed;
-            CarAbilitiesManager.instance.OnStateExit.Invoke();
         }
         
     }
@@ -249,6 +259,10 @@ public class CarController : CarBehaviour
             {
                 ShotgunHit();
             }
+            else
+            {
+                CarAbilitiesManager.instance.OnShotgunUsedWithoutTarget.Invoke();
+            }
 
             for (int i = 0; i < shootTimes.Length; i++)
             {
@@ -258,6 +272,8 @@ public class CarController : CarBehaviour
                     break;
                 }
             }
+            
+            CarAbilitiesManager.instance.OnShotgunUsed.Invoke();
         }
 
         if (context.started && isBomber && canShoot())
@@ -304,6 +320,7 @@ public class CarController : CarBehaviour
         }
         
         CarAbilitiesManager.instance.OnEnemyDamageTaken.Invoke(straffColider.enemyCar[0].gameObject);
+        CarAbilitiesManager.instance.OnEnemyHitWithShotgun.Invoke(straffColider.enemyCar[0].gameObject);
     }
     
     

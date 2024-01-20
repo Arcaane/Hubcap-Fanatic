@@ -385,6 +385,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         if (hp > 1 && !isDead) return;
         
         Debug.Log("Ennemi Tué");
+        CarAbilitiesManager.instance.OnEnemyKilled.Invoke(gameObject);
         CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
         isDead = true;
         OnPoliceCarDie.Invoke(gameObject);

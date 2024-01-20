@@ -22,11 +22,17 @@ namespace Abilities
         
         public ObjectDelegate OnEnemyCollision = delegate {  };
         public CollisionDelegate OnWallCollision = delegate {  };
-        public DefaultDelegate OnStateEnter = delegate {  };
         public DefaultDelegate OnStateExit = delegate {  };
         public ObjectDelegate OnEnemyDamageTaken = delegate {  };
         public DefaultDelegate OnPlayerDamageTaken = delegate {  };
         public DefaultDelegate OnUpdate = delegate {  };
+        public ObjectDelegate OnEnemyHitWithShotgun = delegate {  };
+        public DefaultDelegate OnShotgunUsed = delegate {  };
+        public DefaultDelegate OnBeginNitro = delegate {  };
+        public DefaultDelegate OnBeginDrift = delegate {  };
+        public DefaultDelegate OnPill = delegate {  };
+        public ObjectDelegate OnEnemyKilled = delegate {  };
+        public DefaultDelegate OnShotgunUsedWithoutTarget = delegate {  };
 
         public List<AbilitiesSO> passiveAbilities;
         public List<AbilitiesSO> statsAbilities;
