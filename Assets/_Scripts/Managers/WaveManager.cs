@@ -185,6 +185,15 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    [ContextMenu("Change Name")]
+    private void ChangeName()
+    {
+        for (int i = 0; i < waves.Count; i++)
+        {
+            waves[i].waveName = "Wave " + (i + 1);
+        }
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
