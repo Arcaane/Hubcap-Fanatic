@@ -27,6 +27,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public Vector2 randomOffset;
     public Vector2 maxRngOffset;
     public Transform currentTarget;
+    public float angleToCollisionDamage = 0.90f;
 
     [Header("WALLBOUNCE")] [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")] [SerializeField]
     private float speedRetained = 0.7f;
@@ -61,6 +62,14 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public MeshRenderer[] metalParts;
     public Material metal;
 
+    [Header("BERSERK CAR")] 
+    public bool runToPlayer;
+    public float overshootValue = 12;
+    public float randomOvershoot = 2;
+    public float driveByPhaseOvershoot = 8;
+    public float distanceToPlayer;
+    private float saveOvershoot;
+
     void Start()
     {
         if (policeCars == null) policeCars = new List<PoliceCarBehavior>();
@@ -71,6 +80,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             Random.Range(-maxRngOffset.y, maxRngOffset.y));
 
         mat = new Material[meshR.materials.Length];
+
+        if (Random.value > 0.5f) distanceToPlayer *= -1;
+        
         for (int i = 0; i < mat.Length; i++)
         {
             mat[i] = new Material(meshR.materials[i]);
@@ -81,6 +93,8 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         {
             metalParts[i].material = metal;
         }
+
+        saveOvershoot = overshootValue;
     }
 
     private void OnEnable()
@@ -95,7 +109,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     private void OnDisable()
     {
-        
+        overshootValue = saveOvershoot;
         policeCars.Remove(this);
     }
     
@@ -110,21 +124,71 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     private void SoloUpdate()
     {
-        if (target == null)
+
+        if (runToPlayer)
         {
-            target = CarController.instance.transform;
+            if (target == null)
+            {
+                target = CarController.instance.transform;
+            }
+
+            Vector3 targetPos = currentTarget.position + currentTarget.forward * overshootValue * CarController.instance.globalSpeedFactor;
+
+            float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
+                new Vector2(targetPos.x, targetPos.z) -
+                new Vector2(transform.position.x, transform.position.z));
+
+            rotationValue = -Mathf.Clamp(angleToTarget / 10, -1, 1);
+
+            if (angleToTarget > 90 || angleToTarget < -90) driftBrake = true;
+            
+            Debug.DrawLine(transform.position,targetPos,Color.cyan);
+            
+            if (Vector3.Dot((currentTarget.position - transform.position).normalized, -currentTarget.forward) < 0)
+            {
+                runToPlayer = false;
+                overshootValue = saveOvershoot;
+                distanceToPlayer *= -1;
+            }
         }
+        else
+        {
+            float rot = 0;
+            float result;
+            int nb = 2;
 
-        Vector3 targetPos = currentTarget.position + currentTarget.right * randomOffset.x +
-                            currentTarget.forward * randomOffset.y;
+            Vector3 targetPos = currentTarget.position + currentTarget.right * distanceToPlayer + 
+                                currentTarget.forward * driveByPhaseOvershoot;
+            float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
+                new Vector2(targetPos.x, targetPos.z) -
+                new Vector2(transform.position.x, transform.position.z));
+            rot = -Mathf.Clamp(angleToTarget / 10, -1, 1) * 2;
 
-        float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
-            new Vector2(targetPos.x, targetPos.z) -
-            new Vector2(transform.position.x, transform.position.z));
+            if (angleToTarget > 90 || angleToTarget < -90) driftBrake = true;
 
-        rotationValue = -Mathf.Clamp(angleToTarget / 10, -1, 1);
-
-        if (angleToTarget > 90 || angleToTarget < -90) driftBrake = true;
+            Debug.DrawLine(transform.position,targetPos,Color.magenta);
+            
+            if (Vector3.Dot((targetPos - transform.position).normalized, currentTarget.forward) < 0)
+            {
+                runToPlayer = true;
+                RandomOvershoot();
+            }
+            
+            for (int i = 0; i < policeCars.Count; i++)
+            {
+                if (policeCars[i] == this || !policeCars[i].gameObject.activeSelf) continue;
+                result = GetRotationValueToObject(policeCars[i].transform, attractiveRadius, alignementRadius,
+                    repulsiveRadius);
+                if (result > -10)
+                {
+                    rot += result;
+                    nb++;
+                }
+            }
+            
+            rotationValue = rot / nb;
+        }
+        
 
         OnMove();
     }
@@ -213,6 +277,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     private void ConvoyUpdate()
     {
         if (!attackMode) BoidUpdate();
+        else if (driveByCar) DriveByUpdate();
         else SoloUpdate();
     }
 
@@ -339,7 +404,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
                 var b = transform.forward;
                 b.Normalize();
 
-                if (Vector3.Dot(a, b) > 0.90f) // EnemyCollision
+                if (Vector3.Dot(a, b) > angleToCollisionDamage) // EnemyCollision
                 {
                     CarHealthManager.instance.TakeDamage(carDamage);
                 }
@@ -416,6 +481,12 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             objectPickable.GetComponent<ObjectPickable>().rb.AddForce(collision.contacts[0].normal.normalized * 100);
             objectPickable = null;
         }
+    }
+
+    private void RandomOvershoot()
+    {
+        float rand = Random.Range(-randomOvershoot, randomOvershoot);
+        overshootValue += rand;
     }
     
    
