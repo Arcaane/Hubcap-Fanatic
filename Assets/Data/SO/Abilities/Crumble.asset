@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityName: Crumble
   description: When colliding with a wall in nitro, deal damage to enemies around
     you.
-  abilitySprite: {fileID: 0}
+  abilitySprite: {fileID: 21300000, guid: 2d38965ae3d13c846b171058d33c9101, type: 3}
   level: -1
   trigger: 3
   target: 3

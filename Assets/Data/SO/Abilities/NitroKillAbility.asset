@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 0
   abilityName: NitroKill
   description: When colliding with an enemy while in nitro, deal some damage to him
-  abilitySprite: {fileID: 21300000, guid: 3a474898122d82c48bcadf0e5e1d64b9, type: 3}
+  abilitySprite: {fileID: 21300000, guid: a5799dab08f90774daa14a7631c7b4ac, type: 3}
   level: -1
   trigger: 0
   target: 0
