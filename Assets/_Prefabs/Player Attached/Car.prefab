@@ -11060,12 +11060,12 @@ MonoBehaviour:
     wheelVisual: {fileID: 8313525766690617819}
     directionalDampening: 0.325
     drivingFactor: 1
-    steeringFactor: 6.25
+    steeringFactor: 6.5
   - transform: {fileID: 422089550907774201}
     wheelVisual: {fileID: 8166388250625827031}
     directionalDampening: 0.325
     drivingFactor: 1
-    steeringFactor: 6.25
+    steeringFactor: 6.5
   - transform: {fileID: 2470873284411068704}
     wheelVisual: {fileID: 2313699898289759998}
     directionalDampening: 0.3
@@ -11210,7 +11210,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   offRoadSpeed: 22.5
-  offRoadDeccelerationFactor: 0.55
+  offRoadDeccelerationFactor: 0.625
   shield: {fileID: 7808446511201898702}
   dirCam: 13.808237
   cameraHolder: {fileID: 0}
@@ -11471,6 +11471,7 @@ MonoBehaviour:
   baseShotgunDamage: 0
   baseCollisionDamage: 0
   baseCritDamage: 0
+  baseShotgunDuration: 0
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
