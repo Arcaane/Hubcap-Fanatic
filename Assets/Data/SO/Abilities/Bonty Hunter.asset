@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
-  m_Name: PewPew
+  m_Name: Bonty Hunter
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: Bonnie and Clyde
-  description: Shoot the nearest enemy when in drift
+  abilityName: Bounty Hunter
+  description: When an enemy takes damage, all the enemies around them give gold
+    if they are killed promptly.
   abilitySprite: {fileID: 0}
-  level: -1
-  trigger: 7
-  target: 4
-  when: 3
-  state: 2
-  effect: 2
+  level: 0
+  trigger: 8
+  target: 2
+  when: 0
+  state: 0
+  effect: 10
   modifiersLevel1:
   - stat: 3
     newValue: 800
@@ -31,10 +32,10 @@ MonoBehaviour:
   modifiersLevel3:
   - stat: 3
     newValue: 300
-  effectDamage: 2
+  effectDamage: 0
   effectSizeRadius: 0
-  effectDuration: 0
-  effectDelayMilliseconds: 1000
+  effectDuration: 2
+  effectDelayMilliseconds: 0
   effectRepeatDelay: 0
   isCapacityCooldown: 0
   cooldownDuration: 0
@@ -44,4 +45,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  index: -1
+  index: 1
