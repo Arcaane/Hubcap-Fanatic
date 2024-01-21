@@ -1648,15 +1648,7 @@ MonoBehaviour:
   - defenseCar: 1
     point: {fileID: 3892599549650523947}
   - defenseCar: 1
-    point: {fileID: 1495550045599275385}
-  - defenseCar: 1
-    point: {fileID: 3875005127554149280}
-  - defenseCar: 1
-    point: {fileID: 2476109045281294556}
-  - defenseCar: 1
-    point: {fileID: 4659575605619930720}
-  - defenseCar: 1
-    point: {fileID: 6765755733789992326}
+    point: {fileID: 3892599549650523947}
   attackTimer: 1
   timeBetweenAttack: 1
   repulsiveRadius: 4

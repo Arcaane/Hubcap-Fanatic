@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 0
   abilityName: Bloody Bucks
   description: Shooting an enemy now restores health
-  abilitySprite: {fileID: 0}
+  abilitySprite: {fileID: 21300000, guid: 9ac5a1b7337d49d42a7dd641cdb51a56, type: 3}
   level: -1
   trigger: 1
   target: 0

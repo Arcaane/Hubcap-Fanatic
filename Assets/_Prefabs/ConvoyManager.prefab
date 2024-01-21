@@ -1477,10 +1477,9 @@ MonoBehaviour:
   currentConvoy: {fileID: 0}
   convoysPrefabs:
   - {fileID: 6631538577658509772, guid: e644259509ffe5f43ae61b76bc9fbad1, type: 3}
-  - {fileID: 6631538577658509772, guid: e644259509ffe5f43ae61b76bc9fbad1, type: 3}
-  - {fileID: 6631538577658509772, guid: e644259509ffe5f43ae61b76bc9fbad1, type: 3}
-  - {fileID: 6631538577658509772, guid: e644259509ffe5f43ae61b76bc9fbad1, type: 3}
-  - {fileID: 6631538577658509772, guid: e644259509ffe5f43ae61b76bc9fbad1, type: 3}
+  - {fileID: 6631538577658509772, guid: d6e688c0c37a06b47b83f81c988ce014, type: 3}
+  - {fileID: 6631538577658509772, guid: d6e688c0c37a06b47b83f81c988ce014, type: 3}
+  - {fileID: 6631538577658509772, guid: 3f66929e882ca764d9ad965bd1002cf3, type: 3}
   rails: {fileID: 2786731583632930154}
   convoyPower: 0
 --- !u!1 &6895424254053095671
