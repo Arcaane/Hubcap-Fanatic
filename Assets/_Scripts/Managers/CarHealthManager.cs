@@ -33,6 +33,12 @@ public class CarHealthManager : MonoBehaviour, IDamageable
 
     private void Start()
     {
+        moveOnDeath[0].fillAmount = 1;
+        moveOnDeath[1].fillAmount = 1;
+        
+        moveOnDeath[0].DOFillAmount(0, 0.35f);
+        moveOnDeath[1].DOFillAmount(0, 0.35f);
+        
         mat = new Material[renderer.materials.Length];
         for (int i = 0; i < mat.Length; i++)
         {
