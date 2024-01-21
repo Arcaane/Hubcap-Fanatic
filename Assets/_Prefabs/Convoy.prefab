@@ -1643,19 +1643,19 @@ MonoBehaviour:
   detectionDelay: 3
   defenseCars: []
   defensePoints:
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
+  - defenseCar: 2
     point: {fileID: 2936625324320698738}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
+  - defenseCar: 2
     point: {fileID: 3892599549650523947}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
+  - defenseCar: 2
     point: {fileID: 1495550045599275385}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
+  - defenseCar: 2
     point: {fileID: 3875005127554149280}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
+  - defenseCar: 2
     point: {fileID: 2476109045281294556}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
+  - defenseCar: 2
     point: {fileID: 4659575605619930720}
-  - defenseCar: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
+  - defenseCar: 2
     point: {fileID: 6765755733789992326}
   attackTimer: 1
   timeBetweenAttack: 1
