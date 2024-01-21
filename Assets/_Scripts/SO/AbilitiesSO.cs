@@ -132,7 +132,7 @@ namespace Abilities
             switch (state)
             {
                 case State.All: break;
-                case State.Default: if(!player.isDefault); return;
+                case State.Default: if(player.driftBrake || player.nitroMode) return; break;
                 case State.Drift: if (!player.driftBrake) return; break;
                 case State.Nitro: if(!player.nitroMode) return; break;
                 default: throw new ArgumentOutOfRangeException(); break;
@@ -331,6 +331,7 @@ namespace Abilities
             CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
             if (carBehaviour == null || carBehaviour.isScorch) return;
             carBehaviour.isScorch = true;
+            Debug.Log("SCORCH SET : " + carBehaviour.isScorch);
             
             var a = Mathf.FloorToInt(_effectDuration / ((float)_effectDelayMilliseconds / 1000));
             for (int i = 0; i < a; i++)
