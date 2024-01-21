@@ -55,6 +55,6 @@ Material:
     - _Speed: 0.2
     - _YOffset: 1.15
     m_Colors:
-    - _MainColor: {r: 2.6701574, g: 0.964754, b: 0, a: 0}
+    - _MainColor: {r: 4.2370944, g: 1.5309037, b: 0, a: 0}
     - _OutMinMax: {r: -0.09, g: 0.15, b: 0, a: 0}
   m_BuildTextureStacks: []
