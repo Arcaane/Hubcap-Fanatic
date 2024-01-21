@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -41,12 +42,14 @@ public class SpawnZoneDelivery : MonoBehaviour
     private Transform capturePart;
 
     [SerializeField] private ParticleSystem effectOnCapture;
-    [SerializeField] private ParticleSystem effectOnActivation;
     [SerializeField] private List<ParticleSystem> smokeFX;
 
-    [Header("Renderer")] [SerializeField] private Image debugImage;
+    [Header("Renderer")]
     [SerializeField] private RectTransform rect;
     [SerializeField] private Transform plane;
+
+    [SerializeField] private GameObject psDrop;
+    [SerializeField] private List<ParticleSystem> psDropList;
 
     private SphereCollider collider;
 
@@ -67,6 +70,11 @@ public class SpawnZoneDelivery : MonoBehaviour
         
         randomPosition2D = Random.insideUnitCircle * currentSize;
         randomPosition = new Vector3(randomPosition2D.x, 0f, randomPosition2D.y) + transform.position;
+        psDrop.SetActive(false);
+        foreach (ParticleSystem ps in psDropList)
+        {
+            ps.Stop();
+        }
     }
 
     private void Update()
@@ -74,7 +82,9 @@ public class SpawnZoneDelivery : MonoBehaviour
         if (currenSpawnState == SpawnDeliveryState.Delivered) return;
         
         timer -= Time.deltaTime;
-        debugImage.fillAmount = 1 - (timer / deliveryDuration);
+        
+        plane.GetComponent<MeshRenderer>().material.SetFloat("_time", timer / deliveryDuration);
+
         if (timer < 0)
         {
             DeliveryZone(randomPosition);
@@ -100,9 +110,6 @@ public class SpawnZoneDelivery : MonoBehaviour
     {
         currentSize = initSize;
         timer = deliveryDuration;
-
-        rect.sizeDelta = new Vector2(currentSize * 2, currentSize * 2);
-        plane.localScale = new Vector3(currentSize / 4.25f, currentSize / 4.25f, currentSize / 4.25f);
     }
 
     private void DeliveryZone(Vector3 randomPosition)
@@ -113,13 +120,23 @@ public class SpawnZoneDelivery : MonoBehaviour
     
     private void GivePlayerRessources(Vector3 randomPosition)
     {
-        GameObject spawnedObject = Instantiate(packageToDeliver, randomPosition + new Vector3(0, 1.5f, 0), Quaternion.identity);
-        spawnedObject.transform.parent = PickableManager.Instance.worldSocket;
-        hasDelivered = true;
+        psDrop.transform.position = randomPosition + new Vector3(0, 1.5f, 0);
+        psDrop.SetActive(true);
         DisableZone();
+        StartCoroutine(DelayedAction(() =>
+        {
+            GameObject spawnedObject = Instantiate(packageToDeliver, randomPosition + new Vector3(0, 1.5f, 0), Quaternion.identity);
+            spawnedObject.transform.parent = PickableManager.Instance.worldSocket;
+            hasDelivered = true;
+        }, 0.5f));
     }
 
-
+    private IEnumerator DelayedAction(Action action, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        action?.Invoke();
+    }
+    
     private void EnableZone()
     {
         foreach (Transform child in capturePart)
@@ -138,6 +155,10 @@ public class SpawnZoneDelivery : MonoBehaviour
         //Reset Vector
         randomPosition2D = Vector2.zero;
         randomPosition = Vector3.zero;
+        for (int i = 0; i < psDropList.Count; i++)
+        {
+            psDropList[i].Stop();
+        }
 
         StartCoroutine(DisableWithDelay());
     }

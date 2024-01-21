@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class ObjectPickable : MonoBehaviour, IPickupable
@@ -15,7 +16,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     [SerializeField] private SphereCollider sCol;
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] public Rigidbody rb;
-    [SerializeField] private ParticleSystem ps;
+    [SerializeField] private ParticleSystem psDrop;
 
     public void Start()
     {
@@ -113,8 +114,9 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         sCol.enabled = true;
         bCol.enabled = true;
         rb.isKinematic = false;
-        ps.Play();
+        psDrop.Play();
         yield return new WaitForSeconds(delay);
+        meshRenderer.enabled = true;
         isPickable = true;
     }
 

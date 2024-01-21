@@ -65,6 +65,8 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Speed: 0.1
+    - _Timer: 1
     m_Colors:
+    - _CaptureColor: {r: 0, g: 0.8888173, b: 1, a: 1}
     - _MainColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
