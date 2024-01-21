@@ -16,23 +16,23 @@ MonoBehaviour:
   abilityName: Life Steal
   description: 'When player stop abruptly, steal life points from enemy around him. '
   abilitySprite: {fileID: 21300000, guid: 69a1f5c41c9eadd46a1249eb7e1c2e07, type: 3}
-  level: -1
+  level: 1
   trigger: 6
   target: 3
   when: 0
   state: 0
   effect: 5
   modifiersLevel1:
-  - stat: 1
-    newValue: 15
+  - stat: 0
+    newValue: 2
   modifiersLevel2:
   - stat: 1
-    newValue: 20
+    newValue: 10
   modifiersLevel3:
   - stat: 0
-    newValue: 10
-  effectDamage: 5
-  effectSizeRadius: 10
+    newValue: 3
+  effectDamage: 1
+  effectSizeRadius: 5
   effectDuration: 0
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
@@ -44,3 +44,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  index: 3

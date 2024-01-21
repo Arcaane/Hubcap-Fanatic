@@ -21,7 +21,7 @@ MonoBehaviour:
   level: 0
   trigger: 10
   target: 2
-  when: 1
+  when: 0
   state: 0
   effect: 3
   modifiersLevel1:
@@ -38,11 +38,12 @@ MonoBehaviour:
   effectDuration: 3
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
-  isCapacityCooldown: 0
-  cooldownDuration: 0
+  isCapacityCooldown: 1
+  cooldownDuration: 5
   statsModifier: 0
   howStatsModify: 0
   amount: []
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: 6
