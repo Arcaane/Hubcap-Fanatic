@@ -48,8 +48,7 @@ public class SpawnZoneDelivery : MonoBehaviour
     [SerializeField] private RectTransform rect;
     [SerializeField] private Transform plane;
 
-    [SerializeField] private GameObject psDrop;
-    [SerializeField] private List<ParticleSystem> psDropList;
+    [SerializeField] private ParticleSystem psDrop;
 
     private SphereCollider collider;
 
@@ -70,11 +69,6 @@ public class SpawnZoneDelivery : MonoBehaviour
         
         randomPosition2D = Random.insideUnitCircle * currentSize;
         randomPosition = new Vector3(randomPosition2D.x, 0f, randomPosition2D.y) + transform.position;
-        psDrop.SetActive(false);
-        foreach (ParticleSystem ps in psDropList)
-        {
-            ps.Stop();
-        }
     }
 
     private void Update()
@@ -121,7 +115,7 @@ public class SpawnZoneDelivery : MonoBehaviour
     private void GivePlayerRessources(Vector3 randomPosition)
     {
         psDrop.transform.position = randomPosition + new Vector3(0, 1.5f, 0);
-        psDrop.SetActive(true);
+        psDrop.Play();
         DisableZone();
         StartCoroutine(DelayedAction(() =>
         {
@@ -155,10 +149,7 @@ public class SpawnZoneDelivery : MonoBehaviour
         //Reset Vector
         randomPosition2D = Vector2.zero;
         randomPosition = Vector3.zero;
-        for (int i = 0; i < psDropList.Count; i++)
-        {
-            psDropList[i].Stop();
-        }
+        psDrop.Stop();
 
         StartCoroutine(DisableWithDelay());
     }

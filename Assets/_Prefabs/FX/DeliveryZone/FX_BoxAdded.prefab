@@ -14644,6 +14644,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1286933603836576736, guid: a1ffe7fe6701b404f82d7bbd7c653111, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286933603836576736, guid: a1ffe7fe6701b404f82d7bbd7c653111, type: 3}
       propertyPath: startDelay.scalar
       value: 0.15
       objectReference: {fileID: 0}

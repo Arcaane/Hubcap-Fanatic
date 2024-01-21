@@ -121,11 +121,7 @@ MonoBehaviour:
   - {fileID: 8002867534189216841}
   rect: {fileID: 8834613733686254766}
   plane: {fileID: 8972119811480770572}
-  psDrop: {fileID: 6867584701811547440}
-  psDropList:
-  - {fileID: 7721281980996060425}
-  - {fileID: 8715992759366126039}
-  - {fileID: 9058448377093556831}
+  psDrop: {fileID: 7001473670355786738}
   timer: 0
   index: 0
 --- !u!1 &6493612050149788443
@@ -298,24 +294,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6331373346202977684, guid: 23751e7c7aa074d408773ac273d7d8d0, type: 3}
   m_PrefabInstance: {fileID: 256511550808672431}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6867584701811547440 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6683834441160070559, guid: 23751e7c7aa074d408773ac273d7d8d0, type: 3}
-  m_PrefabInstance: {fileID: 256511550808672431}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &7721281980996060425 stripped
+--- !u!198 &7001473670355786738 stripped
 ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 7541505072083586470, guid: 23751e7c7aa074d408773ac273d7d8d0, type: 3}
-  m_PrefabInstance: {fileID: 256511550808672431}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8715992759366126039 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8897462330373783928, guid: 23751e7c7aa074d408773ac273d7d8d0, type: 3}
-  m_PrefabInstance: {fileID: 256511550808672431}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &9058448377093556831 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 9095403363299508976, guid: 23751e7c7aa074d408773ac273d7d8d0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7108216024842031965, guid: 23751e7c7aa074d408773ac273d7d8d0, type: 3}
   m_PrefabInstance: {fileID: 256511550808672431}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &885509933273689098
