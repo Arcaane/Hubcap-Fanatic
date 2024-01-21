@@ -9,7 +9,7 @@
             {
                 "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "Scattering.UsePivotForPlacement",
-                "value": "{\"m_Value\":false}"
+                "value": "{\"m_Value\":true}"
             },
             {
                 "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
@@ -49,7 +49,7 @@
             {
                 "type": "UnityEditor.Polybrush.PrefabLoadout, Unity.Polybrush.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
                 "key": "ScatteringEditor.userLoadout",
-                "value": "{\"m_Value\":{\"infos\":[{\"palette\":{\"fileID\":11400000,\"guid\":\"90f28d1df4a866b49812c22dc674c682\",\"type\":2},\"prefab\":{\"fileID\":2827334530858509575,\"guid\":\"879955f657132ef4aa9bb7c313e36b3c\",\"type\":3}}]}}"
+                "value": "{\"m_Value\":{\"infos\":[{\"palette\":{\"fileID\":11400000,\"guid\":\"b77efd218ab4b824a91b5696a159c60e\",\"type\":2},\"prefab\":{\"fileID\":2238443477320024613,\"guid\":\"7e996953637f1b24d9a908f25e37ece0\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"b77efd218ab4b824a91b5696a159c60e\",\"type\":2},\"prefab\":{\"fileID\":2332249494627503372,\"guid\":\"09013980c20b57e40a3438205fadb7ba\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"b77efd218ab4b824a91b5696a159c60e\",\"type\":2},\"prefab\":{\"fileID\":1196824731029068074,\"guid\":\"d3f5ba3d9630c234989dcb16fca7851c\",\"type\":3}}]}}"
             },
             {
                 "type": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
@@ -59,7 +59,7 @@
             {
                 "type": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "GI.WorkflowMode",
-                "value": "{\"m_Value\":1}"
+                "value": "{\"m_Value\":0}"
             },
             {
                 "type": "UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",

@@ -26150,7 +26150,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GO BACK IN SAFE AREA
+  m_text: GO BACK IN THE SAFE AREA
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6f0d7e301f898b947bd97158e3877501, type: 2}
   m_sharedMaterial: {fileID: -3425178149646906456, guid: 6f0d7e301f898b947bd97158e3877501, type: 2}
@@ -32061,7 +32061,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GO BACK IN SAFE AREA
+  m_text: GO BACK IN THE SAFE AREA
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6f0d7e301f898b947bd97158e3877501, type: 2}
   m_sharedMaterial: {fileID: -3425178149646906456, guid: 6f0d7e301f898b947bd97158e3877501, type: 2}
