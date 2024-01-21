@@ -156,6 +156,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BigRock_01_Col
       objectReference: {fileID: 0}
+    - target: {fileID: 7820819574573501884, guid: e7a12c329c7e28f45ab1b3e8a58461df, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
