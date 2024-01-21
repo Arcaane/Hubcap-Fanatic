@@ -45,11 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolKeys:
-  - key: 0
-    pool:
-      prefab: {fileID: 112392411294098663, guid: c79bba781026f5e4b805247059f8929d, type: 3}
-      numberOfInstances: 100
-      returnType: 0
   - key: 3
     pool:
       prefab: {fileID: 54033332808420744, guid: d7757e54046ce254fb2997fb3d7e3c6f, type: 3}
@@ -58,12 +53,7 @@ MonoBehaviour:
   - key: 4
     pool:
       prefab: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
-      numberOfInstances: 15
-      returnType: 0
-  - key: 5
-    pool:
-      prefab: {fileID: 932604927756978874, guid: 54be28ab23677464ea5236473f40b36a, type: 3}
-      numberOfInstances: 0
+      numberOfInstances: 100
       returnType: 0
   - key: 6
     pool:
@@ -85,3 +75,8 @@ MonoBehaviour:
       prefab: {fileID: 5451430089109521446, guid: 053f849c6d704124e98639454cf57dc1, type: 3}
       numberOfInstances: 20
       returnType: 1
+  - key: 10
+    pool:
+      prefab: {fileID: 7932362468173512816, guid: 520c683a434abd749a3ae7b89b2e01b8, type: 3}
+      numberOfInstances: 20
+      returnType: 0

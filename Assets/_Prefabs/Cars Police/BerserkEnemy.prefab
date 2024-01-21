@@ -316,6 +316,8 @@ MonoBehaviour:
   - {fileID: 3096191764323547722}
   metal: {fileID: 2100000, guid: d523c1fe905a4dc429adf2c6b9d1791a, type: 2}
   runToPlayer: 0
+  overshootValue: 12
+  driveByPhaseOvershoot: 8
   distanceToPlayer: 15
 --- !u!54 &5105550976351317835
 Rigidbody:

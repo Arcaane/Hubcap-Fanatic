@@ -49,8 +49,9 @@ public class CarController : CarBehaviour
 
 
     [Header("Effects")] 
-	[SerializeField] public GameObject shield; 
-    
+	[SerializeField] public GameObject shield;
+
+    public bool isBerserk;
     [HideInInspector] public float dirCam;
     public Transform cameraHolder;
     public float camDist;
@@ -147,13 +148,6 @@ public class CarController : CarBehaviour
                 UIManager.instance.SetShotJauge(shootTimes[i] / shootDuration,i);
             }
         }
-
-        if (overSpeedPill && speedFactor < pillValue)
-        {
-            overSpeedPill = false;
-            CarAbilitiesManager.instance.OnPill.Invoke();
-        }
-        if(!overSpeedPill && speedFactor > pillValue)overSpeedPill = true;
     }
 
     public bool canShoot()
@@ -193,6 +187,14 @@ public class CarController : CarBehaviour
     
     public void LShoulder(InputAction.CallbackContext context)
     {
+        if (context.started)
+        {
+            if (!(stickValue.x > 0.6f || stickValue.x < -0.6f) && !driftBrake)
+            {
+                CarAbilitiesManager.instance.OnPill.Invoke();
+            }
+        }
+        
         if (context.performed)
         {
             brakeForce = context.ReadValue<float>();

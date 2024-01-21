@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abilities;
 using ManagerNameSpace;
+using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -452,7 +453,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     {
         hp -= damages;
         ActiveDamageFB();
-        
+        TextEffect txt = Pooler.instance.SpawnTemporaryInstance(Key.OBJ_TextEffect, transform.position + Vector3.up * 5,
+            quaternion.identity, 1).GetComponent<TextEffect>();
+        txt.SetDamageText(damages);
+        txt.transform.parent = CarController.instance.cameraHolder;
+
         if (hp > 1 && !isDead) return;
         
         Debug.Log("Ennemi Tué");

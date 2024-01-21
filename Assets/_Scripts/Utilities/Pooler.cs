@@ -136,7 +136,8 @@ namespace ManagerNameSpace
         OBJ_Spear,
         FX_MotorBreak,
         OBJ_Mine,
-        FX_Explosion
+        FX_Explosion,
+        OBJ_TextEffect
     }
 
     public enum ReturnType

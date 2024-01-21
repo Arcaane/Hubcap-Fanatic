@@ -35,6 +35,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] public Transform shootIcon,shopIcon;
 
+    [SerializeField] public Transform[] fireShots;
+
     [Header("Shotgun part")]
     [SerializeField] private Image[] shotJauges;
     [SerializeField] private RectTransform[] shotGunIconsFlammes;
@@ -100,21 +102,6 @@ public class UIManager : MonoBehaviour
         }
     }
     
-    public void ActivateShotgunFlamme()
-    {
-        foreach (RectTransform SF in shotGunIconsFlammes)
-        {
-            SF.gameObject.SetActive(true);
-        }
-    }
-    
-    public void DeactivateShotgunFlamme()
-    {
-        foreach (RectTransform SF in shotGunIconsFlammes)
-        {
-            SF.gameObject.SetActive(false);
-        }
-    }
 
     public void SetNitroJauge(float amount)
     {
@@ -341,6 +328,13 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        if (CarController.instance.isBerserk)
+        {
+            fireShots[0].localScale = fireShots[1].localScale = Vector3.Lerp(fireShots[0].localScale, Vector3.one, Time.deltaTime * 5);
+        }
+        else fireShots[0].localScale = fireShots[1].localScale = Vector3.Lerp(fireShots[0].localScale, Vector3.zero, Time.deltaTime * 5);
+        
+        
         if (!shopOpen) return;
 
         for (int i = 0; i < 3; i++)

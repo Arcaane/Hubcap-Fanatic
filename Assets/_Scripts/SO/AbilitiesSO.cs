@@ -344,12 +344,14 @@ namespace Abilities
         {
             if (!player) return;
             player.shootDuration = _effectDamage;
-            UIManager.instance.ActivateShotgunFlamme();
+            player.isBerserk = true;
+            
             Debug.Log("Shoot duration: " + player.shootDuration);
             await Task.Delay(Mathf.FloorToInt(_effectDuration * 1000));
             if (!player) return;
-            UIManager.instance.DeactivateShotgunFlamme();
+            
             player.shootDuration = carAbilities.baseShotgunDuration;
+            player.isBerserk = false;
             Debug.Log("Shoot duration: " + player.shootDuration);
         }
         
