@@ -53,8 +53,12 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 
     public void Initialize()
     {
-        previous = Random.Range(0, distancedNodes.Count);
-        next = (previous + 1) % distancedNodes.Count;
+        completion = Random.value;
+        index = Mathf.Lerp(0, distancedNodes.Count, completion);
+        previous = Mathf.FloorToInt(index);
+        next = Mathf.CeilToInt(index)%distancedNodes.Count;
+        index -= previous;
+        
         transform.position = Vector3.Lerp(distancedNodes[previous], distancedNodes[next], index)+Vector3.up*upVector;
         transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(distancedNodes[next] - distancedNodes[previous]),Time.deltaTime*5);
 
@@ -96,7 +100,6 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         if (attackMode) AttackMode();
         else
         {
-            
             if (Vector3.SqrMagnitude(transform.position - player.position) < playerDetectionRadius * playerDetectionRadius)
             {
                 detectionDelay -= Time.deltaTime;
@@ -189,6 +192,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         for (int i = 0; i < defenseCars.Length; i++)
         {
             defenseCars[i].convoyBehaviour = null;
+            defenseCars[i].defensePoint = null;
         }
 
         Destroy(gameObject);

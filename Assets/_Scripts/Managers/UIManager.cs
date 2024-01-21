@@ -75,6 +75,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CanvasGroup hudGroup,shopGroup;
     [SerializeField] private AnimationCurve[] optionsCurves;
     [SerializeField] private bool shopOpen,shopTransition;
+    public bool ShopOpen => shopOpen;
     [SerializeField] private int shopOptionSelected = 0;
     [SerializeField] private TextMeshProUGUI shoptokenText;
     [SerializeField] private TextMeshProUGUI shoptokenText2;
@@ -87,8 +88,10 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenu;
     public ShopOption[] abilitiesPause,statsPause;
     
-
-
+    [Header("Player Bounds")]
+    [SerializeField] private GameObject fillParent = null;
+    [SerializeField] private Image fillImage = null;
+    
     private void Awake()
     {
         instance = this;
@@ -104,8 +107,10 @@ public class UIManager : MonoBehaviour
         {
             abilitiesSlots[i].abilityCooldownSlider.gameObject.SetActive(false);
         }
+        
+        fillParent.SetActive(false);
+        fillImage.fillAmount = 1;
     }
-    
 
     public void SetNitroJauge(float amount)
     {
@@ -435,5 +440,15 @@ public class UIManager : MonoBehaviour
         
         waveCountText.color = new Color(1.0f, 0.4f, 0.31f, 1.0f);
         waveCountText2.color = new Color(0.15f, 0.15f, 0.15f, 1.0f);
+    }
+
+    public void UpdateOutOfBoundsTxt(float timer, float maxTimer) {
+        fillParent.SetActive(true);
+        fillImage.fillAmount = timer / maxTimer;
+    }
+
+    public void CloseOutOfBounds() {
+        fillParent.SetActive(false);
+        fillImage.fillAmount = 1;
     }
 }

@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class StraffColider : MonoBehaviour
 {
-    public List<IDamageable> enemyDamageable = new List<IDamageable>();
     public List<Transform> enemyCar = new List<Transform>();
     public Camera cam;
 
     private void Start()
     {
         enemyCar = new List<Transform>();
-        enemyDamageable = new List<IDamageable>();
     }
 
     private void Update()
@@ -45,7 +43,6 @@ public class StraffColider : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            enemyDamageable.Add(other.GetComponent<IDamageable>());
             enemyCar.Add(other.transform);
         }
     }
@@ -60,7 +57,6 @@ public class StraffColider : MonoBehaviour
         if (enemyCar.Contains(car))
         {
             enemyCar.Remove(car);
-            enemyDamageable.Remove(car.GetComponent<IDamageable>());
         }
     }
 }

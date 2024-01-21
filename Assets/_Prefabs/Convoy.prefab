@@ -1635,7 +1635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ede18a90c58244d930582acf2be230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 200
+  hp: 150
   tokenToGiveOnDestroy: 3
   slotUnlockOnDestroy: 1
   player: {fileID: 0}
@@ -1643,19 +1643,19 @@ MonoBehaviour:
   detectionDelay: 3
   defenseCars: []
   defensePoints:
-  - defenseCar: 2
+  - defenseCar: 1
     point: {fileID: 2936625324320698738}
-  - defenseCar: 2
+  - defenseCar: 1
     point: {fileID: 3892599549650523947}
-  - defenseCar: 2
+  - defenseCar: 1
     point: {fileID: 1495550045599275385}
-  - defenseCar: 2
+  - defenseCar: 1
     point: {fileID: 3875005127554149280}
-  - defenseCar: 2
+  - defenseCar: 1
     point: {fileID: 2476109045281294556}
-  - defenseCar: 2
+  - defenseCar: 1
     point: {fileID: 4659575605619930720}
-  - defenseCar: 2
+  - defenseCar: 1
     point: {fileID: 6765755733789992326}
   attackTimer: 1
   timeBetweenAttack: 1
@@ -1670,8 +1670,8 @@ MonoBehaviour:
   attackMode: 0
   previous: 0
   next: 0
-  speed: 0.01
-  targetSpeed: 0.01
+  speed: 0.008
+  targetSpeed: 0.008
   index: 0
   distancedNodes: []
   completion: 0

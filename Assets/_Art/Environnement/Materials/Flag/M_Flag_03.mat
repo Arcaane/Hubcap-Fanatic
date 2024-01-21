@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_flag
+  m_Name: M_Flag_03
   m_Shader: {fileID: -6465566751694194690, guid: 8830fe2fe0e88cb4c8f6afc2e4da1b7a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -48,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Flag:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a9166a2cf95b9d943aaf7341055a8bc1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
