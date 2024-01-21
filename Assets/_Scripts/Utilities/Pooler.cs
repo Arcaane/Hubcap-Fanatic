@@ -65,7 +65,6 @@ namespace ManagerNameSpace
 
             if (obj != null)
             {
-                Debug.Log("ENQUEUE");
                 pools[key].queue.Enqueue(obj);
                 obj.transform.parent = transform;
                 obj.gameObject.SetActive(false);
@@ -127,7 +126,6 @@ namespace ManagerNameSpace
 
     public enum Key
     {
-        OBJ_Foddler,
         OBJ_BerserkEnemy,
         OBJ_DriveByEnemy,
         OBJ_DefenseEnemy,
@@ -135,8 +133,6 @@ namespace ManagerNameSpace
         FX_MotorBreak,
         OBJ_Mine,
         FX_Explosion,
-        FX_HealParticle,
-        FX_StealLife,
         FX_PlayerGiveLife,
         OBJ_TextEffect
     }

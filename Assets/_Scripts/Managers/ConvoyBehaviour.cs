@@ -172,7 +172,6 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 
     public void TakeDamage(int damages)
     {
-        Debug.Log("CONVOIS DAMAGED");
         if(isDead) return;
         if (!IsDamageable()) return;
         hp -= damages;
@@ -183,7 +182,6 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 
     public void DestroyConvoy()
     {
-        Debug.Log("CONVOI DESTROYED");
         isDead = true;
         for (int i = 0; i < slotUnlockOnDestroy; i++)
             CarAbilitiesManager.instance.UnlockAbilitySlot();
