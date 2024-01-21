@@ -16,11 +16,11 @@ MonoBehaviour:
   abilityName: Fire shells
   description: Your attacks deal now fire damage to the enemy.
   abilitySprite: {fileID: 21300000, guid: f2954d6dc8a04a1409a71ea1a64ffca4, type: 3}
-  level: -1
+  level: 0
   trigger: 1
   target: 0
   when: 0
-  state: 1
+  state: 0
   effect: 6
   modifiersLevel1:
   - stat: 0
@@ -44,3 +44,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: 2

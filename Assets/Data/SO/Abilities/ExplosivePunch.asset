@@ -16,15 +16,21 @@ MonoBehaviour:
   abilityName: Explosive Punch
   description: When hit enemy, explosion
   abilitySprite: {fileID: 0}
-  level: 0
+  level: -1
   trigger: 0
   target: 0
   when: 0
   state: 0
   effect: 0
-  modifiersLevel1: []
-  modifiersLevel2: []
-  modifiersLevel3: []
+  modifiersLevel1:
+  - stat: 0
+    newValue: 25
+  modifiersLevel2:
+  - stat: 0
+    newValue: 30
+  modifiersLevel3:
+  - stat: 0
+    newValue: 35
   effectDamage: 20
   effectSizeRadius: 0
   effectDuration: 0
@@ -38,4 +44,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  index: -1
+  index: 1
