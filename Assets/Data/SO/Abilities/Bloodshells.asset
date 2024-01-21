@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 0
   abilityName: Thornmail
   description: When enemy damage you, return small damage
-  abilitySprite: {fileID: 0}
+  abilitySprite: {fileID: 21300000, guid: 3f0497ab9321f714493492d7f9209ac9, type: 3}
   level: -1
   trigger: 9
   target: 4

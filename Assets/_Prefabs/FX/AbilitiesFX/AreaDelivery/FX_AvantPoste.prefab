@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1352325198790854757}
   m_Layer: 0
-  m_Name: FX_DeliveryZone
+  m_Name: FX_AvantPoste
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
