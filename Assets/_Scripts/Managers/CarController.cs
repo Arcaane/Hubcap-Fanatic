@@ -314,13 +314,14 @@ public class CarController : CarBehaviour
         currentShotBeforeCount--;
         if (gotVayneUpgrade && currentShotBeforeCount == 0)
         {
-            straffColider.enemyDamageable[0].TakeDamage(Mathf.FloorToInt(shotgunDamages * vaynePassiveMultiplier));
+            straffColider.enemyCar[0].GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(shotgunDamages * vaynePassiveMultiplier));
             Debug.Log(shotgunDamages * vaynePassiveMultiplier + " Damage dealt with special attack");
             currentShotBeforeCount = shotBeforeCritAmount;
         }
         else
         {
-            straffColider.enemyDamageable[0].TakeDamage(Mathf.FloorToInt(shotgunDamages));
+            //Debug.Log(straffColider.enemyCar[0] + " SHOOTED ");
+            straffColider.enemyCar[0].GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(shotgunDamages));
         }
         
         CarAbilitiesManager.instance.OnEnemyDamageTaken.Invoke(straffColider.enemyCar[0].gameObject);
