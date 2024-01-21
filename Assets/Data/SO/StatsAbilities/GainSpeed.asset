@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   abilityName: Gain Road Speed
-  description: Add speed on road
-  abilitySprite: {fileID: 0}
+  description: Gain speed on roads
+  abilitySprite: {fileID: 21300000, guid: 6d02d497d1b198c40bd0afe504e8cd90, type: 3}
   level: -1
   trigger: 0
   target: 0

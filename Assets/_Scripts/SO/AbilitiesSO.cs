@@ -499,6 +499,8 @@ namespace Abilities
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseMaxHealth * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
                     };
+
+                    CarHealthManager.instance.TakeHeal(level == 0 ? Mathf.FloorToInt(amount[level]) : Mathf.FloorToInt(amount[level] - amount[level - 1]));
                 } break;
                 case StatsModifier.HitBeforeDeliverDrop:
                 {
