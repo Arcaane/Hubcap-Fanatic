@@ -421,7 +421,7 @@ namespace Abilities
                     player.maxSpeed = howStatsModify switch
                     {
                         HowStatsModify.Subtract => carAbilities.baseSpeedOnRoad - amount[level],
-                        HowStatsModify.Add => carAbilities.baseSpeedOnRoad + amount[level],
+                        HowStatsModify.Add => 40 + amount[level],
                         HowStatsModify.Multiply => carAbilities.baseSpeedOnRoad * amount[level],
                         _ => throw new ArgumentOutOfRangeException()
                     };
@@ -430,7 +430,7 @@ namespace Abilities
                     player.offRoadSpeed = howStatsModify switch
                     {
                         HowStatsModify.Subtract => carAbilities.baseSpeedOnSand - amount[level],
-                        HowStatsModify.Add => carAbilities.baseSpeedOnSand + amount[level],
+                        HowStatsModify.Add => 22 + amount[level],
                         HowStatsModify.Multiply => carAbilities.baseSpeedOnSand * amount[level],
                         _ => player.offRoadSpeed
                     };
@@ -438,7 +438,7 @@ namespace Abilities
                 case StatsModifier.NitroSpeed: player.nitroSpeed = howStatsModify switch
                     {
                         HowStatsModify.Subtract => carAbilities.baseNitroSpeed - amount[level],
-                        HowStatsModify.Add => carAbilities.baseNitroSpeed + amount[level],
+                        HowStatsModify.Add => 55 + amount[level],
                         HowStatsModify.Multiply => carAbilities.baseNitroSpeed * amount[level],
                         _ => throw new ArgumentOutOfRangeException()
                     };
@@ -456,7 +456,7 @@ namespace Abilities
                     player.shotgunDamages = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseShotgunDamage - amount[level]),
-                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseShotgunDamage + amount[level]),
+                        HowStatsModify.Add => (int)(carAbilities.baseShotgunDamage + amount[level]),
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseShotgunDamage * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
                     };
@@ -465,7 +465,7 @@ namespace Abilities
                     carAbilities.damageOnCollisionWithEnemy = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy - amount[level]),
-                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy + amount[level]),
+                        HowStatsModify.Add => (int)(carAbilities.damageOnCollisionWithEnemy + amount[level]),
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.damageOnCollisionWithEnemy * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
                     };
@@ -475,7 +475,7 @@ namespace Abilities
                     player.vaynePassiveMultiplier = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseCritDamage - amount[level]),
-                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseCritDamage + amount[level]),
+                        HowStatsModify.Add => 1 + amount[level],
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseCritDamage * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
                     };
@@ -488,7 +488,7 @@ namespace Abilities
                     CarHealthManager.instance.armorInPercent = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseArmorPercent - amount[level]),
-                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseArmorPercent + amount[level]),
+                        HowStatsModify.Add => carAbilities.baseArmorPercent + amount[level],
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseArmorPercent * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
                     };
@@ -498,7 +498,7 @@ namespace Abilities
                     CarHealthManager.instance.maxLifePoints = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseMaxHealth - amount[level]),
-                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseMaxHealth + amount[level]),
+                        HowStatsModify.Add => (int)(carAbilities.baseMaxHealth + amount[level]),
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseMaxHealth * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
                     };
@@ -510,7 +510,7 @@ namespace Abilities
                     player.CollsionBeforeDropDeliver = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseHitBeforeDeliverDrop - amount[level]),
-                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseHitBeforeDeliverDrop + amount[level]),
+                        HowStatsModify.Add => (int)(carAbilities.baseHitBeforeDeliverDrop + amount[level]),
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseHitBeforeDeliverDrop * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
                     };
@@ -520,7 +520,7 @@ namespace Abilities
                     carAbilities.overallAbilitiesCooldown = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseOverallAbilitiesCooldown - amount[level]),
-                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseOverallAbilitiesCooldown + amount[level]),
+                        HowStatsModify.Add => carAbilities.baseOverallAbilitiesCooldown + amount[level],
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseOverallAbilitiesCooldown * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
                     };
@@ -530,17 +530,17 @@ namespace Abilities
                     player.shootDuration = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseAttackCooldown - amount[level]),
-                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseAttackCooldown + amount[level]),
+                        HowStatsModify.Add => carAbilities.baseAttackCooldown + amount[level],
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseAttackCooldown * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
                     };
                 } break;
                 case StatsModifier.BouncePowerOnDrop:
                 {
-                    player.speedRetained = howStatsModify switch
+                    CarController.instance.speedRetained = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseSpeedRetainedOnBounce - amount[level]),
-                        HowStatsModify.Add => Mathf.FloorToInt(carAbilities.baseSpeedRetainedOnBounce + amount[level]),
+                        HowStatsModify.Add => 0.3f + amount[level],
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseSpeedRetainedOnBounce * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
                     };

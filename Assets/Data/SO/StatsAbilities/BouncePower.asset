@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityName: Ricochet
   description: Increases speed after bouncing
   abilitySprite: {fileID: 21300000, guid: bf189bf90d9a6064f969aa938b62694f, type: 3}
-  level: -1
+  level: 0
   trigger: 0
   target: 0
   when: 0
@@ -36,9 +36,9 @@ MonoBehaviour:
   howStatsModify: 1
   amount:
   - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
