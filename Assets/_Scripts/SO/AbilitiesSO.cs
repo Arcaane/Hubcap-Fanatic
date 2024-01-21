@@ -271,11 +271,12 @@ namespace Abilities
 
         private void EffectSpear(GameObject targetObj)
         {
+            if (targetObj == null) return;
             var carPos = player.transform.position;
             Vector3 relativePos = carPos - targetObj.transform.position;
             relativePos = new Vector3(relativePos.x, 0, relativePos.z).normalized;
             Transform obj = Pooler.instance.SpawnInstance(Key.OBJ_Spear, carPos, Quaternion.LookRotation(-relativePos)) as Transform;
-            obj.GetComponent<SpearObject>().damages = _effectDamage;
+            if (obj.gameObject != null) obj.GetComponent<SpearObject>().damages = _effectDamage;
         }
     
         private void EffectDamage(GameObject targetObj)
@@ -342,6 +343,7 @@ namespace Abilities
             var a = Mathf.FloorToInt(_effectDuration / ((float)_effectDelayMilliseconds / 1000));
             for (int i = 0; i < a; i++)
             {
+                if (!targetObj.activeSelf) return;
                 targetObj.GetComponent<IDamageable>()?.TakeDamage(_effectDamage);
                 await Task.Delay(_effectDelayMilliseconds);
             }

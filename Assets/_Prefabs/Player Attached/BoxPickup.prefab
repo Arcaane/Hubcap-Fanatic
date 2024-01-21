@@ -64,12 +64,12 @@ MonoBehaviour:
       outWeight: 0.08323134
     - serializedVersion: 3
       time: 50
-      value: 5000
-      inSlope: 293.2455
-      outSlope: 293.2455
+      value: 3000
+      inSlope: 221.5475
+      outSlope: 221.5475
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.049205553
+      inWeight: 0.04828758
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

@@ -44,8 +44,14 @@ public class CarExperienceManager : MonoBehaviour
         currentExperienceAmount += i;
         CheckLevelUp();
         
-        if (playerLevel < 0) uiManager.SetExperienceFillAmount((float)(currentExperienceAmount - xpPerLevel[playerLevel-1])/(expBeforeNextLevelAmount - xpPerLevel[playerLevel-1]));
-        else uiManager.SetExperienceFillAmount((float)(currentExperienceAmount - xpPerLevel[playerLevel])/(expBeforeNextLevelAmount - xpPerLevel[playerLevel]));
+        if (playerLevel < 1)
+        {
+            uiManager.SetExperienceFillAmount((float)currentExperienceAmount/(expBeforeNextLevelAmount));
+        }
+        else
+        {
+            uiManager.SetExperienceFillAmount((float)(currentExperienceAmount - xpPerLevel[playerLevel-1])/(expBeforeNextLevelAmount - xpPerLevel[playerLevel-1]));
+        }
     }
 
     private void CheckLevelUp()
