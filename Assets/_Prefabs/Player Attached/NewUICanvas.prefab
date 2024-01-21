@@ -25220,7 +25220,7 @@ MonoBehaviour:
   - {fileID: 6626739558943361872}
   - {fileID: 5504026381623325138}
   - {fileID: 956361229879918498}
-  easeLifeLerpSpeed: 0
+  easeLifeLerpSpeed: 0.1
   punchPosScale: 13
 --- !u!114 &5262219452125708190
 MonoBehaviour:

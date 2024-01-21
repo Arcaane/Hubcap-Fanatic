@@ -45,11 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolKeys:
-  - key: 0
-    pool:
-      prefab: {fileID: 112392411294098663, guid: c79bba781026f5e4b805247059f8929d, type: 3}
-      numberOfInstances: 100
-      returnType: 0
   - key: 3
     pool:
       prefab: {fileID: 54033332808420744, guid: d7757e54046ce254fb2997fb3d7e3c6f, type: 3}
@@ -59,11 +54,6 @@ MonoBehaviour:
     pool:
       prefab: {fileID: 54033332808420744, guid: c8a3ded3cf8283541b4f29b13530babf, type: 3}
       numberOfInstances: 15
-      returnType: 0
-  - key: 5
-    pool:
-      prefab: {fileID: 932604927756978874, guid: 54be28ab23677464ea5236473f40b36a, type: 3}
-      numberOfInstances: 0
       returnType: 0
   - key: 6
     pool:
@@ -80,8 +70,18 @@ MonoBehaviour:
       prefab: {fileID: 1313789228498446249, guid: 2e5c4c6fd9196b847ad01c7811d5e3ce, type: 3}
       numberOfInstances: 50
       returnType: 0
-  - key: 9
+  - key: 10
     pool:
-      prefab: {fileID: 5451430089109521446, guid: 053f849c6d704124e98639454cf57dc1, type: 3}
-      numberOfInstances: 20
-      returnType: 1
+      prefab: {fileID: 1980205900698767479, guid: 8cc13855bb7b87d4f811d615e509c2ec, type: 3}
+      numberOfInstances: 2
+      returnType: 0
+  - key: 11
+    pool:
+      prefab: {fileID: 907263156475004891, guid: f7bbb9a79d8a2d242bfae270a0f0201a, type: 3}
+      numberOfInstances: 2
+      returnType: 0
+  - key: 11
+    pool:
+      prefab: {fileID: 1980205900698767479, guid: bc04c3e22002bd840aaa7b81dde3b931, type: 3}
+      numberOfInstances: 10
+      returnType: 0

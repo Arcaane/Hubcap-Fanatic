@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ManagerNameSpace;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -126,11 +127,13 @@ public class AntennaArea : MonoBehaviour
     {
         currentAntennaState =  AntennaState.AntennaIsActivated;
         CarHealthManager.instance.TakeHeal(healToGive);
-        Debug.Log("Heal Player: " + healToGive);
         sCol.enabled = false;
         zoneDebug.SetActive(false);
-        
         currentAntennaState = AntennaState.IsInactive;
+        
+        // FX
+        GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_PlayerGiveLife, transform.position, Quaternion.identity, 1.5f).gameObject;
+        gameObject.SetActive(true);
     }
     
     private void TurnOnAntenna()

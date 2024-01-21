@@ -345,7 +345,7 @@ public class UIManager : MonoBehaviour
     public float easeLifeLerpSpeed = 1f;
     private void Update()
     {
-        if (lifeImage.fillAmount < easeLifeJauge.fillAmount)
+        if (Math.Abs(lifeImage.fillAmount - easeLifeJauge.fillAmount) > 0.0001f)
         {
             easeLifeJauge.fillAmount = Mathf.Lerp(easeLifeJauge.fillAmount, lifeImage.fillAmount, easeLifeLerpSpeed);
         }
@@ -380,8 +380,7 @@ public class UIManager : MonoBehaviour
     {
         //TODO - Flashing text car fonctionne pas avec DoTween
         
-        
-        var punch = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * punchPosScale;
-        lifeImage.rectTransform.DOPunchPosition(punch, 0.25f);
+        //var punch = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * punchPosScale;
+        //lifeImage.rectTransform.DOPunchPosition(punch, 0.25f);
     }
 }

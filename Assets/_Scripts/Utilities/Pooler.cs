@@ -127,8 +127,6 @@ namespace ManagerNameSpace
 
     public enum Key
     {
-        FX_Puddle,
-        FX_FluidSplash,
         OBJ_Foddler,
         OBJ_BerserkEnemy,
         OBJ_DriveByEnemy,
@@ -136,7 +134,10 @@ namespace ManagerNameSpace
         OBJ_Spear,
         FX_MotorBreak,
         OBJ_Mine,
-        FX_Explosion
+        FX_Explosion,
+        FX_HealParticle,
+        FX_StealLife,
+        FX_PlayerGiveLife
     }
 
     public enum ReturnType

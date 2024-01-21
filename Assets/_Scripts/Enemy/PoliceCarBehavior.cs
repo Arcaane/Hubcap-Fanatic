@@ -461,14 +461,20 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         ActiveDamageFB();
         
         if (hp > 1 && !isDead) return;
+
+        if (objectPickable != null)
+        {
+            objectPickable.GetComponent<ObjectPickable>().OnDrop();
+            objectPickable.GetComponent<ObjectPickable>().rb.AddForce(Vector3.up * 100);
+            objectPickable = null;
+        }
         
-        Debug.Log("Ennemi Tué");
         CarAbilitiesManager.instance.OnEnemyKilled.Invoke(gameObject);
         CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
         isDead = true;
         OnPoliceCarDie.Invoke(gameObject);
         Pooler.instance.DestroyInstance(enemyKey, transform);
-        if (isAimEffect) CarAbilitiesManager.instance.goldAmountWonOnRun += Random.Range(1, 4);
+        if (isAimEffect) CarAbilitiesManager.instance.goldAmountWonOnRun += Random.Range(2, 4);
     }
 
     public bool IsDamageable() => gameObject.activeSelf == true && hp > 0;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using DG.Tweening;
 using ManagerNameSpace;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Abilities
@@ -321,6 +322,10 @@ namespace Abilities
         {
             targetObj.GetComponent<IDamageable>().TakeDamage(_effectDamage);
             CarHealthManager.instance.TakeHeal(_effectDamage);
+            
+            GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_PlayerGiveLife, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, 1.5f).gameObject;
+            go.transform.SetParent(targetObj.transform);
+            go.SetActive(true);
         }
         
         private async void EffectScorch(GameObject targetObj)
