@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityName: Fast & Furious
   description: Give a shield when start Nitro
   abilitySprite: {fileID: 21300000, guid: 97f286d8e5f94304498c8cee53c47a49, type: 3}
-  level: -1
+  level: 0
   trigger: 4
   target: 1
   when: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
     newValue: 5
   effectDamage: 0
   effectSizeRadius: 0
-  effectDuration: 1
+  effectDuration: 1000
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
   isCapacityCooldown: 1

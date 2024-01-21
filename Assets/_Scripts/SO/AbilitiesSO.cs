@@ -364,9 +364,11 @@ namespace Abilities
             CarController car = targetObj.GetComponent<CarController>();
             if (!car) return;
             car.shield.SetActive(true);
+            car.isShield = true;
             await Task.Delay(Mathf.FloorToInt(_effectDuration * 1000));
             if (!car) return;
             car.shield.SetActive(false);
+            car.isShield = false;
         }
 
         private async void EffectTarget(GameObject obj)
