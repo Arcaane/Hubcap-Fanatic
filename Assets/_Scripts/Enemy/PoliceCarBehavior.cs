@@ -42,6 +42,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     private float minAngleToBounce = 0.3f;
 
     [SerializeField] private GameObject fxBounce;
+    [SerializeField] private ParticleSystem fxFire;
 
     [Header("CONVOY")] public ConvoyBehaviour convoyBehaviour;
     public bool attackMode;
@@ -108,7 +109,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         currentDamages = carDamage + Mathf.FloorToInt(damageToAddPerWave.Evaluate(currentWave));
         maxSpeed += Mathf.FloorToInt(speedToAddPerWave.Evaluate(currentWave));
         
-        Debug.Log(currentHp);
+        fxFire.Stop();
     }
 
     private void OnDisable()
@@ -120,6 +121,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     private void Update()
     {
         base.Update();
+        ActiveFireFB();
 
         if (convoyBehaviour) ConvoyUpdate();
         else if (driveByCar) DriveByUpdate();
@@ -128,7 +130,6 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     private void SoloUpdate()
     {
-
         if (runToPlayer)
         {
             if (target == null)
@@ -519,5 +520,19 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             t.SetFloat("_UseDamage", 0);
         }
         metal.SetFloat("_UseDamage", 0);
+    }
+    
+    private void ActiveFireFB()
+    {
+        if (isScorch)
+        {
+            fxFire.gameObject.SetActive(true);
+            fxFire.Play();
+        }
+        else
+        {
+            fxFire.gameObject.SetActive(false);
+            fxFire.Stop();
+        }
     }
 }
