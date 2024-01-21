@@ -13,29 +13,29 @@ MonoBehaviour:
   m_Name: Bloodshells
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: Bleed Shells
-  description: When damage enemy, add bleed damage every second
+  abilityName: Thornmail
+  description: When enemy damage you, return small damage
   abilitySprite: {fileID: 0}
-  level: 0
-  trigger: 8
-  target: 0
-  when: 3
+  level: 1
+  trigger: 9
+  target: 4
+  when: 0
   state: 0
   effect: 2
   modifiersLevel1:
   - stat: 0
-    newValue: 3
+    newValue: 2
   modifiersLevel2:
   - stat: 0
-    newValue: 5
+    newValue: 3
   modifiersLevel3:
   - stat: 2
     newValue: 5
-  effectDamage: 2
+  effectDamage: 1
   effectSizeRadius: 0
   effectDuration: 0
-  effectDelayMilliseconds: 3
-  effectRepeatDelay: 1000
+  effectDelayMilliseconds: 0
+  effectRepeatDelay: 0
   isCapacityCooldown: 0
   cooldownDuration: 0
   statsModifier: 0
@@ -44,3 +44,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: 0

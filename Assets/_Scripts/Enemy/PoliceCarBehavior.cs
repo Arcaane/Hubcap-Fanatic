@@ -12,7 +12,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     private Key enemyKey;
 
     [SerializeField] private int hp = 100;
+    private int currentHp;
     [SerializeField] private int carDamage;
+    private int currentDamages;
     [SerializeField] private float shootCooldown;
     [SerializeField] private AnimationCurve hpToAddPerWave;
     [SerializeField] private AnimationCurve damageToAddPerWave;
@@ -99,12 +101,13 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     private void OnEnable()
     {
-        Debug.Log("Increment Level");
         float currentWave = WaveManager.instance.currentWaveCount;
         
-        hp += (int)hpToAddPerWave.Evaluate(currentWave);
-        carDamage += (int)damageToAddPerWave.Evaluate(currentWave);
-        maxSpeed += (int)speedToAddPerWave.Evaluate(currentWave);
+        currentHp = hp + Mathf.FloorToInt(hpToAddPerWave.Evaluate(currentWave));
+        currentDamages = carDamage + Mathf.FloorToInt(damageToAddPerWave.Evaluate(currentWave));
+        maxSpeed += Mathf.FloorToInt(speedToAddPerWave.Evaluate(currentWave));
+        
+        Debug.Log(currentHp);
     }
 
     private void OnDisable()
@@ -254,7 +257,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
                 shootingTimer += Time.deltaTime;
                 if (shootingTimer > shootCooldown)
                 {
-                    CarHealthManager.instance.TakeDamage(carDamage);
+                    CarHealthManager.instance.TakeDamage(currentDamages);
                     shootingTimer = 0f;
                 }
             }
@@ -406,7 +409,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
                 if (Vector3.Dot(a, b) > angleToCollisionDamage) // EnemyCollision
                 {
-                    CarHealthManager.instance.TakeDamage(carDamage);
+                    CarHealthManager.instance.TakeDamage(currentDamages);
                 }
             }
 
@@ -457,12 +460,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     private bool isDead = false;
     public void TakeDamage(int damages)
     {
-        hp -= damages;
+        currentHp -= damages;
         ActiveDamageFB();
         
-        if (hp > 1 && !isDead) return;
+        if (currentHp > 1 && !isDead) return;
         
-        Debug.Log("Ennemi Tué");
         CarAbilitiesManager.instance.OnEnemyKilled.Invoke(gameObject);
         CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
         isDead = true;
@@ -471,7 +473,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         if (isAimEffect) CarAbilitiesManager.instance.goldAmountWonOnRun += Random.Range(1, 4);
     }
 
-    public bool IsDamageable() => gameObject.activeSelf == true && hp > 0;
+    public bool IsDamageable() => gameObject.activeSelf && currentHp > 0;
 
     private void DropItem(Collision collision)
     {

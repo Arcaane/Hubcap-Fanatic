@@ -24,14 +24,14 @@ MonoBehaviour:
   effect: 4
   modifiersLevel1:
   - stat: 0
-    newValue: 18
+    newValue: 10
   modifiersLevel2:
   - stat: 0
-    newValue: 50
+    newValue: 15
   modifiersLevel3:
   - stat: 0
-    newValue: 25
-  effectDamage: 25
+    newValue: 20
+  effectDamage: 5
   effectSizeRadius: 0
   effectDuration: 0
   effectDelayMilliseconds: 0
@@ -44,3 +44,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: 1
