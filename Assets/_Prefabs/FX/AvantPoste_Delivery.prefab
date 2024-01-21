@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5036823614444318117}
   - component: {fileID: 3641159531575197949}
-  - component: {fileID: 1486976910013851435}
+  - component: {fileID: 7156736530942000465}
   m_Layer: 0
   m_Name: AvantPoste_Delivery
   m_TagString: Untagged
@@ -49,8 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deliveryZone: {fileID: 4211228876291024875}
   ps: {fileID: 294421221982691625}
---- !u!135 &1486976910013851435
-SphereCollider:
+--- !u!65 &7156736530942000465
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -64,12 +64,12 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 15
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 15, y: 10, z: 15}
+  m_Center: {x: 0, y: 5, z: 0}
 --- !u!1001 &251062250276266539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,7 +88,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1352325198790854757, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1352325198790854757, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
       propertyPath: m_LocalRotation.w
