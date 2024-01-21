@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 using Abilities;
 using DG.Tweening;
@@ -41,7 +42,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] public Transform[] fireShots;
 
     [Header("Shotgun part")]
-    [SerializeField] private Image[] shotJauges;
+    [SerializeField] public Image[] shotJauges;
     [SerializeField] private RectTransform[] shotGunIconsFlammes;
     [SerializeField] private Color usable, unusable;
 
@@ -125,6 +126,7 @@ public class UIManager : MonoBehaviour
         if (amount > 1)
         {
             shotJauges[shot].color = usable;
+            SetUIShotgunUsable(shotJauges[shot]);
         }
         else
         {
@@ -132,6 +134,24 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void SetUIShotgunUsable(Image img)
+    {
+        img.transform.DOShakeScale(0.3f, 1.05f, 15, 90f, true, ShakeRandomnessMode.Harmonic);
+        img.DOColor(Color.white, 0.15f).OnComplete(() => img.DOColor(usable, 0.1f));
+    }
+
+    public void ShootMissUI(int i)
+    {
+        shotJauges[i].transform.parent.DOLocalRotate(new Vector3(0,0,360), 0.5f, RotateMode.LocalAxisAdd);
+    }
+
+    public void GoodShotUI(int i)
+    {
+        shotJauges[i].transform.parent.DOLocalMoveY(0, 0.35f, true).
+            SetEase(Ease.OutElastic).OnComplete(() => shotJauges[i].transform.parent.
+                DOLocalMoveY(-30, 0.15f, true)).SetEase(Ease.InBack);
+    }
+    
     public void SetExperienceFillAmount(float amount)
     {
         experienceJauge.fillAmount = amount;
@@ -152,6 +172,7 @@ public class UIManager : MonoBehaviour
     {
         waveCountText.text = $"WAVE {i.ToString()}";
         waveCountText2.text = $"WAVE {i.ToString()}";
+        UINextWave();
     }
     
     public void SetPlayerLifeJauge(float f)
@@ -368,10 +389,51 @@ public class UIManager : MonoBehaviour
         }
     }
     
+    
+    // Tweening
+    private float effectDuration = 0.275f;
+    private float shakeStrength = 15;
+    private int shakeVibrato = 20;
+    private float shakeRandomness = 90;
     public void UITakeDamage()
     {
-        //TODO - Flashing text car fonctionne pas avec DoTween
-        //var punch = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * punchPosScale;
-        //lifeImage.rectTransform.DOPunchPosition(punch, 0.25f);
+        lifeImage.transform.DOShakePosition(effectDuration, new Vector3(shakeStrength,0,0), shakeVibrato, shakeRandomness).SetLoops(1, LoopType.Restart);
+        easeLifeJauge.transform.DOShakePosition(effectDuration, new Vector3(shakeStrength,0,0), shakeVibrato, shakeRandomness).SetLoops(1, LoopType.Restart);
+        lifeText.color = lifeText2.color = Color.white;
+        StartCoroutine(SetLifeGoodTextColor(0.14f));
+    }
+    
+    IEnumerator SetLifeGoodTextColor(float time)
+    {
+        var a = time;
+        while (a > 0)
+        {
+            a -= Time.deltaTime;
+            yield return null;
+        }
+        
+        lifeText.color = new Color(1.0f, 0.4f, 0.31f, 1.0f);
+        lifeText2.color = new Color(0.15f, 0.15f, 0.15f, 1.0f);
+    }
+    
+    private void UINextWave()
+    {
+        waveCountText.color = waveCountText2.color = Color.white;
+        StartCoroutine(SetWaveGoodTextColor(0.14f));
+        
+        waveDurationJauge.transform.parent.DOScale(1.15f, 0.5f).SetEase(Ease.OutBack).OnComplete(() => waveDurationJauge.transform.parent.DOScale(1, 0.25f));
+    }
+    
+    IEnumerator SetWaveGoodTextColor(float time)
+    {
+        var a = time;
+        while (a > 0)
+        {
+            a -= Time.deltaTime;
+            yield return null;
+        }
+        
+        waveCountText.color = new Color(1.0f, 0.4f, 0.31f, 1.0f);
+        waveCountText2.color = new Color(0.15f, 0.15f, 0.15f, 1.0f);
     }
 }

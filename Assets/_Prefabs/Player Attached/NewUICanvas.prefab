@@ -13461,7 +13461,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7707224853075760350}
   - {fileID: 6804310882944428739}
@@ -24967,7 +24967,6 @@ MonoBehaviour:
   - {fileID: 5504026381623325138}
   - {fileID: 956361229879918498}
   easeLifeLerpSpeed: 0.1
-  punchPosScale: 13
 --- !u!114 &5262219452125708190
 MonoBehaviour:
   m_ObjectHideFlags: 0

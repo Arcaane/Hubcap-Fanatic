@@ -242,7 +242,6 @@ public class CarController : CarBehaviour
             smokeNitro.Stop();
             targetSpeed = maxSpeed;
         }
-        
     }
     
     // POUR PLAYTEST
@@ -262,10 +261,12 @@ public class CarController : CarBehaviour
             if (straffColider.enemyCar.Count > 0)
             {
                 ShotgunHit();
+                UIManager.instance.GoodShotUI(shootTimes[1] >= shootDuration ? 1 : 0);
             }
             else
             {
                 CarAbilitiesManager.instance.OnShotgunUsedWithoutTarget.Invoke();
+                UIManager.instance.ShootMissUI(shootTimes[1] >= shootDuration ? 1 : 0);
             }
 
             for (int i = 0; i < shootTimes.Length; i++)
