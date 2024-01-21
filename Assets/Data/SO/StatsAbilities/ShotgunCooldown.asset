@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   abilityName: Shotgun Cooldown
-  description: "R\xE9duit le cooldown du shotgun"
-  abilitySprite: {fileID: 0}
-  level: 0
+  description: Reduces shotgun cooldown
+  abilitySprite: {fileID: 21300000, guid: d6deba967ae9d484fab2ca3d4f55f712, type: 3}
+  level: -1
   trigger: 0
   target: 0
   when: 0

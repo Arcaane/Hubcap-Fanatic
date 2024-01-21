@@ -379,11 +379,11 @@ MonoBehaviour:
   positions: []
   groundMask:
     serializedVersion: 2
-    m_Bits: 8
-  offset: {x: -7, y: 0, z: 7}
+    m_Bits: 4104
+  offset: {x: 0, y: 0, z: 15}
   heightOffset: 32
   widthOffset: 64
-  addAngleToRectange: -45
+  addAngleToRectange: 0
   spawningPointPerSideCount: 30
   spawingTimer: 0
   waveSpawnTimer: 0

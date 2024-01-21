@@ -38,7 +38,7 @@ public class WaveManager : MonoBehaviour
 
     //Spawning
     [SerializeField] private Transform carTransform;
-    public Vector3[] positions;
+    public List<Vector3> positions = new();
 
     [Space] [Header("CameraBoundsAttributes")] [SerializeField]
     private LayerMask groundMask;
@@ -114,7 +114,7 @@ public class WaveManager : MonoBehaviour
         if (waveSpawnTimer < enemiesSpawningTimer) return;
         
         UpdateEnemySpawingPos();
-        var randPos = Random.Range(0, positions.Length);
+        var randPos = Random.Range(0, positions.Count);
         Vector3 spawnPos = positions[randPos];
         spawnPos.y = 0.75f;
         
@@ -144,7 +144,9 @@ public class WaveManager : MonoBehaviour
 
     void UpdateEnemySpawingPos()
     {
-        positions = new Vector3[spawningPointPerSideCount * 4];
+        positions.Clear();
+        positions = new List<Vector3>();
+        
         var cam = Camera.main;
 
         RaycastHit hitInfo;
@@ -152,8 +154,7 @@ public class WaveManager : MonoBehaviour
 
         Vector3 bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, hitInfo.distance)) + offset; // 0;0
         Vector3 topLeft = cam.ScreenToWorldPoint(new Vector3(0, cam.pixelHeight, hitInfo.distance)) + offset; // 0;1
-        Vector3 topRight = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, hitInfo.distance)) +
-                           offset; // 1;1
+        Vector3 topRight = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, hitInfo.distance)) + offset; // 1;1
         Vector3 bottomRight = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0, hitInfo.distance)) + offset; // 1;0
 
         bottomLeft.y = topLeft.y = topRight.y = bottomRight.y = 0.75f;
@@ -162,15 +163,14 @@ public class WaveManager : MonoBehaviour
         topLeft += new Vector3(-widthOffset, 0, heightOffset);
         topRight += new Vector3(widthOffset, 0, heightOffset);
         bottomRight += new Vector3(widthOffset, 0, -heightOffset);
-
-        Quaternion rotationQuaternion = Quaternion.Euler(0, addAngleToRectange, 0);
-
+        
         // Créer les points sur le côté supérieur
         for (int i = 0; i < spawningPointPerSideCount; i++)
         {
             float t = i / (float)(spawningPointPerSideCount - 1);
             Vector3 tempVec = Vector3.Lerp(topLeft, topRight, t);
-            positions[i] = rotationQuaternion * tempVec;
+
+            if (CheckSpawn(tempVec)) positions.Add(tempVec);
         }
 
         // Créer les points sur le côté droit
@@ -178,7 +178,9 @@ public class WaveManager : MonoBehaviour
         {
             float t = i / (spawningPointPerSideCount / 2f - 1);
             Vector3 tempVec = Vector3.Lerp(topRight, bottomRight, t);
-            positions[i + spawningPointPerSideCount] = rotationQuaternion * tempVec;
+            
+            if (CheckSpawn(tempVec)) positions.Add(tempVec);
+            
         }
 
         // Créer les points sur le côté inférieur
@@ -186,7 +188,8 @@ public class WaveManager : MonoBehaviour
         {
             float t = i / (float)(spawningPointPerSideCount - 1);
             Vector3 tempVec = Vector3.Lerp(bottomRight, bottomLeft, t);
-            positions[i + spawningPointPerSideCount * 2] = rotationQuaternion * tempVec;
+
+            if (CheckSpawn(tempVec)) positions.Add(tempVec);
         }
 
         // Créer les points sur le côté gauche
@@ -194,7 +197,8 @@ public class WaveManager : MonoBehaviour
         {
             float t = i / (spawningPointPerSideCount / 2f - 1);
             Vector3 tempVec = Vector3.Lerp(bottomLeft, topLeft, t);
-            positions[i + spawningPointPerSideCount * 3] = rotationQuaternion * tempVec;
+            
+            if (CheckSpawn(tempVec)) positions.Add(tempVec);
         }
     }
 
@@ -207,6 +211,8 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    public LayerMask enviroMask;
+    
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -214,11 +220,14 @@ public class WaveManager : MonoBehaviour
 
         UpdateEnemySpawingPos();
 
-        for (int i = 0; i < positions.Length; i++)
+        for (int i = 0; i < positions.Count; i++)
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(positions[i], 1);
+            Gizmos.color = Physics.OverlapSphereNonAlloc(positions[i], 2, new Collider[1], enviroMask) > 0 ? Color.red : Color.green;
+            Gizmos.DrawSphere(positions[i] /*+ transform.InverseTransformPoint(positions[i])*/, 2f);
         }
     }
 #endif
+
+    private bool CheckSpawn(Vector3 pos) => Physics.OverlapSphereNonAlloc(pos, 2, new Collider[1], enviroMask) <= 0;
+    
 }
