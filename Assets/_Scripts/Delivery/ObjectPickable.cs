@@ -42,7 +42,6 @@ public class ObjectPickable : MonoBehaviour, IPickupable
 
             OnPickedUp();
             PickableManager.Instance.AddPickableObject(gameObject, isCopHasPick);
-            Debug.Log("Pickable by player");
         }
 
         if (other.gameObject.CompareTag("Enemy"))
@@ -56,7 +55,6 @@ public class ObjectPickable : MonoBehaviour, IPickupable
             transform.parent = other.transform.gameObject.transform.GetComponent<PoliceCarBehavior>().socketPickableCop.transform;
             other.transform.GetComponent<PoliceCarBehavior>().objectPickable = gameObject;
             OnPickedUp();
-            Debug.Log("Pickable by cops");
         }   
     }
 
@@ -73,7 +71,6 @@ public class ObjectPickable : MonoBehaviour, IPickupable
             for (int i = 0; i < CarController.instance.pickedItems.Count; i++)
             {
                 transform.localPosition += Vector3.up * i * 2.0f;
-                Debug.Log(transform.localPosition);
             }
         }
         
@@ -131,7 +128,6 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
         PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick);
         
-        Debug.Log("Delivered");
         gameObject.GetComponent<SphereCollider>().enabled = true;
         UIIndic.instance.EnableOrDisableDeliveryZone();
         Destroy(gameObject);

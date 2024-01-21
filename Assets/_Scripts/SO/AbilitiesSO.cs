@@ -123,7 +123,6 @@ namespace Abilities
         
         public void Activate(Collision collision)
         {
-            Debug.Log("Trigger Activated " + abilityName);
             returnedCollision = collision;
             ApplyWhenModifiers();
         }
@@ -141,7 +140,6 @@ namespace Abilities
             
             if (isInCooldown)
             {
-                Debug.Log("Is in cooldown");
                 return;
             }
             
@@ -558,7 +556,6 @@ namespace Abilities
             UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.DOFillAmount(0, cooldownDuration * (1 - carAbilities.overallAbilitiesCooldown/100)).OnComplete(
                 delegate
                 {
-                    Debug.Log("Finish Cooldown");
                     isInCooldown = false;
                     UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.gameObject.SetActive(false);
                 });
