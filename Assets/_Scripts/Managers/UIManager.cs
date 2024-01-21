@@ -86,8 +86,10 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenu;
     public ShopOption[] abilitiesPause,statsPause;
     
-
-
+    [Header("Player Bounds")]
+    [SerializeField] private GameObject fillParent = null;
+    [SerializeField] private Image fillImage = null;
+    
     private void Awake()
     {
         instance = this;
@@ -103,8 +105,10 @@ public class UIManager : MonoBehaviour
         {
             abilitiesSlots[i].abilityCooldownSlider.gameObject.SetActive(false);
         }
+        
+        fillParent.SetActive(false);
+        fillImage.fillAmount = 1;
     }
-    
 
     public void SetNitroJauge(float amount)
     {
@@ -373,5 +377,15 @@ public class UIManager : MonoBehaviour
         //TODO - Flashing text car fonctionne pas avec DoTween
         //var punch = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * punchPosScale;
         //lifeImage.rectTransform.DOPunchPosition(punch, 0.25f);
+    }
+
+    public void UpdateOutOfBoundsTxt(float timer, float maxTimer) {
+        fillParent.SetActive(true);
+        fillImage.fillAmount = timer / maxTimer;
+    }
+
+    public void CloseOutOfBounds() {
+        fillParent.SetActive(false);
+        fillImage.fillAmount = 1;
     }
 }
