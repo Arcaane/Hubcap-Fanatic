@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityName: Spear
   description: Shoot a spear towards the closest enemy while drifting
   abilitySprite: {fileID: 21300000, guid: fa551a9f0598d3f4ea8b72b201aab353, type: 3}
-  level: 0
+  level: -1
   trigger: 7
   target: 4
   when: 3
@@ -36,11 +36,12 @@ MonoBehaviour:
   effectDuration: 0
   effectDelayMilliseconds: 0
   effectRepeatDelay: 3
-  isCapacityCooldown: 0
-  cooldownDuration: 0
+  isCapacityCooldown: 1
+  cooldownDuration: 1
   statsModifier: 0
   howStatsModify: 0
   amount: []
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  index: 3

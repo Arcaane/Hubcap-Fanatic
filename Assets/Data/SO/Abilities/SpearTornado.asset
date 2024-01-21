@@ -26,23 +26,24 @@ MonoBehaviour:
   effect: 1
   modifiersLevel1:
   - stat: 0
-    newValue: 25
+    newValue: 10
   modifiersLevel2:
   - stat: 0
-    newValue: 30
+    newValue: 15
   modifiersLevel3:
   - stat: 0
-    newValue: 40
-  effectDamage: 20
+    newValue: 20
+  effectDamage: 5
   effectSizeRadius: 20
   effectDuration: 0
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
-  isCapacityCooldown: 1
-  cooldownDuration: 5
+  isCapacityCooldown: 0
+  cooldownDuration: 3
   statsModifier: 0
   howStatsModify: 0
   amount: []
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: 0

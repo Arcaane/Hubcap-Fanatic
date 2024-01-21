@@ -1635,7 +1635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ede18a90c58244d930582acf2be230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
+  hp: 150
   tokenToGiveOnDestroy: 3
   slotUnlockOnDestroy: 1
   player: {fileID: 0}
@@ -1670,8 +1670,8 @@ MonoBehaviour:
   attackMode: 0
   previous: 0
   next: 0
-  speed: 0.005
-  targetSpeed: 0.005
+  speed: 0.008
+  targetSpeed: 0.008
   index: 0
   distancedNodes: []
   completion: 0

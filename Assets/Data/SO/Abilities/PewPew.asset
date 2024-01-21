@@ -10,32 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
-  m_Name: Firepunch
+  m_Name: PewPew
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: Firepunch
-  description: When collide enemy, add scorch
+  abilityName: PewPew
+  description: Small gun when drift
   abilitySprite: {fileID: 0}
   level: 0
-  trigger: 0
-  target: 0
-  when: 0
-  state: 0
-  effect: 6
+  trigger: 7
+  target: 4
+  when: 3
+  state: 2
+  effect: 2
   modifiersLevel1:
-  - stat: 0
-    newValue: 6
+  - stat: 3
+    newValue: 800
   modifiersLevel2:
-  - stat: 0
-    newValue: 8
+  - stat: 3
+    newValue: 600
   modifiersLevel3:
-  - stat: 0
-    newValue: 10
-  effectDamage: 5
+  - stat: 3
+    newValue: 300
+  effectDamage: 2
   effectSizeRadius: 0
-  effectDuration: 5
-  effectDelayMilliseconds: 0
-  effectRepeatDelay: 1
+  effectDuration: 0
+  effectDelayMilliseconds: 1000
+  effectRepeatDelay: 0
   isCapacityCooldown: 0
   cooldownDuration: 0
   statsModifier: 0
