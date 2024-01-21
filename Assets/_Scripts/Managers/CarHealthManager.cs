@@ -72,6 +72,8 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         UIManager.instance.UITakeDamage();
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
         UIManager.instance.SetLifePlayerText(lifePoints);
+        
+        CameraShake.instance.SetShake(0.3f);
     }
 
     private bool isDead;

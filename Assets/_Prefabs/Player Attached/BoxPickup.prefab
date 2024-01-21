@@ -55,20 +55,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 50
-      inSlope: 80.54388
-      outSlope: 80.54388
+      inSlope: 176.9749
+      outSlope: 176.9749
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.05507956
+      outWeight: 0.069733284
     - serializedVersion: 3
       time: 50
       value: 5000
-      inSlope: 293.83292
-      outSlope: 293.83292
+      inSlope: 293.2455
+      outSlope: 293.2455
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.039507065
+      inWeight: 0.049205553
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -78,7 +78,9 @@ MonoBehaviour:
   sCol: {fileID: 19930330537065683}
   meshRenderer: {fileID: 902585051391079477}
   rb: {fileID: 8798538310680787797}
-  ps: {fileID: 5827997659866364933}
+  psDrop: {fileID: 0}
+  isPicked: 0
+  timeBeforeDestruction: 45
   isPickable: 1
 --- !u!65 &6947199084703115030
 BoxCollider:
@@ -401,10 +403,5 @@ PrefabInstance:
 --- !u!4 &5827997659866364932 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9020540749090925905, guid: 50a4ecac348c9c24d9ad63933d886ac6, type: 3}
-  m_PrefabInstance: {fileID: 3300666814557868373}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &5827997659866364933 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 9020540749090925904, guid: 50a4ecac348c9c24d9ad63933d886ac6, type: 3}
   m_PrefabInstance: {fileID: 3300666814557868373}
   m_PrefabAsset: {fileID: 0}

@@ -43,7 +43,7 @@ namespace Abilities
         public float cooldownDuration;
         
         private int _effectDamage;
-        private int _effectSizeRadius;
+        private float _effectSizeRadius;
         private float _effectDuration;
         private int _effectDelayMilliseconds;
         private float _effectRepeatDelay;
@@ -299,6 +299,12 @@ namespace Abilities
         {
             var position = targetObj.transform.position;
             
+            float dist = Vector3.Distance(position, CarController.instance.transform.position);
+            if (dist < 30)
+            {
+                CameraShake.instance.SetShake(0.4f *( 1- dist/30));
+            }
+            
             GameObject gameObject = Pooler.instance.SpawnTemporaryInstance(Key.FX_Explosion, position, Quaternion.identity, 5).gameObject;
             gameObject.transform.localScale = new Vector3(_effectSizeRadius, _effectSizeRadius,_effectSizeRadius);
             
@@ -403,11 +409,11 @@ namespace Abilities
             {
                 switch (modifiers[i].stat)
                 {
-                    case AbilitiesStats.EffectDamage: _effectDamage += (int)modifiers[i].newValue; break;
-                    case AbilitiesStats.EffectSizeRadius: _effectSizeRadius += (int)modifiers[i].newValue;  break;
-                    case AbilitiesStats.EffectDuration: _effectDuration += modifiers[i].newValue; break;
-                    case AbilitiesStats.EffectDelayMilliseconds: _effectDelayMilliseconds += (int)modifiers[i].newValue; break;
-                    case AbilitiesStats.EffectRepeatDelay: _effectRepeatDelay += modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectDamage: _effectDamage = (int)modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectSizeRadius: _effectSizeRadius = modifiers[i].newValue;  break;
+                    case AbilitiesStats.EffectDuration: _effectDuration = modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectDelayMilliseconds: _effectDelayMilliseconds = (int)modifiers[i].newValue; break;
+                    case AbilitiesStats.EffectRepeatDelay: _effectRepeatDelay = modifiers[i].newValue; break;
                     default: throw new ArgumentOutOfRangeException();
                 }
             }

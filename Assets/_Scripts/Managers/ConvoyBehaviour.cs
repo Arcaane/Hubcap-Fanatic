@@ -178,6 +178,12 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         if(isDead) return;
         if (!IsDamageable()) return;
         hp -= damages;
+        TextEffect txt = Pooler.instance.SpawnTemporaryInstance(Key.OBJ_TextEffect, transform.position + Vector3.up * 5,
+            quaternion.identity, 1).GetComponent<TextEffect>();
+        txt.SetDamageText(damages);
+        txt.transform.parent = CarController.instance.cameraHolder;
+        
+        
         if (hp < 1) DestroyConvoy();
     }
 

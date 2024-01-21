@@ -288,6 +288,7 @@ public class CarController : CarBehaviour
             }
             
             CarAbilitiesManager.instance.OnShotgunUsed.Invoke();
+            CameraShake.instance.SetShake(0.3f);
         }
 
         if (context.started && isBomber && canShoot())

@@ -19,8 +19,8 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     [SerializeField] public Rigidbody rb;
     [SerializeField] private ParticleSystem psDrop;
 
-    private bool isPicked;
-    private float timeBeforeDestruction;
+    public bool isPicked;
+    public float timeBeforeDestruction;
 
     public void Start()
     {

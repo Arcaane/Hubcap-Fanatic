@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Create an explosion around a killed enemy
   abilitySprite: {fileID: 21300000, guid: cd9b0d44092f19c499b41ba104e1e6ad, type: 3}
   level: -1
-  trigger: 0
+  trigger: 10
   target: 0
   when: 0
   state: 0

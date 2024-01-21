@@ -22,6 +22,7 @@ public class StartMenu : MonoBehaviour
     private void Start()
     {
         SetupData();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void SetupData()
