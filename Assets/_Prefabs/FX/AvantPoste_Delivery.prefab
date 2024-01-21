@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d880d8e7b1c14fe429f3220367362174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deliveryZone: {fileID: 4211228876291024875}
+  deliveryZone: {fileID: 3097923046817295818}
   ps: {fileID: 294421221982691625}
 --- !u!65 &7156736530942000465
 BoxCollider:
@@ -68,8 +68,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 15, y: 10, z: 15}
-  m_Center: {x: 0, y: 5, z: 0}
+  m_Size: {x: 20, y: 20, z: 20}
+  m_Center: {x: 0, y: 10, z: 0}
 --- !u!1001 &251062250276266539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78,6 +78,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5036823614444318117}
     m_Modifications:
+    - target: {fileID: 735558738219434086, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352325198790854757, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352325198790854757, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352325198790854757, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1352325198790854757, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -122,6 +138,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_AvantPoste
       objectReference: {fileID: 0}
+    - target: {fileID: 2992073855707664353, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400674127481051784, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -132,6 +156,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1352325198790854757, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
   m_PrefabInstance: {fileID: 251062250276266539}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3097923046817295818 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2992073855707664353, guid: e7b70a7e81bde7146abadce7f98c3d12, type: 3}
+  m_PrefabInstance: {fileID: 251062250276266539}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7399566310510670452
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -140,6 +169,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5036823614444318117}
     m_Modifications:
+    - target: {fileID: 6331373346202977684, guid: a085c2d3d8ebbef499021c7abef8f433, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6331373346202977684, guid: a085c2d3d8ebbef499021c7abef8f433, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6331373346202977684, guid: a085c2d3d8ebbef499021c7abef8f433, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6331373346202977684, guid: a085c2d3d8ebbef499021c7abef8f433, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -184,6 +225,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_BoxDelivered
       objectReference: {fileID: 0}
+    - target: {fileID: 6683834441160070559, guid: a085c2d3d8ebbef499021c7abef8f433, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -197,10 +242,5 @@ ParticleSystem:
 --- !u!4 &3561508213547448288 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6331373346202977684, guid: a085c2d3d8ebbef499021c7abef8f433, type: 3}
-  m_PrefabInstance: {fileID: 7399566310510670452}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4211228876291024875 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6683834441160070559, guid: a085c2d3d8ebbef499021c7abef8f433, type: 3}
   m_PrefabInstance: {fileID: 7399566310510670452}
   m_PrefabAsset: {fileID: 0}
