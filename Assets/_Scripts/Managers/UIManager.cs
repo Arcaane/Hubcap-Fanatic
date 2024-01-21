@@ -367,13 +367,10 @@ public class UIManager : MonoBehaviour
             else CloseShopScreen();
         }
     }
-
-
-    public float punchPosScale = 13;
+    
     public void UITakeDamage()
     {
         //TODO - Flashing text car fonctionne pas avec DoTween
-        
         //var punch = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * punchPosScale;
         //lifeImage.rectTransform.DOPunchPosition(punch, 0.25f);
     }
