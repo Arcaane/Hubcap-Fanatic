@@ -13,12 +13,10 @@ MonoBehaviour:
   m_Name: Curse break
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: Curse break
-  description: 'When enemy kill, all enemy around him stop
-
-'
-  abilitySprite: {fileID: 0}
-  level: 0
+  abilityName: Chain curse
+  description: When an enemy is killed, all surrounding enemies are immobilised
+  abilitySprite: {fileID: 21300000, guid: 714e08edeadfd044db875a66c0d3c2ba, type: 3}
+  level: -1
   trigger: 10
   target: 2
   when: 0

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public delegate void DefaultDelegate();
@@ -153,13 +152,6 @@ namespace Abilities
 
         #endregion
         
-        private void OnGUI()
-        {
-            GUI.Label(new Rect(50, 550, 500, 150), "Target Speed: " + car.targetSpeed);
-            GUI.Label(new Rect(50, 570, 500, 150), "Max Speed: " + car.maxSpeed);
-            GUI.Label(new Rect(50, 590, 500, 150), "Current Speed: " + car.rb.velocity.magnitude);
-        }
-
         public bool IsPlayerFullAbilities() => passiveAbilities.Count == slotAbilitiesAmount;
 
         [Space] 

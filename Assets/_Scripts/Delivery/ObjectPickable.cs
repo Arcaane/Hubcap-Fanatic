@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class ObjectPickable : MonoBehaviour, IPickupable
@@ -15,15 +17,32 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     [SerializeField] private SphereCollider sCol;
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] public Rigidbody rb;
-    [SerializeField] private ParticleSystem ps;
+    [SerializeField] private ParticleSystem psDrop;
+
+    private bool isPicked;
+    private float timeBeforeDestruction;
 
     public void Start()
     {
+        isPicked = false;
         sCol.enabled = true;
         bCol.enabled = true;
         rb.isKinematic = false;
         carWhoPickObjet = null;
         isPickable = true;
+        timeBeforeDestruction = 45f;
+    }
+
+    private void Update()
+    {
+        if (!isPicked)
+        {
+            timeBeforeDestruction -= Time.deltaTime;
+            if (timeBeforeDestruction < 0)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     public bool isPickable;
@@ -60,6 +79,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
 
     public void OnPickedUp()
     {
+        isPicked = true;
         sCol.enabled = false;
         bCol.enabled = false;
         rb.isKinematic = true;
@@ -113,8 +133,9 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         sCol.enabled = true;
         bCol.enabled = true;
         rb.isKinematic = false;
-        ps.Play();
+        psDrop.Play();
         yield return new WaitForSeconds(delay);
+        meshRenderer.enabled = true;
         isPickable = true;
     }
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   abilityName: Rapid recovery
-  description: Nitro recovers 25% faster
+  description: Nitro recovers faster
   abilitySprite: {fileID: 21300000, guid: 738687a8a8954d249b5b8051ca8fb846, type: 3}
   level: -1
   trigger: 0
@@ -42,3 +42,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: -1

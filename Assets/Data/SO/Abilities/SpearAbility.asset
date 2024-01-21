@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpearAbility
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: Spear
+  abilityName: Deadly drift
   description: Shoot a spear towards the closest enemy while drifting
   abilitySprite: {fileID: 21300000, guid: fa551a9f0598d3f4ea8b72b201aab353, type: 3}
   level: -1

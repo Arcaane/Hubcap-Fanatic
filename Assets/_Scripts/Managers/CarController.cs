@@ -46,10 +46,12 @@ public class CarController : CarBehaviour
     [SerializeField] private LayerMask roadMask;
     [SerializeField] public float offRoadSpeed = 10;
     [SerializeField] public float offRoadDeccelerationFactor = 5;
+    
 
 
     [Header("Effects")] 
 	[SerializeField] public GameObject shield;
+    public bool isShield;
 
     public bool isBerserk;
     [HideInInspector] public float dirCam;
@@ -75,6 +77,8 @@ public class CarController : CarBehaviour
         }
         
         currentCollsionBeforeDropDeliver = CollsionBeforeDropDeliver;
+        shield.SetActive(false);
+        isShield = false;
     }
     
     private void Update()
@@ -147,6 +151,11 @@ public class CarController : CarBehaviour
                 shootTimes[i] += Time.deltaTime;
                 UIManager.instance.SetShotJauge(shootTimes[i] / shootDuration,i);
             }
+        }
+
+        if (isShield)
+        {
+            shield.transform.position = transform.position;
         }
     }
 
@@ -242,7 +251,6 @@ public class CarController : CarBehaviour
             smokeNitro.Stop();
             targetSpeed = maxSpeed;
         }
-        
     }
     
     // POUR PLAYTEST
@@ -262,10 +270,12 @@ public class CarController : CarBehaviour
             if (straffColider.enemyCar.Count > 0)
             {
                 ShotgunHit();
+                UIManager.instance.GoodShotUI(shootTimes[0] >= shootDuration ? 0 : 1);
             }
             else
             {
                 CarAbilitiesManager.instance.OnShotgunUsedWithoutTarget.Invoke();
+                UIManager.instance.ShootMissUI(shootTimes[0] >= shootDuration ? 0 : 1);
             }
 
             for (int i = 0; i < shootTimes.Length; i++)
