@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Abilities;
+using ManagerNameSpace;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
@@ -62,10 +63,8 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         
         for (int i = 0; i < defensePoints.Length; i++)
         {
-            defenseCars[i] = Instantiate(defensePoints[i].defenseCar, defensePoints[i].point.position,
-                Quaternion.identity).GetComponent<PoliceCarBehavior>();
+            defenseCars[i] = Pooler.instance.SpawnInstance(defensePoints[i].defenseCar,defensePoints[i].point.position,Quaternion.identity).GetComponent<PoliceCarBehavior>();
             
-            defenseCars[i].target = CarController.instance.transform;
             defenseCars[i].convoyBehaviour = this;
             defenseCars[i].defensePoint = defensePoints[i].point;
         }
@@ -203,6 +202,6 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 [Serializable]
 public struct DefensePoint
 {
-    public GameObject defenseCar;
+    public Key defenseCar;
     public Transform point;
 }
