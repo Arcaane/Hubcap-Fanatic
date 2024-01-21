@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   abilityName: Explosive Punch
-  description: When hit enemy, explosion
+  description: Create an explosion around a killed enemy
   abilitySprite: {fileID: 0}
   level: -1
   trigger: 0

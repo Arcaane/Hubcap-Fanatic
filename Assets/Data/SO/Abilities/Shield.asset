@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Shield
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: Fast & Furious
-  description: Give a shield when start Nitro
+  abilityName: Bullet proof
+  description: Give a shield when engage nitro
   abilitySprite: {fileID: 21300000, guid: 97f286d8e5f94304498c8cee53c47a49, type: 3}
   level: 0
   trigger: 4
@@ -33,7 +33,7 @@ MonoBehaviour:
     newValue: 5
   effectDamage: 0
   effectSizeRadius: 0
-  effectDuration: 1000
+  effectDuration: 1
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
   isCapacityCooldown: 1

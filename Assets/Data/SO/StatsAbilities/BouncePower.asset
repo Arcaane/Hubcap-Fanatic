@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BouncePower
   m_EditorClassIdentifier: 
   type: 1
-  abilityName: Bounce Power
-  description: Increases speed after a bounce
+  abilityName: Ricochet
+  description: Increases speed after bouncing
   abilitySprite: {fileID: 21300000, guid: bf189bf90d9a6064f969aa938b62694f, type: 3}
   level: -1
   trigger: 0

@@ -141,13 +141,13 @@ public class UIManager : MonoBehaviour
 
     private void SetUIShotgunUsable(Image img)
     {
-        img.transform.DOShakeScale(0.3f, 1.05f, 15, 90f, true, ShakeRandomnessMode.Harmonic);
+        img.transform.DOShakeScale(0.3f, 1.04f, 11, 90f, true, ShakeRandomnessMode.Harmonic);
         img.DOColor(Color.white, 0.15f).OnComplete(() => img.DOColor(usable, 0.1f));
     }
 
     public void ShootMissUI(int i)
     {
-        shotJauges[i].transform.parent.DOLocalRotate(new Vector3(0,0,360), 0.5f, RotateMode.LocalAxisAdd);
+        shotJauges[i].transform.parent.DOLocalRotate(new Vector3(0,0,360), 0.5f, RotateMode.LocalAxisAdd).OnComplete(() => shotJauges[i].transform.parent.transform.localRotation = Quaternion.Euler(0,0,0));
     }
 
     public void GoodShotUI(int i)

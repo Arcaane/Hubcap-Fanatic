@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: NitroKillAbility
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: NitroKill
-  description: When colliding with an enemy while in nitro, deal some damage to him
+  abilityName: Nitro kill
+  description: When colliding with an enemy while in nitro, deal extra damage
   abilitySprite: {fileID: 21300000, guid: a5799dab08f90774daa14a7631c7b4ac, type: 3}
   level: -1
   trigger: 0
@@ -44,3 +44,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  index: -1

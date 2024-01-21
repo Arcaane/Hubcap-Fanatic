@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ExplosiveCounterback
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: Explosive Counterback
-  description: When damage, return explosive damage
+  abilityName: Explosive mood
+  description: When damaged, return explosive damage
   abilitySprite: {fileID: 21300000, guid: b971cc36676efdf4589f613860f4a52e, type: 3}
   level: -1
   trigger: 9

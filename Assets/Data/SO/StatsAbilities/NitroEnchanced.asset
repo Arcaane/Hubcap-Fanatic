@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   abilityName: Enhanced Nitro
-  description: Nitro speed increased by 10%.
+  description: Increased nitro speed
   abilitySprite: {fileID: 21300000, guid: 29fed7bbe1086bd489406e2f83d313f2, type: 3}
   level: -1
   trigger: 0
@@ -42,3 +42,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: -1

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   abilityName: Explosive Nitro
-  description: When start nitro, enemy closest to you explode
+  description: When engaged nitro, the closest enemy explodes
   abilitySprite: {fileID: 0}
-  level: 2
+  level: -1
   trigger: 4
   target: 4
   when: 0

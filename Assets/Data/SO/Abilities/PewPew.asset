@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PewPew
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: PewPew
-  description: Small gun when drift
+  abilityName: Bonnie and Clyde
+  description: Shoot the nearest enemy when in drift
   abilitySprite: {fileID: 0}
-  level: 0
+  level: -1
   trigger: 7
   target: 4
   when: 3
@@ -44,3 +44,4 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  index: -1

@@ -13,12 +13,10 @@ MonoBehaviour:
   m_Name: Lifesteal Bullet
   m_EditorClassIdentifier: 
   type: 0
-  abilityName: Lifesteal Bullet
-  description: 'When shotgun enemy, life ++
-
-'
+  abilityName: Bloody Bucks
+  description: Shooting an enemy now restores health
   abilitySprite: {fileID: 0}
-  level: 0
+  level: -1
   trigger: 1
   target: 0
   when: 0

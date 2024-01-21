@@ -270,12 +270,12 @@ public class CarController : CarBehaviour
             if (straffColider.enemyCar.Count > 0)
             {
                 ShotgunHit();
-                UIManager.instance.GoodShotUI(shootTimes[1] >= shootDuration ? 1 : 0);
+                UIManager.instance.GoodShotUI(shootTimes[0] >= shootDuration ? 0 : 1);
             }
             else
             {
                 CarAbilitiesManager.instance.OnShotgunUsedWithoutTarget.Invoke();
-                UIManager.instance.ShootMissUI(shootTimes[1] >= shootDuration ? 1 : 0);
+                UIManager.instance.ShootMissUI(shootTimes[0] >= shootDuration ? 0 : 1);
             }
 
             for (int i = 0; i < shootTimes.Length; i++)

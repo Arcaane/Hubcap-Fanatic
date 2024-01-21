@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   abilityName: Spear tornado
-  description: 'When pilling, shoots spears around all enemies
-
-'
+  description: When braking, shoots spears towards all the enemies around
   abilitySprite: {fileID: 21300000, guid: 0cbd632783289f4499ea0fad474f3241, type: 3}
   level: -1
   trigger: 6
