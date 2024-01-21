@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Threading.Tasks;
+using Abilities;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -54,11 +55,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         lifePoints -= a;
         ActiveDamageFB();
         
-        ColorParameter colorParameter = new ColorParameter(Color.Lerp(Color.red, Color.black, (float)lifePoints / maxLifePoints), false);
-        ClampedFloatParameter intensity =
-            new ClampedFloatParameter(Mathf.Lerp(0.45f, 0.35f, (float) lifePoints / maxLifePoints),0,1);
-        vt.color.SetValue(colorParameter);
-        vt.intensity.SetValue(intensity);
+        SetVignette();
 
         if (lifePoints < 1)
         {
@@ -66,6 +63,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
             lifePoints = 0;
         }
         
+        UIManager.instance.UITakeDamage();
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
         UIManager.instance.SetLifePlayerText(lifePoints);
     }
@@ -91,7 +89,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         StartCoroutine(LoadScene());
         await Task.Delay(2500);
         explosionPS.Play();
-        
+        SaveGold();
         await Task.Delay(2300);
         // Ecran noir
         moveOnDeath[0].DOFillAmount(1, 0.35f);
@@ -103,6 +101,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
     {
         lifePoints += i;
         if (lifePoints > maxLifePoints) lifePoints = maxLifePoints;
+        SetVignette();
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
         UIManager.instance.SetLifePlayerText(lifePoints);
     }
@@ -124,8 +123,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
             }
         }
     }
-
-
+    
     private AsyncOperation asyncOperation;
     IEnumerator LoadScene()
     {
@@ -136,5 +134,22 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         {
             yield return null;
         }
+    }
+
+    private void SaveGold()
+    {
+        if (!PlayerPrefs.HasKey("Gold")) PlayerPrefs.SetInt("Gold", 0);
+        var currentGold = PlayerPrefs.GetInt("Gold");
+        PlayerPrefs.SetInt("Gold", currentGold + CarAbilitiesManager.instance.goldAmountWonOnRun);
+        PlayerPrefs.Save();
+    }
+
+    private void SetVignette()
+    {
+        ColorParameter colorParameter = new ColorParameter(Color.Lerp(Color.red, Color.black, (float)lifePoints / maxLifePoints), false);
+        ClampedFloatParameter intensity =
+            new ClampedFloatParameter(Mathf.Lerp(0.45f, 0.35f, (float) lifePoints / maxLifePoints),0,1);
+        vt.color.SetValue(colorParameter);
+        vt.intensity.SetValue(intensity);
     }
 }

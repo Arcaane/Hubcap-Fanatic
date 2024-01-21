@@ -1,10 +1,12 @@
 using System;
 using System.Threading.Tasks;
 using Abilities;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class UIManager : MonoBehaviour
 {
@@ -28,6 +30,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Player vitals")]
     [SerializeField] private Image lifeImage;
+    [SerializeField] private Image easeLifeJauge;
     [SerializeField] private TextMeshProUGUI lifeText;
     [SerializeField] private TextMeshProUGUI lifeText2;
     
@@ -326,8 +329,14 @@ public class UIManager : MonoBehaviour
     #endregion
 
 
+    public float easeLifeLerpSpeed = 1f;
     private void Update()
     {
+    	if (Math.Abs(lifeImage.fillAmount - easeLifeJauge.fillAmount) > 0.0001f)
+        {
+            easeLifeJauge.fillAmount = Mathf.Lerp(easeLifeJauge.fillAmount, lifeImage.fillAmount, easeLifeLerpSpeed);
+        }
+    
         if (CarController.instance.isBerserk)
         {
             fireShots[0].localScale = fireShots[1].localScale = Vector3.Lerp(fireShots[0].localScale, Vector3.one, Time.deltaTime * 5);
@@ -345,7 +354,6 @@ public class UIManager : MonoBehaviour
         }
     }
     
-    
     public void AButton(InputAction.CallbackContext context)
     {
         if (!shopOpen) return;
@@ -358,6 +366,15 @@ public class UIManager : MonoBehaviour
             }
             else CloseShopScreen();
         }
+    }
+
+
+    public float punchPosScale = 13;
+    public void UITakeDamage()
+    {
+        //TODO - Flashing text car fonctionne pas avec DoTween
         
+        //var punch = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * punchPosScale;
+        //lifeImage.rectTransform.DOPunchPosition(punch, 0.25f);
     }
 }

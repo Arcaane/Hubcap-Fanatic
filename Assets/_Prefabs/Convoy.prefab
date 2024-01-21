@@ -1676,6 +1676,7 @@ MonoBehaviour:
   distancedNodes: []
   completion: 0
   upVector: 0.95
+  isDead: 0
 --- !u!65 &6506958064349121607
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -363,7 +363,6 @@ public class CarController : CarBehaviour
             
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
-
         
         if (other.gameObject.CompareTag("Enemy") && pickedItems.Count > 0)
         {
@@ -386,7 +385,7 @@ public class CarController : CarBehaviour
     protected override void PlayerBrake()
     {
         base.PlayerBrake();
-        //CarAbilitiesManager.instance.OnBrake.Invoke();
+        CarAbilitiesManager.instance.OnPill.Invoke();
     }
 
     public override void OnStopPlayerDrift()

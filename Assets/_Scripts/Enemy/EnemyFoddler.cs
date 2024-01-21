@@ -205,7 +205,7 @@ namespace EnemyNamespace
             base.OnDie();
             SwitchState(FoddlerState.Dead);
             Pooler.instance.DestroyInstance(Key.OBJ_Foddler, transform);
-            Pooler.instance.SpawnTemporaryInstance(Key.FX_Puddle, puddleSocket.position, puddleSocket.rotation, 15f);
+            //Pooler.instance.SpawnTemporaryInstance(Key.FX_Puddle, puddleSocket.position, puddleSocket.rotation, 15f);
         }
         
 #if UNITY_EDITOR
