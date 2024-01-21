@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ManagerNameSpace;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -76,6 +77,15 @@ public class WaveManager : MonoBehaviour
 
     private void CalculateWaveData()
     {
+        if (currentWaveCount >= 15)
+        {
+            MemoryForVictoryScreen.instance.waveCount = currentWaveCount;
+            MemoryForVictoryScreen.instance.victory = true;
+            DontDestroyOnLoad(MemoryForVictoryScreen.instance.gameObject);
+            CarHealthManager.instance.Victory();
+            return;
+        }
+        
         uiManager.UpdateWaveCount(currentWaveCount + 1);
         if (currentWaveCount >= waves.Count) return;
 
@@ -86,6 +96,8 @@ public class WaveManager : MonoBehaviour
         waveSpawnTimer = 100;
         if(waves[currentWaveCount].spawnConvoy) ConvoyManager.instance.SpawnConvoy();
     }
+    
+    
 
     void Update()
     {

@@ -25,15 +25,15 @@ MonoBehaviour:
   effect: 1
   modifiersLevel1:
   - stat: 1
-    newValue: 15
+    newValue: 20
   modifiersLevel2:
   - stat: 1
-    newValue: 20
+    newValue: 25
   modifiersLevel3:
   - stat: 0
     newValue: 25
   effectDamage: 15
-  effectSizeRadius: 10
+  effectSizeRadius: 15
   effectDuration: 0
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0

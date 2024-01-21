@@ -27,12 +27,12 @@ MonoBehaviour:
     newValue: 15
   modifiersLevel2:
   - stat: 1
-    newValue: 15
+    newValue: 20
   modifiersLevel3:
   - stat: 0
     newValue: 20
   effectDamage: 10
-  effectSizeRadius: 10
+  effectSizeRadius: 15
   effectDuration: 0
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0

@@ -527,12 +527,12 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         if (isScorch)
         {
             fxFire.gameObject.SetActive(true);
-            fxFire.Play();
+            fxFire.Play(true);
         }
         else
         {
             fxFire.gameObject.SetActive(false);
-            fxFire.Stop();
+            fxFire.Stop(true);
         }
     }
 }

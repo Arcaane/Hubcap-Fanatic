@@ -94,6 +94,10 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         PoliceCarManager.Instance.CallOnPlayerDeath();
         diePS.gameObject.SetActive(true);
         diePS.Play();
+        MemoryForVictoryScreen.instance.waveCount = WaveManager.instance.currentWaveCount;
+        MemoryForVictoryScreen.instance.victory = false;
+        DontDestroyOnLoad(MemoryForVictoryScreen.instance.gameObject);
+        
         StartCoroutine(LoadScene());
         await Task.Delay(2500);
         explosionPS.Play();
@@ -105,6 +109,17 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         // Switch scene
     }
 
+    public void Victory()
+    {
+        
+        StartCoroutine(LoadScene());
+        
+        // Ecran noir
+        moveOnDeath[0].DOFillAmount(1, 0.35f);
+        moveOnDeath[1].DOFillAmount(1, 0.35f).OnComplete(() => asyncOperation.allowSceneActivation = true);
+        // Switch scene
+    }
+    
     public void TakeHeal(int i)
     {
         lifePoints += i;
@@ -136,7 +151,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
     IEnumerator LoadScene()
     {
         yield return null;
-        asyncOperation = SceneManager.LoadSceneAsync("PROTO_WE_Start");
+        asyncOperation = SceneManager.LoadSceneAsync(2);
         asyncOperation.allowSceneActivation = false;
         while (!asyncOperation.isDone)
         {

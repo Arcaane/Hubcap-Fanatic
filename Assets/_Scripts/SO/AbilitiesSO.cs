@@ -453,7 +453,7 @@ namespace Abilities
                     player.nitroRegen = howStatsModify switch
                     {
                         HowStatsModify.Subtract => carAbilities.baseNitroCooldown - amount[level],
-                        HowStatsModify.Add => carAbilities.baseNitroCooldown + amount[level],
+                        HowStatsModify.Add => carAbilities.baseNitroCooldown - amount[level],
                         HowStatsModify.Multiply => carAbilities.baseNitroCooldown * amount[level],
                         _ => throw new ArgumentOutOfRangeException()
                     };

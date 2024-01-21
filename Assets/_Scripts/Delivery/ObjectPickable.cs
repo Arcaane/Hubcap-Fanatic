@@ -18,6 +18,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] public Rigidbody rb;
     [SerializeField] private ParticleSystem psDrop;
+    [SerializeField] private ParticleSystem psPickable;
 
     public bool isPicked;
     public float timeBeforeDestruction;
@@ -30,6 +31,8 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         rb.isKinematic = false;
         carWhoPickObjet = null;
         isPickable = true;
+        psDrop.Stop(true);
+        psPickable.Stop(true);
         timeBeforeDestruction = 45f;
     }
 
@@ -55,6 +58,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
             isCopHasPick = false;
             UIIndic.instance.EnableOrDisableDeliveryZone(true);
             transform.parent = PickableManager.Instance.carPickableSocket;
+            psPickable.Play(true);
             
             //Ref to the car who pick the object
             carWhoPickObjet = other.gameObject;
@@ -72,6 +76,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
             //Ref to the car who pick the object
             carWhoPickObjet = other.gameObject;
             transform.parent = other.transform.gameObject.transform.GetComponent<PoliceCarBehavior>().socketPickableCop.transform;
+            psPickable.Play(true);
             other.transform.GetComponent<PoliceCarBehavior>().objectPickable = gameObject;
             OnPickedUp();
         }   
@@ -133,7 +138,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         sCol.enabled = true;
         bCol.enabled = true;
         rb.isKinematic = false;
-        psDrop.Play();
+        psDrop.Play(true);
         yield return new WaitForSeconds(delay);
         meshRenderer.enabled = true;
         isPickable = true;

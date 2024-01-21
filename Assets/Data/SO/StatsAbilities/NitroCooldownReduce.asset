@@ -35,10 +35,10 @@ MonoBehaviour:
   statsModifier: 3
   howStatsModify: 2
   amount:
-  - 0.75
-  - 0.5
-  - 0.25
-  - 0.1
+  - 1.25
+  - 1.5
+  - 1.75
+  - 2
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0

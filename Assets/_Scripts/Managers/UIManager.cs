@@ -402,8 +402,8 @@ public class UIManager : MonoBehaviour
     private float shakeRandomness = 90;
     public void UITakeDamage()
     {
-        lifeImage.transform.DOShakePosition(effectDuration, new Vector3(shakeStrength,0,0), shakeVibrato, shakeRandomness).SetLoops(1, LoopType.Restart);
-        easeLifeJauge.transform.DOShakePosition(effectDuration, new Vector3(shakeStrength,0,0), shakeVibrato, shakeRandomness).SetLoops(1, LoopType.Restart);
+        lifeImage.transform.DOShakePosition(effectDuration, new Vector3(shakeStrength,0,0), shakeVibrato, shakeRandomness).SetLoops(1, LoopType.Restart).OnComplete(() => lifeImage.transform.localPosition = new Vector3(0,0,0));
+        easeLifeJauge.transform.DOShakePosition(effectDuration, new Vector3(shakeStrength,0,0), shakeVibrato, shakeRandomness).SetLoops(1, LoopType.Restart).OnComplete(() => easeLifeJauge.transform.localPosition = new Vector3(0,0,0));
         lifeText.color = lifeText2.color = Color.white;
         StartCoroutine(SetLifeGoodTextColor(0.14f));
     }

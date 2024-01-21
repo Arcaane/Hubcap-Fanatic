@@ -37,7 +37,7 @@ MonoBehaviour:
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
   isCapacityCooldown: 1
-  cooldownDuration: 2
+  cooldownDuration: 5
   statsModifier: 0
   howStatsModify: 0
   amount: []

@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4923,7 +4923,7 @@ Transform:
   - {fileID: 1647290115938567383}
   - {fileID: 9095403363299508989}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &7108216024842031965
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -9837,8 +9837,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.15
+      scalar: 0.2
+      minScalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -14649,7 +14649,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1286933603836576736, guid: a1ffe7fe6701b404f82d7bbd7c653111, type: 3}
       propertyPath: startDelay.scalar
-      value: 0.15
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286933603836576736, guid: a1ffe7fe6701b404f82d7bbd7c653111, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286933603836576736, guid: a1ffe7fe6701b404f82d7bbd7c653111, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2506025015101273846, guid: a1ffe7fe6701b404f82d7bbd7c653111, type: 3}
       propertyPath: m_Name

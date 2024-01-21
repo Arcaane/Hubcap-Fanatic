@@ -22,8 +22,12 @@ public class CameraShake : MonoBehaviour
 
     private void Update()
     {
-        transform.localPosition = pos + (transform.up * (Mathf.Sin(Time.time * 50 + 1) * shakeForce) + transform.right * (Mathf.Sin(Time.time * 50) * shakeForce * 2)) * shakeTime;
-        if (shakeTime < 0) shakeTime = 0;
-        else shakeTime -= Time.deltaTime;
+        //transform.localPosition = pos + (transform.up * (Mathf.Sin(Time.time * 50 + 1) * shakeForce) + transform.right * (Mathf.Sin(Time.time * 50) * shakeForce * 2)) * shakeTime;
+        if (shakeTime <= 0) shakeTime = 0;
+        else
+        {
+            transform.localPosition = pos + (transform.up * (Mathf.Sin(Time.time * 50 + 1) * shakeForce) + transform.right * (Mathf.Sin(Time.time * 50) * shakeForce * 2)) * shakeTime;
+            shakeTime -= Time.deltaTime;
+        }
     }
 }
