@@ -74,6 +74,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CanvasGroup hudGroup,shopGroup;
     [SerializeField] private AnimationCurve[] optionsCurves;
     [SerializeField] private bool shopOpen,shopTransition;
+    public bool ShopOpen => shopOpen;
     [SerializeField] private int shopOptionSelected = 0;
     [SerializeField] private TextMeshProUGUI shoptokenText;
     [SerializeField] private TextMeshProUGUI shoptokenText2;

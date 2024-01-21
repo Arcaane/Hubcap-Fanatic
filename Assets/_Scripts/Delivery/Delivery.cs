@@ -5,15 +5,12 @@ using UnityEngine;
 
 public class Delivery : MonoBehaviour
 {
-    [SerializeField] private float lifeTime = 50.0f;
-    [SerializeField] private float cooldownDelivery = 4.0f;
     private bool canBeDelivered = false;
-    private int deliveryCount = 0;
-
-    public MeshRenderer boxMesh;
-    public Material[] transpMat;
-    public Material[] solidMat;
-    public ParticleSystem[] ps;
+ 
+    
+    [Header("--------- PARTICULES ---------")]
+    public GameObject deliveryZone;
+    public ParticleSystem ps;
     
     private float currentTime;
 
@@ -45,33 +42,23 @@ public class Delivery : MonoBehaviour
     public void CanDeliver()
     {
         canBeDelivered = true;
-        var materials = boxMesh.materials;
-        materials[0] = transpMat[0];
-        materials[1] = transpMat[1];
-        boxMesh.enabled = true;
-        gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+        deliveryZone.SetActive(true);
     }
 
     public void CantDeliver()
     {
         canBeDelivered = false;
-        boxMesh.enabled = false;
-        gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+        deliveryZone.SetActive(false);
     }
 
     public async void OnDeliver()
     {
-        if (boxMesh != null) boxMesh.enabled = true;
-        for (int i = 0; i < ps.Length; i++) ps[i].Play();
+        if (deliveryZone != null) deliveryZone.SetActive(false);
         canBeDelivered = false;
-        if (boxMesh != null)
-        {
-            var materials = boxMesh.materials;
-            materials[0] = solidMat[0];
-            materials[1] = solidMat[1];
-        }
-       
+        ps.gameObject.SetActive(true);
+        ps.Play();
         await Task.Delay(1500);
-        if (boxMesh != null) boxMesh.enabled = false;
+        ps.gameObject.SetActive(false);
+        ps.Stop();
     }
 }
