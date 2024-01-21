@@ -468,7 +468,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         txt.SetDamageText(damages);
         txt.transform.parent = CarController.instance.cameraHolder;
 
-        if (hp > 1 && !isDead) return;
+        if (currentHp > 1 && !isDead) return;
 
         if (objectPickable != null)
         {
