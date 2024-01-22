@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
-  m_Name: Bonty Hunter
+  m_Name: Bounty Hunter
   m_EditorClassIdentifier: 
   type: 0
   abilityName: Bounty Hunter
   description: When an enemy takes damage, all the enemies around them give gold
     if they are killed promptly.
   abilitySprite: {fileID: 21300000, guid: 17bf56102fb664d489bd0beef0239aa5, type: 3}
-  level: -1
+  level: 0
   trigger: 8
   target: 2
   when: 0
@@ -33,9 +33,9 @@ MonoBehaviour:
   - stat: 3
     newValue: 300
   effectDamage: 0
-  effectSizeRadius: 10
-  effectDuration: 2
-  effectDelayMilliseconds: 0
+  effectSizeRadius: 15
+  effectDuration: 5
+  effectDelayMilliseconds: 1000
   effectRepeatDelay: 0
   isCapacityCooldown: 1
   cooldownDuration: 5
@@ -44,5 +44,5 @@ MonoBehaviour:
   amount: []
   enemyLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  index: 1
+    m_Bits: 128
+  index: 0

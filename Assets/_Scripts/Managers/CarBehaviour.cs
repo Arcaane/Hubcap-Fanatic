@@ -197,12 +197,6 @@ public class CarBehaviour : MonoBehaviour
         }
         else
         {
-            if (!brakeMethodApplied)
-            {
-                brakeMethodApplied = true;
-                PlayerBrake();
-            }
-            
             brake = brakeForce * -decceleration * wheel.drivingFactor;
         }
 
@@ -218,11 +212,6 @@ public class CarBehaviour : MonoBehaviour
     }
     
     #endregion
-
-    protected virtual void PlayerBrake()
-    {
-        
-    }
 }
 
 

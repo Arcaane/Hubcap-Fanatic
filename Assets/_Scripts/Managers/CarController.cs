@@ -201,6 +201,7 @@ public class CarController : CarBehaviour
             if (!(stickValue.x > 0.6f || stickValue.x < -0.6f) && !driftBrake)
             {
                 CarAbilitiesManager.instance.OnPill.Invoke();
+                Debug.Log("On Pill");
             }
         }
         
@@ -394,12 +395,6 @@ public class CarController : CarBehaviour
         }
     }
     
-    protected override void PlayerBrake()
-    {
-        base.PlayerBrake();
-        CarAbilitiesManager.instance.OnPill.Invoke();
-    }
-
     public override void OnStopPlayerDrift()
     {
         CarAbilitiesManager.instance.OnStateExit.Invoke();

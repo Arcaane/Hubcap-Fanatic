@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityName: Chain curse
   description: When an enemy is killed, all surrounding enemies are immobilised
   abilitySprite: {fileID: 21300000, guid: 714e08edeadfd044db875a66c0d3c2ba, type: 3}
-  level: -1
+  level: 0
   trigger: 10
   target: 2
   when: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
   - stat: 2
     newValue: 5
   effectDamage: 0
-  effectSizeRadius: 10
+  effectSizeRadius: 15
   effectDuration: 3
   effectDelayMilliseconds: 0
   effectRepeatDelay: 0
@@ -43,5 +43,5 @@ MonoBehaviour:
   amount: []
   enemyLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  index: 6
+    m_Bits: 128
+  index: 0

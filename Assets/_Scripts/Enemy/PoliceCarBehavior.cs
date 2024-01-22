@@ -74,6 +74,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public float distanceToPlayer;
     private float saveOvershoot;
 
+    public ParticleSystem isAimedPS;
     void Start()
     {
         if (policeCars == null) policeCars = new List<PoliceCarBehavior>();
@@ -477,13 +478,19 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             objectPickable.GetComponent<ObjectPickable>().rb.AddForce(Vector3.up * 100);
             objectPickable = null;
         }
+
+        if (isAimEffect)
+        {
+            CarAbilitiesManager.instance.goldAmountWonOnRun += Random.Range(2, 5);
+            isAimedPS.Stop();
+        }
         
         CarAbilitiesManager.instance.OnEnemyKilled.Invoke(gameObject);
         CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
         isDead = true;
         OnPoliceCarDie.Invoke(gameObject);
         Pooler.instance.DestroyInstance(enemyKey, transform);
-        if (isAimEffect) CarAbilitiesManager.instance.goldAmountWonOnRun += Random.Range(2, 4);
+        
     }
 
     public bool IsDamageable() => gameObject.activeSelf && currentHp > 0;

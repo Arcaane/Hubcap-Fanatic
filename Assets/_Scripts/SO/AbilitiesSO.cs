@@ -58,7 +58,7 @@ namespace Abilities
         private Collision returnedCollision;
         
         // Memory Vars
-        private Collider[] cols; 
+        private Collider[] cols = new Collider[50]; 
         private float effectRepeatTimer;
         private CarController player;
         private CarAbilitiesManager carAbilities;
@@ -192,11 +192,13 @@ namespace Abilities
             }
         }
 
-        public void ApplyEffectOnTargetsInZone(Vector3 zonePos,float zoneRadius)
+        public void ApplyEffectOnTargetsInZone(Vector3 zonePos, float zoneRadius)
         {
-            cols = Physics.OverlapSphere(zonePos, zoneRadius, enemyLayerMask);
+            Debug.Log("Tacos 6 viandes");
+            cols = Physics.OverlapSphere(zonePos, effectSizeRadius, enemyLayerMask);
             if (cols.Length > 0)
             {
+                Debug.Log("Oui?");
                 for (int i = 0; i < cols.Length; i++)
                 {
                     ApplyEffectOnTarget(cols[i].gameObject);
@@ -271,12 +273,15 @@ namespace Abilities
 
         private void EffectSpear(GameObject targetObj)
         {
-            if (targetObj == null) return;
+            Debug.Log("Spear Call");
+            if (!targetObj.activeSelf || targetObj == null) return;
+            
             var carPos = player.transform.position;
             Vector3 relativePos = carPos - targetObj.transform.position;
             relativePos = new Vector3(relativePos.x, 0, relativePos.z).normalized;
+            
             Transform obj = Pooler.instance.SpawnInstance(Key.OBJ_Spear, carPos, Quaternion.LookRotation(-relativePos)) as Transform;
-            if (obj.gameObject != null) obj.GetComponent<SpearObject>().damages = _effectDamage;
+            obj.GetComponent<SpearObject>().damages = _effectDamage;
         }
     
         private void EffectDamage(GameObject targetObj)
@@ -287,6 +292,7 @@ namespace Abilities
     
         private void EffectForceBreak(GameObject targetObj)
         {
+            if (!targetObj.activeSelf) return;
             CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
             if (carBehaviour == null) return;
             carBehaviour.forceBreak = true;
@@ -294,6 +300,7 @@ namespace Abilities
             GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_MotorBreak, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, effectDuration).gameObject;
             go.transform.SetParent(targetObj.transform);
             go.SetActive(true);
+            go.GetComponent<ParticleSystem>().Play(true);
         }
 
         private void EffectExplosion(GameObject targetObj)
@@ -381,12 +388,17 @@ namespace Abilities
 
         private async void EffectTarget(GameObject obj)
         {
-            var a = obj.GetComponent<CarBehaviour>();
+            var a = obj.GetComponent<PoliceCarBehavior>();
+            Debug.Log("Bounty hunter on " + a.name + " start");
+            Debug.Log(a);
             if (!a) return;
             a.isAimEffect = true;
-            await Task.Delay(Mathf.FloorToInt(_effectDuration * 1000));
+            a.isAimedPS.Play();
+            await Task.Delay(5000);
             if (!a) return;
             a.isAimEffect = false;
+            a.isAimedPS.Stop();
+            Debug.Log("Bounty hunter on " + a.name + " finish");
         }
         
         #endregion
