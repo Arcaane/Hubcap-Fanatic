@@ -6,8 +6,10 @@ TagManager:
   tags:
   - PlayerBonusCollider
   - Wall
-  - Cone
   - Fodder
+  - ObjectDelivery
+  - Enemy
+  - Cone
   layers:
   - Default
   - TransparentFX
@@ -15,12 +17,13 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Environnement
   - 
   - ResponsiveEffectsLayer
   - 
+  - Road
   - 
   - 
   - 
@@ -28,9 +31,8 @@ TagManager:
   - 
   - 
   - 
+  - HitEnemiesAndEnviro
   - 
-  - DestructionCar
-  - DestructionProps
   - 
   - 
   - 

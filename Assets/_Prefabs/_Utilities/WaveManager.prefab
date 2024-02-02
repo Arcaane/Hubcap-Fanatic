@@ -1,0 +1,393 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6067095195671865652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8163973344043957153}
+  - component: {fileID: 3907908965169096709}
+  m_Layer: 0
+  m_Name: WaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8163973344043957153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067095195671865652}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3907908965169096709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067095195671865652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b446515e72129408245041bb72a5d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontSpawn: 0
+  waves:
+  - waveName: Wave 1
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 2
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 0, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 3
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 1, y: 2}
+      - entityKey: 0
+        enemyCount: {x: 1, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 4
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 5
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    spawnConvoy: 1
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 6
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 3, y: 3}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 7
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 3}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 8
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 6, y: 6}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 6, y: 6}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 9
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 4, y: 4}
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 3, y: 3}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 10
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 3, y: 3}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+    spawnConvoy: 1
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 11
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 4, y: 6}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 6, y: 8}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 12
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 3}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    spawnConvoy: 1
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 13
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 4, y: 4}
+    - enemyInSpawnBurst:
+      - entityKey: 0
+        enemyCount: {x: 1, y: 1}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 3, y: 3}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 14
+    waveDuration: 55
+    enemyGroupsList: []
+    spawnConvoy: 1
+    enemyGroupsSpawnRate: 0
+  - waveName: Wave 15
+    waveDuration: 55
+    enemyGroupsList:
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 1, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 3}
+      - entityKey: 4
+        enemyCount: {x: 1, y: 3}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    - enemyInSpawnBurst:
+      - entityKey: 4
+        enemyCount: {x: 1, y: 1}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+      - entityKey: 4
+        enemyCount: {x: 2, y: 2}
+    spawnConvoy: 0
+    enemyGroupsSpawnRate: 0
+  currentWaveCount: 0
+  intervalBetweenWaves: 5
+  carTransform: {fileID: 0}
+  positions: []
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4104
+  offset: {x: 0, y: 0, z: 15}
+  heightOffset: 32
+  widthOffset: 64
+  addAngleToRectange: 0
+  spawningPointPerSideCount: 30
+  spawingTimer: 0
+  waveSpawnTimer: 0
+  enemiesSpawningTimer: 0
+  spawnBurstInsideWave: 0
+  spawnBurstCounter: 0
+  camholder: {fileID: 0}

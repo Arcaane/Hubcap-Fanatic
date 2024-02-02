@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
+  m_Name: Gold
+  m_EditorClassIdentifier: 
+  type: 2
+  abilityName: Gold
+  description: Gain 50 golds.
+  abilitySprite: {fileID: 21300000, guid: 3f9509d504b741245b0db092b9236e4d, type: 3}
+  level: -1
+  trigger: 0
+  target: 0
+  when: 0
+  state: 0
+  effect: 0
+  modifiersLevel1: []
+  modifiersLevel2: []
+  modifiersLevel3: []
+  effectDamage: 50
+  effectSizeRadius: 0
+  effectDuration: 0
+  effectDelayMilliseconds: 0
+  effectRepeatDelay: 0
+  isCapacityCooldown: 0
+  cooldownDuration: 0
+  statsModifier: 0
+  howStatsModify: 0
+  amount: []
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  index: -1

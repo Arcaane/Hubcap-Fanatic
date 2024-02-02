@@ -2,8 +2,6 @@ using System;
 
 public interface IDamageable
 {
-    void TakeDamage()
-    {
-        
-    }
+    void TakeDamage(int damages);
+    bool IsDamageable();
 }
