@@ -134,7 +134,8 @@ namespace ManagerNameSpace
         OBJ_Mine,
         FX_Explosion,
         FX_PlayerGiveLife,
-        OBJ_TextEffect
+        OBJ_TextEffect,
+        OBJ_GoldText
     }
 
     public enum ReturnType

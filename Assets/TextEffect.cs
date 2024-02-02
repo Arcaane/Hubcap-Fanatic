@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -12,5 +10,11 @@ public class TextEffect : MonoBehaviour
     {
         transform.rotation = Quaternion.Euler(rot);
         text1.text = text2.text = "-" + amount;
+    }
+
+    public void SetGoldText(int amount)
+    {
+        transform.rotation = Quaternion.Euler(rot);
+        text1.text = text2.text = "+" + amount;
     }
 }

@@ -439,26 +439,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        // if (!showRadiusGizmos) return;
-        // Gizmos.color = Color.white;
-        // Gizmos.DrawLine(transform.position, transform.forward * 2);
-        //
-        // Gizmos.color = Vector3.Dot(CarController.instance.transform.forward, transform.forward) < 0.75f
-        //     ? Color.green
-        //     : Color.red;
-        //
-        // Gizmos.DrawLine(transform.position, currentTarget.position);
-
-        // Gizmos.DrawWireSphere(transform.position,attractiveRadius);
-        // Gizmos.color = Color.yellow;
-        // Gizmos.DrawWireSphere(transform.position,alignementRadius);
-        // Gizmos.color = Color.red;
-        // Gizmos.DrawWireSphere(transform.position,repulsiveRadius);
-    }
-
+    
     private bool isDead = false;
     public void TakeDamage(int damages)
     {
@@ -470,7 +451,13 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         txt.transform.parent = CarController.instance.cameraHolder;
 
         if (currentHp > 1 && !isDead) return;
+        Die();
+    }
 
+    private void Die()
+    {
+        isDead = true;
+        
         if (objectPickable != null)
         {
             objectPickable.GetComponent<ObjectPickable>().OnDrop();
@@ -478,12 +465,21 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
             objectPickable = null;
         }
         
+        // Give gold
+        int gGive = Random.Range(0, 3);
+        if (isAimEffect) gGive += 10;
+        CarAbilitiesManager.instance.goldAmountWonOnRun += gGive;
+        TextEffect txt = Pooler.instance.SpawnTemporaryInstance(Key.OBJ_GoldText, transform.position + Vector3.up * 5,
+            quaternion.identity, 2).GetComponent<TextEffect>();
+        txt.SetGoldText(gGive);
+        txt.transform.parent = CarController.instance.cameraHolder;
+        
         CarAbilitiesManager.instance.OnEnemyKilled.Invoke(gameObject);
         CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
-        isDead = true;
+        
         OnPoliceCarDie.Invoke(gameObject);
+        OnPoliceCarDie = null;
         Pooler.instance.DestroyInstance(enemyKey, transform);
-        if (isAimEffect) CarAbilitiesManager.instance.goldAmountWonOnRun += Random.Range(2, 4);
     }
 
     public bool IsDamageable() => gameObject.activeSelf && currentHp > 0;
