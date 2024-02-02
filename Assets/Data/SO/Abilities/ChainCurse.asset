@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
+  m_Name: ChainCurse
+  m_EditorClassIdentifier: 
+  type: 0
+  abilityName: Chain Curse
+  description: When an enemy is killed, all surrounding enemies are immobilised
+  abilitySprite: {fileID: 21300000, guid: 714e08edeadfd044db875a66c0d3c2ba, type: 3}
+  level: -1
+  trigger: 10
+  target: 2
+  when: 0
+  state: 0
+  effect: 3
+  modifiersLevel1:
+  - stat: 1
+    newValue: 15
+  modifiersLevel2:
+  - stat: 1
+    newValue: 20
+  modifiersLevel3:
+  - stat: 2
+    newValue: 5
+  effectDamage: 0
+  effectSizeRadius: 10
+  effectDuration: 3
+  effectDelayMilliseconds: 0
+  effectRepeatDelay: 0
+  isCapacityCooldown: 1
+  cooldownDuration: 5
+  statsModifier: 0
+  howStatsModify: 0
+  amount: []
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  index: 6

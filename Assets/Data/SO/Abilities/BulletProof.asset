@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83220e93082cb54ea129bae2e66441d, type: 3}
+  m_Name: BulletProof
+  m_EditorClassIdentifier: 
+  type: 0
+  abilityName: Bullet Proof
+  description: Give a shield when engage nitro
+  abilitySprite: {fileID: 21300000, guid: 97f286d8e5f94304498c8cee53c47a49, type: 3}
+  level: 0
+  trigger: 4
+  target: 1
+  when: 0
+  state: 0
+  effect: 8
+  modifiersLevel1:
+  - stat: 2
+    newValue: 2
+  modifiersLevel2:
+  - stat: 2
+    newValue: 3
+  modifiersLevel3:
+  - stat: 2
+    newValue: 5
+  effectDamage: 0
+  effectSizeRadius: 0
+  effectDuration: 1
+  effectDelayMilliseconds: 0
+  effectRepeatDelay: 0
+  isCapacityCooldown: 1
+  cooldownDuration: 10
+  statsModifier: 0
+  howStatsModify: 0
+  amount: []
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  index: 0

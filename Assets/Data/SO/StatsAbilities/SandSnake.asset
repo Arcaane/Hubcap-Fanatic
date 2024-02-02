@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SandSnake
   m_EditorClassIdentifier: 
   type: 1
-  abilityName: Sand snake
+  abilityName: Sand Snake
   description: Increase speed on sand
   abilitySprite: {fileID: 21300000, guid: 0e41aca796174d44c886fdf62f76e872, type: 3}
   level: -1
