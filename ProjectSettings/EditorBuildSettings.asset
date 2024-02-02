@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/MENUS.unity
+    path: Assets/_Scenes/MainMenu.unity
     guid: e0ef9c3a51fc97445b63e407309a4180
   - enabled: 1
-    path: Assets/_Scenes/PROTO_FINAL_POUR-DE-VRAI.unity
+    path: Assets/_Scenes/GameplayScene.unity
     guid: 6ebf06e48d5ef934386d2755521f16e7
   - enabled: 1
-    path: Assets/_Scenes/VICTORY.unity
+    path: Assets/_Scenes/VictoryScene.unity
     guid: 07b4895191e0e3740aaf2ded69b22595
   m_configObjects: {}

@@ -40,7 +40,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] public Transform shootIcon,shopIcon;
 
     [SerializeField] public Transform[] fireShots;
-
+    
+    [SerializeField] private Image[] moveOnDeath;
+    
     [Header("Shotgun part")]
     [SerializeField] public Image[] shotJauges;
     [SerializeField] private RectTransform[] shotGunIconsFlammes;
@@ -110,6 +112,14 @@ public class UIManager : MonoBehaviour
         
         fillParent.SetActive(false);
         fillImage.fillAmount = 1;
+        
+        moveOnDeath[0].fillAmount = 1;
+        moveOnDeath[1].fillAmount = 1;
+        
+        moveOnDeath[0].DOFillAmount(0, 0.35f);
+        moveOnDeath[1].DOFillAmount(0, 0.35f);
+        
+        moveOnDeath[0].fillAmount = moveOnDeath[1].fillAmount = 0;
     }
 
     public void SetNitroJauge(float amount)
@@ -450,5 +460,10 @@ public class UIManager : MonoBehaviour
     public void CloseOutOfBounds() {
         fillParent.SetActive(false);
         fillImage.fillAmount = 1;
+    }
+
+    public void BlackScreenDeath(AsyncOperation asyncOperation) {
+        moveOnDeath[0].DOFillAmount(1, 0.35f);
+        moveOnDeath[1].DOFillAmount(1, 0.35f).OnComplete(() => asyncOperation.allowSceneActivation = true);
     }
 }

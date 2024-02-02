@@ -22,8 +22,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
     [SerializeField] private WaveManager spawnManager;
     [SerializeField] private Volume volume;
     private Vignette vt;
-
-    [SerializeField] private Image[] moveOnDeath;
+    
     [SerializeField] private MeshRenderer renderer;
     
     private void Awake()
@@ -33,12 +32,6 @@ public class CarHealthManager : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        moveOnDeath[0].fillAmount = 1;
-        moveOnDeath[1].fillAmount = 1;
-        
-        moveOnDeath[0].DOFillAmount(0, 0.35f);
-        moveOnDeath[1].DOFillAmount(0, 0.35f);
-        
         mat = new Material[renderer.materials.Length];
         for (int i = 0; i < mat.Length; i++)
         {
@@ -46,7 +39,6 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         }
         renderer.materials = mat;
         
-        moveOnDeath[0].fillAmount = moveOnDeath[1].fillAmount = 0;
         lifePoints = maxLifePoints;
         UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
         UIManager.instance.SetLifePlayerText(lifePoints);
@@ -103,20 +95,16 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         explosionPS.Play();
         SaveGold();
         await Task.Delay(2300);
-        // Ecran noir
-        moveOnDeath[0].DOFillAmount(1, 0.35f);
-        moveOnDeath[1].DOFillAmount(1, 0.35f).OnComplete(() => asyncOperation.allowSceneActivation = true);
+
+        UIManager.instance.BlackScreenDeath(asyncOperation);
         // Switch scene
     }
 
     public void Victory()
     {
-        
         StartCoroutine(LoadScene());
         
-        // Ecran noir
-        moveOnDeath[0].DOFillAmount(1, 0.35f);
-        moveOnDeath[1].DOFillAmount(1, 0.35f).OnComplete(() => asyncOperation.allowSceneActivation = true);
+        UIManager.instance.BlackScreenDeath(asyncOperation);
         // Switch scene
     }
     

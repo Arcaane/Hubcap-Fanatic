@@ -1,0 +1,18 @@
+{
+    "name": "_QuickLinkPatchkit",
+    "rootNamespace": "",
+    "references": [
+        "GUID:454dd9234e62e3c49bd87b5da27af68e"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
