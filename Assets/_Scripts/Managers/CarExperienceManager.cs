@@ -35,7 +35,6 @@ public class CarExperienceManager : MonoBehaviour
 
     private void SetupNextLevelData()
     {
-        //expBeforeNextLevelAmount += Mathf.FloorToInt(expCurve.Evaluate(playerLevel));
         expBeforeNextLevelAmount += Mathf.FloorToInt(xpPerLevel[Mathf.Clamp(playerLevel, 0, xpPerLevel.Count - 1)]);
     }
 
