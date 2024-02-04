@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54804be5ed90d8742b393f8d942d1894, type: 3}
+  m_Name: Trello
+  m_EditorClassIdentifier: 
+  trelloKey: 3ce22412fd9fd4de6054cd826aae909d
+  userToken: c4a24d87071a72e1719961d45feea5f3eaad5672b4da01c6baa1bee3f9fb1ac5
+  boardId: 652a95bf6e9fe417a692f309
+  username: yoannpierkot
+  listOfListID:
+  - listName: Feedback
+    listID: 65bf790d67ff6ba81073f6d6
+    labelID: 65bf7afded0415e9892b0109
+    listType: 0
+  - listName: Bug Report
+    listID: 65bf790d67ff6ba81073f6d6
+    labelID: 65bf7adfa92358084ebcc37e
+    listType: 1
+  - listName: Other
+    listID: 65bf790d67ff6ba81073f6d6
+    labelID: 652a95bfe17b46d74d20adb2
+    listType: 2
