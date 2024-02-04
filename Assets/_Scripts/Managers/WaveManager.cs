@@ -58,7 +58,8 @@ public class WaveManager : MonoBehaviour
     public float enemiesSpawningTimer = 0f;
     public float spawnBurstInsideWave;
     public int spawnBurstCounter;
-
+    [HideInInspector] public bool pauseWave = false;
+        
     // Start is called before the first frame update
 
     private void Awake()
@@ -73,6 +74,11 @@ public class WaveManager : MonoBehaviour
     {
         uiManager = UIManager.instance;
         CalculateWaveData();
+        
+        CommandConsole SWITCHWAVE = new CommandConsole("SwitchToWave", "SwitchToWave <int>", new List<CommandClass>() {new(typeof(int))}, (value) => switchWave(int.Parse(value[0])));
+        CommandConsole WAVESTATE = new CommandConsole("WaveState", "WaveState <bool>", new List<CommandClass>() {new(typeof(bool))}, (value) => pauseWave = value[0] == "true");
+        CommandConsoleRuntime.Instance.AddCommand(SWITCHWAVE);
+        CommandConsoleRuntime.Instance.AddCommand(WAVESTATE);
     }
 
     private void CalculateWaveData()
@@ -96,12 +102,10 @@ public class WaveManager : MonoBehaviour
         waveSpawnTimer = 100;
         if(waves[currentWaveCount].spawnConvoy) ConvoyManager.instance.SpawnConvoy();
     }
-    
-    
 
     void Update()
     {
-        if (dontSpawn) return;
+        if (dontSpawn || pauseWave) return;
         if (currentWaveCount == waves.Count) return;
 
         spawingTimer += Time.deltaTime;
@@ -119,6 +123,16 @@ public class WaveManager : MonoBehaviour
             spawingTimer = 0f;
             CalculateWaveData();
         }
+    }
+
+    /// <summary>
+    /// Switch to a specific wave
+    /// </summary>
+    /// <param name="wave"></param>
+    public void switchWave(int wave) {
+        currentWaveCount = wave;
+        spawingTimer = 0f;
+        CalculateWaveData();
     }
 
     private void SpawnEnemiesV2()

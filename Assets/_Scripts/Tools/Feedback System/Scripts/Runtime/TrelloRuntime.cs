@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class TrelloRuntime : MonoBehaviour {
     //MAPPING
-    private TrelloManagerInput mapping = null;
+    private ToolsInput mapping = null;
 
     [Header("TRELLO DATA")]
     [SerializeField] private TrelloSO trelloData = null;
@@ -37,7 +37,7 @@ public class TrelloRuntime : MonoBehaviour {
     private void OnEnable() {
         activeCam = Camera.main;
         
-        mapping = new TrelloManagerInput();
+        mapping = new ToolsInput();
         mapping.Interface.Enable();
         mapping.Interface.OpenClosePanel.started += ReportFeedbackInputPerformed;
         

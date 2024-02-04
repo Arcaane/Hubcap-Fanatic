@@ -1,0 +1,60 @@
+{
+    "name": "ToolsInput",
+    "maps": [
+        {
+            "name": "Interface",
+            "id": "799a5df1-3719-4b2f-8362-482ac4579d8d",
+            "actions": [
+                {
+                    "name": "OpenClosePanel",
+                    "type": "Value",
+                    "id": "402cc11c-77af-425e-a76e-b0bc696c1d39",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "OpenConsole",
+                    "type": "Value",
+                    "id": "69485d7a-1205-468c-8074-0897201d5318",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e93db6c8-f335-4330-bb4c-e697095be106",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "InterfaceControls",
+                    "action": "OpenClosePanel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d00aa754-54f1-403b-bb74-e5c61541e2a3",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenConsole",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "InterfaceControls",
+            "bindingGroup": "InterfaceControls",
+            "devices": []
+        }
+    ]
+}
