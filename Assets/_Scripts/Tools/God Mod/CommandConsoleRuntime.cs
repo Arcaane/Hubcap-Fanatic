@@ -54,8 +54,8 @@ public class CommandConsoleRuntime : MonoBehaviour {
         inputs = new ToolsInput();
         inputs.Enable();
         inputs.Interface.OpenConsole.started += _ => {
+            if (objectChild.activeSelf) return;
             objectChild.SetActive(true);
-            Debug.Log("ok open");
             SelectInputField();
             CheckForHelp();
         };
