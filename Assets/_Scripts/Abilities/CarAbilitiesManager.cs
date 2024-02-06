@@ -37,7 +37,19 @@ namespace Abilities
         public List<AbilitiesSO> statsAbilities;
         
         public int slotAbilitiesAmount = 4;
-        public int goldAmountWonOnRun;
+
+        
+        private int goldAmountWonOnRun;
+        public int GoldAmountWonOnRun
+        {
+            get => goldAmountWonOnRun;
+            set
+            {
+                goldAmountWonOnRun = value;
+                UIManager.instance.SetGoldText(goldAmountWonOnRun);
+            }
+        }
+
         [SerializeField] public int damageOnCollisionWithEnemy;
         [SerializeField] public float overallAbilitiesCooldown = 0;
         

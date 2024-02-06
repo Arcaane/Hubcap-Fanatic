@@ -106,7 +106,7 @@ namespace Abilities
             }
             else if (type == AbilityType.GoldGiver)
             {
-                carAbilities.goldAmountWonOnRun += (int)amount[0];
+                carAbilities.GoldAmountWonOnRun += (int)amount[0];
             }
         }
         

@@ -446,7 +446,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         currentHp -= damages;
         ActiveDamageFB();
         TextEffect txt = Pooler.instance.SpawnTemporaryInstance(Key.OBJ_TextEffect, transform.position + Vector3.up * 5,
-            quaternion.identity, 1).GetComponent<TextEffect>();
+            quaternion.identity, 0.7f).GetComponent<TextEffect>();
         txt.SetDamageText(damages);
         txt.transform.parent = CarController.instance.cameraHolder;
 
@@ -466,11 +466,11 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         }
         
         // Give gold
-        int gGive = Random.Range(0, 3);
+        int gGive = Random.Range(1, 4);
         if (isAimEffect) gGive += 10;
-        CarAbilitiesManager.instance.goldAmountWonOnRun += gGive;
+        CarAbilitiesManager.instance.GoldAmountWonOnRun += gGive;
         TextEffect txt = Pooler.instance.SpawnTemporaryInstance(Key.OBJ_GoldText, transform.position + Vector3.up * 5,
-            quaternion.identity, 2).GetComponent<TextEffect>();
+            quaternion.identity, 1).GetComponent<TextEffect>();
         txt.SetGoldText(gGive);
         txt.transform.parent = CarController.instance.cameraHolder;
         

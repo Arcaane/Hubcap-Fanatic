@@ -31,8 +31,7 @@ public class CarSelectMenu : MonoBehaviour
 
     private void Start()
     {
-        if (!PlayerPrefs.HasKey("Gold")) PlayerPrefs.SetInt("Gold", 0);
-        goldTexts[0].text = goldTexts[1].text = PlayerPrefs.GetInt("Gold").ToString();
+        goldTexts[0].text = goldTexts[1].text = GameMaster.instance.PlayerGold.ToString();
     }
 
     public void LStick(InputAction.CallbackContext context)
