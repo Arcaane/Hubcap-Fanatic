@@ -149,10 +149,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
 
     private void SaveGold()
     {
-        if (!PlayerPrefs.HasKey("Gold")) PlayerPrefs.SetInt("Gold", 0);
-        var currentGold = PlayerPrefs.GetInt("Gold");
-        PlayerPrefs.SetInt("Gold", currentGold + CarAbilitiesManager.instance.goldAmountWonOnRun);
-        PlayerPrefs.Save();
+        GameMaster.instance.AddGold(CarAbilitiesManager.instance.GoldAmountWonOnRun);
     }
 
     private void SetVignette()

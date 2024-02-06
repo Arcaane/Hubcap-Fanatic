@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2135467872103074640}
   - component: {fileID: 3815161050329964135}
   - component: {fileID: 8457138218606551958}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CoinIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 2979a035e6c33464b8b03bb989d1a32f, type: 3}
   m_Color: {r: 0.9882353, g: 1, b: 0.18431373, a: 1}
   m_FlipX: 0
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 8549005997687448517}
   - component: {fileID: 2398100289151642240}
   - component: {fileID: 687832066460903265}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TextDamageEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 3010645455183207015}
   - component: {fileID: 4765040769634157106}
   - component: {fileID: 381075875891514232}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CoinIcon_BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,17 +293,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6812692263489947101}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.44434184, y: 0.44434184, z: 0.44434184}
+  m_LocalScale: {x: 0.4039472, y: 0.40394714, z: 0.40394711}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2135467872103074640}
-  m_Father: {fileID: 1276586870912564033}
+  m_Father: {fileID: 4759824089692641741}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.701, y: -0.166}
+  m_AnchoredPosition: {x: 2.4554484, y: -0.1509094}
   m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4765040769634157106
@@ -376,7 +376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1276586870912564033}
   - component: {fileID: 1168270853461218896}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PS_GoldText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +397,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4759824089692641741}
-  - {fileID: 3010645455183207015}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1168270853461218896
@@ -427,7 +426,7 @@ GameObject:
   - component: {fileID: 4010202053253852959}
   - component: {fileID: 996608852726869630}
   - component: {fileID: 3003654744396916270}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TextDamageEffect_BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -447,6 +446,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8549005997687448517}
+  - {fileID: 3010645455183207015}
   m_Father: {fileID: 1276586870912564033}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -597,9 +597,9 @@ Animation:
   m_GameObject: {fileID: 7936563799775877519}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: eb44343c12a797f4aa5cfcb662e3f34b, type: 2}
+  m_Animation: {fileID: 7400000, guid: 670d33605369de149a071bcd20894368, type: 2}
   m_Animations:
-  - {fileID: 7400000, guid: eb44343c12a797f4aa5cfcb662e3f34b, type: 2}
+  - {fileID: 7400000, guid: 670d33605369de149a071bcd20894368, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
