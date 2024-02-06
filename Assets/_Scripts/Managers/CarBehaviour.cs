@@ -121,7 +121,12 @@ public class CarBehaviour : MonoBehaviour
         {
             // APPLICATION DES FORCES
             Vector3 wheelForce = GetWheelForces(wheels[i]);
-            rb.AddForceAtPosition(wheelForce,wheels[i].transform.position);
+            
+            if (wheelForce.magnitude > 0.01f)
+            {
+                rb.AddForceAtPosition(wheelForce, wheels[i].transform.position);
+            }
+            //rb.AddForceAtPosition(wheelForce,wheels[i].transform.position);
         }
         
     }

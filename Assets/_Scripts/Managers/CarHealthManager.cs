@@ -13,6 +13,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
     public static CarHealthManager instance;
 
     [SerializeField] public int maxLifePoints = 100;
+    public int Lifepoints => lifePoints;
     [SerializeField] private int lifePoints = 100;
     [SerializeField] public float armorInPercent;
 

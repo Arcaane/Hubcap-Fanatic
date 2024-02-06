@@ -26,11 +26,13 @@ namespace Abilities
         public When when;
         public State state;
         public Effect effect;
+        public OverheatEffect overheatEffect;
 
         [Space(5)] [Header("Abilities Level Modifiers")]
         public ActiveModifier[] modifiersLevel1;
         public ActiveModifier[] modifiersLevel2;
         public ActiveModifier[] modifiersLevel3;
+        
         
         // Stats
         [Header("Classic Abilities")]
@@ -48,7 +50,8 @@ namespace Abilities
         private int _effectDelayMilliseconds;
         private float _effectRepeatDelay;
 
-        [Header("Stats Abilities")] 
+        [Space(4)]
+        [Header("Stats Abilities")]
         public StatsModifier statsModifier; 
         public HowStatsModify howStatsModify;
         public float[] amount;
@@ -63,6 +66,9 @@ namespace Abilities
         private CarController player;
         private CarAbilitiesManager carAbilities;
         private bool isInCooldown = false;
+        
+        public bool isOverheat;
+        public bool isOverheatable;
         
         [Space(5)]
         [Header("Layer Masks")]
@@ -573,6 +579,18 @@ namespace Abilities
                     UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.gameObject.SetActive(false);
                 });
         }
+
+        public void OverheatAbility(float duration)
+        {
+            OverheatDuration((int)duration * 1000);
+        }
+
+        private async void OverheatDuration(int overHeatDuration)
+        {
+            isOverheat = true;
+            await Task.Delay(overHeatDuration);
+            isOverheat = false;
+        }
     }
 }
 
@@ -671,6 +689,15 @@ public enum HowStatsModify
     Add,
     Multiply
 }
+
+public enum OverheatEffect
+{
+    MultipleMines,
+    Effect_2,
+    Effect_3
+}
+
+
 [Serializable]
 public struct ActiveModifier
 {

@@ -80,14 +80,17 @@ public class CarController : CarBehaviour
         shield.SetActive(false);
         isShield = false;
     }
-    
-    private void Update()
+
+    public override void Update()
     {
         base.Update();
         
         rotationValue = stickValue.x;
         
-        OnMove();
+        if (CarHealthManager.instance.Lifepoints > 1)
+        {
+            OnMove();
+        }
         
         // SORTIE DU DRIFT BRAKE SI ON LACHE L'ACCELERATION
         if (driftBrake && accelForce < 0.1f)
@@ -252,14 +255,18 @@ public class CarController : CarBehaviour
             targetSpeed = maxSpeed;
         }
     }
-    
-    // POUR PLAYTEST
+
+    public float ultimateTimer;
+    public float utlimateCooldownDuration = 10f;
+    public float overheatDuration = 5f;
     public void YButton(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            if (Time.timeScale > 0.5f) UIManager.instance.OnOpenPause();
-            else UIManager.instance.OnClosePause();
+            if (ultimateTimer > utlimateCooldownDuration)
+            {
+                
+            }
         }
     }
     
@@ -338,7 +345,20 @@ public class CarController : CarBehaviour
         CarAbilitiesManager.instance.OnEnemyDamageTaken.Invoke(straffColider.enemyCar[0].gameObject);
         CarAbilitiesManager.instance.OnEnemyHitWithShotgun.Invoke(straffColider.enemyCar[0].gameObject);
     }
-    
+
+    public void Overheat()
+    {
+        var sAbilties = CarAbilitiesManager.instance.statsAbilities;
+        var pAbilities = CarAbilitiesManager.instance.passiveAbilities;
+
+        for (int i = 0; i < pAbilities.Count; i++) {
+            if (pAbilities[i].isOverheatable) pAbilities[i].OverheatAbility(overheatDuration);
+        }
+
+        for (int i = 0; i < sAbilties.Count; i++){
+            if (pAbilities[i].isOverheatable) pAbilities[i].OverheatAbility(overheatDuration);
+        }
+    }
     
 
     #endregion
