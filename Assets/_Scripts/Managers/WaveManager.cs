@@ -75,10 +75,10 @@ public class WaveManager : MonoBehaviour
         uiManager = UIManager.instance;
         CalculateWaveData();
         
-        CommandConsole SWITCHWAVE = new CommandConsole("SwitchToWave", "SwitchToWave <int>", new List<CommandClass>() {new(typeof(int))}, (value) => switchWave(int.Parse(value[0])));
-        CommandConsole WAVESTATE = new CommandConsole("WaveState", "WaveState <bool>", new List<CommandClass>() {new(typeof(bool))}, (value) => pauseWave = value[0] == "true");
-        CommandConsoleRuntime.Instance.AddCommand(SWITCHWAVE);
-        CommandConsoleRuntime.Instance.AddCommand(WAVESTATE);
+        // CommandConsole SWITCHWAVE = new CommandConsole("SwitchToWave", "SwitchToWave <int>", new List<CommandClass>() {new(typeof(int))}, (value) => switchWave(int.Parse(value[0])));
+        // CommandConsole WAVESTATE = new CommandConsole("WaveState", "WaveState <bool>", new List<CommandClass>() {new(typeof(bool))}, (value) => pauseWave = value[0] == "true");
+        // CommandConsoleRuntime.Instance.AddCommand(SWITCHWAVE);
+        // CommandConsoleRuntime.Instance.AddCommand(WAVESTATE);
     }
 
     private void CalculateWaveData()

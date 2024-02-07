@@ -255,20 +255,6 @@ public class CarController : CarBehaviour
             targetSpeed = maxSpeed;
         }
     }
-
-    public float ultimateTimer;
-    public float utlimateCooldownDuration = 10f;
-    public float overheatDuration = 5f;
-    public void YButton(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            if (ultimateTimer > utlimateCooldownDuration)
-            {
-                
-            }
-        }
-    }
     
     public void XButton(InputAction.CallbackContext context)
     {
@@ -345,22 +331,7 @@ public class CarController : CarBehaviour
         CarAbilitiesManager.instance.OnEnemyDamageTaken.Invoke(straffColider.enemyCar[0].gameObject);
         CarAbilitiesManager.instance.OnEnemyHitWithShotgun.Invoke(straffColider.enemyCar[0].gameObject);
     }
-
-    public void Overheat()
-    {
-        var sAbilties = CarAbilitiesManager.instance.statsAbilities;
-        var pAbilities = CarAbilitiesManager.instance.passiveAbilities;
-
-        for (int i = 0; i < pAbilities.Count; i++) {
-            if (pAbilities[i].isOverheatable) pAbilities[i].OverheatAbility(overheatDuration);
-        }
-
-        for (int i = 0; i < sAbilties.Count; i++){
-            if (pAbilities[i].isOverheatable) pAbilities[i].OverheatAbility(overheatDuration);
-        }
-    }
     
-
     #endregion
 
 

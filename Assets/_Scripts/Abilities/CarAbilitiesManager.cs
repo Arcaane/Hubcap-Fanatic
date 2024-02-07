@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public delegate void DefaultDelegate();
@@ -98,6 +101,8 @@ namespace Abilities
         public void Update()
         {
             OnUpdate.Invoke();
+
+            overheatTimer += Time.deltaTime;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -216,6 +221,35 @@ namespace Abilities
                 yield return null;
             }
         }
+        
+        
+        public float overheatTimer;
+        public float overheatCooldownDuration = 5f;
+        public float overheatDuration = 20f;
+        public void YButton(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                if (overheatTimer > overheatCooldownDuration + overheatDuration)
+                {
+                    Debug.Log("Start Overheat");
+                    overheatTimer = 0;
+                    OverheatDuration((int)overheatDuration*1000);
+                }
+            }
+            
+            async void OverheatDuration(int overHeatDuration)
+            {
+                for (int i = 0; i < statsAbilities.Count; i++) { if (statsAbilities[i].isOverheatable) statsAbilities[i].isOverheat = true; }
+                for (int i = 0; i < passiveAbilities.Count; i++){ if (passiveAbilities[i].isOverheatable) passiveAbilities[i].isOverheat = true; }
+            
+                await Task.Delay(overHeatDuration);
+            
+                for (int i = 0; i < statsAbilities.Count; i++) { if (statsAbilities[i].isOverheatable) statsAbilities[i].isOverheat = false; }
+                for (int i = 0; i < passiveAbilities.Count; i++){ if (passiveAbilities[i].isOverheatable) passiveAbilities[i].isOverheat = false; }
+            }
+        }
+        
     }
 }
 

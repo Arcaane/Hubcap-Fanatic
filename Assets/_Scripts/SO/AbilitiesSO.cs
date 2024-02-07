@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Threading.Tasks;
 using DG.Tweening;
 using ManagerNameSpace;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Abilities
@@ -76,6 +74,7 @@ namespace Abilities
         
         public void Initialize()
         {
+            isOverheat = false;
             player = CarController.instance;
             carAbilities = CarAbilitiesManager.instance;
             isInCooldown = false;
@@ -85,7 +84,6 @@ namespace Abilities
             _effectDuration = effectDuration;
             _effectDelayMilliseconds = effectDelayMilliseconds;
             _effectRepeatDelay = effectRepeatDelay;
-
 
             if (type == AbilityType.ClassicAbilites)
             {
@@ -135,6 +133,8 @@ namespace Abilities
         
         public void ApplyWhenModifiers()
         {
+            if (isInCooldown) { return; }
+            
             switch (state)
             {
                 case State.All: break;
@@ -143,9 +143,27 @@ namespace Abilities
                 case State.Nitro: if(!player.nitroMode) return; break;
                 default: throw new ArgumentOutOfRangeException(); break;
             }
-            
-            if (isInCooldown)
+
+            if (isOverheat)
             {
+                switch (overheatEffect)
+                {
+                    case OverheatEffect.MultipleMines:
+                        Debug.Log("OverheatEffect.MultipleMines");
+                        
+                        for (int i = 0; i < 5; i++)
+                        {
+                            float angle = Mathf.PI * 2 / 5 * i;
+                            float x = Mathf.Cos(angle) * 10;
+                            float z = Mathf.Sin(angle) * 10;
+                            EffectSpawnMine(player.transform.position + new Vector3(x,0,z));
+                        }
+                        break;
+                    case OverheatEffect.Effect_2: break;
+                    case OverheatEffect.Effect_3: break;
+                    default: throw new ArgumentOutOfRangeException();
+                }
+                
                 return;
             }
             
@@ -245,7 +263,7 @@ namespace Abilities
                 case Effect.Spear: EffectSpear(targetObj); break;
                 case Effect.Damage: EffectDamage(targetObj); break;
                 case Effect.ForceBreak: EffectForceBreak(targetObj); break;
-                case Effect.SpawnMine: EffectSpawnMine(targetObj); break;
+                case Effect.SpawnMine: EffectSpawnMine(targetObj.transform.position); break;
                 case Effect.LifeSteal: EffectLifeSteal(targetObj); break;
                 case Effect.Scorch: EffectScorch(targetObj); break;
                 case Effect.Berserk: EffectBerserk(targetObj); break;
@@ -322,9 +340,9 @@ namespace Abilities
             }
         }
 
-        private void EffectSpawnMine(GameObject targetObj)
+        private void EffectSpawnMine(Vector3 targetObj)
         {
-            Mine mine = Pooler.instance.SpawnInstance(Key.OBJ_Mine, targetObj.transform.position, Quaternion.identity).GetComponent<Mine>();
+            Mine mine = Pooler.instance.SpawnInstance(Key.OBJ_Mine, targetObj, Quaternion.identity).GetComponent<Mine>();
             mine.damages = _effectDamage;
             mine.explosionRadius = _effectSizeRadius;
         }
@@ -578,18 +596,6 @@ namespace Abilities
                     isInCooldown = false;
                     UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.gameObject.SetActive(false);
                 });
-        }
-
-        public void OverheatAbility(float duration)
-        {
-            OverheatDuration((int)duration * 1000);
-        }
-
-        private async void OverheatDuration(int overHeatDuration)
-        {
-            isOverheat = true;
-            await Task.Delay(overHeatDuration);
-            isOverheat = false;
         }
     }
 }
