@@ -15,11 +15,7 @@ public class CarSelectMenu : MonoBehaviour
     public TMP_Text[] locked, weaponName, weaponDesc,goldTexts;
     public TMP_Text nameText;
     public Image[] weaponImgs, nameImages;
-<<<<<<< Updated upstream
-    public GameObject startButton;
-=======
     public GameObject startButton, unlockButton, garageSectionAnnouncer, powerUpSectionAnnouncer;
->>>>>>> Stashed changes
     public Color yellow, green, grey;
     
     public bool transition;
@@ -86,16 +82,12 @@ public class CarSelectMenu : MonoBehaviour
             {
                 if (index == 0)
                 {
-                    StartGame();
+                    StartGame(index);
                 }
             }
         }
     }
-
-<<<<<<< Updated upstream
-
-    public async void StartGame()
-=======
+    
     public bool isInGarageSection, isInPowerUpSection;
     public async void LBButton(InputAction.CallbackContext context)
     {
@@ -128,7 +120,6 @@ public class CarSelectMenu : MonoBehaviour
     }
     
     public async void StartGame(int index)
->>>>>>> Stashed changes
     {
         Debug.Log("StartGame");
         anim.Play("FadeToBlack");
