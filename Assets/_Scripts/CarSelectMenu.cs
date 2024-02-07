@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -16,6 +14,7 @@ public class CarSelectMenu : MonoBehaviour
     public TMP_Text nameText;
     public Image[] weaponImgs, nameImages;
     public GameObject startButton;
+    public GameObject unlockButton;
     public Color yellow, green, grey;
     
     public bool transition;
@@ -31,12 +30,13 @@ public class CarSelectMenu : MonoBehaviour
 
     private void Start()
     {
-        goldTexts[0].text = goldTexts[1].text = GameMaster.instance.PlayerGold.ToString();
+        UpdateGoldUI();
     }
+
+    private void UpdateGoldUI() => goldTexts[0].text = goldTexts[1].text = GameMaster.instance.PlayerGold.ToString();    
 
     public void LStick(InputAction.CallbackContext context)
     {
-
         if (context.performed)
         {
             stickValue = context.ReadValue<Vector2>();
@@ -53,9 +53,7 @@ public class CarSelectMenu : MonoBehaviour
                 {
                     RightChoice();
                 }
-                
             } 
-            
         }
         else
         {
@@ -79,22 +77,29 @@ public class CarSelectMenu : MonoBehaviour
             }
             else if(!transition)
             {
-                if (index == 0)
+                // Lancer la partie
+                if (cars[index].unlocked)
                 {
-                    StartGame();
+                    StartGame(index);
+                }
+                else if(!cars[index].unlocked)
+                {
+                   UnlockCar();
                 }
             }
         }
     }
-
-
-    public async void StartGame()
+    
+    public async void StartGame(int index)
     {
-        Debug.Log("StartGame");
-        anim.Play("FadeToBlack");
-        transition = true;
-        await Task.Delay(600);
-        SceneManager.LoadScene(1);
+        if (index == 0)
+        {
+            Debug.Log("StartGame");
+            anim.Play("FadeToBlack");
+            transition = true;
+            await Task.Delay(600);
+            SceneManager.LoadScene(1);
+        }
     }
     
     public void LeftChoice()
@@ -142,17 +147,31 @@ public class CarSelectMenu : MonoBehaviour
             {
                 nameImages[i].color = yellow;
             }
+            
+            unlockButton.SetActive(false);
             startButton.SetActive(true);
         }
         else
         {
-            locked[0].text = locked[1].text = "Locked";
+            locked[0].text = locked[1].text = "Price : " + cars[index].unlockPrice;
             locked[0].color = grey;
             for (int i = 0; i < nameImages.Length; i++)
             {
                 nameImages[i].color = grey;
             }
+            
             startButton.SetActive(false);
+            unlockButton.SetActive(true);
+
+            if (GameMaster.instance.PlayerGold < cars[index].unlockPrice)
+            {
+                unlockButton.transform.GetChild(1).GetComponent<Image>().color = grey;
+            }
+            else
+            {
+                unlockButton.transform.GetChild(1).GetComponent<Image>().color = green;
+            }
+            
         }
         
         nameText.text = cars[index].name;
@@ -166,6 +185,15 @@ public class CarSelectMenu : MonoBehaviour
     {
         transition = false;
     }
+
+    private void UnlockCar()
+    {
+        if (GameMaster.instance.PlayerGold < cars[index].unlockPrice) return;
+        GameMaster.instance.SubtractGold(cars[index].unlockPrice);
+        cars[index].unlocked = true;
+        UpdateGoldUI();
+        SetCarSelectable();
+    }
 }
 
 [Serializable]
@@ -173,6 +201,7 @@ public struct SelectableCar
 {
     public string name;
     public bool unlocked;
+    public int unlockPrice;
     public string weapon;
     [TextArea]public string description;
     public Sprite weaponSprite;
