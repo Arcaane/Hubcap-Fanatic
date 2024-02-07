@@ -386,6 +386,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     void FixedUpdate()
     {
+        if (!isActive) return;
         ApplyWheelForces();
     }
 
