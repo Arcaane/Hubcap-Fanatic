@@ -150,8 +150,10 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         bCol.enabled = true;
         rb.isKinematic = false;
         meshRenderer.enabled = false;
-        
-        CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
+
+        int expToAdd = 
+            Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel) * CarExperienceManager.Instance.nbrOfDelivery);
+        CarExperienceManager.Instance.GetExp(expToAdd);
         PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick);
         
         gameObject.GetComponent<SphereCollider>().enabled = true;

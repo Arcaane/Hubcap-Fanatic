@@ -54,6 +54,7 @@ public class Delivery : MonoBehaviour
     public async void OnDeliver()
     {
         if (deliveryZone != null) deliveryZone.SetActive(false);
+        CarExperienceManager.Instance.nbrOfDelivery += 0.1f;
         canBeDelivered = false;
         ps.gameObject.SetActive(true);
         ps.Play();
