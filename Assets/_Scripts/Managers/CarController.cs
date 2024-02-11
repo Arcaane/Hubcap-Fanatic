@@ -299,6 +299,14 @@ public class CarController : CarBehaviour
         }
     }
 
+    public void StartButton(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (UIManager.instance.pause) UIManager.instance.OnClosePause();
+            else UIManager.instance.OnOpenPause();
+        }
+    }
     
     public void ShotgunHit()
     {
