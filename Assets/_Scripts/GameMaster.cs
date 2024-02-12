@@ -8,12 +8,16 @@ public class GameMaster : MonoBehaviour
 
     public int PlayerGold => playerGold;
     private int playerGold;
+
+    public bool[] UnlockedCars => unlockedCars;
+    private bool[] unlockedCars = new[] { true, false, false };
     
     // Save Methods Library
     private void SaveGame() => SaveManager.Instance.SaveGame(gameData);
     private void LoadGame() => gameData = SaveManager.Instance.LoadGame();
     public void AddGold(int i) => playerGold += i;
     public void SubtractGold(int i) => playerGold -= i;
+    public void UnlockCar(int i) => unlockedCars[i] = true;
     
     private void Awake()
     {
@@ -31,7 +35,11 @@ public class GameMaster : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         LoadGame();
+        
         playerGold = gameData.saveGold;
+        for (int i = 0; i < gameData.unlockedCar.Length; i++) {
+            unlockedCars[i] = gameData.unlockedCar[i];
+        }
     }
 
     [ContextMenu("ResetAllGame")]
@@ -42,9 +50,19 @@ public class GameMaster : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void Save()
+    {
+        gameData.saveGold = playerGold; // Save golds
+        
+        for (int i = 0; i < gameData.unlockedCar.Length; i++) { // Save unlocked Cars
+            gameData.unlockedCar[i] = unlockedCars[i];
+        }
+        
+        SaveGame();
+    }
+    
     private void OnApplicationQuit()
     {
-        gameData.saveGold = playerGold;
-        SaveGame();
+        Save();
     }
 }

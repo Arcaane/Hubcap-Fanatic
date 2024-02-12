@@ -15,7 +15,7 @@ public class CarSelectMenu : MonoBehaviour
     public TMP_Text[] locked, weaponName, weaponDesc,goldTexts;
     public TMP_Text nameText;
     public Image[] weaponImgs, nameImages;
-    public GameObject startButton, unlockButton, garageSectionAnnouncer, powerUpSectionAnnouncer;
+    public GameObject startButton, unlockButton; //garageSectionAnnouncer, powerUpSectionAnnouncer;
     public Color yellow, green, grey;
     
     public bool transition;
@@ -31,8 +31,15 @@ public class CarSelectMenu : MonoBehaviour
 
     private void Start()
     {
-        goldTexts[0].text = goldTexts[1].text = GameMaster.instance.PlayerGold.ToString();
+        UpdateGold();
+        
+        for (int i = 0; i < cars.Length; i++)
+        {
+            cars[i].unlocked = GameMaster.instance.UnlockedCars[i];
+        }
     }
+
+    private void UpdateGold() => goldTexts[0].text = goldTexts[1].text = GameMaster.instance.PlayerGold.ToString();
 
     public void LStick(InputAction.CallbackContext context)
     {
@@ -53,9 +60,7 @@ public class CarSelectMenu : MonoBehaviour
                 {
                     RightChoice();
                 }
-                
             } 
-            
         }
         else
         {
@@ -76,14 +81,20 @@ public class CarSelectMenu : MonoBehaviour
                 await Task.Delay(1000);
                 titleScreen = false;
                 transition = false;
-                powerUpSectionAnnouncer.SetActive(true);
+                //powerUpSectionAnnouncer.SetActive(true);
+                isInGarageSection = true;
             }
-            else if(!transition)
+            else if(!transition && isInGarageSection)
             {
-                if (index == 0)
+                if (cars[index].unlocked)
                 {
                     StartGame(index);
                 }
+            }
+
+            if (!transition && !titleScreen && isInGarageSection)
+            {
+                UnlockCar();
             }
         }
     }
@@ -96,10 +107,10 @@ public class CarSelectMenu : MonoBehaviour
             if (isInGarageSection)
             {
                 transition = true;
-                garageSectionAnnouncer.SetActive(false);
+                //garageSectionAnnouncer.SetActive(false);
                 // Lancer les anims 
                 // await le temps des anims
-                powerUpSectionAnnouncer.SetActive(true);
+                //powerUpSectionAnnouncer.SetActive(true);
             }
         }
     }
@@ -111,10 +122,10 @@ public class CarSelectMenu : MonoBehaviour
             if (isInPowerUpSection)
             {
                 transition = true;
-                powerUpSectionAnnouncer.SetActive(false);
+                //powerUpSectionAnnouncer.SetActive(false);
                 // Lancer les anims 
                 // await le temps des anims
-                garageSectionAnnouncer.SetActive(true);
+                //garageSectionAnnouncer.SetActive(true);
             }
         }
     }
@@ -143,17 +154,13 @@ public class CarSelectMenu : MonoBehaviour
 
     public void SetNextChoiceLeft()
     {
-        
         index--;
         if (index < 0) index = cars.Length - 1;
-        
         SetCarSelectable();
     }
     public void SetNextChoiceRight()
     {
-        
         index = (index + 1) % cars.Length;
-        
         SetCarSelectable();
     }
 
@@ -174,6 +181,7 @@ public class CarSelectMenu : MonoBehaviour
                 nameImages[i].color = yellow;
             }
             startButton.SetActive(true);
+            unlockButton.SetActive(false);
         }
         else
         {
@@ -184,6 +192,8 @@ public class CarSelectMenu : MonoBehaviour
                 nameImages[i].color = grey;
             }
             startButton.SetActive(false);
+            unlockButton.SetActive(true);
+            unlockButton.transform.GetChild(1).GetComponent<Image>().color = GameMaster.instance.PlayerGold > cars[index].carPrice ? yellow : grey;
         }
         
         nameText.text = cars[index].name;
@@ -191,6 +201,28 @@ public class CarSelectMenu : MonoBehaviour
         weaponDesc[0].text = weaponDesc[1].text = cars[index].description;
         weaponImgs[0].sprite = weaponImgs[1].sprite = cars[index].weaponSprite;
         
+    }
+
+    private void UnlockCar()
+    {
+        if (cars[index].unlocked) return;
+
+        if (cars[index].carPrice > GameMaster.instance.PlayerGold)
+        {
+            // Pas assez d'argent
+            // Son pas achetable
+        }
+        else
+        {
+            // Acheter voiture
+            // Son voiture acheté
+            GameMaster.instance.SubtractGold(cars[index].carPrice);
+            cars[index].unlocked = true;
+            GameMaster.instance.UnlockCar(index);
+            SetCarSelectable();
+            UpdateGold();
+            GameMaster.instance.Save();
+        }
     }
 
     public void ResetTransition()
@@ -205,6 +237,7 @@ public struct SelectableCar
     public string name;
     public bool unlocked;
     public string weapon;
+    public int carPrice;
     [TextArea]public string description;
     public Sprite weaponSprite;
 }
