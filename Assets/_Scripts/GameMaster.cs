@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,6 +36,13 @@ public class GameMaster : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         LoadGame();
+        
+        CommandConsole RESETGAMEDATA = new CommandConsole("ResetGameData", "Reset all game data", new List<CommandClass>() {new(null)}, (value) =>
+        {
+            ResetAllGame();
+        });
+
+        CommandConsoleRuntime.Instance.AddCommand(RESETGAMEDATA);
         
         playerGold = gameData.saveGold;
         for (int i = 0; i < gameData.unlockedCar.Length; i++) {

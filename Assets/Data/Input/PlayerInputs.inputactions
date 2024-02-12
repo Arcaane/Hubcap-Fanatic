@@ -1,5 +1,5 @@
 {
-    "name": "Inputs",
+    "name": "PlayerInputs",
     "maps": [
         {
             "name": "Inputs",
@@ -81,6 +81,15 @@
                     "name": "StartButton",
                     "type": "Button",
                     "id": "fe89e33b-0312-42f1-b209-b07d0d29ff09",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RB Button",
+                    "type": "Button",
+                    "id": "f6c396c9-4cc1-4d0f-bdd4-089a16775c4e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -195,6 +204,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "StartButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d6f29ec-6387-4deb-8a30-1d14df16da76",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RB Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
