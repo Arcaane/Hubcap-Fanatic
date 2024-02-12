@@ -349,9 +349,7 @@ namespace Abilities
 
         private void EffectLifeSteal(GameObject targetObj)
         {
-            targetObj.GetComponent<IDamageable>().TakeDamage(_effectDamage);
             CarHealthManager.instance.TakeHeal(_effectDamage);
-            
             GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_PlayerGiveLife, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, 1.5f).gameObject;
             go.transform.SetParent(targetObj.transform);
             go.SetActive(true);
