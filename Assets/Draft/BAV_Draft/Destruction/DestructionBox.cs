@@ -50,7 +50,6 @@ public class DestructionBox : MonoBehaviour
 
     void EnableKinematics(bool value = true)
     {
-        if (rigidbodies == null) AddRBToArray();
         foreach (var rb in rigidbodies)
         {
             rb.isKinematic = value;
@@ -60,15 +59,13 @@ public class DestructionBox : MonoBehaviour
     [ContextMenu("Setup/Setup Box")]
     void SetupBox()
     {
-        AddCollidersToArray();
         AddRBToArray();
     } 
     
     
     [ContextMenu("Setup/Clear")]
     void ClearArray()
-    {
-        colliders = null;
+    { 
         rigidbodies = null;
     }
     
@@ -91,7 +88,6 @@ public class DestructionBox : MonoBehaviour
             rigidbody.isKinematic = false;
             rigidbody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
         }
-        EnableTriggerAsync();
         DestroyObjectAsync();
     }
 
@@ -101,19 +97,9 @@ public class DestructionBox : MonoBehaviour
         {
             hasExploded = true;
             DestroyBox();
-            ReplaceWithFracturedBox();
         }
     }
-
-    async void EnableTriggerAsync()
-    {
-        await Task.Delay(250);
-        foreach (var col in colliders)
-        {
-            col.isTrigger = false;
-        }
-    }
-
+    
     async void DestroyObjectAsync()
     {
         await Task.Delay(5000); 

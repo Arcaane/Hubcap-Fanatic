@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -7,21 +9,34 @@ using Random = UnityEngine.Random;
 public class ObjectPickable : MonoBehaviour, IPickupable
 {
     //public int expToGiveOnDeliver = 10;
+    [Header("------------------------ Parameters ------------------------")]
     public AnimationCurve expToGiveBasedOnLevel;
-    
     private float timeBeforePickable = 2f;
     private bool isCopHasPick = false;
     public GameObject carWhoPickObjet;
-
-    [SerializeField] private BoxCollider bCol;
-    [SerializeField] private SphereCollider sCol;
-    [SerializeField] private MeshRenderer meshRenderer;
-    [SerializeField] public Rigidbody rb;
-    [SerializeField] private ParticleSystem psDrop;
-    [SerializeField] private ParticleSystem psPickable;
-
     public bool isPicked;
     public float timeBeforeDestruction;
+
+    [Header("------------------------ Collider ------------------------")]
+    [SerializeField] private BoxCollider bCol;
+    [SerializeField] private SphereCollider sCol;
+    [SerializeField] public Rigidbody rb;
+    
+    [Header("------------------------ Renderer ------------------------")]
+    [SerializeField] private MeshRenderer meshRenderer;
+    
+    [Header("------------------------ Particle System ------------------------")]
+    [SerializeField] private ParticleSystem psDrop;
+    [SerializeField] private ParticleSystem psPickable;
+    
+    [Header("------------------------ Explosion ------------------------")]
+    [SerializeField] private float explosionForce = 400;
+    [SerializeField] private float explosionRadius = 10;
+    [SerializeField] private float timeToDestroyAfterExplosion = 2f;
+    [SerializeField] private GameObject fracturedBox;
+    [SerializeField] private Rigidbody[] rbds;
+
+
 
     public void Start()
     {
@@ -34,6 +49,9 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         psDrop.Stop(true);
         psPickable.Stop(true);
         timeBeforeDestruction = 45f;
+        
+        //Destruction Box : 
+        fracturedBox.SetActive(false);
     }
 
     private void Update()
@@ -69,6 +87,12 @@ public class ObjectPickable : MonoBehaviour, IPickupable
 
         if (other.gameObject.CompareTag("Enemy"))
         {
+            if (other.gameObject.GetComponent<PoliceCarBehavior>() == null) return;
+            if (other.gameObject.GetComponent<PoliceCarBehavior>().canDestroyPickable)
+            {
+                DestroyBox();
+                return;
+            }
             isCopHasPick = true;
             //Swap target
             other.gameObject.transform.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true);
@@ -159,5 +183,54 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         gameObject.GetComponent<SphereCollider>().enabled = true;
         UIIndic.instance.EnableOrDisableDeliveryZone();
         Destroy(gameObject);
+    }
+
+    private void DestroyBox()
+    {
+        ReplaceWithFracturedBox();
+        foreach (var rigidbody in rbds)
+        {
+            rigidbody.isKinematic = false;
+            rigidbody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+        } 
+        DestroyObjectAsync();
+    }
+    
+    void ReplaceWithFracturedBox()
+    {
+        if (fracturedBox != null)
+        {
+            fracturedBox.SetActive(true);
+            meshRenderer.enabled = false;
+            bCol.enabled = false;
+            sCol.enabled = false;
+            isPickable = false;
+        }
+    }
+    
+    
+    async void DestroyObjectAsync()
+    {
+        await Task.Delay((int)(timeToDestroyAfterExplosion  * 1000)); 
+        Destroy(gameObject);
+    }
+
+    
+    void AddRBToArray()
+    {
+        rbds = GetComponentsInChildren<Rigidbody>();
+    }
+    
+    [ContextMenu("Setup/Setup Box")]
+    void SetupBox()
+    {
+        AddRBToArray();
+    } 
+    
+    
+    [ContextMenu("Setup/Clear")]
+    void ClearArray()
+    { 
+        rbds = null;
     }
 }
