@@ -138,8 +138,6 @@ public class UIIndic : MonoBehaviour
     }
 
     
-    
-
     public void EnableOrDisableDeliveryZone(bool enable = false)
     {
         for (int i = 0; i < DeliveryRessourcesManager.Instance.deliveryPoints.Count; i++)
