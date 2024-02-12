@@ -109,18 +109,42 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   carWhoPickObjet: {fileID: 0}
+  isPicked: 0
+  timeBeforeDestruction: 45
   bCol: {fileID: 6947199084703115030}
   sCol: {fileID: 19930330537065683}
-  meshRenderer: {fileID: 902585051391079477}
   rb: {fileID: 8798538310680787797}
+  meshRenderer: {fileID: 902585051391079477}
   psDrop: {fileID: 5827997659866364933}
   psPickable: {fileID: 6934813704818951512}
   explosionForce: 400
   explosionRadius: 10
+  timeToDestroyAfterExplosion: 4
   fracturedBox: {fileID: 1158921280665233310}
-  rbElements: []
-  isPicked: 0
-  timeBeforeDestruction: 45
+  rbds:
+  - {fileID: 8798538310680787797}
+  - {fileID: 7808436438204165263}
+  - {fileID: 4736115383191815989}
+  - {fileID: 2967645345621973832}
+  - {fileID: 2502876207145301602}
+  - {fileID: 1330861629110026386}
+  - {fileID: 8536644592653665994}
+  - {fileID: 3450912323699019417}
+  - {fileID: 6062061116387784108}
+  - {fileID: 1273664277569031269}
+  - {fileID: 6566626722958597971}
+  - {fileID: 322544528957885713}
+  - {fileID: 5490511174425101568}
+  - {fileID: 2107452214075734525}
+  - {fileID: 5337671396874795188}
+  - {fileID: 6807266272734248568}
+  - {fileID: 8405584866126144436}
+  - {fileID: 5481340742602779880}
+  - {fileID: 2403835813618342528}
+  - {fileID: 6546538629388008115}
+  - {fileID: 2294685021561447540}
+  - {fileID: 6050821143561088010}
+  - {fileID: 5571693783002858917}
   isPickable: 1
 --- !u!65 &6947199084703115030
 BoxCollider:
@@ -702,6 +726,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 7650267187344067039, guid: d70befd37fd860f49a7ec7245df75bb7, type: 3}
+    - target: {fileID: 5704052343100637632, guid: 2934a043d054be345aba271f1eed0c9f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5465593
+      objectReference: {fileID: 0}
+    - target: {fileID: 5704052343100637632, guid: 2934a043d054be345aba271f1eed0c9f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5465593
+      objectReference: {fileID: 0}
+    - target: {fileID: 5704052343100637632, guid: 2934a043d054be345aba271f1eed0c9f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5465593
+      objectReference: {fileID: 0}
     - target: {fileID: 6622569632188435354, guid: 2934a043d054be345aba271f1eed0c9f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

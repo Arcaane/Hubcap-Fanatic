@@ -32,11 +32,9 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     [Header("------------------------ Explosion ------------------------")]
     [SerializeField] private float explosionForce = 400;
     [SerializeField] private float explosionRadius = 10;
-    [SerializeField] private float timeToDestroyAfterExplosion = 2f;
+    [SerializeField] private float timeToDestroyAfterExplosion = 4f;
     [SerializeField] private GameObject fracturedBox;
     [SerializeField] private Rigidbody[] rbds;
-
-
 
     public void Start()
     {
@@ -211,14 +209,48 @@ public class ObjectPickable : MonoBehaviour, IPickupable
     
     async void DestroyObjectAsync()
     {
+        await Task.Delay(1000); 
+        ScaleDownRigidbodies();
         await Task.Delay((int)(timeToDestroyAfterExplosion  * 1000)); 
         Destroy(gameObject);
     }
+    
+    async void ScaleDownRigidbodies()
+    {
+        if (rbds != null && rbds.Length > 0)
+        {
+            foreach (var rb in rbds)
+            {
+                Transform[] attachedTransforms = rb.GetComponentsInChildren<Transform>();
+                foreach (var attachedTransform in attachedTransforms)
+                {
+                    await ScaleDownTransform(attachedTransform.localScale);
+                }
+            }
+        }
+    }
 
+    async Task ScaleDownTransform(Vector3 originalScale)
+    {
+        float duration = 1f;
+        float timer = 0f;
+
+        Vector3 targetScale = originalScale * 0.01f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / duration;
+            transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            await Task.Yield();
+        }
+
+        transform.localScale = targetScale;
+    }
     
     void AddRBToArray()
     {
-        rbds = GetComponentsInChildren<Rigidbody>();
+        rbds = GetComponentsInChildren<Rigidbody>(); 
     }
     
     [ContextMenu("Setup/Setup Box")]
