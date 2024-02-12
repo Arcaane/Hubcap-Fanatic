@@ -60,13 +60,15 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public ParticleSystem shootFx;
     public bool shooting;
 
-    [Header("Pickable")] public GameObject socketPickableCop;
+    [Header("Pickable")] 
+    public GameObject socketPickableCop;
     public GameObject objectPickable;
 
     public GameObjectDelgate OnPoliceCarDie = delegate {  };
     public MeshRenderer meshR;
     public MeshRenderer[] metalParts;
     public Material metal;
+    public bool canDestroyPickable;
 
     [Header("BERSERK CAR")] 
     public bool runToPlayer;
@@ -401,7 +403,6 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy") ||
             other.gameObject.CompareTag("Player"))
         {
-
             if (!other.gameObject.CompareTag("Wall"))
             {
                 DropItem(other);
