@@ -116,7 +116,8 @@ namespace Abilities
 
             if (Vector3.Dot(b, a) < -0.70f)
             {
-                collision.transform.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy);
+                IDamageable damageable = collision.transform.GetComponent<IDamageable>();
+                damageable?.TakeDamage(damageOnCollisionWithEnemy);
                 OnEnemyDamageTaken.Invoke(collision.gameObject);
             }
         }
