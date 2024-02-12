@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour
 {
@@ -31,6 +32,14 @@ public class GameMaster : MonoBehaviour
         DontDestroyOnLoad(this);
         LoadGame();
         playerGold = gameData.saveGold;
+    }
+
+    [ContextMenu("ResetAllGame")]
+    public void ResetAllGame()
+    {
+        gameData.ResetData();
+        SaveGame();
+        SceneManager.LoadScene(0);
     }
 
     private void OnApplicationQuit()

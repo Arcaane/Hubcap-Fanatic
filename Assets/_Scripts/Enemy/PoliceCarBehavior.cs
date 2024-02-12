@@ -23,7 +23,9 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     [SerializeField] private AnimationCurve expToGiveBasedOnLevel;
     [Space(4)] public static List<PoliceCarBehavior> policeCars = new List<PoliceCarBehavior>();
 
-    [Header("POLICE CAR")] public Transform target;
+    [Header("POLICE CAR")] 
+    public bool isActive = true;
+    public Transform target;
 
     [SerializeField] private Material[] mat;
 
@@ -120,6 +122,8 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     
     private void Update()
     {
+        if (!isActive) return;
+        
         base.Update();
         ActiveFireFB();
 
@@ -382,6 +386,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
     void FixedUpdate()
     {
+        if (!isActive) return;
         ApplyWheelForces();
     }
 

@@ -5,7 +5,7 @@ public class CarExperienceManager : MonoBehaviour
 {
     private static CarExperienceManager instance;
     public static CarExperienceManager Instance => instance;
-
+    
     [SerializeField] private UIManager uiManager;
     [SerializeField] public int playerLevel;
     [SerializeField] private AnimationCurve expCurve;
@@ -15,6 +15,8 @@ public class CarExperienceManager : MonoBehaviour
     [SerializeField] private int currentExperienceAmount;
     [SerializeField] public int levelUpTokensAvailable;
     [SerializeField] public TestShop shop = null;
+
+    [SerializeField] public float nbrOfDelivery = 1;
     
     private void Awake()
     {

@@ -16,6 +16,7 @@ public class WaveManager : MonoBehaviour
         public float waveDuration;
         public List<EnemyGroups> enemyGroupsList;
         public bool spawnConvoy;
+        public int blockadeSpawn,maxBlockades;
 
         [HideInInspector] public float enemyGroupsSpawnRate = 0;
     }
@@ -36,6 +37,9 @@ public class WaveManager : MonoBehaviour
     public List<Wave> waves;
     public int currentWaveCount;
     public float intervalBetweenWaves;
+
+    public int activeBlockades;
+    public List<DamBehavior> blockades;
 
     //Spawning
     [SerializeField] private Transform carTransform;
@@ -101,6 +105,28 @@ public class WaveManager : MonoBehaviour
         spawnBurstCounter = 0;
         waveSpawnTimer = 100;
         if(waves[currentWaveCount].spawnConvoy) ConvoyManager.instance.SpawnConvoy();
+
+        if (activeBlockades >= blockades.Count) return;
+        
+        int blockadeAmount = Mathf.Clamp(waves[currentWaveCount].blockadeSpawn, 0,
+            (waves[currentWaveCount].maxBlockades - activeBlockades));
+        for (int i = 0; i < blockadeAmount; i++)
+        {
+            if (activeBlockades >= blockades.Count) return;
+            
+            int rng = Random.Range(0, blockades.Count);
+
+            for (int j = 0; j < blockades.Count; j++)
+            {
+                if (!blockades[rng].isActive)
+                {
+                    blockades[rng].SpawnCars();
+                    break;
+                }
+
+                rng = (rng + 1) % blockades.Count;
+            }
+        }
     }
 
     void Update()
