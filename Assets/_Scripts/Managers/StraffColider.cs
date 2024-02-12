@@ -43,7 +43,8 @@ public class StraffColider : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            enemyCar.Add(other.transform);
+            if(other.GetComponent<ConvoyBehaviour>()) enemyCar.Insert(0,other.transform);
+            else enemyCar.Add(other.transform);
         }
     }
     

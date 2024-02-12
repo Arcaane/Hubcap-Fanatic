@@ -8,6 +8,7 @@ public class CameraShake : MonoBehaviour
     public static CameraShake instance;
     public float shakeTime,shakeForce;
     public Vector3 pos;
+    public Camera cam;
 
     private void Awake()
     {

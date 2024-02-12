@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 public class ConvoyBehaviour : MonoBehaviour , IDamageable
 {
     [SerializeField] private int hp = 500;
+    [SerializeField] private int hpMax = 500;
     [SerializeField] private int tokenToGiveOnDestroy = 2;
     [SerializeField] private int slotUnlockOnDestroy = 1;
 
@@ -48,8 +49,11 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     public List<Vector3> distancedNodes;
     public float completion;
     public float upVector = 1.2f;
-
+    
+    [Header("Other")]
     public bool isDead;
+
+    public Transform lifeJaugeParent,lifeJauge;
 
     public void Initialize()
     {
@@ -61,7 +65,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         
         transform.position = Vector3.Lerp(distancedNodes[previous], distancedNodes[next], index)+Vector3.up*upVector;
         transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(distancedNodes[next] - distancedNodes[previous]),Time.deltaTime*5);
-
+        hpMax = hp;
         
         defenseCars = new PoliceCarBehavior[defensePoints.Length];
         
@@ -114,6 +118,9 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
                 detectionDelay = Mathf.Clamp(detectionDelay + Time.deltaTime, 0, detectionTimer);
             }
         }
+
+        lifeJaugeParent.rotation = CameraShake.instance.transform.rotation;
+        lifeJauge.localScale = new Vector3(Mathf.Lerp(lifeJauge.localScale.x,(float)hp/hpMax,Time.deltaTime*5), 1, 1);
     }
 
 
