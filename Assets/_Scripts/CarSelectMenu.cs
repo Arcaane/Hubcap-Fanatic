@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
@@ -35,6 +36,9 @@ public class CarSelectMenu : MonoBehaviour
     
     public PowerUpMenu powersUps;
 
+    public List<Material> lightsMat = new();
+    public List<MeshRenderer> carsMeshRenderers = new();
+
     private void Start()
     {
         UpdateGold();
@@ -48,6 +52,12 @@ public class CarSelectMenu : MonoBehaviour
         powerUpSectionAnnouncer.SetActive(false);
 
         cam = Camera.main;
+
+        unlockButtonImage = unlockButton.transform.GetChild(1).GetComponent<Image>();
+        
+        carsMeshRenderers.Add(carObjects[0].transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>());
+        //carsMeshRenderers.Add(carObjects[2].GetComponent<MeshRenderer>());
+        //carsMeshRenderers.Add(carObjects[1].transform.GetChild(0).GetChild(7).GetComponent<MeshRenderer>());
     }
 
     private void UpdateGold() => goldTexts[0].text = goldTexts[1].text = GameMaster.instance.PlayerGold.ToString();
@@ -140,14 +150,14 @@ public class CarSelectMenu : MonoBehaviour
 
         if (context.started && !transition && isInGarageSection)
         {
-            carIndex = index;
+            anim.Play("ToPowerUpMenu");
+;           carIndex = index;
             transition = true;
             garageSectionAnnouncer.SetActive(false);
             powerUpSectionAnnouncer.SetActive(false);
             isInGarageSection = false;
             cam.transform.DOMove(new Vector3(-6.38f, 28.662f, 19.275f), 1f).SetEase(Ease.OutCubic);
-            cam.transform.DOLocalRotateQuaternion(Quaternion.Euler(new Vector3(45.586f, 72.032f, 0.71f)), 1f)
-                .SetEase(Ease.OutCubic);
+            cam.transform.DOLocalRotateQuaternion(Quaternion.Euler(new Vector3(45.586f, 72.032f, 0.71f)), 1f).SetEase(Ease.OutCubic);
             garageCanvasGroup.DOFade(0, 0.185f);
             platform.RotateForward();
             await Task.Delay(1000);
@@ -167,15 +177,13 @@ public class CarSelectMenu : MonoBehaviour
         if (context.started && !transition && isInPowerUpSection)
         {
             transition = true;
+            anim.Play("ToGarageMenu");
             garageSectionAnnouncer.SetActive(false);
             powerUpSectionAnnouncer.SetActive(false);
             isInPowerUpSection = false;
-            // Lancer les anims 
-            // await le temps des anims
             cam.transform.DOMove(new Vector3(-2.74f, 26.77f, 14.74f), 1f).SetEase(Ease.OutCubic);
             cam.transform.DOLocalRotateQuaternion(Quaternion.Euler(new Vector3(31f, 28.619f, 0f)), 1f).SetEase(Ease.OutCubic);
             garageCanvasGroup.DOFade(0, 0.225f);
-            //await ToPosAndRot(new Vector3(-2.74f, 26.77f, 14.74f), Quaternion.Euler(new Vector3(31f, 28.619f, 0f)));
             platform.isRotating = true;
             await Task.Delay(1000);
             index = carIndex;
@@ -318,8 +326,7 @@ public class CarSelectMenu : MonoBehaviour
 
             startButton.SetActive(false);
             unlockButton.SetActive(true);
-            unlockButton.transform.GetChild(1).GetComponent<Image>().color =
-                GameMaster.instance.PlayerGold > cars[index].carPrice ? yellow : grey;
+            unlockButtonImage.color = GameMaster.instance.PlayerGold > cars[index].carPrice ? yellow : grey;
         }
 
         nameText.text = cars[index].name;
@@ -354,44 +361,15 @@ public class CarSelectMenu : MonoBehaviour
     {
         transition = false;
     }
-
-    private Vector3 QuadraticBeziersCurve(Vector3 p1, Vector3 p2, Vector3 p3, float t)
+    
+    private async void ToPosAndRot(Vector3 finalPos, Quaternion finalRot, Vector3 socleRot, bool stopRotation = false)
     {
-        Vector3 p4 = Vector3.Lerp(p1, p2, t);
-        Vector3 p5 = Vector3.Lerp(p2, p3, t);
-        return Vector3.Lerp(p4, p5, t);
-    }
-
-    public Vector3 CubicBeziersCurve(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, float t)
-    {
-        Vector3 p5 = QuadraticBeziersCurve(p1, p2, p3, t);
-        Vector3 p6 = QuadraticBeziersCurve(p2, p3, p4, t);
-
-        return Vector3.Lerp(p5, p6, t);
-    }
-
-    private async Task ToPosAndRot(Vector3 finalPos, Quaternion finalRot, bool stopRotation = false)
-    {
-        var cMainTransform = cam.transform;
-        var initPos = cMainTransform.position;
-        var initRot = cMainTransform.rotation;
         transition = true;
-
-        if (stopRotation)
-        {
-        }
-
-        float timer = 0;
-        while (timer < 1)
-        {
-            cam.transform.position = CubicBeziersCurve(initPos, initPos, finalPos, finalPos, timer);
-            cam.transform.rotation = Quaternion.Lerp(initRot, finalRot, timer / 1);
-            await Task.Yield();
-            timer += Time.deltaTime;
-        }
-
-        cam.transform.position = finalPos;
-        cam.transform.rotation = finalRot;
+        cam.transform.DOMove(finalPos, 1f).SetEase(Ease.OutCubic);
+        cam.transform.DOLocalRotateQuaternion(finalRot, 1f).SetEase(Ease.OutCubic);
+        platform.isRotating = !stopRotation;
+        platform.ToRotate(socleRot);
+        await Task.Delay(1000);
         transition = false;
     }
 
@@ -399,17 +377,72 @@ public class CarSelectMenu : MonoBehaviour
 
     private void BuyPowerUp()
     {
-        throw new NotImplementedException();
+        if (powersUps.items[index].currentLevel == powersUps.items[index].price.Length) return;
+        
+        if (powersUps.items[index].price[powersUps.items[index].currentLevel] > GameMaster.instance.PlayerGold)
+        {
+            // Pas assez d'argent
+            // Son pas achetable
+        }
+        else
+        {
+            GameMaster.instance.SubtractGold(powersUps.items[index].price[powersUps.items[index].currentLevel]);
+            UpdateGold();
+            powersUps.items[index].currentLevel++;
+            GameMaster.instance.UnlockPUp(index);
+            // Save Update
+            SetPowerUpSelectable();
+        }
     }
 
+    private Image unlockButtonImage;
+    
     private void SetPowerUpSelectable()
     {
-        // Index
-        // powersUps.items[index].currentLevel;
+        
+        ToPosAndRot(powersUps.items[index].toPos, powersUps.items[index].toRot, powersUps.items[index].socleToRot, true);
+        
+        for (int i = 0; i < powersUps.items.Length; i++)
+        {
+            for (int j = 0; j < powersUps.items[i].objectsToActivateDuringFocus.Length; j++)
+            {
+                powersUps.items[i].objectsToActivateDuringFocus[j].SetActive(false);
+            }
+        }
+
+        var m1 = carsMeshRenderers[0].materials;
+        m1[5] = powersUps.baseheadLightMat;
+        carsMeshRenderers[0].materials = m1;
+        
         nameText.text = powersUps.items[index].name;
         weaponName[0].text = weaponName[1].text = powersUps.items[index].name;
         weaponDesc[0].text = weaponDesc[1].text = powersUps.items[index].description;
         weaponImgs[0].sprite = weaponImgs[1].sprite = powersUps.items[index].icon;
+        
+        locked[0].color = powersUps.items[index].currentLevel == powersUps.items[index].price.Length ? green : yellow;
+        locked[0].text = locked[1].text = "Level   " + powersUps.items[index].currentLevel + " / " + powersUps.items[index].price.Length;
+
+
+        if (powersUps.items[index].currentLevel == powersUps.items[index].price.Length)
+        {
+            unlockButtonImage.color = grey;
+        }
+        else
+        {
+            unlockButtonImage.color = GameMaster.instance.PlayerGold > powersUps.items[index].price[powersUps.items[index].currentLevel] ? green : grey;
+        }
+        
+        if (powersUps.items[index].item == MenuItem.Might)
+        {
+            var matsCar1 = carsMeshRenderers[0].materials;
+            matsCar1[5] = powersUps.headLightMat;
+            
+            carsMeshRenderers[0].materials = matsCar1;
+        }
+        
+        foreach (var t in powersUps.items[index].objectsToActivateDuringFocus) {
+            t.SetActive(true);
+        }
     }
     
     #endregion

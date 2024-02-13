@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +14,9 @@ public class GameMaster : MonoBehaviour
 
     public bool[] UnlockedCars => unlockedCars;
     private bool[] unlockedCars = new[] { true, false, false };
+
+    public int[] UnlockedPowerUps => unlockedPowerUps;
+    private int[] unlockedPowerUps = new int[3];
     
     // Save Methods Library
     private void SaveGame() => SaveManager.Instance.SaveGame(gameData);
@@ -19,6 +24,7 @@ public class GameMaster : MonoBehaviour
     public void AddGold(int i) => playerGold += i;
     public void SubtractGold(int i) => playerGold -= i;
     public void UnlockCar(int i) => unlockedCars[i] = true;
+    public void UnlockPUp(int i) => unlockedPowerUps[i]++;
     
     private void Awake()
     {
@@ -36,17 +42,36 @@ public class GameMaster : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         LoadGame();
+
+        CommandConsole ADDGOLD = new CommandConsole("AddGold", "Add gold <int>", new List<CommandClass>() {new(typeof(int))}, (value) =>
+            {
+                AddGold(value[0].ToIntArray()[0]);
+            });
+        
         
         CommandConsole RESETGAMEDATA = new CommandConsole("ResetGameData", "Reset all game data", new List<CommandClass>() {new(null)}, (value) =>
         {
             ResetAllGame();
         });
+        
+        CommandConsole QUIT = new CommandConsole("QUIT", "Quit and Save game", new List<CommandClass>() {new(null)}, (value) =>
+        {
+            AddGold(10);
+            Application.Quit();
+        });
 
         CommandConsoleRuntime.Instance.AddCommand(RESETGAMEDATA);
+        CommandConsoleRuntime.Instance.AddCommand(QUIT);
+        CommandConsoleRuntime.Instance.AddCommand(ADDGOLD);
         
         playerGold = gameData.saveGold;
-        for (int i = 0; i < gameData.unlockedCar.Length; i++) {
-            unlockedCars[i] = gameData.unlockedCar[i];
+        for (int i = 0; i < gameData.saveUnlockedCar.Length; i++) {
+            unlockedCars[i] = gameData.saveUnlockedCar[i];
+        }
+
+        for (int i = 0; i < gameData.saveUnlockedPowerUps.Length; i++)
+        {
+            unlockedPowerUps[i] = gameData.saveUnlockedPowerUps[i];
         }
     }
 
@@ -61,9 +86,16 @@ public class GameMaster : MonoBehaviour
     public void Save()
     {
         gameData.saveGold = playerGold; // Save golds
+
+        gameData.saveUnlockedCar = new bool[unlockedCars.Length];
+        gameData.saveUnlockedPowerUps = new int[unlockedPowerUps.Length];
         
-        for (int i = 0; i < gameData.unlockedCar.Length; i++) { // Save unlocked Cars
-            gameData.unlockedCar[i] = unlockedCars[i];
+        for (int i = 0; i < unlockedCars.Length; i++) {   // Save unlocked Cars
+            gameData.saveUnlockedCar[i] = unlockedCars[i];
+        }
+
+        for (int i = 0; i < unlockedPowerUps.Length; i++) {   // Save unlocked PowersUps
+            gameData.saveUnlockedPowerUps[i] = unlockedPowerUps[i];
         }
         
         SaveGame();

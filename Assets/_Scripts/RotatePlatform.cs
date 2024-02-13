@@ -22,4 +22,9 @@ public class RotatePlatform : MonoBehaviour
         isRotating = false;
         transform.DORotate(new Vector3(0, 68, 0), 1f);
     }
+
+    public void ToRotate(Vector3 vec)
+    {
+        transform.DORotate(vec, 1f);
+    }
 }
