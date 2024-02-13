@@ -179,16 +179,8 @@ public class WaveManager : MonoBehaviour
         waveSpawnTimer = 0;
         spawnBurstCounter++;
     }
-
-    //For CommandConsole
-    public void SpawnNewEntity(Key entityKey, int i)
-    {
-        var randPos = Random.Range(0, positions.Count);
-        Vector3 spawnPos = positions[randPos];
-        spawnPos.y = 0.75f;
-        SpawnEntity(entityKey, i, spawnPos);
-    }
-
+    
+    
     private void SpawnEntity(Key entityKey, int i, Vector3 spawnPos)
     {
         for (int j = 0; j < i; j++)
@@ -201,6 +193,59 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    #region FOR 
+
+    public void SpawnNewEntity(Key entityKey, int i)
+    {
+        var randPos = Random.Range(0, positions.Count);
+        Vector3 spawnPos = positions[randPos];
+        spawnPos.y = 0.75f;
+        SpawnEntity(entityKey, i, spawnPos);
+    }
+    
+    public void SkipWave()
+    {
+        NavigateToNextWave();
+    }
+
+    public void NavigateToWave(int waveNumber)
+    {
+        if (IsWaveNumberValid(waveNumber))
+        {
+            currentWaveCount = waveNumber - 1; 
+            ResetSpawnTimerAndCalculateWaveData();
+        }
+        else
+        {
+            Debug.LogError("Invalid wave number."); 
+        }
+    }
+
+    private void NavigateToNextWave()
+    {
+        if (currentWaveCount < waves.Count)
+        {
+            currentWaveCount++;
+            ResetSpawnTimerAndCalculateWaveData();
+        }
+        else
+        {
+            Debug.LogError("No more waves to skip.");
+        }
+    }
+
+    private bool IsWaveNumberValid(int waveNumber)
+    {
+        return waveNumber >= 1 && waveNumber <= waves.Count;
+    }
+
+    private void ResetSpawnTimerAndCalculateWaveData()
+    {
+        spawingTimer = 0f; 
+        CalculateWaveData(); 
+    }
+    #endregion
+    
     public Transform camholder;
 
     void UpdateEnemySpawingPos()

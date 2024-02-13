@@ -40,11 +40,13 @@ public class CommandConsoleRuntime : MonoBehaviour {
     private List<GameObject> methodList = new List<GameObject>();
     private string lastCommand = "";
     
+    //Private
+    EnemyCommandManager enemyCommandManager = null;
+    PlayerCommandManager playerCommandManager = null;
+    
     #endregion VARIABLES
     
     #region BASIC METHODS
-            
-
     private void Start() { 
         
         CommandConsole HELP = new CommandConsole("help", "Show all the commands", 
@@ -55,7 +57,9 @@ public class CommandConsoleRuntime : MonoBehaviour {
             });
         AddCommand(HELP);
         
-        EnemyCommandManager enemyCommandManager = new EnemyCommandManager(instance);
+        enemyCommandManager = new EnemyCommandManager(instance);
+        playerCommandManager = new PlayerCommandManager(instance);
+        
         
         /* EXAMPLE WITH ENUM
         CommandConsole STRAW = new CommandConsole("straw", "straw <strawType> <strawType2>", new List<CommandClass>() {new (typeof(strawType)), new (typeof(strawType2))}, (value) => { Debug.Log(value[0] + " " + value[1]); });

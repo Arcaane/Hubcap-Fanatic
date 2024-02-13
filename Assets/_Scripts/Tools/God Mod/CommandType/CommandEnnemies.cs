@@ -13,6 +13,10 @@ public class EnemyCommandManager : CommandManager {
     private void InitializeCommands() {
         SpawnEnemiesCmd();
         ClearEnemiesCmd();
+        SkipWaveCmd();
+        NavigateToWaveCmd();
+        DisableObjectsWithLayerCmd("Environnment");
+        PaulCmd();
     }
 
 
@@ -54,8 +58,79 @@ public class EnemyCommandManager : CommandManager {
             });
         AddCommand(CLEAR_ENEMIES);
     }
-
     
+    /// <summary>
+    /// Command to skip wave
+    /// skipWave : Skips the current wave
+    /// </summary>
+    private void SkipWaveCmd()
+    {
+        CommandConsole SKIP_WAVE = new CommandConsole("skipWave", "skipWave : Skips the current wave", 
+            new List<CommandClass>(), 
+            (value) => { 
+                WaveManager.instance.SkipWave();
+            });
+        AddCommand(SKIP_WAVE);
+    }
+
+    /// <summary waveNumber=": Navigates to the specified wave number">
+    /// Command to navigate to wave
+    /// </summary>
+    private void NavigateToWaveCmd()
+    {
+        CommandConsole NAVIGATE_TO_WAVE = new CommandConsole("navigateToWave", "navigateToWave <waveNumber> : Navigates to the specified wave number", 
+            new List<CommandClass>() { new CommandClass(typeof(int)) }, 
+            (value) => { 
+                if (int.TryParse(value[0], out int waveNumber)) {
+                    WaveManager.instance.NavigateToWave(waveNumber);
+                } else {
+                    Debug.LogError("Invalid wave number provided.");
+                }
+            });
+
+        AddCommand(NAVIGATE_TO_WAVE);
+    }
+
+    /// <summary LayerName=": Disables all objects with the specified layer">
+    /// Command to disable objects with layer
+    /// </summary>
+    /// <param name="layerName"></param>
+    private void DisableObjectsWithLayerCmd(string layerName)
+    {
+        CommandConsole DISABLE_OBJECTS_WITH_LAYER = new CommandConsole("disableObjectsWithLayer", "disableObjectsWithLayer <LayerName> : Disables all objects with the specified layer", 
+            new List<CommandClass>() { new CommandClass(typeof(string)) }, 
+            (value) => { 
+                string layerName = value[0];
+                GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+                foreach (GameObject obj in allObjects)
+                {
+                    if (obj.layer == 8)
+                    {
+                        obj.SetActive(false);
+                    }
+                }
+            });
+
+        AddCommand(DISABLE_OBJECTS_WITH_LAYER);
+    }
+    
+    
+    
+    /// <summary>
+    /// Command to terminate the game
+    /// PAUL : Terminates the game
+    /// </summary>
+    private void PaulCmd()
+    {
+        CommandConsole ALT_F4 = new CommandConsole("PAUL", "PAUL : l'un des progs les plus forts de la terre, il peut tout faire", 
+            new List<CommandClass>(), 
+            (value) => { 
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            });
+
+        AddCommand(ALT_F4);
+    }
+
 
     #endregion
 

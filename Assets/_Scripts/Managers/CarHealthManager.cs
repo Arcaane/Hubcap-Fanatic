@@ -26,6 +26,8 @@ public class CarHealthManager : MonoBehaviour, IDamageable
     
     [SerializeField] private MeshRenderer renderer;
     
+    [HideInInspector] public bool isInGodMode;
+    
     private void Awake()
     {
         instance = this;
@@ -49,6 +51,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
     public void TakeDamage(int damages)
     {
         if (!IsDamageable()) return;
+        if(isInGodMode) return;
 
         var a = Mathf.FloorToInt(damages - (damages *  armorInPercent/100)); 
         lifePoints -= a;

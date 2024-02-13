@@ -4,8 +4,14 @@ public class CommandManager {
     public CommandManager(CommandConsoleRuntime commandConsole) {
         this.commandConsole = commandConsole;
     }
-
+    
     protected void AddCommand(CommandConsole command) {
         commandConsole.AddCommand(command);
     }
+}
+
+[System.Serializable]
+public enum BooleanState {
+    True,
+    False
 }
