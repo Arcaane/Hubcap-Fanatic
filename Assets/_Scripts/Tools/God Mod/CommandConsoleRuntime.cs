@@ -43,31 +43,24 @@ public class CommandConsoleRuntime : MonoBehaviour {
     #endregion VARIABLES
     
     #region BASIC METHODS
-    private void Start() {
-        //HELP
-        CommandConsole HELP = new CommandConsole("help", "help : show all the possible commands", null, (_) => { ShowHelp(true); });
+            
+
+    private void Start() { 
         
-        //SPAWN_ENEMIES 
-        CommandConsole SPAWN_ENEMIES = new CommandConsole("spawnEnemies", "spawnEnemies <entityType> <numberOfEnemies> : Spawns the specified number of enemies", 
-            new List<CommandClass>() { new (typeof(Key)), new (typeof(int)) }, 
-            (value) => { 
-                if (Enum.TryParse(value[0], out Key entityType)) {
-                    if (int.TryParse(value[1], out int numberOfEnemies)) {
-                        WaveManager.instance.SpawnNewEntity(entityType, numberOfEnemies);
-                    } else {
-                        Debug.LogError("Invalid number of enemies provided.");
-                    }
-                } else {
-                    Debug.LogError("Invalid entity type provided.");
-                }
+        CommandConsole HELP = new CommandConsole("help", "Show all the commands", 
+            new List<CommandClass>(),
+            (value) =>
+            {
+                ShowHelp(true);
             });
+        AddCommand(HELP);
+        
+        EnemyCommandManager enemyCommandManager = new EnemyCommandManager(instance);
         
         /* EXAMPLE WITH ENUM
         CommandConsole STRAW = new CommandConsole("straw", "straw <strawType> <strawType2>", new List<CommandClass>() {new (typeof(strawType)), new (typeof(strawType2))}, (value) => { Debug.Log(value[0] + " " + value[1]); });
         */
-        AddCommand(HELP);
-        AddCommand(SPAWN_ENEMIES);
-        
+
         objectChild.SetActive(false);
         inputs = new ToolsInput();
         inputs.Enable();
