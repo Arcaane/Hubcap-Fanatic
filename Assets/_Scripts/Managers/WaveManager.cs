@@ -180,6 +180,15 @@ public class WaveManager : MonoBehaviour
         spawnBurstCounter++;
     }
 
+    //For CommandConsole
+    public void SpawnNewEntity(Key entityKey, int i)
+    {
+        var randPos = Random.Range(0, positions.Count);
+        Vector3 spawnPos = positions[randPos];
+        spawnPos.y = 0.75f;
+        SpawnEntity(entityKey, i, spawnPos);
+    }
+
     private void SpawnEntity(Key entityKey, int i, Vector3 spawnPos)
     {
         for (int j = 0; j < i; j++)
