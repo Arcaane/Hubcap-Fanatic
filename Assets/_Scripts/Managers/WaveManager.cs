@@ -16,6 +16,7 @@ public class WaveManager : MonoBehaviour
         public float waveDuration;
         public List<EnemyGroups> enemyGroupsList;
         public bool spawnConvoy;
+        public bool spawnConvoyMidWave;
         public int blockadeSpawn,maxBlockades;
 
         [HideInInspector] public float enemyGroupsSpawnRate = 0;
@@ -143,6 +144,12 @@ public class WaveManager : MonoBehaviour
             SpawnEnemiesV2();
         }
 
+        if (waves[currentWaveCount].spawnConvoyMidWave && Math.Abs(spawingTimer - 30f) < 1f)
+        {
+            Debug.Log("Spawn Convoy MidWave");
+            ConvoyManager.instance.SpawnConvoy();
+        }
+        
         if (spawingTimer > waves[currentWaveCount].waveDuration + intervalBetweenWaves)
         {
             currentWaveCount++;

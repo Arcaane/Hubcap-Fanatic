@@ -274,31 +274,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.51054263
-      outSlope: 0.51054263
+      time: 0.036719702
+      value: 0.990566
+      inSlope: 0.028960414
+      outSlope: 0.028960414
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.04773562
-    - serializedVersion: 3
-      time: 4.976906
-      value: 1.0547724
-      inSlope: 0.012290325
-      outSlope: 0.012290325
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.09144949
+      outWeight: 0.060333528
     - serializedVersion: 3
       time: 15
       value: 4
-      inSlope: 0.08174675
-      outSlope: 0.08174675
+      inSlope: 0.24098372
+      outSlope: 0.24098372
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.16119447
+      inWeight: 0.04466959
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -351,6 +342,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isActive: 1
   target: {fileID: 0}
   mat: []
   randomOffset: {x: 0, y: 0}
