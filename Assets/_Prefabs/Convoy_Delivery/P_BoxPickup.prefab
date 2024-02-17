@@ -110,7 +110,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   carWhoPickObjet: {fileID: 0}
   isPicked: 0
-  timeBeforeDestruction: 45
+  timeBeforeDestruction: 30
   bCol: {fileID: 6947199084703115030}
   sCol: {fileID: 19930330537065683}
   rb: {fileID: 8798538310680787797}

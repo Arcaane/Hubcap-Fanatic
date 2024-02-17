@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 using Abilities;
@@ -17,6 +18,13 @@ public class CarHealthManager : MonoBehaviour, IDamageable
     [SerializeField] private int lifePoints = 100;
     [SerializeField] public float armorInPercent;
 
+    [SerializeField] private float regenDelay;
+    [SerializeField] private int regenRate;
+    [SerializeField] private float regenInterval;
+    private float timeSinceLastDamage;
+    private float regenTimer;
+    private bool canHeal;
+    
     [SerializeField] private Material[] mat;
     [SerializeField] private int feedbackDurationInMS = 300;
 
@@ -45,13 +53,26 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         UIManager.instance.SetLifePlayerText(lifePoints);
         volume.profile.TryGet(out vt);
     }
-    
+
+    private void Update()
+    {
+        if (Time.time - timeSinceLastDamage < regenDelay) return;
+
+        regenTimer -= Time.deltaTime;
+        if (regenTimer <= 0)
+        {
+            TakeHeal(regenRate);
+            regenTimer = regenInterval;
+        }
+    }
+
     public void TakeDamage(int damages)
     {
         if (!IsDamageable()) return;
 
         var a = Mathf.FloorToInt(damages - (damages *  armorInPercent/100)); 
         lifePoints -= a;
+        timeSinceLastDamage = Time.time;
         ActiveDamageFB();
         
         SetVignette();

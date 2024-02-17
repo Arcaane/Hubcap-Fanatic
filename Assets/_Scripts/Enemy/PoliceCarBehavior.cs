@@ -17,6 +17,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     [SerializeField] private int carDamage;
     private int currentDamages;
     [SerializeField] private float shootCooldown;
+    [SerializeField] private Vector2 detectionRange;
     [SerializeField] private AnimationCurve hpToAddPerWave;
     [SerializeField] private AnimationCurve damageToAddPerWave;
     [SerializeField] private AnimationCurve speedToAddPerWave;
@@ -242,7 +243,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 
             //Debug.Log("Shoot : " + dot);
 
-            if (!shooting && dot > -2f && dot < 1f)
+            if (!shooting && dot > -detectionRange.x && dot < detectionRange.y)
             {
                 shootFx.transform.rotation = Quaternion.LookRotation(direction);
                 shooting = true;
@@ -250,7 +251,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
                 shootFx.Play();
             }
 
-            if (shooting && !(dot > -2f && dot < 1f))
+            if (shooting && !(dot > -detectionRange.x && dot < detectionRange.y))
             {
                 shooting = false;
                 shootFx.Stop();

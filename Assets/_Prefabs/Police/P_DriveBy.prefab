@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 54033332808420744}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -74, y: 3, z: -14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -233,10 +233,11 @@ MonoBehaviour:
   brakeForce: 0
   driftBrake: 0
   rotationValue: 0
-  enemyKey: 4
+  enemyKey: 1
   hp: 20
   carDamage: 1
   shootCooldown: 0.6
+  detectionRange: {x: 6, y: 4}
   hpToAddPerWave:
     serializedVersion: 2
     m_Curve:
@@ -373,6 +374,7 @@ MonoBehaviour:
   - {fileID: 2550291466579533631}
   - {fileID: 3452489392718952539}
   metal: {fileID: 2100000, guid: d523c1fe905a4dc429adf2c6b9d1791a, type: 2}
+  canDestroyPickable: 0
   runToPlayer: 0
   overshootValue: 6
   randomOvershoot: 2
@@ -1015,7 +1017,7 @@ Transform:
   m_GameObject: {fileID: 3303571442281378950}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -14, y: 0.00999999, z: 74.01301}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7124998, y: 1, z: 1.4035096}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5775,7 +5777,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 0}
-  - {fileID: 2100000, guid: 350b21b8585e2b043ad69e19bea43177, type: 2}
+  - {fileID: 2100000, guid: 65571ec9d4b46a14da6f200bb29a633e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
