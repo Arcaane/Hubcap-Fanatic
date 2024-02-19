@@ -44,9 +44,9 @@ public class GameMaster : MonoBehaviour
         LoadGame();
 
         CommandConsole ADDGOLD = new CommandConsole("AddGold", "Add gold <int>", new List<CommandClass>() {new(typeof(int))}, (value) =>
-            {
-                AddGold(value[0].ToIntArray()[0]);
-            });
+        {
+            AddGold(int.Parse(value[0]));
+        });
         
         
         CommandConsole RESETGAMEDATA = new CommandConsole("ResetGameData", "Reset all game data", new List<CommandClass>() {new(null)}, (value) =>
@@ -56,7 +56,6 @@ public class GameMaster : MonoBehaviour
         
         CommandConsole QUIT = new CommandConsole("QUIT", "Quit and Save game", new List<CommandClass>() {new(null)}, (value) =>
         {
-            AddGold(10);
             Application.Quit();
         });
 

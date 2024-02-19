@@ -223,7 +223,6 @@ namespace Abilities
             }
         }
         
-        
         public float overheatTimer;
         public float overheatCooldownDuration = 5f;
         public float overheatDuration = 20f;
