@@ -147,7 +147,6 @@ public class CarSelectMenu : MonoBehaviour
     public async void LBButton(InputAction.CallbackContext context)
     {
         if (titleScreen) return;
-
         if (context.started && !transition && isInGarageSection)
         {
             anim.Play("ToPowerUpMenu");
@@ -399,7 +398,6 @@ public class CarSelectMenu : MonoBehaviour
     
     private void SetPowerUpSelectable()
     {
-        
         ToPosAndRot(powersUps.items[index].toPos, powersUps.items[index].toRot, powersUps.items[index].socleToRot, true);
         
         for (int i = 0; i < powersUps.items.Length; i++)
@@ -421,15 +419,18 @@ public class CarSelectMenu : MonoBehaviour
         
         locked[0].color = powersUps.items[index].currentLevel == powersUps.items[index].price.Length ? green : yellow;
         locked[0].text = locked[1].text = "Level   " + powersUps.items[index].currentLevel + " / " + powersUps.items[index].price.Length;
-
-
+        
+        startButton.SetActive(false);
+        
         if (powersUps.items[index].currentLevel == powersUps.items[index].price.Length)
         {
             unlockButtonImage.color = grey;
+            unlockButton.SetActive(false);
         }
         else
         {
             unlockButtonImage.color = GameMaster.instance.PlayerGold > powersUps.items[index].price[powersUps.items[index].currentLevel] ? green : grey;
+            unlockButton.SetActive(true);
         }
         
         if (powersUps.items[index].item == MenuItem.Might)

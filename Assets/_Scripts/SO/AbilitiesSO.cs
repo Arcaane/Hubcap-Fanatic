@@ -32,7 +32,6 @@ namespace Abilities
         public ActiveModifier[] modifiersLevel2;
         public ActiveModifier[] modifiersLevel3;
         
-        
         // Stats
         [Header("Classic Abilities")]
         public int effectDamage;
@@ -49,8 +48,8 @@ namespace Abilities
         private int _effectDelayMilliseconds;
         private float _effectRepeatDelay;
 
-        [FormerlySerializedAs("might")] public float mightPowerUpLevel;
-        private float abilityDamage => _effectDamage *= 1 + mightPowerUpLevel;
+        public float mightPowerUpLevel;
+        private float abilityDamage => _effectDamage *= mightPowerUpLevel;
 
         [Space(4)]
         [Header("Stats Abilities")]
@@ -83,16 +82,14 @@ namespace Abilities
             carAbilities = CarAbilitiesManager.instance;
             isInCooldown = false;
 
-            mightPowerUpLevel = GameMaster.instance.UnlockedPowerUps[0] * 0.05f;
+            mightPowerUpLevel = carAbilities.powerUpMight;
+            
             _effectDamage = effectDamage;
             _effectSizeRadius = effectSizeRadius;
             _effectDuration = effectDuration;
             _effectDelayMilliseconds = effectDelayMilliseconds;
             _effectRepeatDelay = effectRepeatDelay;
 
-            Debug.Log($"Base {abilityName} ability damage: {Mathf.FloorToInt(_effectDamage)}");
-            Debug.Log($"w/ might bonus {abilityName} ability damage: {Mathf.FloorToInt(abilityDamage)}");
-            
             if (type == AbilityType.ClassicAbilites)
             {
                 switch (trigger)
@@ -157,8 +154,6 @@ namespace Abilities
                 switch (overheatEffect)
                 {
                     case OverheatEffect.MultipleMines:
-                        Debug.Log("OverheatEffect.MultipleMines");
-                        
                         for (int i = 0; i < 5; i++)
                         {
                             float angle = Mathf.PI * 2 / 5 * i;
@@ -368,7 +363,6 @@ namespace Abilities
             CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
             if (carBehaviour == null || carBehaviour.isScorch) return;
             carBehaviour.isScorch = true;
-            Debug.Log("SCORCH SET : " + carBehaviour.isScorch);
             
             var a = Mathf.FloorToInt(_effectDuration / ((float)_effectDelayMilliseconds / 1000));
             for (int i = 0; i < a; i++)
@@ -388,13 +382,11 @@ namespace Abilities
             player.shootDuration = _effectDamage;
             player.isBerserk = true;
             
-            Debug.Log("Shoot duration: " + player.shootDuration);
             await Task.Delay(Mathf.FloorToInt(_effectDuration * 1000));
             if (!player) return;
             
             player.shootDuration = carAbilities.baseShotgunDuration;
             player.isBerserk = false;
-            Debug.Log("Shoot duration: " + player.shootDuration);
         }
         
         private async void EffectShield(GameObject targetObj)
