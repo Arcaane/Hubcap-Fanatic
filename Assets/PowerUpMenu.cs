@@ -1,49 +1,42 @@
 using System;
-using TMPro;
 using UnityEngine;
 
 public class PowerUpMenu : MonoBehaviour
 {
     public MacroShopItem[] items;
-    public MacroItem[] slots;
+    [SerializeField] public Material headLightMat;
+    [SerializeField] public Material baseheadLightMat;
 
-    private int index = 0;
-    
-    [ContextMenu("Setup")]
-    public void SetupItems()
+    private void Start()
     {
-        for (int i = 0; i < items.Length; i++)
-        {
-            if (slots[i]) continue;
-            slots[i].image.sprite = items[i].icon;
-            slots[i].text.text = slots[i].text2.text = items[i].name;
-            slots[i].selectFeedbackObj.SetActive(false);
+        for (int i = 0; i < items.Length; i++) {
+            items[i].currentLevel = GameMaster.instance.UnlockedPowerUps[i];
         }
-        
-        SetDescription();
-    }
-
-    public void StartShop()
-    {
-        index = 0;
-        SetDescription();
-    }
-    
-    public TextMeshProUGUI desc, desc1;  
-    public TextMeshProUGUI price, price1;    
-    public void SetDescription()
-    {
-        desc.text = desc1.text = items[index].description;
-        price1.text = price.text = items[index].price[items[index].currentLevel].ToString();
     }
 }
 
 [Serializable]
 public class MacroShopItem
 {
+    // --- 
+    [Header("InShopSetup")]
     public string name;
-    public string description;
+    [TextArea] public string description;
     public Sprite icon;
     public int[] price;
     public int currentLevel;
+    public MenuItem item;
+
+    [Header("VisualSetup")] 
+    public Vector3 toPos;
+    public Quaternion toRot;
+    public Vector3 socleToRot;
+    public GameObject[] objectsToActivateDuringFocus;
 }
+
+public enum MenuItem
+{
+    Might,
+    Recovery,
+    MoveSpeed
+};

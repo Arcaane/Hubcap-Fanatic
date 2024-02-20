@@ -46,8 +46,6 @@ public class CarController : CarBehaviour
     [SerializeField] private LayerMask roadMask;
     [SerializeField] public float offRoadSpeed = 10;
     [SerializeField] public float offRoadDeccelerationFactor = 5;
-    
-
 
     [Header("Effects")] 
 	[SerializeField] public GameObject shield;
@@ -87,8 +85,7 @@ public class CarController : CarBehaviour
         
         rotationValue = stickValue.x;
         
-        if (CarHealthManager.instance.Lifepoints > 1)
-        {
+        if (CarHealthManager.instance.Lifepoints > 1) {
             OnMove();
         }
         
@@ -144,7 +141,6 @@ public class CarController : CarBehaviour
                     rb.velocity = Vector3.Lerp(rb.velocity,Vector3.ClampMagnitude(rb.velocity, targetSpeed),Time.deltaTime*offRoadDeccelerationFactor); 
                 }
             }
-            Debug.DrawRay(transform.position + Vector3.up*5,Vector3.down * 1000,Color.blue);
         }
         
         for (int i = 0; i < shootTimes.Length; i++)
@@ -255,93 +251,14 @@ public class CarController : CarBehaviour
             targetSpeed = maxSpeed;
         }
     }
-    
-    public void XButton(InputAction.CallbackContext context)
-    {
-        if (context.started && canShoot() && !isBomber)
-        {
-            if (straffColider.enemyCar.Count > 0)
-            {
-                ShotgunHit();
-                UIManager.instance.GoodShotUI(shootTimes[0] >= shootDuration ? 0 : 1);
-            }
-            else
-            {
-                CarAbilitiesManager.instance.OnShotgunUsedWithoutTarget.Invoke();
-                UIManager.instance.ShootMissUI(shootTimes[0] >= shootDuration ? 0 : 1);
-            }
-
-            for (int i = 0; i < shootTimes.Length; i++)
-            {
-                if (shootTimes[i] >= shootDuration)
-                {
-                    shootTimes[i] = 0;
-                    break;
-                }
-            }
-            
-            CarAbilitiesManager.instance.OnShotgunUsed.Invoke();
-            CameraShake.instance.SetShake(0.3f);
-        }
-
-        if (context.started && isBomber && canShoot())
-        {
-            Pooler.instance.SpawnInstance(ManagerNameSpace.Key.OBJ_Mine , transform.position, Quaternion.identity);
-            
-            for (int i = 0; i < shootTimes.Length; i++)
-            {
-                if (shootTimes[i] >= shootDuration)
-                {
-                    shootTimes[i] = 0;
-                    break;
-                }
-            }
-        }
-    }
-
-    
-    public void ShotgunHit()
-    {
-        Vector3 direction = straffColider.enemyCar[0].position - transform.position;
-        if (Vector3.Dot(direction,transform.right) > 0)
-        {
-            rb.AddForce(-transform.right * 100);
-        }
-        else
-        {
-            rb.AddForce(transform.right * 100);
-        }
-        shotgunParticles.transform.rotation = Quaternion.LookRotation(direction);
-        shotgunParticles.Play();
-
-        
-        currentShotBeforeCount--;
-        if (gotVayneUpgrade && currentShotBeforeCount == 0)
-        {
-            straffColider.enemyCar[0].GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(shotgunDamages * vaynePassiveMultiplier));
-            Debug.Log(shotgunDamages * vaynePassiveMultiplier + " Damage dealt with special attack");
-            currentShotBeforeCount = shotBeforeCritAmount;
-        }
-        else
-        {
-            //Debug.Log(straffColider.enemyCar[0] + " SHOOTED ");
-            straffColider.enemyCar[0].GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(shotgunDamages));
-        }
-        
-        CarAbilitiesManager.instance.OnEnemyDamageTaken.Invoke(straffColider.enemyCar[0].gameObject);
-        CarAbilitiesManager.instance.OnEnemyHitWithShotgun.Invoke(straffColider.enemyCar[0].gameObject);
-    }
-    
     #endregion
-
-
+    
     public int CollsionBeforeDropDeliver = 3;
     private int currentCollsionBeforeDropDeliver;
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Wall"))
         {
-            //Debug.Log(other.relativeVelocity.magnitude);
             if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
             {
                     
@@ -391,9 +308,84 @@ public class CarController : CarBehaviour
         CarAbilitiesManager.instance.OnPill.Invoke();
     }
 
-    public override void OnStopPlayerDrift()
+    public override void OnStopPlayerDrift() => CarAbilitiesManager.instance.OnStateExit.Invoke();
+
+    #region PlayerWeapon
+    public float mightPowerUpLevel;
+    
+    public void XButton(InputAction.CallbackContext context)
     {
-        CarAbilitiesManager.instance.OnStateExit.Invoke();
+        if (context.started && canShoot() && !isBomber)
+        {
+            if (straffColider.enemyCar.Count > 0)
+            {
+                ShotgunHit();
+                UIManager.instance.GoodShotUI(shootTimes[0] >= shootDuration ? 0 : 1);
+            }
+            else
+            {
+                CarAbilitiesManager.instance.OnShotgunUsedWithoutTarget.Invoke();
+                UIManager.instance.ShootMissUI(shootTimes[0] >= shootDuration ? 0 : 1);
+            }
+
+            for (int i = 0; i < shootTimes.Length; i++)
+            {
+                if (shootTimes[i] >= shootDuration)
+                {
+                    shootTimes[i] = 0;
+                    break;
+                }
+            }
+            
+            CarAbilitiesManager.instance.OnShotgunUsed.Invoke();
+            CameraShake.instance.SetShake(0.3f);
+        }
+
+        if (context.started && isBomber && canShoot())
+        {
+            Pooler.instance.SpawnInstance(ManagerNameSpace.Key.OBJ_Mine , transform.position, Quaternion.identity);
+            
+            for (int i = 0; i < shootTimes.Length; i++)
+            {
+                if (shootTimes[i] >= shootDuration)
+                {
+                    shootTimes[i] = 0;
+                    break;
+                }
+            }
+        }
     }
+
+
+    private void ShotgunHit()
+    {
+        Vector3 direction = straffColider.enemyCar[0].position - transform.position;
+        if (Vector3.Dot(direction,transform.right) > 0)
+        {
+            rb.AddForce(-transform.right * 100);
+        }
+        else
+        {
+            rb.AddForce(transform.right * 100);
+        }
+        shotgunParticles.transform.rotation = Quaternion.LookRotation(direction);
+        shotgunParticles.Play();
+
+        
+        currentShotBeforeCount--;
+        if (gotVayneUpgrade && currentShotBeforeCount == 0)
+        {
+            straffColider.enemyCar[0].GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt((shotgunDamages * mightPowerUpLevel) * vaynePassiveMultiplier));
+            currentShotBeforeCount = shotBeforeCritAmount;
+        }
+        else
+        {
+            straffColider.enemyCar[0].GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(shotgunDamages * mightPowerUpLevel));
+        }
+        
+        CarAbilitiesManager.instance.OnEnemyDamageTaken.Invoke(straffColider.enemyCar[0].gameObject);
+        CarAbilitiesManager.instance.OnEnemyHitWithShotgun.Invoke(straffColider.enemyCar[0].gameObject);
+    }
+    #endregion
 }
 

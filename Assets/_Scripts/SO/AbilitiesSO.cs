@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using ManagerNameSpace;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Abilities
 {
@@ -31,7 +32,6 @@ namespace Abilities
         public ActiveModifier[] modifiersLevel2;
         public ActiveModifier[] modifiersLevel3;
         
-        
         // Stats
         [Header("Classic Abilities")]
         public int effectDamage;
@@ -42,11 +42,14 @@ namespace Abilities
         public bool isCapacityCooldown;
         public float cooldownDuration;
         
-        private int _effectDamage;
+        private float _effectDamage;
         private float _effectSizeRadius;
         private float _effectDuration;
         private int _effectDelayMilliseconds;
         private float _effectRepeatDelay;
+
+        public float mightPowerUpLevel;
+        private float abilityDamage => _effectDamage *= mightPowerUpLevel;
 
         [Space(4)]
         [Header("Stats Abilities")]
@@ -79,6 +82,8 @@ namespace Abilities
             carAbilities = CarAbilitiesManager.instance;
             isInCooldown = false;
 
+            mightPowerUpLevel = carAbilities.powerUpMight;
+            
             _effectDamage = effectDamage;
             _effectSizeRadius = effectSizeRadius;
             _effectDuration = effectDuration;
@@ -149,8 +154,6 @@ namespace Abilities
                 switch (overheatEffect)
                 {
                     case OverheatEffect.MultipleMines:
-                        Debug.Log("OverheatEffect.MultipleMines");
-                        
                         for (int i = 0; i < 5; i++)
                         {
                             float angle = Mathf.PI * 2 / 5 * i;
@@ -300,13 +303,13 @@ namespace Abilities
             Vector3 relativePos = carPos - targetObj.transform.position;
             relativePos = new Vector3(relativePos.x, 0, relativePos.z).normalized;
             Transform obj = Pooler.instance.SpawnInstance(Key.OBJ_Spear, carPos, Quaternion.LookRotation(-relativePos)) as Transform;
-            if (obj.gameObject != null) obj.GetComponent<SpearObject>().damages = _effectDamage;
+            if (obj.gameObject != null) obj.GetComponent<SpearObject>().damages = Mathf.FloorToInt(abilityDamage);
         }
     
         private void EffectDamage(GameObject targetObj)
         {
             IDamageable damageable = targetObj.GetComponent<IDamageable>();
-            damageable.TakeDamage(_effectDamage);
+            damageable.TakeDamage(Mathf.FloorToInt(abilityDamage));
         }
     
         private void EffectForceBreak(GameObject targetObj)
@@ -336,20 +339,20 @@ namespace Abilities
             var cols = Physics.OverlapSphere(position, _effectSizeRadius, enemyLayerMask);
             foreach (var t in cols)
             {
-                t.GetComponent<IDamageable>()?.TakeDamage(_effectDamage);
+                t.GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(abilityDamage));
             }
         }
 
         private void EffectSpawnMine(Vector3 targetObj)
         {
             Mine mine = Pooler.instance.SpawnInstance(Key.OBJ_Mine, targetObj, Quaternion.identity).GetComponent<Mine>();
-            mine.damages = _effectDamage;
+            mine.damages = Mathf.FloorToInt(abilityDamage);
             mine.explosionRadius = _effectSizeRadius;
         }
 
         private void EffectLifeSteal(GameObject targetObj)
         {
-            CarHealthManager.instance.TakeHeal(_effectDamage);
+            CarHealthManager.instance.TakeHeal(Mathf.FloorToInt(abilityDamage));
             GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_PlayerGiveLife, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, 1.5f).gameObject;
             go.transform.SetParent(targetObj.transform);
             go.SetActive(true);
@@ -360,13 +363,12 @@ namespace Abilities
             CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
             if (carBehaviour == null || carBehaviour.isScorch) return;
             carBehaviour.isScorch = true;
-            Debug.Log("SCORCH SET : " + carBehaviour.isScorch);
             
             var a = Mathf.FloorToInt(_effectDuration / ((float)_effectDelayMilliseconds / 1000));
             for (int i = 0; i < a; i++)
             {
                 if (!targetObj.activeSelf) return;
-                targetObj.GetComponent<IDamageable>()?.TakeDamage(_effectDamage);
+                targetObj.GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(abilityDamage));
                 await Task.Delay(_effectDelayMilliseconds);
             }
 
@@ -380,13 +382,11 @@ namespace Abilities
             player.shootDuration = _effectDamage;
             player.isBerserk = true;
             
-            Debug.Log("Shoot duration: " + player.shootDuration);
             await Task.Delay(Mathf.FloorToInt(_effectDuration * 1000));
             if (!player) return;
             
             player.shootDuration = carAbilities.baseShotgunDuration;
             player.isBerserk = false;
-            Debug.Log("Shoot duration: " + player.shootDuration);
         }
         
         private async void EffectShield(GameObject targetObj)

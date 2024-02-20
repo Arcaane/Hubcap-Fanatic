@@ -11,7 +11,6 @@ public delegate void GameObjectDelgate(GameObject tr);
 public delegate void ObjectDelegate(GameObject obj);
 public delegate void CollisionDelegate(Collision col);
 
-
 namespace Abilities
 {
     public class CarAbilitiesManager : MonoBehaviour
@@ -40,7 +39,6 @@ namespace Abilities
         public List<AbilitiesSO> statsAbilities;
         
         public int slotAbilitiesAmount = 4;
-
         
         private int goldAmountWonOnRun;
         public int GoldAmountWonOnRun
@@ -70,8 +68,10 @@ namespace Abilities
         [HideInInspector] public float baseOverallAbilitiesCooldown = 0;
         [HideInInspector] public float baseHitBeforeDeliverDrop = 0;
         [HideInInspector] public float baseSpeedRetainedOnBounce = 0;
-        
 
+        [HideInInspector] public float powerUpMight;
+        [HideInInspector] public float powerUpMoveSpeed;
+        
         private void Awake()
         {
             instance = this;
@@ -96,12 +96,19 @@ namespace Abilities
             baseHitBeforeDeliverDrop = car.CollsionBeforeDropDeliver;
             baseSpeedRetainedOnBounce = car.speedRetained;
             goldAmountWonOnRun = 0;
+            
+            powerUpMight = 1 + GameMaster.instance.UnlockedPowerUps[0] * 0.05f;
+            car.mightPowerUpLevel = powerUpMight;
+            
+            powerUpMoveSpeed = 1 + GameMaster.instance.UnlockedPowerUps[2] * 0.05f;
+            Debug.Log(" Power up speed " + powerUpMoveSpeed);
+            car.maxSpeed *= powerUpMoveSpeed;
+            car.offRoadSpeed *= powerUpMoveSpeed;
         }
 
         public void Update()
         {
             OnUpdate.Invoke();
-
             overheatTimer += Time.deltaTime;
         }
 
@@ -116,7 +123,8 @@ namespace Abilities
 
             if (Vector3.Dot(b, a) < -0.70f)
             {
-                collision.transform.GetComponent<IDamageable>()?.TakeDamage(damageOnCollisionWithEnemy);
+                IDamageable damageable = collision.transform.GetComponent<IDamageable>();
+                damageable?.TakeDamage(Mathf.FloorToInt(damageOnCollisionWithEnemy * powerUpMight));
                 OnEnemyDamageTaken.Invoke(collision.gameObject);
             }
         }
@@ -166,7 +174,6 @@ namespace Abilities
                 }
             }
         }
-
         #endregion
         
         public bool IsPlayerFullAbilities() => passiveAbilities.Count == slotAbilitiesAmount;
@@ -222,7 +229,6 @@ namespace Abilities
             }
         }
         
-        
         public float overheatTimer;
         public float overheatCooldownDuration = 5f;
         public float overheatDuration = 20f;
@@ -232,9 +238,8 @@ namespace Abilities
             {
                 if (overheatTimer > overheatCooldownDuration + overheatDuration)
                 {
-                    Debug.Log("Start Overheat");
                     overheatTimer = 0;
-                    OverheatDuration((int)overheatDuration*1000);
+                    OverheatDuration((int)overheatDuration * 1000);
                 }
             }
             

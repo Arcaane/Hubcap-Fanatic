@@ -56,15 +56,18 @@ public class SaveManager : MonoBehaviour
 public class GameData
 {
     public int saveGold = 0;
-    public bool[] unlockedCar = { true, false, false };
+    public bool[] saveUnlockedCar = { true, false, false };
+    public int[] saveUnlockedPowerUps = new int[3];
     
     public void AddGold(int amount) => saveGold += amount;
     public void SubtractGold(int amount) => saveGold -= amount;
-    public void UnlockCarWithIndex(int index) => unlockedCar[index] = true;
+    public void UnlockCarWithIndex(int index) => saveUnlockedCar[index] = true;
+    public void UnlockPowerUp(int index) => saveUnlockedPowerUps[index]++;
     
     public void ResetData()
     {
         saveGold = 0;
-        unlockedCar = new[] { true, false, false };
+        saveUnlockedCar = new[] { true, false, false };
+        saveUnlockedPowerUps = new int[3];
     }
 }
