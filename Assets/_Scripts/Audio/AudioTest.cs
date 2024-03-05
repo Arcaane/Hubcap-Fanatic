@@ -1,27 +1,28 @@
 using Audio;
 using UnityEngine;
+using UnityEngine.Serialization;
 using AudioType = Audio.AudioType;
 
 public class AudioTest : MonoBehaviour
 {
-    public AudioController AudioController;
+    [FormerlySerializedAs("AudioController")] public PlayerAudioController playerAudioController;
 #if UNITY_EDITOR
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.C))
         {
-            AudioController.PlayAudio(AudioType.ST_01);
+            playerAudioController.PlayAudio(AudioType.ST_01);
         }
-
+        
         if (Input.GetKeyUp(KeyCode.V))
         {
-            AudioController.StopAudio(AudioType.ST_01);
+            playerAudioController.PlayAudio(AudioType.SFX_01);
         }
-            
-        if (Input.GetKeyUp(KeyCode.X))
+        
+        if (Input.GetKeyUp(KeyCode.B))
         {
-            AudioController.RestartAudio(AudioType.ST_01);
+            playerAudioController.PlayAudio(AudioType.SFX_02);
         }
     }
 #endif
