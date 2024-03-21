@@ -29,6 +29,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
     //Setup Spawn Points
     private Transform spawnPointContainer;
     [SerializeField] private List<Transform> spawnPoints;
+    [SerializeField] private DataExtract dataToSave = null;
     private int previousSpawnIndex = -1;
 
     private void Awake()
@@ -57,6 +58,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
         
         GameObject deliveryZone = Instantiate(prefab, randomSpawnPoint.position, Quaternion.identity);
         SpawnZoneDelivery spawnZoneDelivery = deliveryZone.GetComponent<SpawnZoneDelivery>();
+        if(dataToSave != null) dataToSave.SaveDeliverySpawn(randomSpawnPoint.position);
 
         if (spawnZoneDelivery != null)
         {
