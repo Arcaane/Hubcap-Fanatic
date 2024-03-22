@@ -11,6 +11,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
 {
     [Space(4)] [Header("!MISC STATS!")] [SerializeField]
     private Key enemyKey;
+    private DataExtract dataToSave = null;
 
     [SerializeField] private int hp = 100;
     private int currentHp;
@@ -77,7 +78,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     public float driveByPhaseOvershoot = 8;
     public float distanceToPlayer;
     private float saveOvershoot;
-
+    
     void Start()
     {
         if (policeCars == null) policeCars = new List<PoliceCarBehavior>();
@@ -103,6 +104,8 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         }
 
         saveOvershoot = overshootValue;
+
+        dataToSave = FindObjectOfType<DataExtract>();
     }
 
     private void OnEnable()
@@ -463,7 +466,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     private void Die()
     {
         isDead = true;
-        
+        if(dataToSave != null) dataToSave.SaveNewData(transform.position, "EnemyDie", enemyKey.ToString());
         if (objectPickable != null)
         {
             objectPickable.GetComponent<ObjectPickable>().OnDrop();

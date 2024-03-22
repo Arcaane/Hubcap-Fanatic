@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class DataExtract : MonoBehaviour {
     [SerializeField] private float timeBetweenSave = 0.1f;
-    [SerializeField] private List<PlayerDataSave> playerData = new();
-    [SerializeField] private List<DeliveryDataSave> deliveryData = new();
+    [SerializeField] private List<DataSave> datas = new();
     [Space] 
     [SerializeField] private Transform playerCar = null;
     private float currentTimer = 0;
@@ -26,55 +26,40 @@ public class DataExtract : MonoBehaviour {
     /// Save the player data
     /// </summary>
     private void SaveData() {
-        playerData.Add(new PlayerDataSave(Time.time, playerCar.position, playerCar.rotation));
+        datas.Add(new DataSave(Time.time, playerCar.position, "Player", ""));
     }
-
-    /// <summary>
-    /// Save the delivery data
-    /// </summary>
-    /// <param name="position"></param>
-    public void SaveDeliverySpawn(Vector3 position) {
-        deliveryData.Add(new DeliveryDataSave(Time.time, position));
+    
+    public void SaveNewData(Vector3 position, string eventType, string description = "") {
+        datas.Add(new DataSave(Time.time, position, eventType, description));
     }
 
     [ContextMenu("Save Data To JSON")]
     public void SaveToJSON() {
-        JSONSaver jsonObj = new JSONSaver(playerData, deliveryData);
+        DataConverter jsonObj = new DataConverter(datas);
         string DataJSON = JsonUtility.ToJson(jsonObj);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/Data.json", DataJSON);
     }
 }
 
-[System.Serializable]
-public class PlayerDataSave {
+[Serializable]
+public class DataSave {
     public float timer = 0;
     public Vector3 position = new();
-    public Quaternion rotation = new();
+    public string eventType;
+    public string description;
 
-    public PlayerDataSave(float timer, Vector3 position, Quaternion rotation) {
+    public DataSave(float timer, Vector3 position, string eventType, string description) {
         this.timer = timer;
         this.position = position;
-        this.rotation = rotation;
+        this.eventType = eventType;
+        this.description = description;
     }
 }
 
-[System.Serializable]
-public class DeliveryDataSave {
-    public float timer = 0;
-    public Vector3 position = new();
-
-    public DeliveryDataSave(float timer, Vector3 position) {
-        this.timer = timer;
-        this.position = position;
-    }
-}
-
-public class JSONSaver {
-    public List<PlayerDataSave> playerData;
-    public List<DeliveryDataSave> deliveryData;
+public class DataConverter {
+    public List<DataSave> datas;
     
-    public JSONSaver(List<PlayerDataSave> playerData, List<DeliveryDataSave> deliveryData) {
-        this.playerData = playerData;
-        this.deliveryData = deliveryData;
+    public DataConverter(List<DataSave> datas) {
+        this.datas = datas;
     }
 }

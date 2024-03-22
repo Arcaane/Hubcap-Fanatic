@@ -58,7 +58,7 @@ public class DeliveryRessourcesManager : MonoBehaviour
         
         GameObject deliveryZone = Instantiate(prefab, randomSpawnPoint.position, Quaternion.identity);
         SpawnZoneDelivery spawnZoneDelivery = deliveryZone.GetComponent<SpawnZoneDelivery>();
-        if(dataToSave != null) dataToSave.SaveDeliverySpawn(randomSpawnPoint.position);
+        if(dataToSave != null) dataToSave.SaveNewData(randomSpawnPoint.position, "Drop");
 
         if (spawnZoneDelivery != null)
         {

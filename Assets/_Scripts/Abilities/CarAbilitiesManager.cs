@@ -53,7 +53,8 @@ namespace Abilities
 
         [SerializeField] public int damageOnCollisionWithEnemy;
         [SerializeField] public float overallAbilitiesCooldown = 0;
-        
+        [SerializeField] private DataExtract dataToSave = null;
+
         [HideInInspector] public float baseSpeedOnRoad;
         [HideInInspector] public float baseSpeedOnSand;
         [HideInInspector] public float baseNitroSpeed;
@@ -97,11 +98,12 @@ namespace Abilities
             baseSpeedRetainedOnBounce = car.speedRetained;
             goldAmountWonOnRun = 0;
             
-            powerUpMight = 1 + GameMaster.instance.UnlockedPowerUps[0] * 0.05f;
+            //powerUpMight = 1 + GameMaster.instance.UnlockedPowerUps[0] * 0.05f;
             car.mightPowerUpLevel = powerUpMight;
             
-            powerUpMoveSpeed = 1 + GameMaster.instance.UnlockedPowerUps[2] * 0.05f;
-            Debug.Log(" Power up speed " + powerUpMoveSpeed);
+            //powerUpMoveSpeed = 1 + GameMaster.instance.UnlockedPowerUps[2] * 0.05f;
+            powerUpMoveSpeed = 1;
+            //Debug.Log(" Power up speed " + powerUpMoveSpeed);
             car.maxSpeed *= powerUpMoveSpeed;
             car.offRoadSpeed *= powerUpMoveSpeed;
         }
@@ -135,6 +137,8 @@ namespace Abilities
 
         public void AddAbility(AbilitiesSO abilitySo)
         {
+            if(dataToSave != null) dataToSave.SaveNewData(transform.position, "LevelUp", abilitySo.abilityName);
+
             if (abilitySo.type == AbilityType.ClassicAbilites)
             {
                 if (passiveAbilities.Contains(abilitySo))

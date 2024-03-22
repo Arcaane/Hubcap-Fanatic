@@ -15,7 +15,6 @@ public class CarExperienceManager : MonoBehaviour
     [SerializeField] private int currentExperienceAmount;
     [SerializeField] public int levelUpTokensAvailable;
     [SerializeField] public TestShop shop = null;
-
     [SerializeField] public float nbrOfDelivery = 1;
     
     private void Awake()

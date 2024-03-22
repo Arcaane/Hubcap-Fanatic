@@ -6,7 +6,8 @@ using UnityEngine;
 public class Delivery : MonoBehaviour
 {
     private bool canBeDelivered = false;
- 
+
+    [SerializeField] private DataExtract dataToSave = null;
     
     [Header("--------- PARTICULES ---------")]
     public GameObject deliveryZone;
@@ -34,6 +35,7 @@ public class Delivery : MonoBehaviour
             for (int i = CarController.instance.pickedItems.Count - 1; i >= 0; i--)
             {
                 CarController.instance.pickedItems[i].gameObject.GetComponent<ObjectPickable>().OnDelivered();
+                if(dataToSave != null) dataToSave.SaveNewData(transform.position, "DeliveryDone");
                 OnDeliver();
             }
         }

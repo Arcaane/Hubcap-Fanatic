@@ -357,8 +357,8 @@ public class CarController : CarBehaviour
     }
 
 
-    private void ShotgunHit()
-    {
+    private void ShotgunHit() {
+        mightPowerUpLevel = 1;
         Vector3 direction = straffColider.enemyCar[0].position - transform.position;
         if (Vector3.Dot(direction,transform.right) > 0)
         {
