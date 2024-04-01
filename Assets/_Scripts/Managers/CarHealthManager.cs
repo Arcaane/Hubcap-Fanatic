@@ -41,8 +41,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         renderer.materials = mat;
         
         lifePoints = maxLifePoints;
-        UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
-        UIManager.instance.SetLifePlayerText(lifePoints);
+        UIManager.instance.UpdateLifeData((float)lifePoints / maxLifePoints, $"LIFE : {(lifePoints < 10 ? "0" : "") + lifePoints}");
         volume.profile.TryGet(out vt);
     }
     
@@ -63,8 +62,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         }
         
         UIManager.instance.UITakeDamage();
-        UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
-        UIManager.instance.SetLifePlayerText(lifePoints);
+        UIManager.instance.UpdateLifeData((float)lifePoints / maxLifePoints, $"LIFE : {(lifePoints < 10 ? "0" : "") + lifePoints}");
         
         CameraShake.instance.SetShake(0.3f);
     }
@@ -114,8 +112,7 @@ public class CarHealthManager : MonoBehaviour, IDamageable
         lifePoints += i;
         if (lifePoints > maxLifePoints) lifePoints = maxLifePoints;
         SetVignette();
-        UIManager.instance.SetPlayerLifeJauge((float)lifePoints / maxLifePoints);
-        UIManager.instance.SetLifePlayerText(lifePoints);
+        UIManager.instance.UpdateLifeData((float)lifePoints / maxLifePoints, $"LIFE : {(lifePoints < 10 ? "0" : "") + lifePoints}");
     }
 
     private async void ActiveDamageFB()

@@ -23,6 +23,7 @@ public class CarController : CarBehaviour
     [SerializeField] public bool nitroMode, canNitro;
     [SerializeField] private float nitroTime;
     [SerializeField] private float nitroDuration;
+    [SerializeField] private float minNitroPourcent = 0.25f;
     [SerializeField] public float nitroRegen;
     
     [Header("JUMP")] 
@@ -79,6 +80,11 @@ public class CarController : CarBehaviour
         isShield = false;
     }
 
+    protected override void StartContinue() {
+        base.StartContinue();
+        UIManager.instance.UpdateTargetLoadingNitro(minNitroPourcent);
+    }
+
     public override void Update()
     {
         base.Update();
@@ -102,7 +108,7 @@ public class CarController : CarBehaviour
             if (nitroTime > 0)
             {
                 nitroTime -= Time.deltaTime;   
-                UIManager.instance.SetNitroJauge(nitroTime/nitroDuration);
+                UIManager.instance.UpdateNitroData(nitroTime/nitroDuration);
                 CarAbilitiesManager.instance.OnUpdate.Invoke();
             }
             else
@@ -119,15 +125,10 @@ public class CarController : CarBehaviour
             if (nitroTime < nitroDuration)
             {
                 nitroTime += Time.deltaTime * nitroRegen;   
-                UIManager.instance.SetNitroJauge(nitroTime/nitroDuration);
+                UIManager.instance.UpdateNitroData(nitroTime/nitroDuration);
             }
             
-            if(nitroTime >= nitroDuration / 4f)
-            {
-                canNitro = true;
-                //nitroTime = nitroDuration;
-                //UIManager.instance.SetNitroJauge(1);
-            }
+            if(nitroTime/nitroDuration >= minNitroPourcent) canNitro = true;
             
             if (Physics.Raycast(transform.position + Vector3.up*5, Vector3.down, Mathf.Infinity, roadMask))
             {
@@ -148,7 +149,7 @@ public class CarController : CarBehaviour
             if (shootTimes[i] < shootDuration)
             {
                 shootTimes[i] += Time.deltaTime;
-                UIManager.instance.SetShotJauge(shootTimes[i] / shootDuration,i);
+                UIManager.instance.UpdateShotgunData(shootTimes[i] / shootDuration,i);
             }
         }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abilities;
 using DG.Tweening;
@@ -15,19 +16,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image nitroJauge;
     public RadarDetectorUI radar;
     public GameObject shopScreen;
-    
-    [Header("Level & Experience")]
-    [SerializeField] private Image experienceJauge;
-    [SerializeField] private TextMeshProUGUI playerLevelText;
-    [SerializeField] private TextMeshProUGUI playerLevelText2;
-    
-    [SerializeField] private TextMeshProUGUI tokenText;
-    [SerializeField] private TextMeshProUGUI tokenText2;
-    
-    [Header("Wave Informations")]
-    [SerializeField] private Image waveDurationJauge;
-    [SerializeField] private TextMeshProUGUI waveCountText;
-    [SerializeField] private TextMeshProUGUI waveCountText2;
+
+    [Header("Slider Information")] 
+    [SerializeField] private SliderManager waveSliderManager = null;
+    [SerializeField] private SliderManager levelSliderManager = null;
+    [SerializeField] private SliderManager lifeSliderManager = null;
+    [SerializeField] private SliderManager nitroSliderManager = null;
+    [SerializeField] private List<SliderManager> shotgunSliders = new();
 
     [Header("Player vitals")]
     [SerializeField] private Image lifeImage;
@@ -99,9 +94,8 @@ public class UIManager : MonoBehaviour
         instance = this;
     }
 
-    private void Start()
-    {
-        SetExperienceFillAmount(0);
+    private void Start() {
+        UpdateExperienceData(0, "Level 01");
 
         SetAbilityCdInUI();
         
@@ -122,20 +116,9 @@ public class UIManager : MonoBehaviour
         moveOnDeath[0].fillAmount = moveOnDeath[1].fillAmount = 0;
     }
 
-    public void SetNitroJauge(float amount)
-    {
-        nitroJauge.fillAmount = amount;
-        if (amount > 0.25f)
-        {
-            nitroJauge.color = usable;
-        }
-        else
-        {
-            nitroJauge.color = unusable;
-        }
-    }
     
-    public void SetShotJauge(float amount,int shot)
+
+    /*public void SetShotJauge(float amount,int shot)
     {
         shotJauges[shot].fillAmount = amount;
         if (amount > 1)
@@ -147,13 +130,13 @@ public class UIManager : MonoBehaviour
         {
             shotJauges[shot].color = unusable;
         }
-    }
+    }*/
 
-    private void SetUIShotgunUsable(Image img)
+    /*private void SetUIShotgunUsable(Image img)
     {
         img.transform.DOShakeScale(0.3f, 1.04f, 11, 90f, true, ShakeRandomnessMode.Harmonic);
         img.DOColor(Color.white, 0.15f).OnComplete(() => img.DOColor(usable, 0.1f));
-    }
+    }*/
 
     public void ShootMissUI(int i)
     {
@@ -167,43 +150,48 @@ public class UIManager : MonoBehaviour
                 DOLocalMoveY(-30, 0.15f, true)).SetEase(Ease.InBack);
     }
     
-    public void SetExperienceFillAmount(float amount)
-    {
-        experienceJauge.fillAmount = amount;
-    }
-
-    public void SetLevelPlayerText(int i)
-    {
-        playerLevelText.text = $"LEVEL {i.ToString()}";
-        playerLevelText2.text = $"LEVEL {i.ToString()}";
-    }
-
-    public void UpdateWaveDuration(float amount)
-    {
-        waveDurationJauge.fillAmount = amount;
-    }
-
-    public void UpdateWaveCount(int i)
-    {
-        waveCountText.text = $"WAVE {i.ToString()}";
-        waveCountText2.text = $"WAVE {i.ToString()}";
-        UINextWave();
-    }
     
-    public void SetPlayerLifeJauge(float f)
-    {
-        lifeImage.fillAmount = f;
-    }
+    
+    /// <summary>
+    /// Update data related to the life of the player
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="level"></param>
+    public void UpdateLifeData(float amount, string level) => lifeSliderManager.UpdateData(level, amount);
 
-    public void SetLifePlayerText(int i)
-    {
-        lifeText.text = $"LIFE : {i.ToString()}";
-        lifeText2.text = $"LIFE : {i.ToString()}";
-    }
+    /// <summary>
+    /// Update data related to the level and experience of the player
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="level"></param>
+    public void UpdateExperienceData(float amount, string level) => levelSliderManager.UpdateData(level, amount);
+    
+    /// <summary>
+    /// Update data related to the wave progression
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="wave"></param>
+    public void UpdateWaveData(float amount, string wave) => waveSliderManager.UpdateData(wave, amount);
+    
+    /// <summary>
+    /// Update data related to the shotguns bullet
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="id"></param>
+    public void UpdateShotgunData(float amount, int id) => shotgunSliders[id].UpdateData("Shot", amount);
+    
+    /// <summary>
+    /// Update data related to the nitro
+    /// </summary>
+    /// <param name="amount"></param>
+    public void UpdateNitroData(float amount) => nitroSliderManager.UpdateData("Nitro", amount);
+    public void UpdateTargetLoadingNitro(float target) => nitroSliderManager.UpdateTargetValue(target);
+    
+    
 
     public void SetGoldText(int i)
     {
-        tokenText2.text = tokenText.text = i.ToString();
+        //tokenText2.text = tokenText.text = i.ToString();
     }
 
     public void UnlockAbilitySlot(int i)
@@ -431,7 +419,7 @@ public class UIManager : MonoBehaviour
         lifeText2.color = new Color(0.15f, 0.15f, 0.15f, 1.0f);
     }
     
-    private void UINextWave()
+    /*private void UINextWave()
     {
         waveCountText.color = waveCountText2.color = Color.white;
         StartCoroutine(SetWaveGoodTextColor(0.14f));
@@ -450,7 +438,7 @@ public class UIManager : MonoBehaviour
         
         waveCountText.color = new Color(1.0f, 0.4f, 0.31f, 1.0f);
         waveCountText2.color = new Color(0.15f, 0.15f, 0.15f, 1.0f);
-    }
+    }*/
 
     public void UpdateOutOfBoundsTxt(float timer, float maxTimer) {
         fillParent.SetActive(true);

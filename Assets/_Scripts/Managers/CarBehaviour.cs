@@ -63,7 +63,10 @@ public class CarBehaviour : MonoBehaviour
     private void Start()
     {
         rb.centerOfMass = localCenterOfMass;
+        StartContinue();
     }
+
+    protected virtual void StartContinue(){}
 
     public virtual void Update()
     {

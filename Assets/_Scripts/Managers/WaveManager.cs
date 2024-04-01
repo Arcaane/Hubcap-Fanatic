@@ -53,7 +53,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float widthOffset = 5f;
     [SerializeField] private float addAngleToRectange = 0f;
     [SerializeField] private int spawningPointPerSideCount = 7;
-    private UIManager uiManager;
+    private UIManager UIManager;
 
     public static WaveManager instance;
     
@@ -76,7 +76,7 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
-        uiManager = UIManager.instance;
+        UIManager = UIManager.instance;
         CalculateWaveData();
         
         // CommandConsole SWITCHWAVE = new CommandConsole("SwitchToWave", "SwitchToWave <int>", new List<CommandClass>() {new(typeof(int))}, (value) => switchWave(int.Parse(value[0])));
@@ -96,7 +96,7 @@ public class WaveManager : MonoBehaviour
             return;
         }
         
-        uiManager.UpdateWaveCount(currentWaveCount + 1);
+        UIManager.UpdateWaveData(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves), $"WAVE {(currentWaveCount + 1 < 10?"0":"") + (currentWaveCount + 1)}");
         if (currentWaveCount >= waves.Count) return;
 
         spawnBurstInsideWave = waves[currentWaveCount].enemyGroupsList.Count;
@@ -136,7 +136,7 @@ public class WaveManager : MonoBehaviour
 
         spawingTimer += Time.deltaTime;
         waveSpawnTimer += Time.deltaTime;
-        uiManager.UpdateWaveDuration(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves));
+        UIManager.UpdateWaveData(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves), $"WAVE {(currentWaveCount + 1 < 10?"0":"") + (currentWaveCount + 1)}");
 
         if (spawnBurstCounter < spawnBurstInsideWave)
         {

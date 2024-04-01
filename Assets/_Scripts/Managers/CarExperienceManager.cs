@@ -6,11 +6,10 @@ public class CarExperienceManager : MonoBehaviour
     private static CarExperienceManager instance;
     public static CarExperienceManager Instance => instance;
     
-    [SerializeField] private UIManager uiManager;
+    private UIManager UIManager;
     [SerializeField] public int playerLevel;
     [SerializeField] private AnimationCurve expCurve;
     [SerializeField] private List<int> xpPerLevel = new();
-    [SerializeField] private int expBeforeNextLevelAmount;
     [SerializeField] private int healToAddWhenLvlUp = 10;
     [SerializeField] private int currentExperienceAmount;
     [SerializeField] public int levelUpTokensAvailable;
@@ -29,52 +28,59 @@ public class CarExperienceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        uiManager = UIManager.instance;
-        SetupNextLevelData();
-        uiManager.SetLevelPlayerText(playerLevel + 1);
+        UIManager = UIManager.instance;
+        UpdateUIData();
     }
 
-    private void SetupNextLevelData()
-    {
-        expBeforeNextLevelAmount += Mathf.FloorToInt(xpPerLevel[Mathf.Clamp(playerLevel, 0, xpPerLevel.Count - 1)]);
-    }
-
-    public void GetExp(int i)
-    {
+    public void GetExp(int i) {
         currentExperienceAmount += i;
-        CheckLevelUp();
-        
-        if (playerLevel < 1)
-        {
-            uiManager.SetExperienceFillAmount((float)currentExperienceAmount/(expBeforeNextLevelAmount));
-        }
-        else
-        {
-            uiManager.SetExperienceFillAmount((float)(currentExperienceAmount - xpPerLevel[playerLevel-1])/(expBeforeNextLevelAmount - xpPerLevel[playerLevel-1]));
-        }
+        if(CheckLevelUp()) LevelUp();
+        UpdateUIData();
     }
 
-    private void CheckLevelUp()
-    {
-        if (currentExperienceAmount >= expBeforeNextLevelAmount)
-        {
-            LevelUp();
-            CheckLevelUp();
+    /// <summary>
+    /// Calculate the sum of all experience for the previous levels
+    /// </summary>
+    /// <param name="maxLevel"></param>
+    /// <returns></returns>
+    private int SumOfPreviousLevel(int maxLevel) {
+        int sumXP = 0;
+        for (int level = 0; level < maxLevel; level++) {
+            sumXP += xpPerLevel[level];
         }
+
+        return sumXP;
     }
 
-    private void LevelUp()
-    {
+    /// <summary>
+    /// Check if the player needs to level up
+    /// </summary>
+    /// <returns></returns>
+    private bool CheckLevelUp() => currentExperienceAmount >= SumOfPreviousLevel(playerLevel + 1);
+
+    /// <summary>
+    /// Make the player level up
+    /// </summary>
+    private void LevelUp() {
         AddToken(1);
         CarHealthManager.instance.TakeHeal(healToAddWhenLvlUp);
         shop.StartShopUI();
         playerLevel++;
-        uiManager.SetLevelPlayerText(playerLevel + 1);
-        SetupNextLevelData();
+        UpdateUIData();
+
+        if(CheckLevelUp()) LevelUp();
     }
 
-    public void AddToken(int i)
-    {
+    /// <summary>
+    /// Add a token for upgrades and new items
+    /// </summary>
+    /// <param name="i"></param>
+    public void AddToken(int i) {
         levelUpTokensAvailable += i;
     }
+    
+    /// <summary>
+    /// Update the UI visuals of the level slider
+    /// </summary>
+    private void UpdateUIData() => UIManager.UpdateExperienceData((float)(currentExperienceAmount - (playerLevel == 0 ? 0 : SumOfPreviousLevel(playerLevel))) /xpPerLevel[playerLevel], $"LEVEL {(playerLevel+1<10?"0":"") + (playerLevel + 1)}");
 }
