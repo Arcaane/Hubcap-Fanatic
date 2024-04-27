@@ -113,9 +113,9 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         isPickable = false;
         transform.localPosition = Vector3.zero;
 
-        if (CarController.instance.pickedItems.Count > 0)
+        if (PlayerCarController.Instance.pickedItems.Count > 0)
         {
-            for (int i = 0; i < CarController.instance.pickedItems.Count; i++)
+            for (int i = 0; i < PlayerCarController.Instance.pickedItems.Count; i++)
             {
                 transform.localPosition += Vector3.up * i * 2.0f;
             }
@@ -175,7 +175,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
 
         int expToAdd = 
             Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel) * CarExperienceManager.Instance.nbrOfDelivery);
-        CarExperienceManager.Instance.GetExp(expToAdd);
+        CarExperienceManager.Instance.GetPlayerExperience(expToAdd);
         PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick);
         
         gameObject.GetComponent<SphereCollider>().enabled = true;

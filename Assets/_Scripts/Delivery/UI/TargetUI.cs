@@ -115,7 +115,7 @@ public class TargetUI : MonoBehaviour
 
     void CalculateDistance()
     {
-        distance = Vector3.Distance(CarController.instance.transform.position, objBinded.transform.position);
+        distance = Vector3.Distance(PlayerCarController.Instance.transform.position, objBinded.transform.position);
     }
 }
 

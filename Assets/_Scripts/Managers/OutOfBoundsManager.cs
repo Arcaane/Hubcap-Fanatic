@@ -17,7 +17,7 @@ public class OutOfBoundsManager : MonoBehaviour {
     private void Update() {
         if (colGam.Count > 0) {
             timer -= Time.deltaTime;
-            UIManager.instance.UpdateOutOfBoundsTxt(timer, maxTimer);
+            UIManager.Instance.UpdateOutOfBoundsTxt(timer, maxTimer);
             outOfBoundVolume.weight = 1 - timer / maxTimer;
 
             if (timer <= 0) {
@@ -26,7 +26,7 @@ public class OutOfBoundsManager : MonoBehaviour {
             }
         }
         else {
-            UIManager.instance.CloseOutOfBounds();
+            UIManager.Instance.CloseOutOfBounds();
             outOfBoundVolume.weight = 0;
             timer = maxTimer;
         }

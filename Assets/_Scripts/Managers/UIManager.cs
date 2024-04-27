@@ -1,21 +1,28 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abilities;
 using DG.Tweening;
+using Helper;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
-    public static UIManager instance;
     [SerializeField] private Image nitroJauge;
     public RadarDetectorUI radar;
     public GameObject shopScreen;
-    
+
+    [Header("Slider data")] 
+    [SerializeField] private SliderUpdater lifeSlider = null;
+    [SerializeField] private SliderUpdater nitroSlider = null;
+    [SerializeField] private SliderUpdater levelSlider = null;
+    [SerializeField] private SliderUpdater waveSlider = null;
+    [SerializeField] private List<SliderUpdater> shotgunSlider = new();
+
     [Header("Level & Experience")]
     [SerializeField] private Image experienceJauge;
     [SerializeField] private TextMeshProUGUI playerLevelText;
@@ -37,14 +44,14 @@ public class UIManager : MonoBehaviour
     
     [SerializeField] public ButtonsItems[] buttonsHandlers;
 
-    [SerializeField] public Transform shootIcon,shopIcon;
+    [SerializeField] public Transform shootIcon;
 
     [SerializeField] public Transform[] fireShots;
     
     [SerializeField] private Image[] moveOnDeath;
     
     [Header("Shotgun part")]
-    [SerializeField] public Image[] shotJauges;
+    //[SerializeField] public Image[] shotJauges;
     [SerializeField] private RectTransform[] shotGunIconsFlammes;
     [SerializeField] private Color usable, unusable;
 
@@ -94,15 +101,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject fillParent = null;
     [SerializeField] private Image fillImage = null;
     
-    private void Awake()
-    {
-        instance = this;
-    }
-
     private void Start()
     {
-        SetExperienceFillAmount(0);
-
         SetAbilityCdInUI();
         
         for (int i = 0; i < abilitiesSlots.Length; i++)
@@ -122,7 +122,17 @@ public class UIManager : MonoBehaviour
         moveOnDeath[0].fillAmount = moveOnDeath[1].fillAmount = 0;
     }
 
-    public void SetNitroJauge(float amount)
+    public void InitNitroSlider(float minAmount) => nitroSlider.InitMiNValue(minAmount);
+    public void UpdateNitroSlider(float amount) => nitroSlider.UpdateSliderValue(amount);
+    public void UpdateLifeSlider(float amount, int textValue) => lifeSlider.UpdateSliderValue(amount, textValue);
+    public void UpdateLevelSlider(float amount, int textValue) => levelSlider.UpdateSliderValue(amount, textValue);
+    public void UpdateWaveSlider(float amount, int textValue) => waveSlider.UpdateSliderValue(amount, textValue);
+
+
+    public void UpdateShotgunSlider(float amount, int shotID) => shotgunSlider[shotID].UpdateSliderValue(amount);
+    
+    
+    /*public void SetNitroJauge(float amount)
     {
         nitroJauge.fillAmount = amount;
         if (amount > 0.25f)
@@ -133,29 +143,15 @@ public class UIManager : MonoBehaviour
         {
             nitroJauge.color = unusable;
         }
-    }
+    }*/
     
-    public void SetShotJauge(float amount,int shot)
-    {
-        shotJauges[shot].fillAmount = amount;
-        if (amount > 1)
-        {
-            shotJauges[shot].color = usable;
-            SetUIShotgunUsable(shotJauges[shot]);
-        }
-        else
-        {
-            shotJauges[shot].color = unusable;
-        }
-    }
-
     private void SetUIShotgunUsable(Image img)
     {
         img.transform.DOShakeScale(0.3f, 1.04f, 11, 90f, true, ShakeRandomnessMode.Harmonic);
         img.DOColor(Color.white, 0.15f).OnComplete(() => img.DOColor(usable, 0.1f));
     }
 
-    public void ShootMissUI(int i)
+    /*public void ShootMissUI(int i)
     {
         shotJauges[i].transform.parent.DOLocalRotate(new Vector3(0,0,360), 0.5f, RotateMode.LocalAxisAdd).OnComplete(() => shotJauges[i].transform.parent.transform.localRotation = Quaternion.Euler(0,0,0));
     }
@@ -165,42 +161,8 @@ public class UIManager : MonoBehaviour
         shotJauges[i].transform.parent.DOLocalMoveY(0, 0.35f, true).
             SetEase(Ease.OutElastic).OnComplete(() => shotJauges[i].transform.parent.
                 DOLocalMoveY(-30, 0.15f, true)).SetEase(Ease.InBack);
-    }
+    }*/
     
-    public void SetExperienceFillAmount(float amount)
-    {
-        experienceJauge.fillAmount = amount;
-    }
-
-    public void SetLevelPlayerText(int i)
-    {
-        playerLevelText.text = $"LEVEL {i.ToString()}";
-        playerLevelText2.text = $"LEVEL {i.ToString()}";
-    }
-
-    public void UpdateWaveDuration(float amount)
-    {
-        waveDurationJauge.fillAmount = amount;
-    }
-
-    public void UpdateWaveCount(int i)
-    {
-        waveCountText.text = $"WAVE {i.ToString()}";
-        waveCountText2.text = $"WAVE {i.ToString()}";
-        UINextWave();
-    }
-    
-    public void SetPlayerLifeJauge(float f)
-    {
-        lifeImage.fillAmount = f;
-    }
-
-    public void SetLifePlayerText(int i)
-    {
-        lifeText.text = $"LIFE : {i.ToString()}";
-        lifeText2.text = $"LIFE : {i.ToString()}";
-    }
-
     public void SetGoldText(int i)
     {
         tokenText2.text = tokenText.text = i.ToString();
@@ -373,7 +335,7 @@ public class UIManager : MonoBehaviour
             easeLifeJauge.fillAmount = Mathf.Lerp(easeLifeJauge.fillAmount, lifeImage.fillAmount, easeLifeLerpSpeed);
         }
     
-        if (CarController.instance.isBerserk)
+        if (PlayerCarController.Instance.isBerserk)
         {
             fireShots[0].localScale = fireShots[1].localScale = Vector3.Lerp(fireShots[0].localScale, Vector3.one, Time.deltaTime * 5);
         }

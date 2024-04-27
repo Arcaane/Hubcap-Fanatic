@@ -17,8 +17,8 @@ public class GameMaster : MonoBehaviour
     private int[] unlockedPowerUps = new int[3];
     
     // Save Methods Library
-    private void SaveGame() => SaveManager.Instance.SaveGame(gameData);
-    private void LoadGame() => gameData = SaveManager.Instance.LoadGame();
+    //private void SaveGame() => SaveManager.Instance.SaveGame(gameData);
+    //private void LoadGame() => gameData = SaveManager.Instance.LoadGame();
     public void AddGold(int i) => playerGold += i;
     public void SubtractGold(int i) => playerGold -= i;
     public void UnlockCar(int i) => unlockedCars[i] = true;
@@ -39,7 +39,7 @@ public class GameMaster : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(this);
-        LoadGame();
+        //LoadGame();
 
         CommandConsole ADDGOLD = new CommandConsole("AddGold", "Add gold <int>", new List<CommandClass>() {new(typeof(int))}, (value) =>
         {
@@ -76,7 +76,7 @@ public class GameMaster : MonoBehaviour
     public void ResetAllGame()
     {
         gameData.ResetData();
-        SaveGame();
+        //SaveGame();
         SceneManager.LoadScene(0);
     }
 
@@ -95,7 +95,7 @@ public class GameMaster : MonoBehaviour
             gameData.saveUnlockedPowerUps[i] = unlockedPowerUps[i];
         }
         
-        SaveGame();
+        //SaveGame();
     }
     
     private void OnApplicationQuit()

@@ -26,9 +26,9 @@ public class DestructionBox : MonoBehaviour
     public void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
-        if (CarController.instance != null)
+        if (PlayerCarController.Instance != null)
         {
-            player = CarController.instance.transform;
+            player = PlayerCarController.Instance.transform;
         }
         else
         {

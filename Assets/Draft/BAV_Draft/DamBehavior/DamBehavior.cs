@@ -40,7 +40,7 @@ public class DamBehavior : MonoBehaviour
         Debug.Log("Spawn Cars");
         for (int i = 0; i < spawnBlockades.Count; i++)
         {
-            PoliceCarBehavior car = ((Transform)Pooler.instance.SpawnInstance(spawnBlockades[i].enemy, spawnBlockades[i].spawnPoint.position, spawnBlockades[i].spawnPoint.rotation)).GetComponent<PoliceCarBehavior>();
+            PoliceCarBehavior car = ((Transform)PoolManager.instance.SpawnInstance(spawnBlockades[i].enemy, spawnBlockades[i].spawnPoint.position, spawnBlockades[i].spawnPoint.rotation)).GetComponent<PoliceCarBehavior>();
 
             if (car != null)
             {

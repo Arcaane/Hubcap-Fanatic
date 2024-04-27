@@ -76,7 +76,7 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
-        uiManager = UIManager.instance;
+        uiManager = UIManager.Instance;
         CalculateWaveData();
         
         // CommandConsole SWITCHWAVE = new CommandConsole("SwitchToWave", "SwitchToWave <int>", new List<CommandClass>() {new(typeof(int))}, (value) => switchWave(int.Parse(value[0])));
@@ -96,7 +96,7 @@ public class WaveManager : MonoBehaviour
             return;
         }
         
-        uiManager.UpdateWaveCount(currentWaveCount + 1);
+        uiManager.UpdateWaveSlider(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves), currentWaveCount + 1);
         if (currentWaveCount >= waves.Count) return;
 
         spawnBurstInsideWave = waves[currentWaveCount].enemyGroupsList.Count;
@@ -136,7 +136,7 @@ public class WaveManager : MonoBehaviour
 
         spawingTimer += Time.deltaTime;
         waveSpawnTimer += Time.deltaTime;
-        uiManager.UpdateWaveDuration(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves));
+        uiManager.UpdateWaveSlider(spawingTimer / (waves[currentWaveCount].waveDuration + intervalBetweenWaves), currentWaveCount + 1);
 
         if (spawnBurstCounter < spawnBurstInsideWave)
         {
@@ -197,7 +197,7 @@ public class WaveManager : MonoBehaviour
             var unitSpawnPos = spawnPos + new Vector3(randPosInsideCircle.x, 0, randPosInsideCircle.y);
 
             Vector3 relativePos = carTransform.position - unitSpawnPos;
-            Pooler.instance.SpawnInstance(entityKey, unitSpawnPos, Quaternion.LookRotation(relativePos));
+            PoolManager.instance.SpawnInstance(entityKey, unitSpawnPos, Quaternion.LookRotation(relativePos));
         }
     }
 

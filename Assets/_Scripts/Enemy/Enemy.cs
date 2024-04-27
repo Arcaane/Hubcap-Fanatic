@@ -19,8 +19,8 @@ namespace EnemyNamespace
         protected bool isDead;
         protected float aimingTimer = 0;
         
-        protected CarController car;
-        public Transform playerPos => car.transform;
+        protected PlayerCarController playerCar;
+        public Transform playerPos => playerCar.transform;
 
         // [Space(8)] [Header("SENTINEL SECTION")]
         // public bool holdSentinel = false;
@@ -36,7 +36,7 @@ namespace EnemyNamespace
         /// </summary>
         protected virtual void Spawn()
         {
-            if (CarController.instance) car = CarController.instance;
+            if (PlayerCarController.Instance) playerCar = PlayerCarController.Instance;
 
             if (GetComponent<NavMeshAgent>() != null)
             {

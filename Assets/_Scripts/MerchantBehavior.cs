@@ -68,7 +68,7 @@ public class MerchantBehavior : MonoBehaviour
     {
         
         targetSpeed = 0;
-        UIManager.instance.UpdateMerchantNotif("MERCHANT PASSED BY " + stop.stopName);
+        UIManager.Instance.UpdateMerchantNotif("MERCHANT PASSED BY " + stop.stopName);
         await Task.Delay(Mathf.RoundToInt(1000 * stop.stopDuration));
         targetSpeed = travelSpeed;
         

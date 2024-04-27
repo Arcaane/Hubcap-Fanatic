@@ -16,7 +16,7 @@ public class Delivery : MonoBehaviour
 
     private void Update()
     {
-        if (CarController.instance.pickedItems.Count <= 0)
+        if (PlayerCarController.Instance.pickedItems.Count <= 0)
         {
             CantDeliver();
         }
@@ -30,10 +30,10 @@ public class Delivery : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (CarController.instance.pickedItems.Count <= 0) return;
-            for (int i = CarController.instance.pickedItems.Count - 1; i >= 0; i--)
+            if (PlayerCarController.Instance.pickedItems.Count <= 0) return;
+            for (int i = PlayerCarController.Instance.pickedItems.Count - 1; i >= 0; i--)
             {
-                CarController.instance.pickedItems[i].gameObject.GetComponent<ObjectPickable>().OnDelivered();
+                PlayerCarController.Instance.pickedItems[i].gameObject.GetComponent<ObjectPickable>().OnDelivered();
                 OnDeliver();
             }
         }

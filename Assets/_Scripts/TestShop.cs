@@ -22,7 +22,7 @@ public class TestShop : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            buttonsItemsArray[i] = UIManager.instance.shopOptions[i];
+            buttonsItemsArray[i] = UIManager.Instance.shopOptions[i];
         }
         
         for (int i = 0; i < allAbilities.Count; i++) allAbilities[i].level = -1;
@@ -30,7 +30,7 @@ public class TestShop : MonoBehaviour
     
     public void StartShopUI()
     {
-        UIManager.instance.OpenShopScreen();
+        UIManager.Instance.OpenShopScreen();
         SetupItemsInShop();
     }
 
@@ -38,7 +38,7 @@ public class TestShop : MonoBehaviour
     {
         if (CarExperienceManager.Instance.levelUpTokensAvailable <= 0)
         {
-            UIManager.instance.CloseShopScreen();
+            UIManager.Instance.CloseShopScreen();
             return;
         }
         

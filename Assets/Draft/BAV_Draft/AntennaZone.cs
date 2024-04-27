@@ -132,7 +132,7 @@ public class AntennaArea : MonoBehaviour
         currentAntennaState = AntennaState.IsInactive;
         
         // FX
-        GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_PlayerGiveLife, transform.position, Quaternion.identity, 1.5f).gameObject;
+        GameObject go = PoolManager.instance.SpawnTemporaryInstance(Key.FX_PlayerGiveLife, transform.position, Quaternion.identity, 1.5f).gameObject;
         gameObject.SetActive(true);
     }
     

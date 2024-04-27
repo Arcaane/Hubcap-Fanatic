@@ -64,7 +64,7 @@ namespace Abilities
         // Memory Vars
         private Collider[] cols; 
         private float effectRepeatTimer;
-        private CarController player;
+        private PlayerCarController player;
         private CarAbilitiesManager carAbilities;
         private bool isInCooldown = false;
         
@@ -78,7 +78,7 @@ namespace Abilities
         public void Initialize()
         {
             isOverheat = false;
-            player = CarController.instance;
+            player = PlayerCarController.Instance;
             carAbilities = CarAbilitiesManager.instance;
             isInCooldown = false;
 
@@ -302,7 +302,7 @@ namespace Abilities
             var carPos = player.transform.position;
             Vector3 relativePos = carPos - targetObj.transform.position;
             relativePos = new Vector3(relativePos.x, 0, relativePos.z).normalized;
-            Transform obj = Pooler.instance.SpawnInstance(Key.OBJ_Spear, carPos, Quaternion.LookRotation(-relativePos)) as Transform;
+            Transform obj = PoolManager.instance.SpawnInstance(Key.OBJ_Spear, carPos, Quaternion.LookRotation(-relativePos)) as Transform;
             if (obj.gameObject != null) obj.GetComponent<SpearObject>().damages = Mathf.FloorToInt(abilityDamage);
         }
     
@@ -318,7 +318,7 @@ namespace Abilities
             if (carBehaviour == null) return;
             carBehaviour.forceBreak = true;
             carBehaviour.forceBreakTimer = _effectDuration;
-            GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_MotorBreak, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, effectDuration).gameObject;
+            GameObject go = PoolManager.instance.SpawnTemporaryInstance(Key.FX_MotorBreak, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, effectDuration).gameObject;
             go.transform.SetParent(targetObj.transform);
             go.SetActive(true);
         }
@@ -327,13 +327,13 @@ namespace Abilities
         {
             var position = targetObj.transform.position;
             
-            float dist = Vector3.Distance(position, CarController.instance.transform.position);
+            float dist = Vector3.Distance(position, PlayerCarController.Instance.transform.position);
             if (dist < 30)
             {
                 CameraShake.instance.SetShake(0.4f *( 1- dist/30));
             }
             
-            GameObject gameObject = Pooler.instance.SpawnTemporaryInstance(Key.FX_Explosion, position, Quaternion.identity, 5).gameObject;
+            GameObject gameObject = PoolManager.instance.SpawnTemporaryInstance(Key.FX_Explosion, position, Quaternion.identity, 5).gameObject;
             gameObject.transform.localScale = new Vector3(_effectSizeRadius, _effectSizeRadius,_effectSizeRadius);
             
             var cols = Physics.OverlapSphere(position, _effectSizeRadius, enemyLayerMask);
@@ -345,7 +345,7 @@ namespace Abilities
 
         private void EffectSpawnMine(Vector3 targetObj)
         {
-            Mine mine = Pooler.instance.SpawnInstance(Key.OBJ_Mine, targetObj, Quaternion.identity).GetComponent<Mine>();
+            Mine mine = PoolManager.instance.SpawnInstance(Key.OBJ_Mine, targetObj, Quaternion.identity).GetComponent<Mine>();
             mine.damages = Mathf.FloorToInt(abilityDamage);
             mine.explosionRadius = _effectSizeRadius;
         }
@@ -353,7 +353,7 @@ namespace Abilities
         private void EffectLifeSteal(GameObject targetObj)
         {
             CarHealthManager.instance.TakeHeal(Mathf.FloorToInt(abilityDamage));
-            GameObject go = Pooler.instance.SpawnTemporaryInstance(Key.FX_PlayerGiveLife, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, 1.5f).gameObject;
+            GameObject go = PoolManager.instance.SpawnTemporaryInstance(Key.FX_PlayerGiveLife, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, 1.5f).gameObject;
             go.transform.SetParent(targetObj.transform);
             go.SetActive(true);
         }
@@ -391,14 +391,14 @@ namespace Abilities
         
         private async void EffectShield(GameObject targetObj)
         {
-            CarController car = targetObj.GetComponent<CarController>();
-            if (!car) return;
-            car.shield.SetActive(true);
-            car.isShield = true;
+            PlayerCarController playerCar = targetObj.GetComponent<PlayerCarController>();
+            if (!playerCar) return;
+            playerCar.shield.SetActive(true);
+            playerCar.isShield = true;
             await Task.Delay(Mathf.FloorToInt(_effectDuration * 1000));
-            if (!car) return;
-            car.shield.SetActive(false);
-            car.isShield = false;
+            if (!playerCar) return;
+            playerCar.shield.SetActive(false);
+            playerCar.isShield = false;
         }
 
         private async void EffectTarget(GameObject obj)
@@ -465,7 +465,7 @@ namespace Abilities
                         _ => player.offRoadSpeed
                     };
                     break;
-                case StatsModifier.NitroSpeed: player.nitroSpeed = howStatsModify switch
+                case StatsModifier.NitroSpeed: player.speedWithNitro = howStatsModify switch
                     {
                         HowStatsModify.Subtract => carAbilities.baseNitroSpeed - amount[level],
                         HowStatsModify.Add => 55 + amount[level],
@@ -567,7 +567,7 @@ namespace Abilities
                 } break;
                 case StatsModifier.BouncePowerOnDrop:
                 {
-                    CarController.instance.speedRetained = howStatsModify switch
+                    PlayerCarController.Instance.speedRetained = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseSpeedRetainedOnBounce - amount[level]),
                         HowStatsModify.Add => 0.3f + amount[level],
@@ -586,13 +586,13 @@ namespace Abilities
             if (!isCapacityCooldown) return;
             isInCooldown = true;
             carAbilities.LaunchCo(cooldownDuration * (1 - carAbilities.overallAbilitiesCooldown/100), index);
-            UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.gameObject.SetActive(true);
-            UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.fillAmount = 1;
-            UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.DOFillAmount(0, cooldownDuration * (1 - carAbilities.overallAbilitiesCooldown/100)).OnComplete(
+            UIManager.Instance.abilitiesSlots[index].abilityCooldownSlider.gameObject.SetActive(true);
+            UIManager.Instance.abilitiesSlots[index].abilityCooldownSlider.fillAmount = 1;
+            UIManager.Instance.abilitiesSlots[index].abilityCooldownSlider.DOFillAmount(0, cooldownDuration * (1 - carAbilities.overallAbilitiesCooldown/100)).OnComplete(
                 delegate
                 {
                     isInCooldown = false;
-                    UIManager.instance.abilitiesSlots[index].abilityCooldownSlider.gameObject.SetActive(false);
+                    UIManager.Instance.abilitiesSlots[index].abilityCooldownSlider.gameObject.SetActive(false);
                 });
         }
     }

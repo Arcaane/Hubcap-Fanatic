@@ -81,7 +81,7 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     void Start()
     {
         if (policeCars == null) policeCars = new List<PoliceCarBehavior>();
-        target = CarController.instance.transform;
+        target = PlayerCarController.Instance.transform;
         currentTarget = target;
         policeCars.Add(this);
         randomOffset = new Vector2(Random.Range(-maxRngOffset.x, maxRngOffset.x),
@@ -140,10 +140,10 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         {
             if (target == null)
             {
-                target = CarController.instance.transform;
+                target = PlayerCarController.Instance.transform;
             }
 
-            Vector3 targetPos = currentTarget.position + currentTarget.forward * overshootValue * CarController.instance.globalSpeedFactor;
+            Vector3 targetPos = currentTarget.position + currentTarget.forward * overshootValue * PlayerCarController.Instance.globalSpeedFactor;
 
             float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
                 new Vector2(targetPos.x, targetPos.z) -
@@ -451,10 +451,10 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
     {
         currentHp -= damages;
         ActiveDamageFB();
-        TextEffect txt = Pooler.instance.SpawnTemporaryInstance(Key.OBJ_TextEffect, transform.position + Vector3.up * 5,
+        TextEffect txt = PoolManager.instance.SpawnTemporaryInstance(Key.OBJ_TextEffect, transform.position + Vector3.up * 5,
             quaternion.identity, 0.7f).GetComponent<TextEffect>();
         txt.SetDamageText(damages);
-        txt.transform.parent = CarController.instance.cameraHolder;
+        txt.transform.parent = PlayerCarController.Instance.cameraHolder;
 
         if (currentHp > 1 && !isDead) return;
         Die();
@@ -475,17 +475,17 @@ public class PoliceCarBehavior : CarBehaviour, IDamageable
         int gGive = Random.Range(1, 4);
         if (isAimEffect) gGive += 10;
         CarAbilitiesManager.instance.GoldAmountWonOnRun += gGive;
-        TextEffect txt = Pooler.instance.SpawnTemporaryInstance(Key.OBJ_GoldText, transform.position + Vector3.up * 5,
+        TextEffect txt = PoolManager.instance.SpawnTemporaryInstance(Key.OBJ_GoldText, transform.position + Vector3.up * 5,
             quaternion.identity, 1).GetComponent<TextEffect>();
         txt.SetGoldText(gGive);
-        txt.transform.parent = CarController.instance.cameraHolder;
+        txt.transform.parent = PlayerCarController.Instance.cameraHolder;
         
         CarAbilitiesManager.instance.OnEnemyKilled.Invoke(gameObject);
-        CarExperienceManager.Instance.GetExp(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
+        CarExperienceManager.Instance.GetPlayerExperience(Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel)));
         
         OnPoliceCarDie.Invoke(gameObject);
         OnPoliceCarDie = null;
-        Pooler.instance.DestroyInstance(enemyKey, transform);
+        PoolManager.instance.DestroyInstance(enemyKey, transform);
     }
 
     public bool IsDamageable() => gameObject.activeSelf && currentHp > 0;

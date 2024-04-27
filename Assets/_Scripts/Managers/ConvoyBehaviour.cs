@@ -71,12 +71,12 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         
         for (int i = 0; i < defensePoints.Length; i++)
         {
-            defenseCars[i] = Pooler.instance.SpawnInstance(defensePoints[i].defenseCar,defensePoints[i].point.position,Quaternion.identity).GetComponent<PoliceCarBehavior>();
+            defenseCars[i] = PoolManager.instance.SpawnInstance(defensePoints[i].defenseCar,defensePoints[i].point.position,Quaternion.identity).GetComponent<PoliceCarBehavior>();
             
             defenseCars[i].convoyBehaviour = this;
             defenseCars[i].defensePoint = defensePoints[i].point;
         }
-        player = CarController.instance.transform;
+        player = PlayerCarController.Instance.transform;
     
     }
     
@@ -185,10 +185,10 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         if(isDead) return;
         if (!IsDamageable()) return;
         hp -= damages;
-        TextEffect txt = Pooler.instance.SpawnTemporaryInstance(Key.OBJ_TextEffect, transform.position + Vector3.up * 5,
+        TextEffect txt = PoolManager.instance.SpawnTemporaryInstance(Key.OBJ_TextEffect, transform.position + Vector3.up * 5,
             quaternion.identity, 1).GetComponent<TextEffect>();
         txt.SetDamageText(damages);
-        txt.transform.parent = CarController.instance.cameraHolder;
+        txt.transform.parent = PlayerCarController.Instance.cameraHolder;
         
         
         if (hp < 1) DestroyConvoy();
