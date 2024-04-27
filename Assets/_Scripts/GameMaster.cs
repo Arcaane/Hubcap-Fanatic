@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster instance;
-    public GameData gameData = new GameData();
+    //public GameData gameData = new GameData();
 
     public int PlayerGold => playerGold;
     private int playerGold;
@@ -61,7 +61,7 @@ public class GameMaster : MonoBehaviour
         CommandConsoleRuntime.Instance.AddCommand(QUIT);
         CommandConsoleRuntime.Instance.AddCommand(ADDGOLD);
         
-        playerGold = gameData.saveGold;
+        /*playerGold = gameData.saveGold;
         for (int i = 0; i < gameData.saveUnlockedCar.Length; i++) {
             unlockedCars[i] = gameData.saveUnlockedCar[i];
         }
@@ -69,20 +69,20 @@ public class GameMaster : MonoBehaviour
         for (int i = 0; i < gameData.saveUnlockedPowerUps.Length; i++)
         {
             unlockedPowerUps[i] = gameData.saveUnlockedPowerUps[i];
-        }
+        }*/
     }
 
     [ContextMenu("ResetAllGame")]
     public void ResetAllGame()
     {
-        gameData.ResetData();
+        //gameData.ResetData();
         //SaveGame();
         SceneManager.LoadScene(0);
     }
 
     public void Save()
     {
-        gameData.saveGold = playerGold; // Save golds
+        /*gameData.saveGold = playerGold; // Save golds
 
         gameData.saveUnlockedCar = new bool[unlockedCars.Length];
         gameData.saveUnlockedPowerUps = new int[unlockedPowerUps.Length];
@@ -95,7 +95,7 @@ public class GameMaster : MonoBehaviour
             gameData.saveUnlockedPowerUps[i] = unlockedPowerUps[i];
         }
         
-        //SaveGame();
+        //SaveGame();*/
     }
     
     private void OnApplicationQuit()
