@@ -96,7 +96,7 @@ namespace HubcapManager {
     /// </summary>
     public static class SceneLoader {
         public const string mainMenuScene = "MainMenu";
-        public const string inGameScene = "GameplayScene";
+        public const string inGameScene = "InGameScene";
         public const string victoryScene = "VictoryScene";
     }
 }

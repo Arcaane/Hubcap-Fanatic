@@ -27,6 +27,12 @@ namespace HubcapInterface {
             InputManager.Instance.OnInteractionKeyPressed += InteractionKeyPressed;
         }
 
+        private void OnDisable() {
+            InputManager.Instance.OnInputChange -= SwitchCurrentInput;
+            InputManager.Instance.OnInputDirection -= SwitchSelectableElementBasedOnDirection;
+            InputManager.Instance.OnInteractionKeyPressed -= InteractionKeyPressed;
+        }
+
         #region METHODS EVENT
 
         /// <summary>

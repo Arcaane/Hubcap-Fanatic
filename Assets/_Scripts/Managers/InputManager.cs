@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager> {
+    [SerializeField] private bool isInGame = false;
+    
     private PlayerInputs inputs = null;
     private bool isKeyboard = true;
 

@@ -24,6 +24,12 @@ namespace HubcapCamera {
             InputManager.Instance.OnInputChange += SwitchController;
         }
 
+        protected override void OnDisableContinue() {
+            base.OnDisableContinue();
+            InputManager.Instance.OnRightStickMove -= MoveCamera;
+            InputManager.Instance.OnInputChange -= SwitchController;
+        }
+
         /// <summary>
         /// Switch the controller type
         /// </summary>
