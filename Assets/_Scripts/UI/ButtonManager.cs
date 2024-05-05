@@ -1,22 +1,30 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using HubcapInterface.DoTween;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace HubcapInterface {
-    public class CustomButtonHandler : UISelectable, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler {
+    public class ButtonManager : BaseSliderClass, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler {
         [SerializeField] private float transitionDuration = 0.25f;
         [SerializeField] private List<ButtonEvent> buttonHoverEvents = new();
-        [Space] [SerializeField] private UnityEvent onClickEvents = new();
-
-        private void Awake() => InitData();
-
+        [SerializeField] private UnityEvent onClickEvents = new();
+        
         /// <summary>
-        /// Initialize data from the events
+        /// Override the awake method set in BaseSliderClass
+        /// </summary>
+        protected override void Awake() {
+            base.Awake();
+            InitData();
+        }
+        
+        /// <summary>
+        /// Initialize Buttons data
         /// </summary>
         private void InitData() {
             foreach (ButtonEvent baseHoverEvent in buttonHoverEvents) {
@@ -45,22 +53,23 @@ namespace HubcapInterface {
                         baseHoverEvent.baseAmount = baseHoverEvent.spriteImage.fillAmount;
                         break;
 
+                    case ButtonEventType.DoTweenEffect: break;
                     case ButtonEventType.None: break;
                 }
             }
         }
-
-
-        #region MOUSE
-
+        
+        #region HANDLE MOUSE
+        
         public void OnPointerEnter(PointerEventData eventData) => CallAllButtonEvent(buttonHoverEvents);
         public void OnPointerExit(PointerEventData eventData) => CallAllButtonEvent(buttonHoverEvents, false);
         public void OnPointerClick(PointerEventData eventData) => onClickEvents.Invoke();
-
-        #endregion MOUSE
-
-        #region Gamepad
-
+        
+        #endregion HANDLE MOUSE
+        
+        
+        #region HANDLE GAMEPAD
+        
         public override void DisableSelection() {
             base.DisableSelection();
             CallAllButtonEvent(buttonHoverEvents, false);
@@ -73,8 +82,11 @@ namespace HubcapInterface {
 
         public override void ActionInputPressed() => onClickEvents.Invoke();
 
-        #endregion Gamepad
-
+        #endregion HANDLE GAMEPAD
+        
+        
+        #region BUTTON METHODS
+        
         /// <summary>
         /// Call all the buttonEvents inside a list of buttonEvents
         /// </summary>
@@ -90,7 +102,7 @@ namespace HubcapInterface {
         /// Call HoverEvents when mouse enter GUI element
         /// </summary>
         /// <param name="hoverEv"></param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <param name="hover"></param>
         private void CallHoverEvents(ButtonEvent hoverEv, bool hover = true) {
             switch (hoverEv.eventType) {
                 case ButtonEventType.Scale:
@@ -122,13 +134,20 @@ namespace HubcapInterface {
                     hoverEv.spriteImage.DOFillAmount(hover ? hoverEv.targetAmount : hoverEv.baseAmount, transitionDuration);
                     break;
 
+                case ButtonEventType.DoTweenEffect: 
+                    if(hover) hoverEv.doTweenEffect.StartEffect(true);
+                    else hoverEv.doTweenEffect.StopEffect();
+                    break;
+                
                 case ButtonEventType.None: break;
 
-                default: throw new ArgumentOutOfRangeException();
+                default: break;
             }
         }
+        
+        #endregion BUTTON METHODS
     }
-
+    
     [Serializable]
     public class ButtonEvent {
         public ButtonEventType eventType = ButtonEventType.None;
@@ -146,6 +165,7 @@ namespace HubcapInterface {
         public CanvasGroup canvasGroup = null;
         [Range(0, 1)] public float targetAlpha = 0;
         public float baseAlpha = 0;
+        public DoTweenEffect doTweenEffect = null;
     }
 
     public enum ButtonEventType {
@@ -155,6 +175,7 @@ namespace HubcapInterface {
         SpriteSwipe,
         Alpha,
         FillAmount,
+        DoTweenEffect,
         None
     }
 }

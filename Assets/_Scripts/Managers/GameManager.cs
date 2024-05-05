@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
@@ -24,15 +25,17 @@ namespace HubcapManager {
         
         protected override void AwakeContinue() {
             base.AwakeContinue();
+            LocalizationManager.ReadData(localisationAssets);
             InitData();
             SceneManager.sceneLoaded += (_, _) => {
                 transitionCanvas.DOKill();
                 transitionCanvas.DOFade(0, 1f);
             };
-            LocalizationManager.ReadData(localisationAssets);
         }
-
+        
         #region DATA MANAGER
+        private void Start() => ChangeLanguage(currentLanguage);
+
         /// <summary>
         /// Load data and store them here
         /// </summary>
@@ -42,7 +45,6 @@ namespace HubcapManager {
             
             currentLanguage = data.language;
             if(currentLanguage == "") currentLanguage = "English";
-            ChangeLanguage(currentLanguage);
         }
 
         [ContextMenu("Save data")]

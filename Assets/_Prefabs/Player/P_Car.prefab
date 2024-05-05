@@ -11692,15 +11692,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1901270512298757076}
-  - component: {fileID: 6701331995795864110}
-  - component: {fileID: 6496687812959214544}
   - component: {fileID: 7223312086131934466}
   - component: {fileID: 5756490539695504914}
+  - component: {fileID: 6496687812959214544}
   - component: {fileID: 2106133911537970450}
   - component: {fileID: 1092070526955468118}
   - component: {fileID: 3798896081380664901}
   - component: {fileID: 6205959775607353322}
   - component: {fileID: 1856174668476883682}
+  - component: {fileID: 6701331995795864110}
   m_Layer: 0
   m_Name: P_Car
   m_TagString: Player
@@ -11738,21 +11738,54 @@ Transform:
   - {fileID: 3082173361603366978}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6701331995795864110
-MonoBehaviour:
+--- !u!54 &7223312086131934466
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7139619980449615729}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0.1
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &5756490539695504914
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7139619980449615729}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec684c86cc9a6394fb5d5bd438c65247, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colGam: []
-  outOfBoundVolume: {fileID: 4450415295492294207}
-  maxTimer: 10
+  serializedVersion: 3
+  m_Size: {x: 1.0687499, y: 0.86249995, z: 1.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6496687812959214544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11896,16 +11929,16 @@ MonoBehaviour:
   maxSpeedRetained: 0.4
   minAngleToBounce: 0.2
   fxBounce: {fileID: 7327552505560720248, guid: 68f8e38cdcb558d43a07cde4b478f907, type: 3}
-  nitroSpeed: 56
-  smoke: {fileID: 8122604561749209318}
-  smokeNitro: {fileID: 5123692597283315678}
-  nitroMode: 0
-  canNitro: 1
-  nitroTime: 2
+  speedWithNitro: 50
   nitroDuration: 2
   nitroRegen: 0.1
+  minNitroEnable: 0.25
+  nitroMode: 0
+  canNitro: 1
+  smoke: {fileID: 8122604561749209318}
+  smokeNitro: {fileID: 5123692597283315678}
   jumpSmoke: {fileID: 0}
-  straffColider: {fileID: 5670995835939285263}
+  shotgunCollider: {fileID: 5670995835939285263}
   shootTimes:
   - 2
   - 2
@@ -11933,54 +11966,7 @@ MonoBehaviour:
   pickedItems: []
   currentCarState: 0
   CollsionBeforeDropDeliver: 3
---- !u!54 &7223312086131934466
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7139619980449615729}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0.1
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &5756490539695504914
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7139619980449615729}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.0687499, y: 0.86249995, z: 1.5}
-  m_Center: {x: 0, y: 0, z: 0}
+  mightPowerUpLevel: 0
 --- !u!114 &2106133911537970450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12138,6 +12124,30 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: fe89e33b-0312-42f1-b209-b07d0d29ff09
     m_ActionName: Inputs/StartButton[/XInputControllerWindows/start,/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f6c396c9-4cc1-4d0f-bdd4-089a16775c4e
+    m_ActionName: Inputs/RB Button
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6d6639f0-0159-4a19-8ca2-20c86aae7e1f
+    m_ActionName: Menu/Move
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4841e5b6-2995-4c98-a93b-f9ded043a36c
+    m_ActionName: Menu/Interaction
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2b1286a6-2111-4407-b164-a975abe83f8a
+    m_ActionName: Menu/CameraRotation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 37ffbd29-b858-41cf-a667-e234f604a1cf
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d11b5569-67de-490f-b87a-1fb8e796baf3
+    m_ActionName: Player/Accelerate[/Keyboard/w]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Inputs
@@ -12186,7 +12196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstAbility: {fileID: 11400000, guid: bfd66ec75f4f97b48a0f602a8b3a0a3d, type: 2}
-  car: {fileID: 6496687812959214544}
+  playerCar: {fileID: 6496687812959214544}
   passiveAbilities: []
   statsAbilities: []
   slotAbilitiesAmount: 4
@@ -12206,6 +12216,8 @@ MonoBehaviour:
   baseOverallAbilitiesCooldown: 0
   baseHitBeforeDeliverDrop: 0
   baseSpeedRetainedOnBounce: 0
+  powerUpMight: 0
+  powerUpMoveSpeed: 0
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -12244,6 +12256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3eceb21a2914a42b0ab9af44059614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 0
   uiManager: {fileID: 0}
   playerLevel: 0
   expCurve:
@@ -12271,11 +12284,25 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   xpPerLevel: 1e000000320000005000000078000000aa000000e60000002c0100007c010000d60100003a020000a802000020030000a20300002e040000c4040000640500000e060000c20600008007000048080000
-  expBeforeNextLevelAmount: 0
   healToAddWhenLvlUp: 10
-  currentExperienceAmount: 0
   levelUpTokensAvailable: 0
   shop: {fileID: 2076398841918162295}
+  nbrOfDelivery: 1
+--- !u!114 &6701331995795864110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7139619980449615729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec684c86cc9a6394fb5d5bd438c65247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colGam: []
+  outOfBoundVolume: {fileID: 4450415295492294207}
+  maxTimer: 10
 --- !u!1 &7555442484678256674
 GameObject:
   m_ObjectHideFlags: 0

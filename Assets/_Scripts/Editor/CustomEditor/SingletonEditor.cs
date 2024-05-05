@@ -21,7 +21,6 @@ public class SingletonEditor : Editor {
                 GUILayout.FlexibleSpace();
                 GUILayout.Label(EditorGUIUtility.IconContent("TreeEditor.Trash", "Don't destroy on load ?"), new GUIStyle() { margin = new RectOffset(0,0,2,0)});
                 EditorGUILayout.PropertyField(toggle, GUIContent.none, GUILayout.Width(25), GUILayout.ExpandHeight(true));
-                //toggle.boolValue = EditorGUILayout.Toggle(, toggle.boolValue, GUILayout.Width(100));
             }
             GUILayout.Space(5);
         }

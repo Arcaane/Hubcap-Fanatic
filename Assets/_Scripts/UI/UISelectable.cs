@@ -15,8 +15,7 @@ namespace HubcapInterface {
             MainMenuManager.Instance.UpdateSelectedObj(this);
         }
 
-        public virtual void ActionInputPressed() {
-        }
+        public virtual void ActionInputPressed() {}
 
         /// <summary>
         /// Method called to switch selectable element when an input is recieved
