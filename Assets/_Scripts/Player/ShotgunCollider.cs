@@ -1,63 +1,25 @@
-using System;
-using System.Collections.Generic;
+using HubcapAbility;
 using UnityEngine;
 
-public class ShotgunCollider : MonoBehaviour
-{
-    public List<Transform> enemyCar = new List<Transform>();
-    public Camera cam;
-
-    private void Start()
-    {
-        enemyCar = new List<Transform>();
-    }
-
-    private void Update()
-    {
-        for (int i = 0; i < enemyCar.Count; i++)
-        {
-            if (!enemyCar[i])
-            {
-                enemyCar.RemoveAt(i);
-                break;
-            }
-            
-            if (!enemyCar[i].gameObject.activeSelf)
-            {
-                RemoveObjectCar(enemyCar[i]);
-            }
-        }
-
-        if (enemyCar.Count > 0 && PlayerCarController.Instance.canShoot())
-        {
-            UIManager.Instance.shootIcon.position = cam.WorldToScreenPoint(enemyCar[0].position);
-            UIManager.Instance.shootIcon.localScale = Vector3.Lerp(UIManager.Instance.shootIcon.localScale,Vector3.one, Time.deltaTime*5);
-        }
-        else
-        {
-            UIManager.Instance.shootIcon.localScale = Vector3.Lerp(UIManager.Instance.shootIcon.localScale,Vector3.zero, Time.deltaTime*10);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            if(other.GetComponent<ConvoyBehaviour>()) enemyCar.Insert(0,other.transform);
-            else enemyCar.Add(other.transform);
-        }
+public class ShotgunCollider : MonoBehaviour {
+    [SerializeField] private ShotgunHandler shotgunHandler = null;
+    
+    /// <summary>
+    /// If enemy enter in the trigger, add it to the list of targeted enemy
+    /// </summary>
+    /// <param name="enemy"></param>
+    private void OnTriggerEnter(Collider enemy) {
+        if (!enemy.CompareTag("Enemy")) return;
+        
+        if(enemy.GetComponent<ConvoyBehaviour>()) shotgunHandler.AddConvoy(enemy.transform);
+        else shotgunHandler.AddEnemyCar(enemy.transform);
     }
     
-    private void OnTriggerExit(Collider other)
-    {
-        RemoveObjectCar(other.transform);
-    }
-
-    public void RemoveObjectCar(Transform car)
-    {
-        if (enemyCar.Contains(car))
-        {
-            enemyCar.Remove(car);
-        }
+    /// <summary>
+    /// Try to remove an enemy from the list of targeted enemy
+    /// </summary>
+    /// <param name="enemy"></param>
+    private void OnTriggerExit(Collider enemy) {
+        shotgunHandler.RemoveEnemyCar(enemy.transform);
     }
 }

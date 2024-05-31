@@ -1,8 +1,10 @@
-using ManagerNameSpace;
+using HubcapCarBehaviour;
+using HubcapManager;
 using UnityEngine;
 
-public class Mine : MonoBehaviour
-{
+public class Mine : MonoBehaviour {
+    [SerializeField, Pooler] private string mineKey = "";
+    [SerializeField, Pooler] private string explosionKey = "";
     public int damages;
     public float explosionRadius;
     public LayerMask enemyMask;
@@ -11,7 +13,7 @@ public class Mine : MonoBehaviour
     {
         if (!other.CompareTag("Enemy")) return;
         
-        GameObject b = PoolManager.instance.SpawnTemporaryInstance(Key.FX_Explosion, transform.position, Quaternion.identity, 5).gameObject;
+        GameObject b = PoolManager.Instance.RetrieveOrCreateObject(explosionKey, transform.position, Quaternion.identity);
         b.transform.localScale = new Vector3(explosionRadius, explosionRadius, explosionRadius);
         float dist = Vector3.Distance(transform.position, PlayerCarController.Instance.transform.position);
         if (dist < 30)
@@ -20,7 +22,7 @@ public class Mine : MonoBehaviour
         }
         
         var cols = Physics.OverlapSphere(transform.position, explosionRadius, enemyMask);
-        for (int i = 0; i < cols.Length; i++) cols[i].GetComponent<IDamageable>()?.TakeDamage(damages);
-        PoolManager.instance.DestroyInstance(Key.OBJ_Mine, this);
+        foreach (Collider col in cols) col.GetComponent<IDamageable>()?.TakeDamage(damages);
+        PoolManager.Instance.RetrieveOrCreateObject(mineKey, transform.position, Quaternion.identity);
     }
 }

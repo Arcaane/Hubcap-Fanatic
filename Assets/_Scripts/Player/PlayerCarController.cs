@@ -1,396 +1,348 @@
 using System.Collections.Generic;
 using Abilities;
-using ManagerNameSpace;
+using Helper;
+using HubcapAbility;
+using HubcapManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
-public class PlayerCarController : CarBehaviour
-{
-    public static PlayerCarController Instance;
-    
-    [Header("WALLBOUNCE")]
-    [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")]
-    [SerializeField] public float speedRetained = 0.7f;
-    [Tooltip("Le pourcentage de vitesse Max gardée lors d'un wallBounce")]
-    [SerializeField] private float maxSpeedRetained = 0.8f;
-    [Tooltip("L'angle Minimum ( 1 = 90° ) pour WallBounce")]
-    [SerializeField] private float minAngleToBounce = 0.3f;
-    [SerializeField] private GameObject fxBounce;
-    
-    [Header("NITRO")] 
-    [SerializeField] public float speedWithNitro = 50;
-    [SerializeField] private float nitroDuration;
-    [SerializeField, Range(0,1)] public float nitroRegen;
-    [SerializeField] private float minNitroEnable = 0.25f;
-    [HideInInspector] public bool nitroMode, canNitro;
-    private float currentNitro;
-    [Space]
-    [SerializeField] private ParticleSystem smoke, smokeNitro;
-    
-    [Header("JUMP")] 
-    [SerializeField] private ParticleSystem jumpSmoke;
+namespace HubcapCarBehaviour {
+    [RequireComponent(typeof(CarDeliveryHandler), typeof(ShotgunHandler), typeof(PlayerHealthManager))]
+    [RequireComponent(typeof(PlayerExperienceManager))]
+    public class PlayerCarController : SingletonCarBehaviour<PlayerCarController> {
+        private CarDeliveryHandler delivery = null;
+        private PlayerHealthManager health = null;
+        private PlayerExperienceManager xp = null;
+        private ShotgunHandler shotgun = null;
+        private Camera mainCamera = null;
+        public Camera uiCamera => mainCamera.transform.GetChild(0).GetComponent<Camera>();
+        public PlayerHealthManager playerHealthManager => health;
+        public PlayerExperienceManager playerExperienceManager => xp;
 
-    [FormerlySerializedAs("straffColider")]
-    [Header("SHOTGUN")] 
-    [SerializeField] private ShotgunCollider shotgunCollider;
-    [SerializeField] private float[] shootTimes;
-    [SerializeField] public float shootDuration;
-    [SerializeField] private ParticleSystem shotgunParticles;
-    [SerializeField] public int shotgunDamages = 50;
-    public bool isStraffing;
-    
-    public bool isBomber;
-    public bool gotVayneUpgrade;
-    public int shotBeforeCritAmount;
-    public float vaynePassiveMultiplier;
-    private int currentShotBeforeCount = 2;
+        [Header("NITRO")] 
+        [SerializeField] public float speedWithNitro = 50;
+        [SerializeField] private float nitroDuration = 2;
+        [SerializeField, Range(0, 1)] public float nitroRegen = 0.1f;
+        [SerializeField] private float minNitroEnable = 0.25f;
+        [SerializeField, ReadOnly] private bool isUsingNitro = false;
+        [HideInInspector] public bool canNitro = true;
+        public bool IsUsingNitro => isUsingNitro;
+        private float currentNitroAmount;
+        [Space] 
+        [SerializeField] private ParticleSystem smoke = null;
+        [SerializeField] private ParticleSystem smokeNitro = null;
 
-    [Header("ROAD DETECTION")] 
-    [SerializeField] private LayerMask roadMask;
-    [SerializeField] public float offRoadSpeed = 10;
-    [SerializeField] public float offRoadDeccelerationFactor = 5;
+        [Header("SHOTGUN")]
+        //[SerializeField] private ShotgunCollider shotgunCollider;
+        //[SerializeField] private float[] shootTimes;
+        [SerializeField] public float shootDuration;
+        //[SerializeField] private ParticleSystem shotgunParticles;
+        [SerializeField] public int shotgunDamages = 50;
+        public bool isStraffing;
 
-    [Header("Effects")] 
-	[SerializeField] public GameObject shield;
-    public bool isShield;
+        public bool isBomber;
+        public bool gotVayneUpgrade;
+        public float vaynePassiveMultiplier;
+        public float mightPowerUpLevel;
 
-    public bool isBerserk;
-    [HideInInspector] public float dirCam;
-    public Transform cameraHolder;
-    public float camDist;
+        [Header("Effects")] [SerializeField] public GameObject shield;
+        public bool isShield;
 
-    public float pillValue;
-    public bool overSpeedPill;
-
-    public List<GameObject> pickedItems = new();
-
-    public State currentCarState;
-    public bool isDefault => !driftBrake && !isStraffing && !brakeMethodApplied && !nitroMode;
-    
-    // INPUT VALUES
-    private Vector2 stickValue;
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        public bool isBerserk;
+        public float pillValue;
+        public bool overSpeedPill;
         
-        currentCollsionBeforeDropDeliver = CollsionBeforeDropDeliver;
-        shield.SetActive(false);
-        isShield = false;
-        UIManager.Instance.InitNitroSlider(minNitroEnable);
-    }
+        
+        
+        public List<GameObject> pickedItems = new();
 
-    public override void Update()
-    {
-        base.Update();
-        
-        rotationValue = stickValue.x;
-        
-        if (CarHealthManager.instance.Lifepoints > 1) {
-            OnMove();
-        }
-        
-        // SORTIE DU DRIFT BRAKE SI ON LACHE L'ACCELERATION
-        if (driftBrake && accelForce < 0.1f)
-        {
-            CarAbilitiesManager.instance.OnStateExit.Invoke();
-            driftBrake = false;
-            foreach (var t in driftSparks) t.Stop();
-        }
-        
-        if (nitroMode)
-        {
-            if (currentNitro > 0)
-            {
-                currentNitro -= Time.deltaTime;   
-                UIManager.Instance.UpdateNitroSlider(currentNitro/nitroDuration);
-                CarAbilitiesManager.instance.OnUpdate.Invoke();
-            }
-            else
-            {
-                nitroMode = false;
-                smoke.Play();
-                smokeNitro.Stop();
-                targetSpeed = maxSpeed;
-                CarAbilitiesManager.instance.OnStateExit.Invoke();
-            }
-        }
-        else /*if(!canNitro)*/
-        {
-            if (currentNitro < nitroDuration)
-            {
-                currentNitro += Time.deltaTime * nitroRegen;   
-                UIManager.Instance.UpdateNitroSlider(currentNitro/nitroDuration);
-            }
+        protected override void Start() {
+            base.Start();
+
+            mainCamera = Camera.main;
+            shotgun = GetComponent<ShotgunHandler>();
+            health = GetComponent<PlayerHealthManager>();
+            xp = GetComponent<PlayerExperienceManager>();
+            delivery = GetComponent<CarDeliveryHandler>();
             
-            if(currentNitro >= minNitroEnable)
-            {
-                canNitro = true;
-                //nitroTime = nitroDuration;
-                //UIManager.instance.SetNitroJauge(1);
-            }
+            currentCollsionBeforeDropDeliver = CollsionBeforeDropDeliver;
+            shield.SetActive(false);
+            isShield = false;
             
-            if (Physics.Raycast(transform.position + Vector3.up*5, Vector3.down, Mathf.Infinity, roadMask))
-            {
-                targetSpeed = maxSpeed;
-            }
-            else
-            {
-                targetSpeed = offRoadSpeed;
-                if (speedFactor > 1)
-                {
-                    rb.velocity = Vector3.Lerp(rb.velocity,Vector3.ClampMagnitude(rb.velocity, targetSpeed),Time.deltaTime*offRoadDeccelerationFactor); 
-                }
-            }
-        }
-        
-        for (int i = 0; i < shootTimes.Length; i++)
-        {
-            if (shootTimes[i] < shootDuration)
-            {
-                shootTimes[i] += Time.deltaTime;
-                UIManager.Instance.UpdateShotgunSlider(shootTimes[i] / shootDuration,i);
-            }
+            InGameUIManager.Instance.InitNitroSlider(minNitroEnable);
+            InitInputEvents();
         }
 
-        if (isShield)
-        {
-            shield.transform.position = transform.position;
+        #region INPUT METHODS
+        /// <summary>
+        /// Add methods to the InputManager
+        /// </summary>
+        private void InitInputEvents() {
+            InputManager.Instance.Inputs.Player.Move.performed += UpdateDirectionInput;
+            InputManager.Instance.Inputs.Player.Move.canceled += UpdateDirectionInput;
+            
+            InputManager.Instance.Inputs.Player.Accelerate.performed += UpdateAccelerationInput;
+            InputManager.Instance.Inputs.Player.Accelerate.canceled += UpdateAccelerationInput;
+            
+            InputManager.Instance.Inputs.Player.Brake.performed += UpdateBrakeInput;
+            InputManager.Instance.Inputs.Player.Brake.canceled += UpdateBrakeInput;
+            
+            InputManager.Instance.Inputs.Player.Nitro.started += UpdateNitroState;
+            InputManager.Instance.Inputs.Player.Nitro.canceled += UpdateNitroState;
         }
-    }
 
-    public bool canShoot()
-    {
-        bool result = false;
-        for (int i = 0; i < shootTimes.Length; i++)
-        {
-            if (shootTimes[i] >= shootDuration) result = true;
+        /// <summary>
+        /// Remove methods from the InputManager when this object is disabled
+        /// </summary>
+        protected override void OnDisable() {
+            base.OnDisable();
+            
+            InputManager.Instance.Inputs.Player.Move.performed -= UpdateDirectionInput;
+            InputManager.Instance.Inputs.Player.Move.canceled -= UpdateDirectionInput;
+            
+            InputManager.Instance.Inputs.Player.Accelerate.performed -= UpdateAccelerationInput;
+            InputManager.Instance.Inputs.Player.Accelerate.canceled -= UpdateAccelerationInput;
+            
+            InputManager.Instance.Inputs.Player.Brake.performed -= UpdateBrakeInput;
+            InputManager.Instance.Inputs.Player.Brake.canceled -= UpdateBrakeInput;
+            
+            InputManager.Instance.Inputs.Player.Nitro.started -= UpdateNitroState;
+            InputManager.Instance.Inputs.Player.Nitro.canceled -= UpdateNitroState;
         }
-        return result;
-    }
-    
-    void FixedUpdate()
-    {
-        dirCam = Mathf.Lerp(dirCam, rb.velocity.magnitude,Time.fixedDeltaTime*3);
-        ApplyWheelForces();
-        // CAMERA
-        //cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f,5 * Time.fixedDeltaTime);
-        cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position + rb.velocity.normalized * dirCam * 0.5f * camDist,5 * Time.fixedDeltaTime);
+
+        /// <summary>
+        /// Method called when the left stick is moved (direction value)
+        /// </summary>
+        /// <param name="context"></param>
+        private void UpdateDirectionInput(InputAction.CallbackContext context) => directionXInput = context.performed ? context.ReadValue<float>() : 0;
+
+        /// <summary>
+        /// Method called when the right shoulder is pressed (acceleration value)
+        /// </summary>
+        /// <param name="context"></param>
+        private void UpdateAccelerationInput(InputAction.CallbackContext context) => accelerationInput = context.performed ? context.ReadValue<float>() : 0;
         
-        /*cameraHolder.rotation = Quaternion.Lerp(cameraHolder.rotation,  Quaternion.Euler(0,transform.eulerAngles.y, 0),500 * Time.fixedDeltaTime);
-        cameraHolder.position = Vector3.Lerp(cameraHolder.position,transform.position /**+ rb.velocity.normalized * dirCam * 0.5f * camDist,50 * Time.fixedDeltaTime);*/
-    }
-    
-    #region Inputs
-    public void RShoulder(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            accelForce = context.ReadValue<float>();
-        }
-        else
-        {
-            accelForce = 0;
-        }
-    }
-    
-    public void LShoulder(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            if (!(stickValue.x > 0.6f || stickValue.x < -0.6f) && !driftBrake)
-            {
+        /// <summary>
+        /// Method called when the left shoulder is pressed (brake value)
+        /// </summary>
+        /// <param name="context"></param>
+        private void UpdateBrakeInput(InputAction.CallbackContext context) {
+            brakeInput = context.performed ? context.ReadValue<float>() : 0;
+
+            if (isDrifting) return;
+            
+            if (context.started && (directionXInput > -minJoystickValueToStartDrift || directionXInput < minJoystickValueToStartDrift)) {
                 CarAbilitiesManager.instance.OnPill.Invoke();
             }
-        }
-        
-        if (context.performed)
-        {
-            brakeForce = context.ReadValue<float>();
-            if (!driftBrake && (stickValue.x > 0.6f || stickValue.x < -0.6f))
-            {
-                driftBrake = true;
-                CarAbilitiesManager.instance.OnBeginDrift.Invoke();
-                foreach (var t in driftSparks) t.Play();
+            if (context.performed && (directionXInput > minJoystickValueToStartDrift || directionXInput < -minJoystickValueToStartDrift)) {
+                StartDrifting();
             }
         }
-        else
-        {
-            brakeForce = 0;
+        
+        /// <summary>
+        /// Method called when the button to nitro is pressed
+        /// </summary>
+        /// <param name="context"></param>
+        private void UpdateNitroState(InputAction.CallbackContext context) {
+            if (context.started && canNitro) StartUsingNitro();
+            if (context.canceled && isUsingNitro) StopUsingNitro();
         }
-    }
 
-    public void LStick(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            stickValue = context.ReadValue<Vector2>();
-        }
-        else
-        {
-            stickValue = Vector2.zero;
-        }
-    }
-    
-    public void AButton(InputAction.CallbackContext context)
-    {
-        if (context.started && canNitro)
-        {
-            nitroMode = true;
-            CarAbilitiesManager.instance.OnBeginNitro.Invoke();
-            canNitro = false;
-            smoke.Stop();
-            smokeNitro.Play();
-            targetSpeed = speedWithNitro;
+        #endregion INPUT METHODS
+
+
+        public override void UpdateTick() {
+            base.UpdateTick();
+
+            if(health.IsAlive) OnMovementUpdate();
+            
+            CheckDriftState();
+            CheckNitroState();
+            FillNitroBackIfRequired();
+            
+            /*if (isShield) {
+                shield.transform.position = transform.position;
+            }*/
         }
         
-        if (context.canceled && nitroMode)
-        {
-            nitroMode = false;
+        public override void FixedUpdateTick() {
+            base.FixedUpdateTick();
+            
+            ChangeSpeedBasedOnRoadUnderPlayer();
+        }
+
+        
+        #region NITRO METHODS
+
+        /// <summary>
+        /// Make the player start using nitro
+        /// </summary>
+        private void StartUsingNitro() {
+            isUsingNitro = true;
+            canNitro = false;
+            
+            smoke.Stop();
+            smokeNitro.Play();
+            InGameUIManager.Instance.StartNitroEffect();
+
+            targetSpeed = speedWithNitro;
+            CarAbilitiesManager.instance.OnBeginNitro.Invoke();
+        }
+
+        /// <summary>
+        /// Check the current status of the nitro and switch state if required
+        /// </summary>
+        private void CheckNitroState() {
+            if (!isUsingNitro) return;
+
+            if (currentNitroAmount <= 0) {
+                StopUsingNitro();
+                return;
+            }
+
+            currentNitroAmount -= Time.deltaTime;
+            InGameUIManager.Instance.UpdateNitroSlider(currentNitroAmount / nitroDuration);
+
+            //CarAbilitiesManager.instance.OnUpdate.Invoke();
+        }
+
+        /// <summary>
+        /// Fill the nitro when the player is not trying to use it
+        /// </summary>
+        private void FillNitroBackIfRequired() {
+            if (currentNitroAmount >= nitroDuration || isUsingNitro) return;
+            if (currentNitroAmount >= minNitroEnable) canNitro = true;
+
+            currentNitroAmount += Time.deltaTime * nitroRegen;
+            InGameUIManager.Instance.UpdateNitroSlider(currentNitroAmount / nitroDuration);
+        }
+        
+        /// <summary>
+        /// Stop the player from being able to use the nitro
+        /// </summary>
+        private void StopUsingNitro() {
+            isUsingNitro = false;
+            
             smoke.Play();
             smokeNitro.Stop();
-            targetSpeed = maxSpeed;
+            InGameUIManager.Instance.StopNitroEffect();
+            
+            targetSpeed = maxRoadSpeed;
+            CarAbilitiesManager.instance.OnStateExit.Invoke();
         }
-    }
-    #endregion
-    
-    public int CollsionBeforeDropDeliver = 3;
-    private int currentCollsionBeforeDropDeliver;
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Wall"))
-        {
-            if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
-            {
-                    
-                Vector2 reflect = Vector2.Reflect(new Vector2(transform.forward.x, transform.forward.z),
-                    new Vector2(other.contacts[0].normal.x,other.contacts[0].normal.z));
-                transform.forward = new Vector3(reflect.x,0, reflect.y);
-                rb.velocity = transform.forward * other.relativeVelocity.magnitude * speedRetained;
-                rb.angularVelocity = Vector3.zero;
-                    
-                for (int i = 0; i < wheels.Length; i++)
-                {
-                    if (wheels[i].steeringFactor > 0)
-                    {
-                        wheels[i].wheelVisual.localRotation = wheels[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
+        
+        #endregion NITRO METHODS
+
+        #region DRIFT METHODS
+
+        /// <summary>
+        /// Make the player starts drifting
+        /// </summary>
+        private void StartDrifting() {
+            isDrifting = true;
+            CarAbilitiesManager.instance.OnBeginDrift.Invoke();
+            foreach (ParticleSystem sparks in driftSparks) sparks.Play();
+        }
+
+        /// <summary>
+        /// Check the current status of the drift and switch it based on condition
+        /// </summary>
+        private void CheckDriftState() {
+            if (!isDrifting || accelerationInput > 0.1f) return;
+            StopDrifting();
+        }
+
+        /// <summary>
+        /// Make the player stop drifting
+        /// </summary>
+        private void StopDrifting() {
+            isDrifting = false;
+            CarAbilitiesManager.instance.OnStateExit.Invoke();
+            foreach (ParticleSystem sparks in driftSparks) sparks.Stop();
+        }
+
+        #endregion DRIFT METHODS
+
+        /// <summary>
+        /// Change the targetSpeed of the player based on the road under the car
+        /// </summary>
+        private void ChangeSpeedBasedOnRoadUnderPlayer() {
+            if (isUsingNitro) return;
+            
+            if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, 10f, roadMask)) {
+                targetSpeed = maxRoadSpeed;
+            }
+            else {
+                targetSpeed = offRoadSpeed;
+                if (speedFactor > 1) rb.velocity = Vector3.Lerp(rb.velocity, Vector3.ClampMagnitude(rb.velocity, targetSpeed), Time.fixedDeltaTime * offRoadDeccelerationFactor);
+            }
+        }
+        
+        
+        
+        public int CollsionBeforeDropDeliver = 3;
+        private int currentCollsionBeforeDropDeliver;
+
+        protected override void OnCollisionEnter(Collision other) {
+            base.OnCollisionEnter(other);
+            if (other.gameObject.CompareTag("Wall")) {
+                MakeCarBounce(other.contacts, other.relativeVelocity.magnitude);
+                CarAbilitiesManager.instance.OnWallCollision.Invoke(other);
+
+                //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
+            }
+
+            /*if (other.gameObject.CompareTag("Enemy") && pickedItems.Count > 0) {
+                currentCollsionBeforeDropDeliver--;
+
+                if (currentCollsionBeforeDropDeliver > 0) return;
+
+                for (int i = 0; i < pickedItems.Count; i++) {
+                    ObjectPickable obj = pickedItems[i].GetComponent<ObjectPickable>();
+                    obj.OnDrop();
+                    obj.rb.AddForce(other.contacts[0].normal.normalized * 100);
+                }
+
+                pickedItems.Clear();
+                currentCollsionBeforeDropDeliver = CollsionBeforeDropDeliver;
+            }*/
+        }
+        
+       
+
+        /*public void XButton(InputAction.CallbackContext context) {
+            if (context.started && canShoot() && !isBomber) {
+                if (shotgun.enemyCar.Count > 0) {
+                    ShotgunHit();
+                    //UIManager.Instance.GoodShotUI(shootTimes[0] >= shootDuration ? 0 : 1);
+                }
+                else {
+                    CarAbilitiesManager.instance.OnShotgunUsedWithoutTarget.Invoke();
+                    //UIManager.Instance.ShootMissUI(shootTimes[0] >= shootDuration ? 0 : 1);
+                }
+
+                for (int i = 0; i < shootTimes.Length; i++) {
+                    if (shootTimes[i] >= shootDuration) {
+                        shootTimes[i] = 0;
+                        break;
                     }
                 }
 
-                Destroy(Instantiate(fxBounce, other.contacts[0].point, Quaternion.LookRotation(other.contacts[0].normal)),2);
+                CarAbilitiesManager.instance.OnShotgunUsed.Invoke();
+                CameraShake.instance.SetShake(0.3f);
             }
 
-            CarAbilitiesManager.instance.OnWallCollision.Invoke(other);
-            
-            //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
-        }
-        
-        if (other.gameObject.CompareTag("Enemy") && pickedItems.Count > 0)
-        {
-            currentCollsionBeforeDropDeliver--;
+>>>>>>>>>> CA EN DESSOUS C PAS FAIT
+            if (context.started && isBomber && canShoot()) {
+                PoolManager.instance.SpawnInstance(ManagerNameSpace.Key.OBJ_Mine, transform.position, Quaternion.identity);
 
-            if (currentCollsionBeforeDropDeliver > 0) return;
-            
-            for (int i = 0; i < pickedItems.Count; i++)
-            {
-                ObjectPickable obj = pickedItems[i].GetComponent<ObjectPickable>();
-                obj.OnDrop();
-                obj.rb.AddForce(other.contacts[0].normal.normalized * 100);
-            }
-            
-            pickedItems.Clear();
-            currentCollsionBeforeDropDeliver = CollsionBeforeDropDeliver;
-        }
-    }
-    
-    protected override void PlayerBrake()
-    {
-        base.PlayerBrake();
-        CarAbilitiesManager.instance.OnPill.Invoke();
-    }
-
-    public override void OnStopPlayerDrift() => CarAbilitiesManager.instance.OnStateExit.Invoke();
-
-    #region PlayerWeapon
-    public float mightPowerUpLevel;
-    
-    public void XButton(InputAction.CallbackContext context)
-    {
-        if (context.started && canShoot() && !isBomber)
-        {
-            if (shotgunCollider.enemyCar.Count > 0)
-            {
-                ShotgunHit();
-                //UIManager.Instance.GoodShotUI(shootTimes[0] >= shootDuration ? 0 : 1);
-            }
-            else
-            {
-                CarAbilitiesManager.instance.OnShotgunUsedWithoutTarget.Invoke();
-                //UIManager.Instance.ShootMissUI(shootTimes[0] >= shootDuration ? 0 : 1);
-            }
-
-            for (int i = 0; i < shootTimes.Length; i++)
-            {
-                if (shootTimes[i] >= shootDuration)
-                {
-                    shootTimes[i] = 0;
-                    break;
+                for (int i = 0; i < shootTimes.Length; i++) {
+                    if (shootTimes[i] >= shootDuration) {
+                        shootTimes[i] = 0;
+                        break;
+                    }
                 }
             }
-            
-            CarAbilitiesManager.instance.OnShotgunUsed.Invoke();
-            CameraShake.instance.SetShake(0.3f);
-        }
-
-        if (context.started && isBomber && canShoot())
-        {
-            PoolManager.instance.SpawnInstance(ManagerNameSpace.Key.OBJ_Mine , transform.position, Quaternion.identity);
-            
-            for (int i = 0; i < shootTimes.Length; i++)
-            {
-                if (shootTimes[i] >= shootDuration)
-                {
-                    shootTimes[i] = 0;
-                    break;
-                }
-            }
-        }
+        }*/
     }
-
-
-    private void ShotgunHit()
-    {
-        Vector3 direction = shotgunCollider.enemyCar[0].position - transform.position;
-        if (Vector3.Dot(direction,transform.right) > 0)
-        {
-            rb.AddForce(-transform.right * 100);
-        }
-        else
-        {
-            rb.AddForce(transform.right * 100);
-        }
-        shotgunParticles.transform.rotation = Quaternion.LookRotation(direction);
-        shotgunParticles.Play();
-
-        
-        currentShotBeforeCount--;
-        if (gotVayneUpgrade && currentShotBeforeCount == 0)
-        {
-            shotgunCollider.enemyCar[0].GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt((shotgunDamages * mightPowerUpLevel) * vaynePassiveMultiplier));
-            currentShotBeforeCount = shotBeforeCritAmount;
-        }
-        else
-        {
-            shotgunCollider.enemyCar[0].GetComponent<IDamageable>()?.TakeDamage(Mathf.FloorToInt(shotgunDamages * mightPowerUpLevel));
-        }
-        
-        CarAbilitiesManager.instance.OnEnemyDamageTaken.Invoke(shotgunCollider.enemyCar[0].gameObject);
-        CarAbilitiesManager.instance.OnEnemyHitWithShotgun.Invoke(shotgunCollider.enemyCar[0].gameObject);
-    }
-    #endregion
 }
-

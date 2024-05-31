@@ -6,16 +6,17 @@ public class InputManager : Singleton<InputManager> {
     [SerializeField] private bool isInGame = false;
     
     private PlayerInputs inputs = null;
+    public PlayerInputs Inputs => inputs;
     private bool isKeyboard = true;
 
-    public delegate void InputActionEvent(object obj);
-    public event InputActionEvent OnInputChange;
-    public event InputActionEvent OnInputDirection;
-    public event InputActionEvent OnInteractionKeyPressed;
-    public event InputActionEvent OnRightStickMove;
+    public delegate void MenuInputActionEvent(object obj);
+    public event MenuInputActionEvent OnInputChange;
+    public event MenuInputActionEvent OnInputDirection;
+    public event MenuInputActionEvent OnInteractionKeyPressed;
+    public event MenuInputActionEvent OnRightStickMove;
 
-    protected override void AwakeContinue() {
-        base.AwakeContinue();
+    protected override void Awake() {
+        base.Awake();
         inputs = new PlayerInputs();
         inputs.Enable();
 

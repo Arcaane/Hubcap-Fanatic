@@ -1806,8 +1806,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
+  hpMax: 500
   tokenToGiveOnDestroy: 2
   slotUnlockOnDestroy: 1
+  damagetextKey: Effect_DamageText
   player: {fileID: 0}
   detectionTimer: 3
   detectionDelay: 3

@@ -441,7 +441,15 @@ PrefabInstance:
       value: 0.99
       objectReference: {fileID: 0}
     - target: {fileID: 8425069508093236962, guid: 066ffa8afde7a1048857239c932d8995, type: 3}
+      propertyPath: effectDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8425069508093236962, guid: 066ffa8afde7a1048857239c932d8995, type: 3}
       propertyPath: showTextWhenDisable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8425069508093236962, guid: 066ffa8afde7a1048857239c932d8995, type: 3}
+      propertyPath: effectDelayedDuration
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8425069508093236962, guid: 066ffa8afde7a1048857239c932d8995, type: 3}

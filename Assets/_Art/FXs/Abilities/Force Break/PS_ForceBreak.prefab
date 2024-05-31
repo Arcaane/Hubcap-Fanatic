@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4613970641513261242}
   - component: {fileID: 4000654734947768984}
   - component: {fileID: 1289831890837641722}
+  - component: {fileID: 1524962493112069233}
   m_Layer: 0
   m_Name: PS_ForceBreak
   m_TagString: Untagged
@@ -4833,6 +4834,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &1524962493112069233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667879986294234292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4594daa3f515cc84aa1e1ff131920d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5177998366258998951
 PrefabInstance:
   m_ObjectHideFlags: 0

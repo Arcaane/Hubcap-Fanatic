@@ -9,13 +9,13 @@ namespace HubcapInterface {
         [SerializeField, Range(0, 1)] protected float fillAmount = 1f;
         [SerializeField] private bool useDisableAmount = true;
         [SerializeField, Range(0, 1)] private float disableAmount = .25f;
-        [SerializeField] private float currentValue = 1;
+        [SerializeField] protected float currentValue = 1;
         [SerializeField] private SliderDataSO sliderdata = null;
-        [SerializeField] private SliderSide side = SliderSide.left;
+        [SerializeField] protected SliderSide side = SliderSide.left;
         [SerializeField, TextArea] private string sliderTxt = "";
 
         [Header("Slider Images")] [SerializeField]
-        private Image sliderColorImage = null;
+        protected Image sliderColorImage = null;
 
         [SerializeField] private Image sliderBackgroundImage = null;
         [SerializeField] private Image sliderShadowImage = null;
@@ -41,6 +41,7 @@ namespace HubcapInterface {
 
 #if UNITY_EDITOR
         private void OnValidate() {
+            if (Application.isPlaying) return;
             if (sliderColorImage == null || sliderBackgroundImage == null || sliderShadowImage == null) return;
             UpdateFillAmount();
             UpdateSpriteImage();
@@ -68,12 +69,12 @@ namespace HubcapInterface {
         /// <summary>
         /// Update the fillAmount visual
         /// </summary>
-        protected void UpdateFillAmount() => sliderColorImage.fillAmount = fillAmount;
+        protected virtual void UpdateFillAmount() => sliderColorImage.fillAmount = fillAmount;
 
         /// <summary>
         /// Update the current sprite being used based on the fillAmount
         /// </summary>
-        protected void UpdateSpriteImage() {
+        protected virtual void UpdateSpriteImage() {
             if (fillAmount >= disableAmount) {
                 sliderColorImage.sprite = baseSliderData.colorSprite;
                 sliderBackgroundImage.sprite = baseSliderData.backgroundSprite;
@@ -122,7 +123,7 @@ namespace HubcapInterface {
         /// <summary>
         /// Update on which side text and icon need to align
         /// </summary>
-        private void UpdateAlignement() {
+        protected virtual void UpdateAlignement() {
             horLayoutFront.childAlignment = side switch {
                 SliderSide.left => TextAnchor.MiddleLeft,
                 SliderSide.right => TextAnchor.MiddleRight,
@@ -149,6 +150,7 @@ namespace HubcapInterface {
                 _ => HorizontalAlignmentOptions.Center
             };
             textSliderBack.verticalAlignment = VerticalAlignmentOptions.Middle;
+            sliderColorImage.fillOrigin = side == SliderSide.right ? 1 : 0;
         }
 
         #endregion BASE VISUALS

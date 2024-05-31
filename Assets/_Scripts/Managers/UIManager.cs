@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Abilities;
 using DG.Tweening;
 using Helper;
+using HubcapCarBehaviour;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -328,7 +329,7 @@ public class UIManager : Singleton<UIManager>
 
 
     public float easeLifeLerpSpeed = 1f;
-    private void Update()
+    /*private void Update()
     {
     	if (Math.Abs(lifeImage.fillAmount - easeLifeJauge.fillAmount) > 0.0001f)
         {
@@ -350,7 +351,7 @@ public class UIManager : Singleton<UIManager>
             else shopOptions[i].transform.localScale = Vector3.Lerp(shopOptions[i].transform.localScale,Vector3.one * 0.8f,Time.unscaledDeltaTime * 5);
 
         }
-    }
+    }*/
     
     public void AButton(InputAction.CallbackContext context)
     {

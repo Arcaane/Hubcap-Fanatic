@@ -1,6 +1,6 @@
-using UnityEngine;
+namespace Hubcap.amera {
+    using UnityEngine;
 
-namespace HubcapCamera {
     public class SmoothCameraRotationWithMouse : UpdatesHandler, IUpdate {
         [SerializeField] private Vector2 rotationSpeed = new();
         [SerializeField, Range(0, 1)] private float lerpSpeed = 0.5f;
@@ -18,14 +18,14 @@ namespace HubcapCamera {
             startRotation = cam.transform.eulerAngles;
         }
 
-        protected override void OnStartContinue() {
-            base.OnStartContinue();
+        protected override void Start() {
+            base.Start();
             InputManager.Instance.OnRightStickMove += MoveCamera;
             InputManager.Instance.OnInputChange += SwitchController;
         }
 
-        protected override void OnDisableContinue() {
-            base.OnDisableContinue();
+        protected override void OnDisable() {
+            base.OnDisable();
             InputManager.Instance.OnRightStickMove -= MoveCamera;
             InputManager.Instance.OnInputChange -= SwitchController;
         }

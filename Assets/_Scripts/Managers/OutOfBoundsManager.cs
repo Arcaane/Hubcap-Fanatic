@@ -21,7 +21,7 @@ public class OutOfBoundsManager : MonoBehaviour {
             outOfBoundVolume.weight = 1 - timer / maxTimer;
 
             if (timer <= 0) {
-                GetComponent<CarHealthManager>().TakeDamage(1500);
+                GetComponent<CarHealthManagerOld>().TakeDamage(1500);
                 Destroy(this);
             }
         }

@@ -28,6 +28,11 @@ namespace Toolbar {
             EditorGUI.BeginChangeCheck();
             value = EditorGUILayout.Popup(levelIndex, GetLevelPossibilities(Path.GetFileName(EditorSceneManager.GetActiveScene().path).Split(".")[0]).ToArray(), GUILayout.Width(levelSelectionSize));
             if (EditorGUI.EndChangeCheck()) {
+                for (int i = 0; i < EditorSceneManager.sceneCount; i++) {
+                    if (!EditorSceneManager.GetSceneAt(i).isDirty) continue;
+                    EditorSceneManager.SaveScene(EditorSceneManager.GetSceneAt(i));
+                }
+                
                 OpenNewScene(value);
             }
         }

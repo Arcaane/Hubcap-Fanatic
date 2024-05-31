@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
@@ -23,8 +22,8 @@ namespace HubcapManager {
         [SerializeField] private List<TextAsset> localisationAssets = new();
         [SerializeField] private string currentLanguage = "";
         
-        protected override void AwakeContinue() {
-            base.AwakeContinue();
+        protected override void Awake() {
+            base.Awake();
             LocalizationManager.ReadData(localisationAssets);
             InitData();
             SceneManager.sceneLoaded += (_, _) => {
@@ -68,7 +67,7 @@ namespace HubcapManager {
         /// <summary>
         /// Load new scene with transition
         /// </summary>
-        /// <param name="scene"></param>
+        /// <param name="scene">You can use "SceneLoader" to use string helper for the scenes</param>
         public void LoadNewScene(string sceneName) {
             transitionCanvas.DOKill();
             transitionCanvas.DOFade(1, .5f).OnComplete(() => SceneManager.LoadScene(sceneName));

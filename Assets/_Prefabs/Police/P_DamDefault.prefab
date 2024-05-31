@@ -261,15 +261,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnBlockades:
   - spawnPoint: {fileID: 7327945818266524996}
-    enemy: 1
+    enemyKey: EnemyCar_DriveBy
   - spawnPoint: {fileID: 1201456272161448852}
-    enemy: 1
+    enemyKey: EnemyCar_DriveBy
   - spawnPoint: {fileID: 4407838929307724061}
-    enemy: 1
+    enemyKey: EnemyCar_DriveBy
   - spawnPoint: {fileID: 793611427548574771}
-    enemy: 0
+    enemyKey: EnemyCar_DriveBy
   - spawnPoint: {fileID: 5126693055130507553}
-    enemy: 1
+    enemyKey: EnemyCar_DriveBy
   policeCarBehaviors: []
   isActive: 0
 --- !u!65 &7201925748451564842

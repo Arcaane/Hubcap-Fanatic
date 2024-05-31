@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HubcapCarBehaviour;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -82,17 +83,19 @@ namespace Abilities
             playerCar = PlayerCarController.Instance;
             if(firstAbility) AddAbility(firstAbility);
 
-            baseSpeedOnRoad = playerCar.maxSpeed;
+            baseSpeedOnRoad = playerCar.maxRoadSpeed;
             baseSpeedOnSand = playerCar.offRoadSpeed;
             baseNitroSpeed = playerCar.speedWithNitro;
             baseNitroCooldown = playerCar.nitroRegen;
             baseShotgunDamage = playerCar.shotgunDamages;
             baseCollisionDamage = damageOnCollisionWithEnemy;
             baseShotgunDuration = playerCar.shootDuration;
-            baseMaxHealth = CarHealthManager.instance.maxLifePoints;
+            //baseMaxHealth = CarHealthManagerOld.instance.maxLifePoints;
+            baseMaxHealth = 100;
             baseAttackCooldown = playerCar.shootDuration;
             baseOverallAbilitiesCooldown = 0;
-            baseArmorPercent = CarHealthManager.instance.armorInPercent;
+            //baseArmorPercent = CarHealthManagerOld.instance.armorInPercent;
+            baseArmorPercent = 0f;
             baseHitBeforeDeliverDrop = playerCar.CollsionBeforeDropDeliver;
             baseSpeedRetainedOnBounce = playerCar.speedRetained;
             goldAmountWonOnRun = 0;
@@ -101,8 +104,8 @@ namespace Abilities
             playerCar.mightPowerUpLevel = powerUpMight;
             
             powerUpMoveSpeed = 1 /*+ GameMaster.instance.UnlockedPowerUps[2] * 0.05f*/;
-            Debug.Log(" Power up speed " + powerUpMoveSpeed);
-            playerCar.maxSpeed *= powerUpMoveSpeed;
+            //Debug.Log(" Power up speed " + powerUpMoveSpeed);
+            playerCar.maxRoadSpeed *= powerUpMoveSpeed;
             playerCar.offRoadSpeed *= powerUpMoveSpeed;
         }
 

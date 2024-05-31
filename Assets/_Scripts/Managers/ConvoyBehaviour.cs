@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Abilities;
-using ManagerNameSpace;
+using HubcapCarBehaviour;
+using HubcapManager;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 public class ConvoyBehaviour : MonoBehaviour , IDamageable
@@ -14,6 +13,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     [SerializeField] private int hpMax = 500;
     [SerializeField] private int tokenToGiveOnDestroy = 2;
     [SerializeField] private int slotUnlockOnDestroy = 1;
+    [SerializeField, Pooler] private string damagetextKey = "";
 
     public Transform player;
 
@@ -22,7 +22,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
     
     public float detectionTimer = 3;
     public float detectionDelay = 3;
-    public PoliceCarBehavior[] defenseCars;
+    public BasePoliceCarBehavior[] defenseCars;
     public DefensePoint[] defensePoints;
     
     public float attackTimer = 1;
@@ -67,14 +67,14 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(distancedNodes[next] - distancedNodes[previous]),Time.deltaTime*5);
         hpMax = hp;
         
-        defenseCars = new PoliceCarBehavior[defensePoints.Length];
+        defenseCars = new BasePoliceCarBehavior[defensePoints.Length];
         
         for (int i = 0; i < defensePoints.Length; i++)
         {
-            defenseCars[i] = PoolManager.instance.SpawnInstance(defensePoints[i].defenseCar,defensePoints[i].point.position,Quaternion.identity).GetComponent<PoliceCarBehavior>();
+            defenseCars[i] = PoolManager.Instance.RetrieveOrCreateObject(defensePoints[i].defenseCar,defensePoints[i].point.position,Quaternion.identity).GetComponent<BasePoliceCarBehavior>();
             
-            defenseCars[i].convoyBehaviour = this;
-            defenseCars[i].defensePoint = defensePoints[i].point;
+            //*defenseCars[i].convoyBehaviour = this;
+            //*defenseCars[i].defensePoint = defensePoints[i].point;
         }
         player = PlayerCarController.Instance.transform;
     
@@ -128,7 +128,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 
     void AttackMode()
     {
-
+        /*
         if (attackTimer > 0)
         {
             attackTimer -= Time.deltaTime;
@@ -160,7 +160,7 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
 
                 attackMode = false;
             }
-        }
+        }*/
     }
 
     private void OnDrawGizmos()
@@ -180,18 +180,18 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         Gizmos.DrawWireSphere(transform.position,playerLostRadius);
     }
 
-    public void TakeDamage(int damages)
-    {
-        if(isDead) return;
-        if (!IsDamageable()) return;
-        hp -= damages;
-        TextEffect txt = PoolManager.instance.SpawnTemporaryInstance(Key.OBJ_TextEffect, transform.position + Vector3.up * 5,
-            quaternion.identity, 1).GetComponent<TextEffect>();
-        txt.SetDamageText(damages);
-        txt.transform.parent = PlayerCarController.Instance.cameraHolder;
-        
-        
-        if (hp < 1) DestroyConvoy();
+    public bool TakeDamage(int damage) {
+        if (isDead) return true;
+        if (!IsDamageable()) return false;
+        hp -= damage;
+        TextEffect txt = PoolManager.Instance.RetrieveOrCreateObject(damagetextKey, transform.position + Vector3.up * 5, quaternion.identity).GetComponent<TextEffect>();
+        txt.SetDamageText(damage);
+        //*txt.transform.parent = PlayerCarController.Instance.cameraHolder;*//
+
+
+        if (hp >= 1) return false;
+        DestroyConvoy();
+        return true;
     }
 
     public bool IsDamageable() => gameObject.activeSelf;
@@ -204,21 +204,19 @@ public class ConvoyBehaviour : MonoBehaviour , IDamageable
         
         for (int i = 0; i < defenseCars.Length; i++)
         {
-            defenseCars[i].convoyBehaviour = null;
-            defenseCars[i].defensePoint = null;
+            //*defenseCars[i].convoyBehaviour = null;
+            //*defenseCars[i].defensePoint = null;
         }
-
+        
+        if (tokenToGiveOnDestroy <= 0) return;
+        PlayerCarController.Instance.playerExperienceManager.AddShopToken(tokenToGiveOnDestroy);
+        
         Destroy(gameObject);
-        if (tokenToGiveOnDestroy > 0)
-        {
-            CarExperienceManager.Instance.AddToken(tokenToGiveOnDestroy);
-            CarExperienceManager.Instance.shop.StartShopUI();   
-        }
     }
 }
 [Serializable]
 public struct DefensePoint
 {
-    public Key defenseCar;
+    [Pooler] public string defenseCar;
     public Transform point;
 }

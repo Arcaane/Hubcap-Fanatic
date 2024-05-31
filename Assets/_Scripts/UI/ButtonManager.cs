@@ -165,7 +165,7 @@ namespace HubcapInterface {
         public CanvasGroup canvasGroup = null;
         [Range(0, 1)] public float targetAlpha = 0;
         public float baseAlpha = 0;
-        public DoTweenEffect doTweenEffect = null;
+        [FormerlySerializedAs("doPunchPositionEffect")] public DoTweenEffect doTweenEffect = null;
     }
 
     public enum ButtonEventType {

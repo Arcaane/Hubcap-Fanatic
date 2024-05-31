@@ -1,8 +1,7 @@
-using ManagerNameSpace;
+using HubcapManager;
 using UnityEngine;
 
-public class SpearObject : MonoBehaviour
-{
+public class SpearObject : MonoBehaviour {
     public float speed;
     public int damages;
 
@@ -17,6 +16,6 @@ public class SpearObject : MonoBehaviour
     {
         if(other.transform.CompareTag("Enemy")) other.transform.GetComponent<IDamageable>()?.TakeDamage(damages);
         
-        if(other.transform.CompareTag("Wall")) PoolManager.instance.DestroyInstance(Key.OBJ_Spear,transform.parent);
+        if(other.transform.CompareTag("Wall")) PoolManager.Instance.RemoveObjectFromScene(gameObject);
     }
 }

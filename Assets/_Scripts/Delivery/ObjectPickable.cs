@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HubcapCarBehaviour;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class ObjectPickable : MonoBehaviour, IPickupable
+public class ObjectPickable : MonoBehaviour, IPickupableOld
 {
     //public int expToGiveOnDeliver = 10;
     [Header("------------------------ Parameters ------------------------")]
@@ -85,21 +86,22 @@ public class ObjectPickable : MonoBehaviour, IPickupable
 
         if (other.gameObject.CompareTag("Enemy"))
         {
-            if (other.gameObject.GetComponent<PoliceCarBehavior>() == null) return;
-            if (other.gameObject.GetComponent<PoliceCarBehavior>().canDestroyPickable)
+            if (other.gameObject.GetComponent<BasePoliceCarBehavior>() == null) return;
+            if (other.gameObject.GetComponent<CarDeliveryHandler>().CanDestroyDelivery)
             {
                 DestroyBox();
                 return;
             }
             isCopHasPick = true;
             //Swap target
-            other.gameObject.transform.GetComponent<PoliceCarBehavior>().SwapTarget(PoliceCarManager.Instance.policeTargetPoints[Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true);
+            
+            //*other.gameObject.transform.GetComponent<BasePoliceCarBehavior>().SwapTargetOnPlayerDeath(PoliceCarManager.Instance.policeTargetPoints[Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)], true);
 
             //Ref to the car who pick the object
             carWhoPickObjet = other.gameObject;
-            transform.parent = other.transform.gameObject.transform.GetComponent<PoliceCarBehavior>().socketPickableCop.transform;
+            //*transform.parent = other.transform.gameObject.transform.GetComponent<BasePoliceCarBehavior>().socketPickableCop.transform;
             psPickable.Play(true);
-            other.transform.GetComponent<PoliceCarBehavior>().objectPickable = gameObject;
+            //*other.transform.GetComponent<BasePoliceCarBehavior>().objectPickable = gameObject;
             OnPickedUp();
         }   
     }
@@ -136,8 +138,7 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         
         if (isCopHasPick) 
         {
-            carWhoPickObjet.transform.GetComponent<PoliceCarBehavior>().
-                SwapTarget(PoliceCarManager.Instance.policeTargetPoints[Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)]);
+            //*carWhoPickObjet.transform.GetComponent<BasePoliceCarBehavior>().SwapTargetOnPlayerDeath(PoliceCarManager.Instance.policeTargetPoints[Random.Range(0, PoliceCarManager.Instance.policeTargetPoints.Count)]);
         }
         else
         {
@@ -173,9 +174,8 @@ public class ObjectPickable : MonoBehaviour, IPickupable
         rb.isKinematic = false;
         meshRenderer.enabled = false;
 
-        int expToAdd = 
-            Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel) * CarExperienceManager.Instance.nbrOfDelivery);
-        CarExperienceManager.Instance.GetPlayerExperience(expToAdd);
+        int expToAdd = Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel) * CarExperienceManager.Instance.nbrOfDelivery);
+        PlayerCarController.Instance.playerExperienceManager.GetPlayerExperience(expToAdd);
         PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick);
         
         gameObject.GetComponent<SphereCollider>().enabled = true;

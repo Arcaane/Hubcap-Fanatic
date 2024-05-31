@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Helper;
+using HubcapCarBehaviour;
 using UnityEngine;
 
 public class CarExperienceManager : Singleton<CarExperienceManager> {
@@ -58,7 +59,7 @@ public class CarExperienceManager : Singleton<CarExperienceManager> {
         playerLevel++;
         uiManager.UpdateLevelSlider(getCurrentXpMinusPreviousLevel() / xpPerLevel[playerLevel + 1], playerLevel + 1);
         
-        CarHealthManager.instance.TakeHeal(healToAddWhenLvlUp);
+        CarHealthManagerOld.instance.TakeHeal(healToAddWhenLvlUp);
         
         AddToken(1);
         shop.StartShopUI();

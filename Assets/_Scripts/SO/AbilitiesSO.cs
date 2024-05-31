@@ -1,15 +1,22 @@
 using System;
 using System.Threading.Tasks;
 using DG.Tweening;
-using ManagerNameSpace;
+using HubcapAbility;
+using HubcapCarBehaviour;
+using HubcapManager;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Abilities
 {
     [CreateAssetMenu(menuName = "Ability", fileName = "New Ability")]
-    public class AbilitiesSO : ScriptableObject
-    {
+    public class AbilitiesSO : ScriptableObject {
+        [Header("Ability Effect")]
+        [SerializeField, Pooler] private string spearKey = "";
+        [SerializeField, Pooler] private string motorBreakKey = "";
+        [SerializeField, Pooler] private string explosionKey = "";
+        [SerializeField, Pooler] private string mineKey = "";
+        [SerializeField, Pooler] private string giveLifeKey = "";
+        
         [Header("ABILITY TYPE")]
         public AbilityType type = AbilityType.ClassicAbilites;
         
@@ -143,9 +150,9 @@ namespace Abilities
             switch (state)
             {
                 case State.All: break;
-                case State.Default: if(player.driftBrake || player.nitroMode) return; break;
-                case State.Drift: if (!player.driftBrake) return; break;
-                case State.Nitro: if(!player.nitroMode) return; break;
+                case State.Default: if(player.isDrifting || player.IsUsingNitro) return; break;
+                case State.Drift: if (!player.isDrifting) return; break;
+                case State.Nitro: if(!player.IsUsingNitro) return; break;
                 default: throw new ArgumentOutOfRangeException(); break;
             }
 
@@ -205,11 +212,11 @@ namespace Abilities
         {
             if (targetObj == null) return;
 
-            PoliceCarBehavior enemy = targetObj.GetComponent<PoliceCarBehavior>();
+            BasePoliceCarBehavior enemy = targetObj.GetComponent<BasePoliceCarBehavior>();
             if (enemy)
             {
-                enemy.OnPoliceCarDie -= ApplyEffect;
-                enemy.OnPoliceCarDie += ApplyEffect;
+                //*enemy.OnPoliceCarDie -= ApplyEffect;
+                //*enemy.OnPoliceCarDie += ApplyEffect;
             }
 
             ConvoyBehaviour convoy = targetObj.GetComponent<ConvoyBehaviour>();
@@ -302,7 +309,7 @@ namespace Abilities
             var carPos = player.transform.position;
             Vector3 relativePos = carPos - targetObj.transform.position;
             relativePos = new Vector3(relativePos.x, 0, relativePos.z).normalized;
-            Transform obj = PoolManager.instance.SpawnInstance(Key.OBJ_Spear, carPos, Quaternion.LookRotation(-relativePos)) as Transform;
+            Transform obj = PoolManager.Instance.RetrieveOrCreateObject(spearKey, carPos, Quaternion.LookRotation(-relativePos)).transform;
             if (obj.gameObject != null) obj.GetComponent<SpearObject>().damages = Mathf.FloorToInt(abilityDamage);
         }
     
@@ -318,7 +325,7 @@ namespace Abilities
             if (carBehaviour == null) return;
             carBehaviour.forceBreak = true;
             carBehaviour.forceBreakTimer = _effectDuration;
-            GameObject go = PoolManager.instance.SpawnTemporaryInstance(Key.FX_MotorBreak, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, effectDuration).gameObject;
+            GameObject go = PoolManager.Instance.RetrieveOrCreateObject(motorBreakKey, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity);
             go.transform.SetParent(targetObj.transform);
             go.SetActive(true);
         }
@@ -333,7 +340,7 @@ namespace Abilities
                 CameraShake.instance.SetShake(0.4f *( 1- dist/30));
             }
             
-            GameObject gameObject = PoolManager.instance.SpawnTemporaryInstance(Key.FX_Explosion, position, Quaternion.identity, 5).gameObject;
+            GameObject gameObject = PoolManager.Instance.RetrieveOrCreateObject(explosionKey, position, Quaternion.identity);
             gameObject.transform.localScale = new Vector3(_effectSizeRadius, _effectSizeRadius,_effectSizeRadius);
             
             var cols = Physics.OverlapSphere(position, _effectSizeRadius, enemyLayerMask);
@@ -345,15 +352,15 @@ namespace Abilities
 
         private void EffectSpawnMine(Vector3 targetObj)
         {
-            Mine mine = PoolManager.instance.SpawnInstance(Key.OBJ_Mine, targetObj, Quaternion.identity).GetComponent<Mine>();
+            Mine mine = PoolManager.Instance.RetrieveOrCreateObject(mineKey, targetObj, Quaternion.identity).GetComponent<Mine>();
             mine.damages = Mathf.FloorToInt(abilityDamage);
             mine.explosionRadius = _effectSizeRadius;
         }
 
         private void EffectLifeSteal(GameObject targetObj)
         {
-            CarHealthManager.instance.TakeHeal(Mathf.FloorToInt(abilityDamage));
-            GameObject go = PoolManager.instance.SpawnTemporaryInstance(Key.FX_PlayerGiveLife, targetObj.transform.position + new Vector3(0,0.5f,0), Quaternion.identity, 1.5f).gameObject;
+            CarHealthManagerOld.instance.TakeHeal(Mathf.FloorToInt(abilityDamage));
+            GameObject go = PoolManager.Instance.RetrieveOrCreateObject(giveLifeKey, targetObj.transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
             go.transform.SetParent(targetObj.transform);
             go.SetActive(true);
         }
@@ -361,8 +368,8 @@ namespace Abilities
         private async void EffectScorch(GameObject targetObj)
         {
             CarBehaviour carBehaviour = targetObj.GetComponent<CarBehaviour>();
-            if (carBehaviour == null || carBehaviour.isScorch) return;
-            carBehaviour.isScorch = true;
+            if (carBehaviour == null || carBehaviour.IsScorch) return;
+            carBehaviour.EnableCarScorch();
             
             var a = Mathf.FloorToInt(_effectDuration / ((float)_effectDelayMilliseconds / 1000));
             for (int i = 0; i < a; i++)
@@ -373,7 +380,7 @@ namespace Abilities
             }
 
             if (carBehaviour == null) return;
-            carBehaviour.isScorch = false;
+            carBehaviour.DisableCarScorch();
         }
 
         private async void EffectBerserk(GameObject targetObj)
@@ -448,7 +455,7 @@ namespace Abilities
             switch (statsModifier)
             {
                 case StatsModifier.SpeedOnRoad:
-                    player.maxSpeed = howStatsModify switch
+                    player.maxRoadSpeed = howStatsModify switch
                     {
                         HowStatsModify.Subtract => carAbilities.baseSpeedOnRoad - amount[level],
                         HowStatsModify.Add => 40 + amount[level],
@@ -510,12 +517,12 @@ namespace Abilities
                         _ => throw new ArgumentOutOfRangeException()
                     };
                     player.gotVayneUpgrade = true;
-                    player.shotBeforeCritAmount = 2;
+                    player.GetComponent<ShotgunHandler>().UpdateShotBeforeCrit(3);
                     break;
                 }
                 case StatsModifier.Armor:
                 {
-                    CarHealthManager.instance.armorInPercent = howStatsModify switch
+                    CarHealthManagerOld.instance.armorInPercent = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseArmorPercent - amount[level]),
                         HowStatsModify.Add => carAbilities.baseArmorPercent + amount[level],
@@ -525,7 +532,7 @@ namespace Abilities
                 } break;
                 case StatsModifier.MaxHealth:
                 {
-                    CarHealthManager.instance.maxLifePoints = howStatsModify switch
+                    CarHealthManagerOld.instance.maxLifePoints = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseMaxHealth - amount[level]),
                         HowStatsModify.Add => (int)(carAbilities.baseMaxHealth + amount[level]),
@@ -533,7 +540,7 @@ namespace Abilities
                         _ => throw new ArgumentOutOfRangeException()
                     };
 
-                    CarHealthManager.instance.TakeHeal(level == 0 ? Mathf.FloorToInt(amount[level]) : Mathf.FloorToInt(amount[level] - amount[level - 1]));
+                    CarHealthManagerOld.instance.TakeHeal(level == 0 ? Mathf.FloorToInt(amount[level]) : Mathf.FloorToInt(amount[level] - amount[level - 1]));
                 } break;
                 case StatsModifier.HitBeforeDeliverDrop:
                 {

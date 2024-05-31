@@ -12009,19 +12009,7 @@ MonoBehaviour:
     m_ActionId: 9b5db3b6-82a4-4e67-9905-7991a4ab590c
     m_ActionName: Inputs/LTrigger[/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6496687812959214544}
-        m_TargetAssemblyTypeName: WheelCarController, Assembly-CSharp
-        m_MethodName: RShoulder
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 468ad5df-3029-4cfe-a197-ea7d54bd17d5
     m_ActionName: Inputs/RTrigger[/XInputControllerWindows/rightTrigger,/XInputControllerWindows/rightTrigger]
   - m_PersistentCalls:
@@ -12041,19 +12029,7 @@ MonoBehaviour:
     m_ActionId: b77b596c-fd45-4fbc-b1eb-5fe5ce90d6f1
     m_ActionName: Inputs/AButton[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6496687812959214544}
-        m_TargetAssemblyTypeName: WheelCarController, Assembly-CSharp
-        m_MethodName: LStick
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: a4a3943e-6aac-435d-a4c8-62b0b479ae6c
     m_ActionName: Inputs/LStick[/XInputControllerWindows/leftStick,/XInputControllerWindows/leftStick]
   - m_PersistentCalls:
@@ -12141,11 +12117,35 @@ MonoBehaviour:
     m_ActionId: 2b1286a6-2111-4407-b164-a975abe83f8a
     m_ActionName: Menu/CameraRotation
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6496687812959214544}
+        m_TargetAssemblyTypeName: PlayerCarController, Assembly-CSharp
+        m_MethodName: LStick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 37ffbd29-b858-41cf-a667-e234f604a1cf
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6496687812959214544}
+        m_TargetAssemblyTypeName: PlayerCarController, Assembly-CSharp
+        m_MethodName: RShoulder
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: d11b5569-67de-490f-b87a-1fb8e796baf3
     m_ActionName: Player/Accelerate[/Keyboard/w]
   m_NeverAutoSwitchControlSchemes: 0

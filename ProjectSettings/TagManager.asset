@@ -41,7 +41,7 @@ TagManager:
   - 
   - 
   - 
-  - Destruction
+  - Destructables
   - 
   m_SortingLayers:
   - name: Default

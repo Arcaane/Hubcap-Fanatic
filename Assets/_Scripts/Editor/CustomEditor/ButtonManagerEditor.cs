@@ -1,7 +1,8 @@
-using UnityEditor;
-using UnityEngine;
-
-namespace HubcapInterface {
+namespace Helper.EditorDrawer {
+    using HubcapInterface;
+    using UnityEditor;
+    using UnityEngine;
+    
     [CustomEditor(typeof(ButtonManager))]
     public class ButtonManagerEditor : Editor {
         private SerializedProperty buttonEventsList = null;
@@ -68,68 +69,49 @@ namespace HubcapInterface {
             }
 
             GUILayout.Space(8);
-
-            using (new GUILayout.HorizontalScope()) {
-                EditorGUILayout.PropertyField(buttonEventsList.FindPropertyRelative("Array.size"));
-                if (GUILayout.Button("-", GUILayout.Width(30))) {
-                    buttonEventsList.FindPropertyRelative("Array.size").intValue -= 1;
-                }
-
-                if (GUILayout.Button("+", GUILayout.Width(30))) {
-                    buttonEventsList.FindPropertyRelative("Array.size").intValue += 1;
-                }
-            }
-
-
-            for (int i = 0; i < buttonEventsList.arraySize; i++) {
-                SerializedProperty type = buttonEventsList.GetArrayElementAtIndex(i).FindPropertyRelative("eventType");
-
-                GUI.backgroundColor = new Color(.25f, .25f, .25f, 1);
-                using (new GUILayout.HorizontalScope(EditorStyles.helpBox)) {
-                    using (new GUILayout.VerticalScope()) {
-                        GUI.backgroundColor = Color.white;
-
-                        GUILayout.Label($"{buttonEventsList.GetArrayElementAtIndex(i).displayName} : {(ButtonEventType) type.enumValueIndex}", new GUIStyle() {fontSize = 9, normal = new GUIStyleState() {textColor = Color.white}});
-                        GUILayout.Space(5);
-
-                        EditorGUILayout.PropertyField(type);
-
-                        switch ((ButtonEventType) type.enumValueIndex) {
-                            case ButtonEventType.Scale:
-                                DrawCustomFields("parentTransform", i, "targetSize");
-                                break;
-                            case ButtonEventType.ColorImage:
-                                DrawCustomFields("spriteImage", i, "targetColor");
-                                break;
-                            case ButtonEventType.ColorText:
-                                DrawCustomFields("text", i, "targetColor");
-                                break;
-                            case ButtonEventType.SpriteSwipe:
-                                DrawCustomFields("spriteImage", i, "targetSprite");
-                                break;
-                            case ButtonEventType.Alpha:
-                                DrawCustomFields("canvasGroup", i, "targetAlpha");
-                                break;
-                            case ButtonEventType.FillAmount:
-                                DrawCustomFields("spriteImage", i, "targetAmount");
-                                break;
-                            case ButtonEventType.DoTweenEffect:
-                                DrawCustomFields("doTweenEffect", i, "");
-                                break;
-                            case ButtonEventType.None: break;
-                        }
-
-                        GUILayout.Space(4);
-                    }
-
-                    if (GUILayout.Button(EditorGUIUtility.IconContent("TreeEditor.Trash"), GUILayout.ExpandHeight(true), GUILayout.Width(30))) {
-                        buttonEventsList.DeleteArrayElementAtIndex(i);
-                    }
-                }
-                GUILayout.Space(4);
-            }
+            
+            StaticCustomDrawer.DrawBaseListDataEditor(buttonEventsList);
+            GUILayout.Space(4);
+            StaticCustomDrawer.DrawCustomListEditor(buttonEventsList, DrawCustomElements);
 
             serializedObject.ApplyModifiedProperties();
+        }
+        
+        /// <summary>
+        /// Draw the child parameters of each element of the list
+        /// </summary>
+        /// <param name="index"></param>
+        private void DrawCustomElements(int index) {
+            SerializedProperty type = buttonEventsList.GetArrayElementAtIndex(index).FindPropertyRelative("eventType");
+            GUILayout.Label($"{buttonEventsList.GetArrayElementAtIndex(index).displayName} : {(ButtonEventType) type.enumValueIndex}", new GUIStyle() {fontSize = 9, normal = new GUIStyleState() {textColor = Color.white}});
+            GUILayout.Space(5);
+
+            EditorGUILayout.PropertyField(type);
+
+            switch ((ButtonEventType) type.enumValueIndex) {
+                case ButtonEventType.Scale:
+                    DrawCustomFields("parentTransform", index, "targetSize");
+                    break;
+                case ButtonEventType.ColorImage:
+                    DrawCustomFields("spriteImage", index, "targetColor");
+                    break;
+                case ButtonEventType.ColorText:
+                    DrawCustomFields("text", index, "targetColor");
+                    break;
+                case ButtonEventType.SpriteSwipe:
+                    DrawCustomFields("spriteImage", index, "targetSprite");
+                    break;
+                case ButtonEventType.Alpha:
+                    DrawCustomFields("canvasGroup", index, "targetAlpha");
+                    break;
+                case ButtonEventType.FillAmount:
+                    DrawCustomFields("spriteImage", index, "targetAmount");
+                    break;
+                case ButtonEventType.DoTweenEffect:
+                    DrawCustomFields("doTweenEffect", index, "");
+                    break;
+                case ButtonEventType.None: break;
+            }
         }
 
         /// <summary>

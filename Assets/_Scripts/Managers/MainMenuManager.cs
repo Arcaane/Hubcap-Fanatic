@@ -20,8 +20,8 @@ namespace HubcapInterface {
         public void QuitGame() => Application.Quit();
         #endregion BASIC BUTTON METHODS
         
-        protected override void AwakeContinue() {
-            base.AwakeContinue();
+        protected override void Awake() {
+            base.Awake();
             InputManager.Instance.OnInputChange += SwitchCurrentInput;
             InputManager.Instance.OnInputDirection += SwitchSelectableElementBasedOnDirection;
             InputManager.Instance.OnInteractionKeyPressed += InteractionKeyPressed;

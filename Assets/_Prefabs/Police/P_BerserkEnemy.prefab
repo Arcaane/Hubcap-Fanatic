@@ -59,35 +59,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8686e9c5a63bef64caec86d14f10e626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 5105550976351317835}
   wheels:
-  - transform: {fileID: 7454830179261844549}
-    wheelVisual: {fileID: 1539200196470249039}
+  - socketTransform: {fileID: 0}
+    wheelVisualTransform: {fileID: 0}
     directionalDampening: 0.4
     drivingFactor: 1
     steeringFactor: 2
-  - transform: {fileID: 5073810283892561598}
-    wheelVisual: {fileID: 1165013154634133339}
+  - socketTransform: {fileID: 0}
+    wheelVisualTransform: {fileID: 0}
     directionalDampening: 0.4
     drivingFactor: 1
     steeringFactor: 2
-  - transform: {fileID: 8646544916397886637}
-    wheelVisual: {fileID: 3249657652077432151}
+  - socketTransform: {fileID: 0}
+    wheelVisualTransform: {fileID: 0}
     directionalDampening: 0.37
     drivingFactor: 0
     steeringFactor: 0
-  - transform: {fileID: 7593282624722998709}
-    wheelVisual: {fileID: 1482724961286078091}
+  - socketTransform: {fileID: 0}
+    wheelVisualTransform: {fileID: 0}
     directionalDampening: 0.37
     drivingFactor: 0
     steeringFactor: 0
-  suspensionLenght: 0.5
-  suspensionForce: 70
-  suspensionDampening: 3
-  anchoring: 5
+  wheelYPos: 0.5
   wheelMass: 0.1
-  maxSpeed: 50
-  targetSpeed: 50
+  carHeightPos: 0.9
+  localCenterOfMass: {x: 0, y: -0.5, z: 0}
+  allGroundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  acceleration: 18
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -139,9 +139,17 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  acceleration: 18
+  accelerationInput: 0
+  targetSpeed: 50
+  roadMask:
+    serializedVersion: 2
+    m_Bits: 0
+  maxRoadSpeed: 25
+  offRoadSpeed: 10
+  offRoadDeccelerationFactor: 0.625
   braking: 12
-  decceleration: 4
+  deceleration: 4
+  brakeInput: 0
   steeringSpeed: 40
   steeringBySpeedFactor:
     serializedVersion: 2
@@ -167,24 +175,20 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  localCenterOfMass: {x: 0, y: -0.5, z: 0}
-  maxRotation: 50
-  directionalDampMultiplier: 1
-  dampeningMultiplier: 0.75
-  steeringMultiplier: 0.95
-  accelMultiplier: 1.5
-  angleMinToExitDrift: 0.1
+  directionXInput: 0
+  isDrifting: 0
+  brakeDampeningMultiplier: 0.25
+  brakeSteeringMultiplier: 0.95
+  brakeAccelerationMultiplier: 1.5
+  minJoystickValueToStartDrift: 0.6
+  minAngleToExitDrift: 0.1
   driftSparks: []
   forceBreak: 0
   forceBreakTimer: 0
   isScorch: 0
   isAimEffect: 0
   brakeMethodApplied: 0
-  accelForce: 1
-  brakeForce: 0
-  driftBrake: 0
-  rotationValue: 0
-  enemyKey: 3
+  damageTextKey: Effect_DamageText
   hp: 20
   carDamage: 5
   shootCooldown: 0
@@ -284,6 +288,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isActive: 1
   target: {fileID: 0}
   mat: []
   randomOffset: {x: 0, y: 0}
@@ -318,6 +323,7 @@ MonoBehaviour:
   - {fileID: 4137631817589055493}
   - {fileID: 3096191764323547722}
   metal: {fileID: 2100000, guid: d523c1fe905a4dc429adf2c6b9d1791a, type: 2}
+  canDestroyPickable: 0
   runToPlayer: 0
   overshootValue: 3
   randomOvershoot: 1.5

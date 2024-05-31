@@ -1,78 +1,60 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Abilities;
-using ManagerNameSpace;
-using Unity.Mathematics;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class TitleScreenBehavior : CarBehaviour
-{
-    
+namespace HubcapCarBehaviour {
 
-    [Header("POLICE CAR")] public Transform target;
+    public class TitleScreenBehavior : CarBehaviour {
 
-    
 
-    [Header("WALLBOUNCE")] [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")] [SerializeField]
-    private float speedRetained = 0.7f;
+        [Header("POLICE CAR")] public Transform target;
 
-    
-    private float minAngleToBounce = 0.3f;
 
-    [SerializeField] private GameObject fxBounce;
-    
 
-    private void Update()
-    {
+        [Header("WALLBOUNCE")] [Tooltip("Le pourcentage de vitesse gardée lors d'un wallBounce")] [SerializeField]
+        private float speedRetained = 0.7f;
 
-        float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
-            new Vector2(target.position.x, target.position.z) -
-            new Vector2(transform.position.x, transform.position.z));
 
-        rotationValue = -Mathf.Clamp(angleToTarget / 10, -1, 1);
+        private float minAngleToBounce = 0.3f;
 
-        if (angleToTarget > 90 || angleToTarget < -90) driftBrake = true;
-        
-        OnMove();
-    }
+        [SerializeField] private GameObject fxBounce;
 
-    
-    void FixedUpdate()
-    {
-        ApplyWheelForces();
-    }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Wall"))
-        {
+        private void Update() {
 
-            if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce)
-            {
-                Vector2 reflect = Vector2.Reflect(new Vector2(transform.forward.x, transform.forward.z),
-                    new Vector2(other.contacts[0].normal.x, other.contacts[0].normal.z));
-                transform.forward = new Vector3(reflect.x, 0, reflect.y);
-                rb.velocity = transform.forward * other.relativeVelocity.magnitude * speedRetained;
-                rb.angularVelocity = Vector3.zero;
+            float angleToTarget = Vector2.SignedAngle(new Vector2(transform.forward.x, transform.forward.z),
+                new Vector2(target.position.x, target.position.z) -
+                new Vector2(transform.position.x, transform.position.z));
 
-                for (int i = 0; i < wheels.Length; i++)
-                {
-                    if (wheels[i].steeringFactor > 0)
-                    {
-                        wheels[i].wheelVisual.localRotation =
-                            wheels[i].transform.localRotation = Quaternion.Euler(0, 0, 0);
-                    }
-                }
+            directionXInput = -Mathf.Clamp(angleToTarget / 10, -1, 1);
 
-                Destroy(
-                    Instantiate(fxBounce, other.contacts[0].point, Quaternion.LookRotation(other.contacts[0].normal)),
-                    2);
-            }
-            //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
+            if (angleToTarget > 90 || angleToTarget < -90) isDrifting = true;
+
+            OnMovementUpdate();
         }
-    }
 
-   
+        private void OnCollisionEnter(Collision other) {
+            if (other.gameObject.CompareTag("Wall")) {
+
+                if (Vector3.Dot(other.contacts[0].normal, transform.forward) < -minAngleToBounce) {
+                    Vector2 reflect = Vector2.Reflect(new Vector2(transform.forward.x, transform.forward.z),
+                        new Vector2(other.contacts[0].normal.x, other.contacts[0].normal.z));
+                    transform.forward = new Vector3(reflect.x, 0, reflect.y);
+                    rb.velocity = transform.forward * other.relativeVelocity.magnitude * speedRetained;
+                    rb.angularVelocity = Vector3.zero;
+
+                    for (int i = 0; i < wheels.Length; i++) {
+                        if (wheels[i].steeringFactor > 0) {
+                            wheels[i].wheelVisualTransform.localRotation =
+                                wheels[i].socketTransform.localRotation = Quaternion.Euler(0, 0, 0);
+                        }
+                    }
+
+                    Destroy(
+                        Instantiate(fxBounce, other.contacts[0].point, Quaternion.LookRotation(other.contacts[0].normal)),
+                        2);
+                }
+                //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
+            }
+        }
+
+    }
 }

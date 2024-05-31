@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HubcapCarBehaviour;
 using UnityEngine;
 
 public class DestructionBox : MonoBehaviour

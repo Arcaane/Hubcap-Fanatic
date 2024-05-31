@@ -41,7 +41,7 @@ public class GameMaster : MonoBehaviour
         DontDestroyOnLoad(this);
         //LoadGame();
 
-        CommandConsole ADDGOLD = new CommandConsole("AddGold", "Add gold <int>", new List<CommandClass>() {new(typeof(int))}, (value) =>
+        /*CommandConsole ADDGOLD = new CommandConsole("AddGold", "Add gold <int>", new List<CommandClass>() {new(typeof(int))}, (value) =>
         {
             AddGold(int.Parse(value[0]));
         });
@@ -59,7 +59,7 @@ public class GameMaster : MonoBehaviour
 
         CommandConsoleRuntime.Instance.AddCommand(RESETGAMEDATA);
         CommandConsoleRuntime.Instance.AddCommand(QUIT);
-        CommandConsoleRuntime.Instance.AddCommand(ADDGOLD);
+        CommandConsoleRuntime.Instance.AddCommand(ADDGOLD);*/
         
         /*playerGold = gameData.saveGold;
         for (int i = 0; i < gameData.saveUnlockedCar.Length; i++) {

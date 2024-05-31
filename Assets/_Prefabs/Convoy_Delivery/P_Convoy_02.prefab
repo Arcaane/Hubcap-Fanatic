@@ -1640,6 +1640,7 @@ MonoBehaviour:
   hpMax: 500
   tokenToGiveOnDestroy: 3
   slotUnlockOnDestroy: 1
+  damagetextKey: Effect_DamageText
   player: {fileID: 0}
   detectionTimer: 3
   detectionDelay: 3

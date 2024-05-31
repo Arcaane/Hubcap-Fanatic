@@ -1,35 +1,39 @@
-using System.Linq;
-using System.Text.RegularExpressions;
-using Helper;
-using UnityEditor;
-using UnityEngine;
+namespace Helper.EditorDrawer {
+    using UnityEditor;
 
-[CustomEditor(typeof(Singleton<>), true)]
-public class SingletonEditor : Editor {
-    private SerializedProperty toggle = null;
-    
-    public override void OnInspectorGUI() {
-        serializedObject.Update();
-        toggle = serializedObject.FindProperty("dontDestroyOnLoad");
-        GUI.backgroundColor = new Color(0, 176f/256f, 13f/256f, 1);
-        using (new GUILayout.VerticalScope(EditorStyles.helpBox)) {
-            GUILayout.Space(5);
-            using (new GUILayout.HorizontalScope()) {
-                GUILayout.Space(5);
-                string[] split =  Regex.Split(target.GetType().Name, @"(?<!^)(?=[A-Z])");
-                GUILayout.Label(split.Aggregate("", (current, t) => current + t + " ").ToUpper(), new GUIStyle() { fontSize = 12, normal = new GUIStyleState() { textColor = new Color(84f/256f, 122f/256f, 87f/256f, 1) }, margin = new RectOffset(0,0,3,0)});
-                GUILayout.FlexibleSpace();
-                GUILayout.Label(EditorGUIUtility.IconContent("TreeEditor.Trash", "Don't destroy on load ?"), new GUIStyle() { margin = new RectOffset(0,0,2,0)});
-                EditorGUILayout.PropertyField(toggle, GUIContent.none, GUILayout.Width(25), GUILayout.ExpandHeight(true));
-            }
-            GUILayout.Space(5);
+    [CustomEditor(typeof(Singleton<>), true)]
+    public class SingletonEditor : Editor {
+        public override void OnInspectorGUI() {
+            serializedObject.Update();
+            
+            StaticCustomDrawer.DrawSingletonCustomEditor(serializedObject, target.GetType().Name);
+            DrawPropertiesExcluding(serializedObject, "dontDestroyOnLoad", "m_Script");
+            
+            serializedObject.ApplyModifiedProperties();
         }
+    }
 
-        GUI.backgroundColor = Color.white;
+    [CustomEditor(typeof(SingletonCarBehaviour<>), true)]
+    public class SingletonCarBehaviourEditor : Editor {
+        public override void OnInspectorGUI() {
+            serializedObject.Update();
 
-        GUILayout.Space(8);
-        
-        DrawPropertiesExcluding(serializedObject, "dontDestroyOnLoad", "m_Script");
-        serializedObject.ApplyModifiedProperties();
+            StaticCustomDrawer.DrawSingletonCustomEditor(serializedObject, target.GetType().Name);
+            DrawPropertiesExcluding(serializedObject, "dontDestroyOnLoad", "m_Script");
+            
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
+    
+    [CustomEditor(typeof(SingletonUpdatesHandler<>), true)]
+    public class SingletonUpdatesHandlerEditor : Editor {
+        public override void OnInspectorGUI() {
+            serializedObject.Update();
+
+            StaticCustomDrawer.DrawSingletonCustomEditor(serializedObject, target.GetType().Name);
+            DrawPropertiesExcluding(serializedObject, "dontDestroyOnLoad", "m_Script");
+            
+            serializedObject.ApplyModifiedProperties();
+        }
     }
 }

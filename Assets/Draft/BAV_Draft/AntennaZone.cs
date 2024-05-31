@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ManagerNameSpace;
+using HubcapManager;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +26,7 @@ public class AntennaArea : MonoBehaviour
     
     [Header("---------- Current Renderer Part ----------")]
     [SerializeField] private Image debugImage;
+    [SerializeField, Pooler] private string poolerKey = "";
     //[SerializeField] private RectTransform rect;
     [SerializeField] private Transform plane;
     [SerializeField] private Transform parentFodder;
@@ -126,13 +127,13 @@ public class AntennaArea : MonoBehaviour
     private void AntennaCaptured()
     {
         currentAntennaState =  AntennaState.AntennaIsActivated;
-        CarHealthManager.instance.TakeHeal(healToGive);
+        CarHealthManagerOld.instance.TakeHeal(healToGive);
         sCol.enabled = false;
         zoneDebug.SetActive(false);
         currentAntennaState = AntennaState.IsInactive;
         
         // FX
-        GameObject go = PoolManager.instance.SpawnTemporaryInstance(Key.FX_PlayerGiveLife, transform.position, Quaternion.identity, 1.5f).gameObject;
+        GameObject go = PoolManager.Instance.RetrieveOrCreateObject(poolerKey, transform.position, Quaternion.identity);
         gameObject.SetActive(true);
     }
     

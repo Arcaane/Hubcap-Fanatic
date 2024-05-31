@@ -1,3 +1,4 @@
+using HubcapCarBehaviour;
 using UnityEngine;
 
 public class SpearAbility : Ability

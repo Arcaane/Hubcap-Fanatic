@@ -1,7 +1,4 @@
-using System;
-
-public interface IDamageable
-{
-    void TakeDamage(int damages);
+public interface IDamageable {
+    bool TakeDamage(int damage);
     bool IsDamageable();
 }
