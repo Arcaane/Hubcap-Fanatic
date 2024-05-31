@@ -2058,7 +2058,7 @@ MonoBehaviour:
   allGroundLayers:
     serializedVersion: 2
     m_Bits: 4104
-  acceleration: 16
+  acceleration: 18
   accelerationBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -2115,8 +2115,8 @@ MonoBehaviour:
   roadMask:
     serializedVersion: 2
     m_Bits: 4096
-  maxRoadSpeed: 60
-  offRoadSpeed: 60
+  maxRoadSpeed: 50
+  offRoadSpeed: 50
   offRoadDeccelerationFactor: 0
   braking: 12
   brakingBySpeedFactor:
@@ -2145,7 +2145,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   deceleration: 4
   brakeInput: 0
-  steeringSpeed: 50
+  steeringSpeed: 40
   steeringBySpeedFactor:
     serializedVersion: 2
     m_Curve:
@@ -2172,14 +2172,14 @@ MonoBehaviour:
     m_RotationOrder: 4
   directionXInput: 0
   isDrifting: 0
-  brakeDampeningMultiplier: 0.25
+  brakeDampeningMultiplier: 0.75
   brakeSteeringMultiplier: 0.95
   brakeAccelerationMultiplier: 1.5
   minJoystickValueToStartDrift: 0.6
   minAngleToExitDrift: 0.1
   driftSparks: []
-  speedRetained: 0.7
-  minDotAngleToBounce: 0.1
+  speedRetained: 0.85
+  minDotAngleToBounce: 0.15
   minDotAngleToDealDamage: 0.75
   fxBounceKey: Effect_WallBouncePolice
   OnColliderEnter:
@@ -2196,6 +2196,7 @@ MonoBehaviour:
   carDamage: 5
   damagePlayerOnBounce: 1
   currentDamages: 0
+  playerBounceStrenth: 10
   overShootDistance: 12
   randomOvershoot: 8
 --- !u!114 &5646014979656572752
@@ -2214,6 +2215,9 @@ MonoBehaviour:
   currentHealth: 0
   isDead: 0
   armorPercent: 0
+  timeAfterDamageToRegen: 5
+  regenInterval: 2
+  regenAmount: 1
   rend: {fileID: 8579447821323519049}
   metalParts:
   - {fileID: 912640104034850647}

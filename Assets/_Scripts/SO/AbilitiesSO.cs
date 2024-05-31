@@ -386,13 +386,13 @@ namespace Abilities
         private async void EffectBerserk(GameObject targetObj)
         {
             if (!player) return;
-            player.shootDuration = _effectDamage;
+            //player.shootDuration = _effectDamage;
             player.isBerserk = true;
             
             await Task.Delay(Mathf.FloorToInt(_effectDuration * 1000));
             if (!player) return;
             
-            player.shootDuration = carAbilities.baseShotgunDuration;
+            //player.shootDuration = carAbilities.baseShotgunDuration;
             player.isBerserk = false;
         }
         
@@ -490,13 +490,13 @@ namespace Abilities
                     };
                     break;
                 case StatsModifier.ShotgunDamage:
-                    player.shotgunDamages = howStatsModify switch
+                    /*player.shotgunDamages = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseShotgunDamage - amount[level]),
                         HowStatsModify.Add => (int)(carAbilities.baseShotgunDamage + amount[level]),
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseShotgunDamage * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
-                    };
+                    };*/
                     break;
                 case StatsModifier.CollisionDamage:
                     carAbilities.damageOnCollisionWithEnemy = howStatsModify switch
@@ -544,13 +544,13 @@ namespace Abilities
                 } break;
                 case StatsModifier.HitBeforeDeliverDrop:
                 {
-                    player.CollsionBeforeDropDeliver = howStatsModify switch
+                    /*player.CollsionBeforeDropDeliver = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseHitBeforeDeliverDrop - amount[level]),
                         HowStatsModify.Add => (int)(carAbilities.baseHitBeforeDeliverDrop + amount[level]),
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseHitBeforeDeliverDrop * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
-                    };
+                    };*/
                 } break;
                 case StatsModifier.OverallAbilitiesCooldown:
                 {
@@ -564,13 +564,13 @@ namespace Abilities
                 } break;
                 case StatsModifier.AttackSpeCooldown:
                 {
-                    player.shootDuration = howStatsModify switch
+                    /*player.shootDuration = howStatsModify switch
                     {
                         HowStatsModify.Subtract => Mathf.FloorToInt(carAbilities.baseAttackCooldown - amount[level]),
                         HowStatsModify.Add => carAbilities.baseAttackCooldown + amount[level],
                         HowStatsModify.Multiply => Mathf.FloorToInt(carAbilities.baseAttackCooldown * amount[level]),
                         _ => throw new ArgumentOutOfRangeException()
-                    };
+                    };*/
                 } break;
                 case StatsModifier.BouncePowerOnDrop:
                 {

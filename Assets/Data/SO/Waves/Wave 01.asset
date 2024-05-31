@@ -13,15 +13,33 @@ MonoBehaviour:
   m_Name: Wave 01
   m_EditorClassIdentifier: 
   waveData:
-  - spawnTimer: 1
-    enemyToSpawn: EnemyCar_Berserk
-    spawnType: 0
-    enemySpawnAmount: 3
-    spawnEnemiesAtSamePos: 1
-    timeToSpawnEnemies: 3
-  - spawnTimer: 1
+  - spawnTimer: 10
     enemyToSpawn: EnemyCar_DriveBy
     spawnType: 0
-    enemySpawnAmount: 3
+    enemySpawnAmount: 1
     spawnEnemiesAtSamePos: 1
-    timeToSpawnEnemies: 3
+    timeToSpawnEnemies: 0
+  - spawnTimer: 20
+    enemyToSpawn: EnemyCar_Berserk
+    spawnType: 0
+    enemySpawnAmount: 1
+    spawnEnemiesAtSamePos: 1
+    timeToSpawnEnemies: 0
+  - spawnTimer: 30
+    enemyToSpawn: EnemyCar_DriveBy
+    spawnType: 0
+    enemySpawnAmount: 1
+    spawnEnemiesAtSamePos: 1
+    timeToSpawnEnemies: 0
+  - spawnTimer: 40
+    enemyToSpawn: EnemyCar_Berserk
+    spawnType: 0
+    enemySpawnAmount: 1
+    spawnEnemiesAtSamePos: 1
+    timeToSpawnEnemies: 0
+  - spawnTimer: 50
+    enemyToSpawn: EnemyCar_DriveBy
+    spawnType: 0
+    enemySpawnAmount: 2
+    spawnEnemiesAtSamePos: 1
+    timeToSpawnEnemies: 0

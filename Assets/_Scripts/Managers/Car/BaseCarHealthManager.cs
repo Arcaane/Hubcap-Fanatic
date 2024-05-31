@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 namespace HubcapCarBehaviour {
-    public class BaseCarHealthManager : MonoBehaviour, IDamageable {
+    public class BaseCarHealthManager : UpdatesHandler, IDamageable, IUpdate {
         [Header("HEALTH INFORMATION")] 
         [SerializeField] protected int maxHealth = 100;
         [SerializeField, ReadOnly] protected int currentHealth = 0;
@@ -10,22 +10,37 @@ namespace HubcapCarBehaviour {
         [SerializeField, ReadOnly] protected bool isDead = false;
         [SerializeField, ReadOnly, Range(0,1)] protected float armorPercent = 0;
 
+        [Header("REGEN INFORMATION")]
+        [Tooltip("Time after taking damage where the car can regen (a value of < 0 will disable the regen of this car)")]
+        [SerializeField] private float timeAfterDamageToRegen = 5;
+        [SerializeField] private float regenInterval = 2;
+        [SerializeField] private int regenAmount = 1;
+        private float currentRegenTimer = 0;
+        private bool isRegening = false;
+
         [Header("CAR RENDERER")] 
         [SerializeField] protected MeshRenderer rend = null;
-        protected Material[] carMats;
+        private Material[] carMats;
 
 
-        protected virtual void Start() {
+        protected override void Start() {
+            base.Start();
             currentHealth = maxHealth;
+            ResetRegeneration();
             InitRenderData();
         }
 
+        public void UpdateTick() => RegenCar();
+
+        #region DAMAGE METHODS
+        
         /// <summary>
         /// Method called to apply damage to this car
         /// </summary>
         /// <param name="damage">The damage to apply to this target</param>
         /// <returns>Return true if the target die from the damage</returns>
         public virtual bool TakeDamage(int damage) {
+            ResetRegeneration();
             if (currentHealth < 1) {
                 CarDeath();
                 return true;
@@ -34,10 +49,49 @@ namespace HubcapCarBehaviour {
         }
         
         /// <summary>
-        /// Method called when the car need to die
+        /// Method which say if the target car take damage or not
         /// </summary>
-        protected virtual async void CarDeath() {}
+        /// <returns></returns>
+        public virtual bool IsDamageable() => !isDead;
 
+        #endregion DAMAGE METHODS
+        
+        #region REGENERATION METHODS
+        
+        /// <summary>
+        /// Make the car regenerate after taking damage
+        /// </summary>
+        private void RegenCar() {
+            if (timeAfterDamageToRegen < 0) return;
+            if (currentHealth >= maxHealth) return;
+            currentRegenTimer += Time.deltaTime;
+
+            switch (isRegening) {
+                //Is currently regenerating the car
+                case true when currentRegenTimer >= regenInterval:
+                    currentRegenTimer = 0;
+                    HealCar(regenAmount);
+                    break;
+                
+                //First time applying regeneration to the car after taking damage
+                case false when currentRegenTimer >= timeAfterDamageToRegen:
+                    currentRegenTimer = 0;
+                    HealCar(regenAmount);
+                    isRegening = true;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Reset the regeneration of the car when taking damage
+        /// </summary>
+        private void ResetRegeneration() {
+            isRegening = false;
+            currentRegenTimer = 0;
+        }
+
+        #endregion REGENERATION METHODS
+         
         /// <summary>
         /// Method which can add a certain amount of heal to the car
         /// </summary>
@@ -48,10 +102,9 @@ namespace HubcapCarBehaviour {
         }
 
         /// <summary>
-        /// Method which say if the target car take damage or not
+        /// Method called when the car need to die
         /// </summary>
-        /// <returns></returns>
-        public virtual bool IsDamageable() => !isDead;
+        protected virtual async void CarDeath() {}
         
         #region VISUALS
         
@@ -86,5 +139,7 @@ namespace HubcapCarBehaviour {
         }
         
         #endregion VISUALS
+
+
     }
 }

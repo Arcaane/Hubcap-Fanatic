@@ -87,16 +87,16 @@ namespace Abilities
             baseSpeedOnSand = playerCar.offRoadSpeed;
             baseNitroSpeed = playerCar.speedWithNitro;
             baseNitroCooldown = playerCar.nitroRegen;
-            baseShotgunDamage = playerCar.shotgunDamages;
+            //baseShotgunDamage = playerCar.shotgunDamages;
             baseCollisionDamage = damageOnCollisionWithEnemy;
-            baseShotgunDuration = playerCar.shootDuration;
+            //baseShotgunDuration = playerCar.shootDuration;
             //baseMaxHealth = CarHealthManagerOld.instance.maxLifePoints;
             baseMaxHealth = 100;
-            baseAttackCooldown = playerCar.shootDuration;
+            //baseAttackCooldown = playerCar.shootDuration;
             baseOverallAbilitiesCooldown = 0;
             //baseArmorPercent = CarHealthManagerOld.instance.armorInPercent;
             baseArmorPercent = 0f;
-            baseHitBeforeDeliverDrop = playerCar.CollsionBeforeDropDeliver;
+            //baseHitBeforeDeliverDrop = playerCar.CollsionBeforeDropDeliver;
             baseSpeedRetainedOnBounce = playerCar.speedRetained;
             goldAmountWonOnRun = 0;
             

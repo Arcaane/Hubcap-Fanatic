@@ -22,7 +22,7 @@ namespace Helper.EditorDrawer {
                     GUI.backgroundColor = Color.white;
                     GUILayout.Space(4);
                     poolDatasProperty = serializedObject.FindProperty("poolDatas");
-                    StaticCustomDrawer.DrawBaseListDataEditor(poolDatasProperty, searchKey, "poolKey");
+                    StaticCustomDrawer.DrawBaseListDataEditor(poolDatasProperty, "poolKey", searchKey);
                     searchKey = EditorGUILayout.TextField("Search Element :", searchKey, new GUIStyle(EditorStyles.textField));
                     GUILayout.Space(4);
                 }

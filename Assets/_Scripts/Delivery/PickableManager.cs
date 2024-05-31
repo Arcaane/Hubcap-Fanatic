@@ -15,7 +15,7 @@ public class PickableManager : MonoBehaviour
     public List<GameObject> copsWhoPickAnObject = new();
     [FormerlySerializedAs("car")] public PlayerCarController playerCar;
 
-
+/*
     public void Start()
     {
         _instance = this;
@@ -92,5 +92,5 @@ public class PickableManager : MonoBehaviour
     public void ResetPickableSocketPosition()
     {
         carPickableSocket.position = Vector3.zero;
-    }
+    }*/
 }

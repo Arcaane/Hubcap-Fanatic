@@ -33,16 +33,8 @@ namespace HubcapEnemySpawn {
         }
 
         public SpawnType GetObjectTypeAtIndex(int index) => waveData[index].spawnType;
-
-#if UNITY_EDITOR
-        private void OnValidate() {
-            for (int index = 0; index < waveData.Count; index++) {
-                UpdateEnemyTypeBasedOnKey(index);
-            }
-        }
     }
-#endif  
-    
+
     [System.Serializable]
     public class SpawnerData {
         [Tooltip("The time during the wave where the enemy should spawn (Be aware to not try to spawn enemies above the wave duration)")]

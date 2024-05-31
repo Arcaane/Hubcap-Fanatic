@@ -15,7 +15,7 @@ public class Delivery : MonoBehaviour
     
     private float currentTime;
 
-    private void Update()
+    /*private void Update()
     {
         if (PlayerCarController.Instance.pickedItems.Count <= 0)
         {
@@ -62,5 +62,5 @@ public class Delivery : MonoBehaviour
         await Task.Delay(1500);
         ps.gameObject.SetActive(false);
         ps.Stop();
-    }
+    }*/
 }

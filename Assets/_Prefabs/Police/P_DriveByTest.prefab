@@ -6775,8 +6775,8 @@ MonoBehaviour:
   roadMask:
     serializedVersion: 2
     m_Bits: 4096
-  maxRoadSpeed: 60
-  offRoadSpeed: 60
+  maxRoadSpeed: 45
+  offRoadSpeed: 45
   offRoadDeccelerationFactor: 0
   braking: 12
   brakingBySpeedFactor:
@@ -6838,8 +6838,8 @@ MonoBehaviour:
   minJoystickValueToStartDrift: 0.6
   minAngleToExitDrift: 0.1
   driftSparks: []
-  speedRetained: 0.5
-  minDotAngleToBounce: 0.1
+  speedRetained: 0.85
+  minDotAngleToBounce: 0.15
   minDotAngleToDealDamage: 0
   fxBounceKey: Effect_WallBouncePolice
   OnColliderEnter:
@@ -6856,6 +6856,7 @@ MonoBehaviour:
   carDamage: 1
   damagePlayerOnBounce: 0
   currentDamages: 0
+  playerBounceStrenth: 10
   dotValueToShoot: {x: -0.5, y: 0.5}
   attractiveRadius: 10.5
   alignementRadius: 10
@@ -6880,6 +6881,9 @@ MonoBehaviour:
   currentHealth: 0
   isDead: 0
   armorPercent: 0
+  timeAfterDamageToRegen: 5
+  regenInterval: 2
+  regenAmount: 1
   rend: {fileID: 1728166151220159147}
   metalParts:
   - {fileID: 8587667045235972666}

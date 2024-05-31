@@ -81,7 +81,7 @@ public class ObjectPickable : MonoBehaviour, IPickupableOld
             carWhoPickObjet = other.gameObject;
 
             OnPickedUp();
-            PickableManager.Instance.AddPickableObject(gameObject, isCopHasPick);
+            //PickableManager.Instance.AddPickableObject(gameObject, isCopHasPick);
         }
 
         if (other.gameObject.CompareTag("Enemy"))
@@ -115,17 +115,17 @@ public class ObjectPickable : MonoBehaviour, IPickupableOld
         isPickable = false;
         transform.localPosition = Vector3.zero;
 
-        if (PlayerCarController.Instance.pickedItems.Count > 0)
+        /*if (PlayerCarController.Instance.pickedItems.Count > 0)
         {
             for (int i = 0; i < PlayerCarController.Instance.pickedItems.Count; i++)
             {
                 transform.localPosition += Vector3.up * i * 2.0f;
             }
-        }
+        }*/
         
         foreach (var t in DeliveryRessourcesManager.Instance.deliveryPoints)
         {
-            t.GetComponent<Delivery>().CanDeliver();
+            //t.GetComponent<Delivery>().CanDeliver();
         }
     }
 
@@ -142,14 +142,14 @@ public class ObjectPickable : MonoBehaviour, IPickupableOld
         }
         else
         {
-            PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick); //Here isCopHasPick is false
+            //PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick); //Here isCopHasPick is false
         }
         carWhoPickObjet = null;
         
         UIIndic.instance.EnableOrDisableDeliveryZone();
         foreach (var t in DeliveryRessourcesManager.Instance.deliveryPoints)
         {
-            t.GetComponent<Delivery>().CantDeliver();
+            //t.GetComponent<Delivery>().CantDeliver();
         }
         
         StartCoroutine(EnablePickupAfterDelay(timeBeforePickable));
@@ -176,7 +176,7 @@ public class ObjectPickable : MonoBehaviour, IPickupableOld
 
         int expToAdd = Mathf.RoundToInt(expToGiveBasedOnLevel.Evaluate(CarExperienceManager.Instance.playerLevel) * CarExperienceManager.Instance.nbrOfDelivery);
         PlayerCarController.Instance.playerExperienceManager.GetPlayerExperience(expToAdd);
-        PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick);
+        //PickableManager.Instance.RemovePickableObject(gameObject, isCopHasPick);
         
         gameObject.GetComponent<SphereCollider>().enabled = true;
         UIIndic.instance.EnableOrDisableDeliveryZone();

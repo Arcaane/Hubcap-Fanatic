@@ -35,11 +35,34 @@ namespace Helper.EditorDrawer {
             GUILayout.Space(8);
         }
 
+        #region BASE LIST DATA
+        
         /// <summary>
         /// Draw the base element of the list such as the Array size and some buttons to increase or decrease this list
         /// </summary>
-        /// <param name="prop"></param>
-        public static void DrawBaseListDataEditor(SerializedProperty prop, string searchKey = "", string stringPropertyName = "") {
+        /// <param name="prop">The serialized property of the list</param>
+        public static void DrawBaseListDataEditor(SerializedProperty prop) {
+            using (new GUILayout.HorizontalScope()) {
+                SerializedProperty arraySizeProp = prop.FindPropertyRelative("Array.size");
+                
+                EditorGUILayout.PropertyField(arraySizeProp);
+                if (GUILayout.Button("-", GUILayout.Width(30))) {
+                    arraySizeProp.intValue -= 1;
+                }
+
+                if (GUILayout.Button("+", GUILayout.Width(30))) {
+                    arraySizeProp.intValue += 1;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Draw the base element of the list such as the Array size and some buttons to increase or decrease this list
+        /// </summary>
+        /// <param name="prop">The serialized property of the list</param>
+        /// <param name="searchKey"></param>
+        /// <param name="stringPropertyName"></param>
+        public static void DrawBaseListDataEditor(SerializedProperty prop, string stringPropertyName, string searchKey) {
             using (new GUILayout.HorizontalScope()) {
                 SerializedProperty arraySizeProp = prop.FindPropertyRelative("Array.size");
                 
@@ -56,11 +79,61 @@ namespace Helper.EditorDrawer {
         }
         
         /// <summary>
+        /// Draw the base element of the list such as the Array size and some buttons to increase or decrease this list
+        /// </summary>
+        /// <param name="prop">The serialized property of the list</param>
+        /// <param name="stringPropertyName"></param>
+        /// <param name="index"></param>
+        public static void DrawBaseListDataEditor(SerializedProperty prop, string stringPropertyName, int index) {
+            using (new GUILayout.HorizontalScope()) {
+                SerializedProperty arraySizeProp = prop.FindPropertyRelative("Array.size");
+                
+                EditorGUILayout.PropertyField(arraySizeProp);
+                if (GUILayout.Button("-", GUILayout.Width(30))) {
+                    arraySizeProp.intValue -= 1;
+                }
+
+                if (GUILayout.Button("+", GUILayout.Width(30))) {
+                    arraySizeProp.intValue += 1;
+                    if(stringPropertyName != "" && index != 0) prop.GetArrayElementAtIndex(arraySizeProp.intValue - 1).FindPropertyRelative(stringPropertyName).enumValueIndex = index - 1;
+                }
+            }
+        }
+        
+        #endregion BASE LIST DATA
+
+        #region CUSTOM LIST EDITOR
+        
+        /// <summary>
         /// Draw all the elements of the custom list
         /// </summary>
-        /// <param name="prop"></param>
-        /// <param name="drawCustomElements"></param>
-        public static void DrawCustomListEditor(SerializedProperty prop, Action<int> drawCustomElements, string propertyNameToCheck = "", string key = "") {
+        /// <param name="prop">The serialized property of the list</param>
+        /// <param name="drawCustomElements">A Drawing method which will be called in order to draw all variables of a list element</param>
+        public static void DrawCustomListEditor(SerializedProperty prop, Action<int> drawCustomElements) {
+            for (int index = 0; index < prop.arraySize; index++) {
+                GUI.backgroundColor = index % 2 == 0 ? new Color(.15f, .15f, .15f, 1) : new Color(.5f, .5f, .5f, 1);
+                using (new GUILayout.HorizontalScope(EditorStyles.helpBox)) {
+                    using (new GUILayout.VerticalScope()) {
+                        GUI.backgroundColor = Color.white;
+                        drawCustomElements.Invoke(index);
+                    }
+
+                    GUILayout.Space(4);
+
+                    if (GUILayout.Button(EditorGUIUtility.IconContent("TreeEditor.Trash"), GUILayout.ExpandHeight(true), GUILayout.Width(30))) {
+                        prop.DeleteArrayElementAtIndex(index);
+                    }
+                }
+                GUILayout.Space(4);
+            }
+        }
+        
+        /// <summary>
+        /// Draw all the elements of the custom list
+        /// </summary>
+        /// <param name="prop">The serialized property of the list</param>
+        /// <param name="drawCustomElements">A Drawing method which will be called in order to draw all variables of a list element</param>
+        public static void DrawCustomListEditor(SerializedProperty prop, Action<int> drawCustomElements, string propertyNameToCheck, string key) {
             for (int index = 0; index < prop.arraySize; index++) {
                 if (propertyNameToCheck != "" && !prop.GetArrayElementAtIndex(index).FindPropertyRelative(propertyNameToCheck).stringValue.Contains(key, StringComparison.OrdinalIgnoreCase)) continue;
                 
@@ -80,5 +153,35 @@ namespace Helper.EditorDrawer {
                 GUILayout.Space(4);
             }
         }
+        
+        /// <summary>
+        /// Draw all the elements of the custom list
+        /// </summary>
+        /// <param name="prop">The serialized property of the list</param>
+        /// <param name="drawCustomElements">A Drawing method which will be called in order to draw all variables of a list element</param>
+        /// <param name="propertyNameToCheck">The name of the property to check with the enum</param>
+        /// <param name="enumIndex">The enum index to compare with (0 = all)</param>
+        public static void DrawCustomListEditor(SerializedProperty prop, Action<int> drawCustomElements, string propertyNameToCheck, int enumIndex) {
+            for (int index = 0; index < prop.arraySize; index++) {
+                if (propertyNameToCheck != "" && enumIndex != 0 && prop.GetArrayElementAtIndex(index).FindPropertyRelative(propertyNameToCheck).enumValueIndex + 1 != enumIndex) continue;
+                
+                GUI.backgroundColor = index % 2 == 0 ? new Color(.15f, .15f, .15f, 1) : new Color(.5f, .5f, .5f, 1);
+                using (new GUILayout.HorizontalScope(EditorStyles.helpBox)) {
+                    using (new GUILayout.VerticalScope()) {
+                        GUI.backgroundColor = Color.white;
+                        drawCustomElements.Invoke(index);
+                    }
+
+                    GUILayout.Space(4);
+
+                    if (GUILayout.Button(EditorGUIUtility.IconContent("TreeEditor.Trash"), GUILayout.ExpandHeight(true), GUILayout.Width(30))) {
+                        prop.DeleteArrayElementAtIndex(index);
+                    }
+                }
+                GUILayout.Space(4);
+            }
+        }
+        
+        #endregion CUSTOM LIST EDITOR
     }
 }

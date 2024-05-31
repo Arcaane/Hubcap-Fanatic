@@ -32,29 +32,15 @@ namespace HubcapCarBehaviour {
         [SerializeField] private ParticleSystem smoke = null;
         [SerializeField] private ParticleSystem smokeNitro = null;
 
-        [Header("SHOTGUN")]
-        //[SerializeField] private ShotgunCollider shotgunCollider;
-        //[SerializeField] private float[] shootTimes;
-        [SerializeField] public float shootDuration;
-        //[SerializeField] private ParticleSystem shotgunParticles;
-        [SerializeField] public int shotgunDamages = 50;
-        public bool isStraffing;
 
-        public bool isBomber;
-        public bool gotVayneUpgrade;
-        public float vaynePassiveMultiplier;
-        public float mightPowerUpLevel;
+        [HideInInspector] public bool isBomber;
+        [HideInInspector] public bool gotVayneUpgrade;
+        [HideInInspector] public float vaynePassiveMultiplier;
+        [HideInInspector] public float mightPowerUpLevel;
 
         [Header("Effects")] [SerializeField] public GameObject shield;
-        public bool isShield;
-
-        public bool isBerserk;
-        public float pillValue;
-        public bool overSpeedPill;
-        
-        
-        
-        public List<GameObject> pickedItems = new();
+        [HideInInspector] public bool isShield;
+        [HideInInspector] public bool isBerserk;
 
         protected override void Start() {
             base.Start();
@@ -64,8 +50,6 @@ namespace HubcapCarBehaviour {
             health = GetComponent<PlayerHealthManager>();
             xp = GetComponent<PlayerExperienceManager>();
             delivery = GetComponent<CarDeliveryHandler>();
-            
-            currentCollsionBeforeDropDeliver = CollsionBeforeDropDeliver;
             shield.SetActive(false);
             isShield = false;
             
@@ -278,71 +262,12 @@ namespace HubcapCarBehaviour {
             }
         }
         
-        
-        
-        public int CollsionBeforeDropDeliver = 3;
-        private int currentCollsionBeforeDropDeliver;
-
         protected override void OnCollisionEnter(Collision other) {
             base.OnCollisionEnter(other);
             if (other.gameObject.CompareTag("Wall")) {
                 MakeCarBounce(other.contacts, other.relativeVelocity.magnitude);
                 CarAbilitiesManager.instance.OnWallCollision.Invoke(other);
-
-                //transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x,-maxRotation,maxRotation),transform.eulerAngles.y,Mathf.Clamp(transform.eulerAngles.z,-maxRotation,maxRotation));
             }
-
-            /*if (other.gameObject.CompareTag("Enemy") && pickedItems.Count > 0) {
-                currentCollsionBeforeDropDeliver--;
-
-                if (currentCollsionBeforeDropDeliver > 0) return;
-
-                for (int i = 0; i < pickedItems.Count; i++) {
-                    ObjectPickable obj = pickedItems[i].GetComponent<ObjectPickable>();
-                    obj.OnDrop();
-                    obj.rb.AddForce(other.contacts[0].normal.normalized * 100);
-                }
-
-                pickedItems.Clear();
-                currentCollsionBeforeDropDeliver = CollsionBeforeDropDeliver;
-            }*/
         }
-        
-       
-
-        /*public void XButton(InputAction.CallbackContext context) {
-            if (context.started && canShoot() && !isBomber) {
-                if (shotgun.enemyCar.Count > 0) {
-                    ShotgunHit();
-                    //UIManager.Instance.GoodShotUI(shootTimes[0] >= shootDuration ? 0 : 1);
-                }
-                else {
-                    CarAbilitiesManager.instance.OnShotgunUsedWithoutTarget.Invoke();
-                    //UIManager.Instance.ShootMissUI(shootTimes[0] >= shootDuration ? 0 : 1);
-                }
-
-                for (int i = 0; i < shootTimes.Length; i++) {
-                    if (shootTimes[i] >= shootDuration) {
-                        shootTimes[i] = 0;
-                        break;
-                    }
-                }
-
-                CarAbilitiesManager.instance.OnShotgunUsed.Invoke();
-                CameraShake.instance.SetShake(0.3f);
-            }
-
->>>>>>>>>> CA EN DESSOUS C PAS FAIT
-            if (context.started && isBomber && canShoot()) {
-                PoolManager.instance.SpawnInstance(ManagerNameSpace.Key.OBJ_Mine, transform.position, Quaternion.identity);
-
-                for (int i = 0; i < shootTimes.Length; i++) {
-                    if (shootTimes[i] >= shootDuration) {
-                        shootTimes[i] = 0;
-                        break;
-                    }
-                }
-            }
-        }*/
     }
 }
