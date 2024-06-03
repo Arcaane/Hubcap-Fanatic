@@ -71,7 +71,7 @@ namespace HubcapCarBehaviour {
         [SerializeField] protected ParticleSystem fxFire = null;
         public bool isAimEffect;
         
-        protected float speedFactor => rb.velocity.magnitude / targetSpeed;
+        public float speedFactor => rb.velocity.magnitude / targetSpeed;
         public float globalSpeedFactor => rb.velocity.magnitude / maxRoadSpeed;
 
 

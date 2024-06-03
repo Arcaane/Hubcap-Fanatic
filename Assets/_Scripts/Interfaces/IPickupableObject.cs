@@ -5,5 +5,6 @@ namespace Hubcap {
         public void PickObject(GameObject owner);
         public void DropObject();
         public void DeliverObject();
+        public void DestroyObject();
     }
 }

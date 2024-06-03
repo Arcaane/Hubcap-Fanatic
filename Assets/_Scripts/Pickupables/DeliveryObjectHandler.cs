@@ -1,5 +1,3 @@
-using System.Linq;
-using HubcapCarBehaviour;
 using HubcapManager;
 using UnityEngine;
 
@@ -43,45 +41,18 @@ namespace HubcapPickupable {
         /// <param name="car"></param>
         public override void PickObject(GameObject car) {
             base.PickObject(car);
-            owner.GetComponent<CarDeliveryHandler>().PickupDelivery(this);
             RemoveTargetUI();
         }
 
         /// <summary>
-        /// Method called when the object was deliver to a delivery area
-        /// </summary>
-        public override void DeliverObject() {
-            
-        }
-
-        /// <summary>
-        /// Method called when the object need to be dropped
-        /// </summary>
-        public override void DropObject() {
-            base.DropObject();
-            owner = null;
-        }
-
-        #endregion PICKUP METHODS
-        
-        private void OnTriggerEnter(Collider other) {
-            if (other.gameObject == lastOwner) return;
-            if (!other.TryGetComponent(out CarDeliveryHandler car) || owner != null) return;
-            if (car.CanDestroyDelivery) {
-                DestroyDeliveryOnCollision();
-                return;
-            }
-            
-            PickObject(other.gameObject);
-        }
-        
-        /// <summary>
         /// Destroy this delivery when a car that can destroy delivery enter in collision with this object
         /// </summary>
-        private void DestroyDeliveryOnCollision() {
+        public override void DestroyObject() {
             DestructableDelivery boxDelivery = PoolManager.Instance.RetrieveOrCreateObject(destructableBoxKey, transform.position, Quaternion.identity).GetComponent<DestructableDelivery>();
             boxDelivery.InitDestruction(transform.position, explosionForce, explosionRadius);
-            PoolManager.Instance.RemoveObjectFromScene(gameObject);
+            base.DestroyObject();
         }
+        
+        #endregion PICKUP METHODS
     }
 }

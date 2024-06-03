@@ -21,7 +21,7 @@ TagManager:
   - Enemy
   - Environnement
   - 
-  - ResponsiveEffectsLayer
+  - 
   - 
   - Road
   - 
@@ -42,7 +42,7 @@ TagManager:
   - 
   - 
   - Destructables
-  - 
+  - Pickupable
   m_SortingLayers:
   - name: Default
     uniqueID: 0

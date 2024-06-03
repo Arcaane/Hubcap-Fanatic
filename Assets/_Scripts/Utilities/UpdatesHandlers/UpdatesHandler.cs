@@ -5,12 +5,16 @@ using UnityEngine;
 /// </summary>
 public class UpdatesHandler : MonoBehaviour {
     private bool hasMadeRegistration = false;
+    private bool hasMadeStartRegistration = false;
 
     protected virtual void Start() {
-        if (!hasMadeRegistration) AddToRegistration();
+        if (!hasMadeRegistration) {
+            AddToRegistration();
+            hasMadeStartRegistration = true;
+        }
     }
     protected virtual void OnEnable() {
-        if (!hasMadeRegistration) AddToRegistration();
+        if (!hasMadeRegistration && hasMadeStartRegistration) AddToRegistration();
     }
 
     /// <summary>
