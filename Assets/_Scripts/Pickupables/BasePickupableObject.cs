@@ -9,20 +9,24 @@ namespace HubcapPickupable {
         [SerializeField, ReadOnly] protected GameObject owner = null;
         [SerializeField] private Transform nextSocket = null;
         [SerializeField] protected ParticleSystem dropFX = null;
-        [Space]
+        private BoxCollider boxCol = null;
+        private Rigidbody rb = null;
+        
+        [Header("PICK AND DROP")]
         [SerializeField] private Vector3 scaleWhenPicked = new();
         [SerializeField] private float projectionStrength = 10;
         public Transform NextSocket => nextSocket;
         public bool isOwned => owner != null;
-        private BoxCollider boxCol = null;
-        private Rigidbody rb = null;
+
+        [Header("DELIVERY DATA")]
+        [SerializeField] private float multiplierToAddEachDeliver = 0.1f;
         
         protected virtual void Start() {
             boxCol = GetComponent<BoxCollider>();
             rb = GetComponent<Rigidbody>();
         }
 
-        #region PIKCUP METOHDS
+        #region PIKCUP/DROP/DELIVER/DESTROY METOHDS
 
         /// <summary>
         /// Method called when the object is picked by an entity
@@ -50,14 +54,14 @@ namespace HubcapPickupable {
         /// <summary>
         /// When the object reaches its target destination and is deliver
         /// </summary>
-        public virtual void DeliverObject() { }
+        public virtual void DeliverObject(CarPickupableManager car) => car.AddMultiplierToType(GetType(), multiplierToAddEachDeliver);
 
         /// <summary>
         /// When the object need to be destroyed
         /// </summary>
         public virtual void DestroyObject() => PoolManager.Instance.RemoveObjectFromScene(gameObject);
 
-        #endregion PIKCUP METOHDS
+        #endregion PIKCUP/DROP/DELIVER/DESTROY METOHDS
 
         /// <summary>
         /// Apply a force in a random direction when dropped

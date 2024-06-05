@@ -87,11 +87,11 @@ public class ObjectPickable : MonoBehaviour, IPickupableOld
         if (other.gameObject.CompareTag("Enemy"))
         {
             if (other.gameObject.GetComponent<BasePoliceCarBehavior>() == null) return;
-            if (other.gameObject.GetComponent<CarDeliveryHandler>().CanDestroyDelivery)
+            /*if (other.gameObject.GetComponent<CarDeliveryHandler>().CanDestroyDelivery)
             {
                 DestroyBox();
                 return;
-            }
+            }*/
             isCopHasPick = true;
             //Swap target
             

@@ -61,7 +61,7 @@ namespace HubcapManager {
         /// <param name="targetPosition"></param>
         /// <param name="targetScale"></param>
         public void UpdateShootIcon(Vector3 targetPosition, Vector3 targetScale) {
-            shootIcon.localPosition = targetPosition;
+            shootIcon.position = targetPosition;
             shootIcon.DOScale(targetScale, .25f);
         }
 

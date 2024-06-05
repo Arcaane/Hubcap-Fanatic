@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using HubcapCarBehaviour;
 using UnityEngine;
 
@@ -15,6 +17,7 @@ namespace HubcapPickupable {
         [SerializeField, ReadOnly] private List<BasePickupableObject> lastPickupables = new();
         [SerializeField] private float radiusPickupable = 3f;
         [SerializeField] private float maxAnglePerPickupable = 5f;
+        private List<TypeMultiplier> typeMulitpliers = new();
 
         [Header("COLLISIONS")] 
         [SerializeField] private int numberOfHitBeforeDrop = 3;
@@ -45,9 +48,7 @@ namespace HubcapPickupable {
 
         #endregion INIT METHODS
         
-        public void UpdateTick() {
-            UpdatePickupablePositionBasedOnSpeed();
-        }
+        public void UpdateTick() => UpdatePickupablePositionBasedOnSpeed();
 
         #region UPDATE PICKUPABLE DATA
         
@@ -161,5 +162,74 @@ namespace HubcapPickupable {
         }
         
         #endregion COLLISION METHODS
+        
+        /// <summary>
+        /// Deliver all the object of the type in parameter
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public bool DeliverAllObjectOfType(Type type) {
+            bool hasDeliverObject = false;
+            foreach (BasePickupableObject pickupable in ownedPickupables.ToList()) {
+                if (pickupable.GetType() != type) continue;
+                
+                pickupable.transform.parent = null;
+                pickupable.DeliverObject(this);
+                ownedPickupables.Remove(pickupable);
+                hasDeliverObject = true;
+            }
+
+            return hasDeliverObject;
+        }
+
+        #region MULTIPLIER
+
+        /// <summary>
+        /// Increase the amount of a certain mutliplier
+        /// </summary>
+        /// <param name="T"></param>
+        /// <param name="additiveAmount"></param>
+        public void AddMultiplierToType(Type type, float additiveAmount) {
+            foreach (TypeMultiplier typeMulitplier in typeMulitpliers) {
+                if (typeMulitplier.type != type) continue;
+                typeMulitplier.multiplier += additiveAmount;
+                return;
+            }
+
+            CreateNewTypeMultiplier(type).multiplier += additiveAmount;
+        }
+
+        /// <summary>
+        /// Get the multiplier for a specific type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public float GetMultiplierByType(Type type) {
+            foreach (TypeMultiplier typeMulitplier in typeMulitpliers) {
+                if (typeMulitplier.type != type) continue;
+                return typeMulitplier.multiplier;
+            }
+
+            CreateNewTypeMultiplier(type);
+            return 1f;
+        }
+
+        /// <summary>
+        /// Create a new element in the list of TypeMultiplier
+        /// </summary>
+        private TypeMultiplier CreateNewTypeMultiplier(Type type) {
+            typeMulitpliers.Add(new TypeMultiplier() {type = type, multiplier = 1f});
+            return typeMulitpliers[^1];
+        }
+
+        #endregion
+        
+
+    }
+
+    [Serializable]
+    public class TypeMultiplier {
+        public Type type = null;
+        public float multiplier = 1.0f;
     }
 }

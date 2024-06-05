@@ -136,7 +136,7 @@ namespace HubcapManager {
         /// <returns></returns>
         private float GetScreenRatio() => (float) (Screen.width - distFromEdges  * 2) / (Screen.height - distFromEdges  * 2);
         
-        #endregion
+        #endregion HELPER
     }
 
     [System.Serializable]

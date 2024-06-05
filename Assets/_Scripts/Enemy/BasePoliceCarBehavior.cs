@@ -7,7 +7,6 @@ namespace HubcapCarBehaviour {
     [RequireComponent(typeof(EnemyHealthManager), typeof(EnemyCarUpgrade))]
     public class BasePoliceCarBehavior : CarBehaviour, IPoolObject {
         private EnemyHealthManager health = null;
-        private CarDeliveryHandler delivery = null;
         private EnemyCarUpgrade upgrades = null;
 
         [Header("POLICE CARS DATA")] 
@@ -40,7 +39,6 @@ namespace HubcapCarBehaviour {
         public virtual void InitPoolObject() {
             currentTarget = PlayerCarController.Instance.transform;
             if(health == null) health = GetComponent<EnemyHealthManager>();
-            if(delivery == null) delivery = GetComponent<CarDeliveryHandler>();
             if(upgrades == null) upgrades = GetComponent<EnemyCarUpgrade>();
 
             PoliceCarManager.Instance.onPlayerDie += SwapTargetOnPlayerDeath;

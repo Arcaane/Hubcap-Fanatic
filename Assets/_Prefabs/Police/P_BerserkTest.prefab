@@ -1941,7 +1941,6 @@ GameObject:
   - component: {fileID: 1764544120580977276}
   - component: {fileID: 991407263103408577}
   - component: {fileID: 5646014979656572752}
-  - component: {fileID: 6221000226053156580}
   - component: {fileID: 6206467046122820910}
   m_Layer: 7
   m_Name: P_BerserkTest
@@ -2228,24 +2227,6 @@ MonoBehaviour:
   - {fileID: 6431709061770058379}
   - {fileID: 2775586441631164347}
   damageTxtKey: Effect_DamageText
---- !u!114 &6221000226053156580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8243946537253833911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44f56209a75add845a5bcc197176746a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deliverySocket: {fileID: 0}
-  deliveryScale: {x: 0, y: 0, z: 0}
-  numberOfHitBeforeDroppingDelivery: 0
-  currentNumberOfHitLeft: 0
-  pickedDelivery: []
-  canDestroyDelivery: 1
 --- !u!114 &6206467046122820910
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -100,7 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carOwner: {fileID: 0}
   baseSocket: {fileID: 5065367726682144197}
+  destroyPickupable: 0
   ownedPickupables: []
-  lastPickupable: {fileID: 0}
+  lastPickupables: []
   radiusPickupable: 4
   maxAnglePerPickupable: -3.5
+  numberOfHitBeforeDrop: 3
+  currentHitleft: 0

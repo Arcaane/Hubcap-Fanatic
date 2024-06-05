@@ -12,6 +12,7 @@ namespace HubcapAbility {
         [SerializeField, ReadOnly] private List<float> shootTimes = new();
         [SerializeField, ReadOnly] private Transform currentTarget = null;
         private PlayerCarController player = null;
+        private Camera cam = null;
 
         [Header("SHOTGUN DATA")] 
         [SerializeField] private int numberOfShotAtStart = 2;
@@ -27,6 +28,7 @@ namespace HubcapAbility {
         protected override void Start() {
             base.Start();
             player = PlayerCarController.Instance;
+            cam = Camera.main;
             
             InitNumberOfShot();
             InGameUIManager.Instance.DisableShootIcon();
@@ -59,21 +61,6 @@ namespace HubcapAbility {
         }
         
         #region SHOT
-        
-        /// <summary>
-        /// Try to update the current targeted enemy
-        /// </summary>
-        /// <param name="forceNewTarget"></param>
-        private void TryToTargetEnemy(bool forceNewTarget = false) {
-            if (enemyCars.Count == 0 || !CanShoot()) {
-                InGameUIManager.Instance.DisableShootIcon();
-                currentTarget = null;
-                return;
-            }
-
-            if (currentTarget != null && !forceNewTarget) return;
-            currentTarget = enemyCars[0];
-        }
         
         /// <summary>
         /// Method called when the shoot input was pressed and check if the player can shoot
@@ -155,20 +142,29 @@ namespace HubcapAbility {
                 if (shootTimes[i] >= shootCooldown) continue;
                 shootTimes[i] += Time.deltaTime;
                 InGameUIManager.Instance.UpdateShotgunSlider(shootTimes[i] / shootCooldown, i);
+                
+                if (shootTimes[i] >= shootCooldown) TryToTargetEnemy();
             }
-        }
-
-        /// <summary>
-        /// Update the position of the shootIcon
-        /// </summary>
-        private void UpdateShootIconVisual() {
-            if (currentTarget == null) return;
-            InGameUIManager.Instance.UpdateShootIcon(player.uiCamera.WorldToScreenPoint(currentTarget.position), Vector3.one);
         }
         
         #endregion SHOT
+        
+        #region ENEMY HANDLER
+        
+        /// <summary>
+        /// Try to update the current targeted enemy
+        /// </summary>
+        /// <param name="forceNewTarget"></param>
+        private void TryToTargetEnemy(bool forceNewTarget = false) {
+            if (enemyCars.Count == 0 || !CanShoot()) {
+                InGameUIManager.Instance.DisableShootIcon();
+                currentTarget = null;
+                return;
+            }
 
-        #region ENEMY LIST HANDLER
+            if (currentTarget != null && !forceNewTarget) return;
+            currentTarget = enemyCars[0];
+        }
         
         /// <summary>
         /// Add the convoy to the top of the list of enemies inside the shotgun trigger
@@ -178,6 +174,7 @@ namespace HubcapAbility {
             enemyCars.Insert(0, convoy);
             TryToTargetEnemy(true);
         }
+        
         /// <summary>
         /// Add an enemy to the list of enemies inside the shotgun trigger
         /// </summary>
@@ -186,6 +183,7 @@ namespace HubcapAbility {
             enemyCars.Add(enemy);
             TryToTargetEnemy();
         }
+        
         /// <summary>
         /// Remove an enemy from the list of enemies inside the shotgun trigger
         /// </summary>
@@ -197,7 +195,19 @@ namespace HubcapAbility {
             TryToTargetEnemy();
         }
         
-        #endregion ENEMY LIST HANDLER
+        #endregion ENEMY HANDLER
+        
+        #region SHOOT ICON
+        
+        /// <summary>
+        /// Update the position of the shootIcon
+        /// </summary>
+        private void UpdateShootIconVisual() {
+            if (currentTarget == null) return;
+            InGameUIManager.Instance.UpdateShootIcon(cam.WorldToScreenPoint(currentTarget.position), Vector3.one);
+        }
+
+        #endregion SHOOT ICON
         
         #region HELPER
         

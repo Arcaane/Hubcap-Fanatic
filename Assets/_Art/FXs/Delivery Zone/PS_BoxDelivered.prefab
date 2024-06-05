@@ -50,7 +50,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -4934,14 +4934,14 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3056849755783158779}
   - {fileID: 1647290115938567383}
   - {fileID: 9095403363169656657}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &7108216024842031965
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4957,9 +4957,9 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -9747,6 +9747,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6331373346202977684}
     m_Modifications:
+    - target: {fileID: 2233516584550138443, guid: 50a4ecac348c9c24d9ad63933d886ac6, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9020540749090925904, guid: 50a4ecac348c9c24d9ad63933d886ac6, type: 3}
       propertyPath: looping
       value: 0
@@ -9754,6 +9758,10 @@ PrefabInstance:
     - target: {fileID: 9020540749090925904, guid: 50a4ecac348c9c24d9ad63933d886ac6, type: 3}
       propertyPath: lengthInSec
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020540749090925904, guid: 50a4ecac348c9c24d9ad63933d886ac6, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9020540749090925905, guid: 50a4ecac348c9c24d9ad63933d886ac6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9803,6 +9811,10 @@ PrefabInstance:
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9020540749221114096, guid: 50a4ecac348c9c24d9ad63933d886ac6, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9828,6 +9840,10 @@ PrefabInstance:
     - target: {fileID: 1286933603836576736, guid: a1ffe7fe6701b404f82d7bbd7c653111, type: 3}
       propertyPath: lengthInSec
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286933603836576736, guid: a1ffe7fe6701b404f82d7bbd7c653111, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1286933603836576736, guid: a1ffe7fe6701b404f82d7bbd7c653111, type: 3}
       propertyPath: startDelay.scalar

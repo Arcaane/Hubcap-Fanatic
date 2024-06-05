@@ -6,10 +6,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace HubcapCarBehaviour {
-    [RequireComponent(typeof(CarDeliveryHandler), typeof(ShotgunHandler), typeof(PlayerHealthManager))]
+    [RequireComponent(typeof(ShotgunHandler), typeof(PlayerHealthManager))]
     [RequireComponent(typeof(PlayerExperienceManager))]
     public class PlayerCarController : SingletonCarBehaviour<PlayerCarController> {
-        private CarDeliveryHandler delivery = null;
         private PlayerHealthManager health = null;
         private PlayerExperienceManager xp = null;
         private ShotgunHandler shotgun = null;
@@ -48,7 +47,6 @@ namespace HubcapCarBehaviour {
             shotgun = GetComponent<ShotgunHandler>();
             health = GetComponent<PlayerHealthManager>();
             xp = GetComponent<PlayerExperienceManager>();
-            delivery = GetComponent<CarDeliveryHandler>();
             shield.SetActive(false);
             isShield = false;
             

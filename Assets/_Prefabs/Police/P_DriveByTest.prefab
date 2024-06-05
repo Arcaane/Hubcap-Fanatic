@@ -6599,7 +6599,6 @@ GameObject:
   - component: {fileID: 4456053871915297170}
   - component: {fileID: 6909828816966468994}
   - component: {fileID: 8895219689563980456}
-  - component: {fileID: 4124856758734490286}
   - component: {fileID: 7390961283670389794}
   m_Layer: 7
   m_Name: P_DriveByTest
@@ -6891,24 +6890,6 @@ MonoBehaviour:
   - {fileID: 5759434130492678473}
   - {fileID: 8235748995780545765}
   damageTxtKey: Effect_DamageText
---- !u!114 &4124856758734490286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8871273353240255910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44f56209a75add845a5bcc197176746a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deliverySocket: {fileID: 3817197382993146761}
-  deliveryScale: {x: 0.75, y: 0.75, z: 0.75}
-  numberOfHitBeforeDroppingDelivery: 1
-  currentNumberOfHitLeft: 0
-  pickedDelivery: []
-  canDestroyDelivery: 0
 --- !u!114 &7390961283670389794
 MonoBehaviour:
   m_ObjectHideFlags: 0

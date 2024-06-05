@@ -37,11 +37,6 @@ public class ProceduralRoad : MonoBehaviour
         CreateRoadMesh();
     }
 
-    void Update()
-    {
-        CreateRoadMesh();
-    }
-
     bool CheckControlCurvesChanged()
     {
         foreach (BezierCurve curve in controlCurves)
@@ -57,68 +52,68 @@ public class ProceduralRoad : MonoBehaviour
         return true;
     }
 
-void CreateRoadMesh()
-{
-    List<Vector3> allVertices = new List<Vector3>();
-    List<int> allTriangles = new List<int>();
-
-    for (int c = 0; c < controlCurves.Count; c++)
+    private void CreateRoadMesh()
     {
-        if (controlCurves[c].controlPositions.Count != 4)
+        List<Vector3> allVertices = new List<Vector3>();
+        List<int> allTriangles = new List<int>();
+
+        for (int c = 0; c < controlCurves.Count; c++)
         {
-            Debug.LogError("Four control points must be assigned for each curve!");
-            return;
-        }
-
-        List<Vector3> vertices = new List<Vector3>();
-        List<int> triangles = new List<int>();
-
-        for (int i = 0; i < resolution; i++)
-        {
-            float t = i / (float)(resolution - 1);
-            Vector3 point = CalculateBezierPoint(t,
-                controlCurves[c].controlPositions[0].localPosition,
-                controlCurves[c].controlPositions[1].localPosition,
-                controlCurves[c].controlPositions[2].localPosition,
-                controlCurves[c].controlPositions[3].localPosition);
-
-            // Calculate the scale of the road at the current point
-            float scale = Mathf.Lerp(controlCurves[c].controlPositions[0].localScale.x,
-                controlCurves[c].controlPositions[3].localScale.x, t);
-
-            // Calculate the rotation of the road at the current point
-            Quaternion rotation = Quaternion.Lerp(controlCurves[c].controlPositions[0].localRotation,
-                controlCurves[c].controlPositions[3].localRotation, t);
-
-            // Calculate vertices for the road
-            float halfWidth = roadWidth * 0.5f * scale;
-            vertices.Add(point + rotation * (Vector3.Cross(Vector3.up, point.normalized).normalized * halfWidth));
-            vertices.Add(point + rotation * (-Vector3.Cross(Vector3.up, point.normalized).normalized * halfWidth));
-
-            // Set up triangles
-            if (i < resolution - 1)
+            if (controlCurves[c].controlPositions.Count != 4)
             {
-                int vertIndex = i * 2;
-                triangles.Add(vertIndex);
-                triangles.Add(vertIndex + 1);
-                triangles.Add(vertIndex + 2);
-
-                triangles.Add(vertIndex + 2);
-                triangles.Add(vertIndex + 1);
-                triangles.Add(vertIndex + 3);
+                Debug.LogError("Four control points must be assigned for each curve!");
+                return;
             }
+
+            List<Vector3> vertices = new List<Vector3>();
+            List<int> triangles = new List<int>();
+
+            for (int i = 0; i < resolution; i++)
+            {
+                float t = i / (float)(resolution - 1);
+                Vector3 point = CalculateBezierPoint(t,
+                    controlCurves[c].controlPositions[0].localPosition,
+                    controlCurves[c].controlPositions[1].localPosition,
+                    controlCurves[c].controlPositions[2].localPosition,
+                    controlCurves[c].controlPositions[3].localPosition);
+
+                // Calculate the scale of the road at the current point
+                float scale = Mathf.Lerp(controlCurves[c].controlPositions[0].localScale.x,
+                    controlCurves[c].controlPositions[3].localScale.x, t);
+
+                // Calculate the rotation of the road at the current point
+                Quaternion rotation = Quaternion.Lerp(controlCurves[c].controlPositions[0].localRotation,
+                    controlCurves[c].controlPositions[3].localRotation, t);
+
+                // Calculate vertices for the road
+                float halfWidth = roadWidth * 0.5f * scale;
+                vertices.Add(point + rotation * (Vector3.Cross(Vector3.up, point.normalized).normalized * halfWidth));
+                vertices.Add(point + rotation * (-Vector3.Cross(Vector3.up, point.normalized).normalized * halfWidth));
+
+                // Set up triangles
+                if (i < resolution - 1)
+                {
+                    int vertIndex = i * 2;
+                    triangles.Add(vertIndex);
+                    triangles.Add(vertIndex + 1);
+                    triangles.Add(vertIndex + 2);
+
+                    triangles.Add(vertIndex + 2);
+                    triangles.Add(vertIndex + 1);
+                    triangles.Add(vertIndex + 3);
+                }
+            }
+
+            // Add the vertices and triangles of the current curve to the overall lists
+            allVertices.AddRange(vertices);
+            allTriangles.AddRange(triangles.Select(index => index + allVertices.Count - vertices.Count));
         }
 
-        // Add the vertices and triangles of the current curve to the overall lists
-        allVertices.AddRange(vertices);
-        allTriangles.AddRange(triangles.Select(index => index + allVertices.Count - vertices.Count));
+        roadMesh.Clear();
+        roadMesh.vertices = allVertices.ToArray();
+        roadMesh.triangles = allTriangles.ToArray();
+        roadMesh.RecalculateNormals();
     }
-
-    roadMesh.Clear();
-    roadMesh.vertices = allVertices.ToArray();
-    roadMesh.triangles = allTriangles.ToArray();
-    roadMesh.RecalculateNormals();
-}
 
 
     void UpdateControlPointsRelativeToParent(BezierCurve curve)
